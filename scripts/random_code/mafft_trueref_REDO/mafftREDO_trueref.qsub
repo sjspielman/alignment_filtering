@@ -1,0 +1,44 @@
+#!/bin/bash
+#$ -N truefu
+#$ -e e_truefu
+#$ -o o_truefu
+#$ -S /bin/bash
+#$ -q wilke
+#$ -m beas
+#$ -t 1-2:1
+#$ -pe serial 2
+
+
+source ~/.bashrc
+
+
+# Create Working Directory and remove anything that might have been there woops!
+RDIR=/home/sjs3495/mafft_fubar/
+WDIR=/state/partition1/sjs3495/$JOB_NAME-$JOB_ID-$SGE_TASK_ID
+
+mkdir -p $WDIR
+
+if [ ! -d $WDIR ]
+then
+  echo $WDIR not created
+  exit
+fi
+cd $WDIR
+
+
+
+# Copy Data and Config Files
+cp /home/sjs3495/truefu_rescol.py .
+cp -r /home/sjs3495/current/fubar/FUBARmaterials .
+
+# Command to run
+sed -i "s/placeholder/$JOB_NAME-$JOB_ID-$SGE_TASK_ID/g" FUBARmaterials/autoFUBAR.bf
+module load python
+pwd
+python truefu_rescol.py $SGE_TASK_ID
+
+# Copy Results Back to Home Directory
+cp -r fubar_* $RDIR
+
+# Cleanup
+rm -rf $WDIR
