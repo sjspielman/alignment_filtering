@@ -1,0 +1,201 @@
+\begin{thebibliography}{32}
+\providecommand{\natexlab}[1]{#1}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi:\discretionary{}{}{}#1}\else
+  \providecommand{\doi}{doi:\discretionary{}{}{}\begingroup
+  \urlstyle{rm}\Url}\fi
+
+\bibitem[{{Betancur-R} et~al.(2013){Betancur-R}, Li, Munroe, Ballesteros, and
+  Orti}]{Betancur2013}
+{Betancur-R} R, Li C, Munroe T~A, Ballesteros J~A, Orti G. 2013.
+\newblock Addressing gene tree discordance and non-stationarity to resolve a
+  multi-locus phylogeny of the flatfishes {(Teleostei: Pleuronectiformes)}.
+\newblock Systematic Biology 62(5):763--785.
+
+\bibitem[{Castresana(2000)}]{Castresana2000}
+Castresana J. 2000.
+\newblock Selection of conserved blocks from multiple alignments for their use
+  in phylogenetic analysis.
+\newblock Molecular Biology and Evolution 17(4):540--552.
+
+\bibitem[{Dwivedi and Gadagkar(2009)}]{Dwivedi2009}
+Dwivedi B, Gadagkar S~R. 2009.
+\newblock Phylogenetic inference under varying proportions of indel--induced
+  alignment gaps.
+\newblock BMC Evolutionary Biology 9(1):211.
+
+\bibitem[{Edgar(2004)}]{Edgar2004}
+Edgar R~C. 2004.
+\newblock Nucleic Acids Research 32:1792--1797.
+
+\bibitem[{Fletcher and Yang(2009)}]{Fletcher2009}
+Fletcher W, Yang Z. 2009.
+\newblock {INDELible: A Flexible Simulator of Biological Sequence Evolution}.
+\newblock Molecular Biology and Evolution 26(8):1879--1888.
+
+\bibitem[{Fletcher and Yang(2010)}]{Fletcher2010}
+Fletcher W, Yang Z. 2010.
+\newblock {The Effect of Insertions, Deletions, and Alignment Errors on the
+  Branch--Site Test of Positive Selection}.
+\newblock Molecular Biology and Evolution 27(10):2257--2267.
+
+\bibitem[{Goldman and Yang(1994)}]{GoldmanYang1994}
+Goldman N, Yang Z. 1994.
+\newblock A codon-based model of nucleotide substitution for protein-coding
+  {DNA} sequences.
+\newblock Molecular Biology and Evolution 11:725--736.
+
+\bibitem[{Jordan and Goldman(2011)}]{Jordan2011}
+Jordan G, Goldman N. 2011.
+\newblock The effects of alignment error and alignment filtering on the
+  sitewise detection of positive selection.
+\newblock Mol Biol Evol 29:1125--1139.
+
+\bibitem[{Katoh et~al.(2005)Katoh, Kuma, Toh, and Miyata}]{Katoh2005}
+Katoh K, Kuma K~I, Toh H, Miyata T. 2005.
+\newblock {MAFFT} version 5: improvement in accuracy of multiple sequence
+  alignment.
+\newblock Nucleic Acids Res 33:511--518.
+
+\bibitem[{Katoh et~al.(2002)Katoh, Misawa, Kuma, and Miyata}]{Katoh2002}
+Katoh K, Misawa K, Kuma K~I, Miyata T. 2002.
+\newblock {MAFFT}: a novel method for rapid multiple sequence alignment based
+  on fast {F}ourier transform.
+\newblock Nucleic Acids Res 30:3059--3066.
+
+\bibitem[{{Kosakovsky Pond} et~al.(2005){Kosakovsky Pond}, Frost, and
+  Muse}]{Pond2005}
+{Kosakovsky Pond} S~L, Frost S~D~W, Muse S~V. 2005.
+\newblock {HyPhy}: hypothesis testing using phylogenies.
+\newblock Bioinformatics 12:676--679.
+
+\bibitem[{Markova-Raina and Petrov(2011)}]{MarkovaRaina2011}
+Markova-Raina P, Petrov D. 2011.
+\newblock {High sensitivity to aligner and high rate of false positives in the
+  estimates of positive selection in the 12 Drosophila genomes}.
+\newblock Genome Research 21(6):863--874.
+
+\bibitem[{Meyer and Wilke(2012)}]{Meyer2012}
+Meyer A, Wilke C. 2012.
+\newblock Integrating sequence variation and protein structure to identify
+  sites under selection.
+\newblock Mol Biol Evol 30:36--44.
+
+\bibitem[{Murrell et~al.(2013)Murrell, Moola, Mabona, Weighill, Scheward,
+  {Kosakovsky Pond}, and Scheffler}]{Murrell2013}
+Murrell B, Moola S, Mabona A, Weighill T, Scheward D, {Kosakovsky Pond} S,
+  Scheffler K. 2013.
+\newblock {FUBAR}: A {F}ast, {U}nconstrained {B}ayesian {A}pp{R}oximation for
+  inferring selection.
+\newblock Molecular Biology and Evolution 30:1196--1205.
+
+\bibitem[{Nielsen and Yang(1998)}]{NielsenYang1998}
+Nielsen R, Yang Z. 1998.
+\newblock Likelihood models for detecting positive selected amino acid sites
+  and applications to the {HIV-1} envelope gene.
+\newblock Genetics 148:929--936.
+
+\bibitem[{Notredame et~al.(2000)Notredame, Higgins, and J}]{Notredame2000}
+Notredame C, Higgins D, J H. 2000.
+\newblock {T--Coffee}: a novel method for fast and accurate multiple sequence
+  alignment.
+
+\bibitem[{Nuin et~al.(2006)Nuin, Wang, and Tillier}]{Nuin2006}
+Nuin P~A, Wang Z, Tillier E~R. 2006.
+\newblock The accuracy of several multiple sequence alignment programs for
+  proteins.
+\newblock BMC Bioinformatics 7:471.
+
+\bibitem[{Ogden and Rosenberg(2006)}]{Ogden2006}
+Ogden T~H, Rosenberg M~S. 2006.
+\newblock {Multiple Sequence Alignment Accuracy and Phylogenetic Inference}.
+\newblock Systematic Biology 55(2):314--328.
+
+\bibitem[{Penn et~al.(2010)Penn, Privman, Landan, Graur, and Pupko}]{Penn2010}
+Penn O, Privman E, Landan G, Graur D, Pupko T. 2010.
+\newblock An alignment confidence score capturing robustness to guide tree
+  uncertainty.
+\newblock Mol Biol Evol 27:1759--1767.
+
+\bibitem[{Price et~al.(2010)Price, Dehal, and Arkin}]{Price2010}
+Price M~N, Dehal P~S, Arkin A~P. 2010.
+\newblock {FastTree2}: Approximately maximum--likelihood trees for large
+  alignments.
+\newblock PLoS One 5:e9490.
+
+\bibitem[{Privman et~al.(2012)Privman, Penn, and Pupko}]{Privman2012}
+Privman E, Penn O, Pupko T. 2012.
+\newblock Improving the performance of positive selection inference by
+  filtering unreliable alignment regions.
+\newblock Mol Biol Evol 29:1--5.
+
+\bibitem[{Schneider et~al.(2009)Schneider, Souvorov, Sabath, Landan, Gonnet,
+  and Graur}]{Schneider2009}
+Schneider A, Souvorov A, Sabath N, Landan G, Gonnet G~H, Graur D. 2009.
+\newblock Estimates of positive darwinian selection are inflated by errors in
+  sequencing, annotation, and alignment.
+\newblock Genome Biology and Evolution 1(0):114--118.
+
+\bibitem[{Spielman and Wilke(2013)}]{Spielman2013}
+Spielman S, Wilke C. 2013.
+\newblock Membrane environment imposes unique selection pressures on
+  transmembrane domains of {G protein--coupled receptors}.
+\newblock Journal of Molecular Evolution 76:172--182.
+
+\bibitem[{Stamatakis(2006)}]{Stamatakis2006}
+Stamatakis A. 2006.
+\newblock {RAxML-VI-HPC}: maximum likelihood-based phylogenetic analyses with
+  thousands of taxa and mixed models.
+\newblock Bioinformatics 22:21:2688--2690.
+
+\bibitem[{Stone and Sidow(2007)}]{Stone2007}
+Stone E, Sidow A. 2007.
+\newblock Constructing a meaningful evolutionary average at the phylogenetic
+  center of mass.
+\newblock BMC Bioinformatics 8:222.
+
+\bibitem[{Sukumaran and Holder(2010)}]{Sukumaran2010}
+Sukumaran J, Holder M~T. 2010.
+\newblock {DendroPy}: A python library for phylogenetic computing.
+\newblock Bioinformatics 26:1569--1571.
+
+\bibitem[{Talavera and Castresana(2007)}]{Talavera2007}
+Talavera G, Castresana J. 2007.
+\newblock Improvement of phylogenies after removing divergent and ambiguously
+  aligned blocks from protein sequence alignments.
+\newblock Systematic Biology 56(4):564--577.
+
+\bibitem[{Thompson et~al.(1994)Thompson, Higgins, and Gibson}]{Thompson1994}
+Thompson J, Higgins D, Gibson T. 1994.
+\newblock {CLUSTAL W}: improving the sensitivity of progressive multiple
+  sequence alignment through sequence weighting, position--specific gap
+  penalties and weight matrix choice.
+\newblock Nucleic Acids Research 22:4673--4680.
+
+\bibitem[{Thompson et~al.(2011)Thompson, Linard, Lecompte, and
+  Poch}]{Thompson2011}
+Thompson J~D, Linard B, Lecompte O, Poch O. 2011.
+\newblock A comprehensive benchmark study of multiple sequence alignment
+  methods: Current challenges and future perspectives.
+\newblock PLoS ONE 6(3):e18093.
+
+\bibitem[{Yang et~al.(2011)Yang, Maruyama, Sekimoto, Sakayama, and
+  Nozaki}]{Yang2011}
+Yang Y, Maruyama S, Sekimoto H, Sakayama H, Nozaki H. 2011.
+\newblock An extended phylogenetic analysis reveals ancient origin of
+  {``non-green"} phosphoribulokinase genes from two lineages of {``green"}
+  secondary photosynthetic eukaryotes: {Euglenophyta and Chlorarachniophyta}.
+\newblock BMC Research Notes 4:330.
+
+\bibitem[{Yang(2007)}]{Yang2007}
+Yang Z. 2007.
+\newblock {PAML 4}: Phylogenetic analysis by maximum likelihood.
+\newblock Molecular Biology and Evolution 24:1586--1591.
+
+\bibitem[{Yang et~al.(2000)Yang, Nielsen, Goldman, and Pedersen}]{Yang2000}
+Yang Z, Nielsen R, Goldman N, Pedersen A~M~K. 2000.
+\newblock Codon-substitution models for heterogeneous selection pressure at
+  amino acid sites.
+\newblock Genetics 155:431--449.
+
+\end{thebibliography}
