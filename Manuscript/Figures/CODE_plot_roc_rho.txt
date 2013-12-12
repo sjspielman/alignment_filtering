@@ -1,0 +1,227 @@
+fubar <- read.table('data/short_fubar_sweeps_rho.txt', header=T)
+paml  <- read.table('data/short_paml_sweeps_rho.txt', header=T)
+
+cuts<-c(0:100)
+cuts<-cuts/100
+
+prefix<-c('guidance', 'BMweights', 'PDweights') ##seventy cutoff
+prefix_p<-c('guidance_p', 'BMweights_p', 'PDweights_p') ##fifty cutoff
+colors<-c('red', 'indianred3', 'gold')
+colors_p<-c('darkgreen', 'cornflowerblue', 'blueviolet')
+
+
+
+
+
+pdf('roc_prk.pdf', width=8, height=3)
+
+
+
+par(mfrow=c(1,3))
+
+
+
+
+#### plot paml and fubar reference only together
+#plot the fubar line first
+meantp<-c()
+meanfp<-c()
+var<-fubar[fubar$case=='refaln',]
+for (x in cuts){
+	tp<-mean(var$tprate[var$cutoff==x])
+	meantp<-c(meantp, tp)
+	fp<-mean(fubar$fprate[var$cutoff==x])
+	meanfp<-c(meanfp, fp)
+}
+plot(meanfp, meantp, type="l", col=rgb(1,0,0,0.8), lwd=3, ylab='True Positive Rate', xlab='False Positive Rate', main='PAML and FUBAR', cex.axis=0.9, xlim=c(0,1), ylim=c(0,1), frame.plot=F)
+meantp<-c()
+meanfp<-c()
+var<-paml[paml$case=='refaln',]
+for (x in cuts){
+	tp<-mean(var$tprate[var$cutoff==x])
+	meantp<-c(meantp, tp)
+	fp<-mean(paml$fprate[var$cutoff==x])
+	meanfp<-c(meanfp, fp)
+}
+lines(meanfp, meantp, col=rgb(0,0,1, 0.8), type="l", lwd=3)
+legend('bottomright', lty=1, lwd=3, c('Paml', 'Fubar'), col=c(rgb(0,0,1, 0.8), rgb(1,0,0,0.8)))
+
+
+
+
+
+
+
+############### PAML ROC #################
+
+
+######### plot the fubar, gray'd out and transparent ##############
+meantp<-c()
+meanfp<-c()
+var<-fubar[fubar$case=='refaln',]
+for (x in cuts){
+	tp<-mean(var$tprate[var$cutoff==x])
+	meantp<-c(meantp, tp)
+	fp<-mean(fubar$fprate[var$cutoff==x])
+	meanfp<-c(meanfp, fp)
+}
+plot(meanfp, meantp, type="l", col='grey70', lwd=1.5, ylab='True Positive Rate', xlab='False Positive Rate', main='PAML', cex.axis=0.9, xlim=c(0,0.1), ylim=c(0,1), frame.plot=F)
+# Plot the nonp algorithms	
+for (i in 1:3){
+	meantp<-c()
+	meanfp<-c()
+	var<-fubar[fubar$case==prefix[i],]
+	for (x in cuts){
+		tp<-mean(var$tprate[var$cutoff==x])
+		meantp<-c(meantp, tp)
+		fp<-mean(var$fprate[var$cutoff==x])
+		meanfp<-c(meanfp, fp)
+	}
+	lines(meanfp, meantp, col='grey85', lwd=1.25)
+}
+# Plot the penal algorithms	
+for (i in 1:3){
+	meantp<-c()
+	meanfp<-c()
+	var<-fubar[fubar$case==prefix_p[i],]
+	for (x in cuts){
+		tp<-mean(var$tprate[var$cutoff==x])
+		meantp<-c(meantp, tp)
+		fp<-mean(var$fprate[var$cutoff==x])
+		meanfp<-c(meanfp, fp)
+	}
+	lines(meanfp, meantp, col='grey85', lwd=1.25)
+}
+
+########## now plot the paml, with colors
+# Plot the nonp algorithms	
+for (i in 1:3){
+	meantp<-c()
+	meanfp<-c()
+	var<-paml[paml$case==prefix[i],]
+	for (x in cuts){
+		tp<-mean(var$tprate[var$cutoff==x])
+		meantp<-c(meantp, tp)
+		fp<-mean(var$fprate[var$cutoff==x])
+		meanfp<-c(meanfp, fp)
+	}
+	lines(meanfp, meantp, col=colors[i], lwd=1.25)
+}
+
+# Plot the penal algorithms	
+for (i in 1:3){
+	meantp<-c()
+	meanfp<-c()
+	var<-paml[paml$case==prefix_p[i],]
+	for (x in cuts){
+		tp<-mean(var$tprate[var$cutoff==x])
+		meantp<-c(meantp, tp)
+		fp<-mean(var$fprate[var$cutoff==x])
+		meanfp<-c(meanfp, fp)
+	}
+	lines(meanfp, meantp, col=colors_p[i], lwd=1.25)
+}
+meantp<-c()
+meanfp<-c()
+var<-paml[paml$case=='refaln',]
+for (x in cuts){
+	tp<-mean(var$tprate[var$cutoff==x])
+	meantp<-c(meantp, tp)
+	fp<-mean(paml$fprate[var$cutoff==x])
+	meanfp<-c(meanfp, fp)
+}
+lines(meanfp, meantp, lwd=2)
+
+
+
+
+############### FUBAR ROC #######################
+
+######### plot the paml, gray'd out and transparent ##############
+meantp<-c()
+meanfp<-c()
+var<-paml[paml$case=='refaln',]
+for (x in cuts){
+	tp<-mean(var$tprate[var$cutoff==x])
+	meantp<-c(meantp, tp)
+	fp<-mean(paml$fprate[var$cutoff==x])
+	meanfp<-c(meanfp, fp)
+}
+plot(meanfp, meantp, type="l", col='grey70', lwd=1.5, ylab='True Positive Rate', xlab='False Positive Rate', main='FUBAR', cex.axis=0.9, xlim=c(0,0.1), ylim=c(0,1), frame.plot=F)
+# Plot the nonp algorithms	
+for (i in 1:3){
+	meantp<-c()
+	meanfp<-c()
+	var<-paml[paml$case==prefix[i],]
+	for (x in cuts){
+		tp<-mean(var$tprate[var$cutoff==x])
+		meantp<-c(meantp, tp)
+		fp<-mean(var$fprate[var$cutoff==x])
+		meanfp<-c(meanfp, fp)
+	}
+	lines(meanfp, meantp, col='grey85', lwd=1.25)
+}
+# Plot the penal algorithms	
+for (i in 1:3){
+	meantp<-c()
+	meanfp<-c()
+	var<-paml[paml$case==prefix_p[i],]
+	for (x in cuts){
+		tp<-mean(var$tprate[var$cutoff==x])
+		meantp<-c(meantp, tp)
+		fp<-mean(var$fprate[var$cutoff==x])
+		meanfp<-c(meanfp, fp)
+	}
+	lines(meanfp, meantp, col='grey85', lwd=1.25)
+}
+#quick replot paml reference since it's getting hidden
+meantp<-c()
+meanfp<-c()
+var<-paml[paml$case=='refaln',]
+for (x in cuts){
+	tp<-mean(var$tprate[var$cutoff==x])
+	meantp<-c(meantp, tp)
+	fp<-mean(paml$fprate[var$cutoff==x])
+	meanfp<-c(meanfp, fp)
+}
+lines(meanfp, meantp, col='grey70', lwd=1.5)
+########## now plot the fubar, with colors
+# Plot the nonp algorithms	
+for (i in 1:3){
+	meantp<-c()
+	meanfp<-c()
+	var<-fubar[fubar$case==prefix[i],]
+	for (x in cuts){
+		tp<-mean(var$tprate[var$cutoff==x])
+		meantp<-c(meantp, tp)
+		fp<-mean(var$fprate[var$cutoff==x])
+		meanfp<-c(meanfp, fp)
+	}
+	lines(meanfp, meantp, col=colors[i], lwd=1.25)
+}
+
+# Plot the penal algorithms	
+for (i in 1:3){
+	meantp<-c()
+	meanfp<-c()
+	var<-fubar[fubar$case==prefix_p[i],]
+	for (x in cuts){
+		tp<-mean(var$tprate[var$cutoff==x])
+		meantp<-c(meantp, tp)
+		fp<-mean(var$fprate[var$cutoff==x])
+		meanfp<-c(meanfp, fp)
+	}
+	lines(meanfp, meantp, col=colors_p[i], lwd=1.25)
+}
+meantp<-c()
+meanfp<-c()
+var<-fubar[fubar$case=='refaln',]
+for (x in cuts){
+	tp<-mean(var$tprate[var$cutoff==x])
+	meantp<-c(meantp, tp)
+	fp<-mean(fubar$fprate[var$cutoff==x])
+	meanfp<-c(meanfp, fp)
+}
+lines(meanfp, meantp, lwd=2)
+
+dev.off()

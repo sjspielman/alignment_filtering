@@ -1,4 +1,4 @@
-#fubar <- read.table('data/short_fubar_sweeps_prk.txt', header=T)
+#fubar <- read.table('data/fubar_sweeps_prk.txt', header=T)
 #paml  <- read.table('data/paml_sweeps_prk.txt', header=T)
 
 cuts<-c(0:100)
