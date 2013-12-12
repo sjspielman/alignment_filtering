@@ -20,6 +20,7 @@ class builderFastTree(TreeBuilder):
 		self.options = options
 	
 	def buildBootTrees( self, num, refaln_seq, numseq, alnlen, outfile):
+		''' Create bootstrap trees in FastTree. First, bootstrap the alignment 100x, then create a tree using those bootstrapped alignments.'''
 		bootseq = 'refaln.BS'
 		self.makeBootAlignments(num, refaln_seq, numseq, alnlen, bootseq)
 		BuildTree=self.executable+' '+self.options+' -nosupport -n '+str(num)+' '+bootseq+' > '+outfile

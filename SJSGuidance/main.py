@@ -91,12 +91,9 @@ def Pal2Nal(palfile, nucfile, paltype, nuctype, outfile, outputformat):
 
 ### FILES ###
 ######### !!!!!! DO NOT CHANGE THESE. Or do, but no need. It won't cause a problem but really just leave these as they are. ##
-prealn_file='prealn.fasta' 
 BootDir='BootDir/'
+prealn_file='prealn.fasta' 
 refaln_file='refaln.fasta'
-scoreTree_file='scoringtree.tre'
-weightfile = 'treeweights.txt'
-dist_matrix_file='distmatrix.txt'
 ##########
 
 ##########################################################################################
@@ -105,41 +102,40 @@ dist_matrix_file='distmatrix.txt'
 ### each module is (executable, options) ####
 
 # Aligner
-amod = MuscleAligner("muscle", " -quiet ")
-###amod = MafftAligner("mafft", " --quiet --auto ")
+###amod = MuscleAligner("muscle", " -quiet ")
+amod = MafftAligner("mafft", " --quiet ")
 ###amod = ClustalAligner("clustalw2", " -quiet ")
 
-# Tree builder
-tmod=builderFastTree("FastTreeMP", " -fastest -nosupport -quiet ")
+# Tree builder (bootstrap trees)
+tmod=builderFastTree("FastTree", " -fastest -nosupport -quiet ") # -nosupport MUST be there
 ###tmod=builderSemphy("../semphy/semphy", " -a 20 --jtt -H -J -v 5 --BPrepeats=100 ") ## MUST BE -v 5
 
-#wtmod=bothRAxML("raxmlHPC", " -m PROTCATWAG ")	
+# if weighted algorithm, wtmod needed
+wtmod=scoreTreeRAxML("raxmlHPC", " -m PROTCATWAG ")	
 mapmod = Map()
 smod = Scorer()
-#bmod = AllBootstrapper(amod, tmod, wtmod, smod)
-bmod = guidanceBootstrapper(amod, tmod, smod)
+bmod = AllBootstrapper(amod, tmod, wtmod, smod)
 mmod = Masker(bmod)
 
 
 
 #User files
-unaligned='rawsim_aa0.fasta' ## Relative path to file you want to file. Should contain unaligned sequences in FASTA FORMAT.
+unaligned='protein.fasta' ## Relative path to file you want to file. Should contain unaligned sequences in FASTA FORMAT.
 seqType='protein' ## protein or nucleotide, but i guess everything is protein?
-rawnuc="../rawsim_codon0.fasta"
-save_x_file='../savexfile.txt'
+#rawnuc="../rawsim_codon0.fasta"
+#save_x_file='../savexfile.txt'
 
 #User options (currently set as default)
 #n = int(sys.argv[1])  #number of bootstraps
 #if n=='':
 #	n=100
-n=100
+n=10
 x=0.90 # scoring cutoff for masking residues and/or columns. keep only >=x
 nproc=2 ##  1 processor default.
 pflag = 0; # First, I'm hilarious. Second, 0=no gap penalization, 1=gap penalization.
 
 finalaln_file_nuc = 'aln_nuc.fasta'
 finalaln_file_aa  = 'aln_aa.fasta'
-finalscore_file = 'scores.txt'
 
 # Create map for sequences (required for mafft aligner, but can keep for all. doesn't waste time.)
 map=mapmod.ids2int(unaligned, 'fasta', prealn_file)
@@ -149,15 +145,18 @@ amod.makeAlignment(prealn_file, refaln_file)
 	
 
 # Make alignments, trees, and calculate scores
-(numseq, alnlen, gscores)=bmod.runBootstrap(BootDir, prealn_file, refaln_file, n, nproc, finalscore_file)	
-
+finalscore_fileG = 'gscores.txt'
+finalscore_fileBM='bmscores.txt'
+finalscore_filePD='pdscores.txt'
+(numseq, alnlen, gscores)=bmod.runBootstrap(BootDir, prealn_file, refaln_file, pflag, n, nproc, finalscore_fileG, finalscore_fileBM, finalscore_filePD)	
 
 #residue masking and pal2nal
 totalmasked=mmod.maskResidues(refaln_file, numseq, alnlen, gscores, x, map, 'fasta', finalaln_file_aa, 'protein', i, save_x_file, 'pat')
-Pal2Nal(finalaln_file_aa, rawnuc, 'fasta', 'fasta', finalaln_file_nuc, 'fasta')
+
+#Pal2Nal(finalaln_file_aa, rawnuc, 'fasta', 'fasta', finalaln_file_nuc, 'fasta')
 
 
-# Clean up BootDir
+# Clean up BootDir. compress????
 os.chdir('../')
 bootfiles=os.listdir(BootDir)
 for file in bootfiles:

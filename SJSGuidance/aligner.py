@@ -103,10 +103,6 @@ class MafftAligner(Aligner):
 			self.Tree2Mafft(rawtree2, outtree)			
 		return 0
 	
-	
-	
-	
-	
 	### THIS FUNCTION WILL CALL THE RUBY SCRIPT. IT IS NOT USED AS THE RUBY SCRIPT IS CODED HERE IN PYTHON (line for line). KEEP IN CASE THOUGH!! ###
 	def processTreesRUBY(self, n, infile):
 		'''NOT USED but just in case, it's here.'''
