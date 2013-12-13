@@ -1,5 +1,5 @@
 fubar <- read.table('data/fubar_sweeps_rho.txt', header=T)
-paml  <- read.table('data/paml_sweeps_rho.txt', header=T)
+paml  <- read.table('data/paml_sweeps_prk.txt', header=T)
 
 cuts<-c(0:100)
 cuts<-cuts/100
@@ -13,8 +13,75 @@ colors_p<-c('darkgreen', 'cornflowerblue', 'blueviolet')
 
 
 
-#pdf('cutoff_tprate_rho.pdf', width=8, height=3)
-par(mfrow=c(1,2))
+#par(mfrow=c(1,2))
+
+
+
+################### fprate #########################
+
+## PLOT PAML FIRST
+var<-paml[paml$case=='refaln',]
+tp_plot<-c()
+for (cut in cuts)
+{
+	tp_plot<-c(tp_plot, mean(var$fprate[var$cutoff==cut]))
+}
+plot(cuts, tp_plot, type='l', lwd=2, ylim=c(0,0.02), xlim=c(0,0.5))
+
+# Plot the nonp algorithms	
+for (i in 1:3){
+	var<-paml[paml$case==prefix[i],]
+	tp_plot<-c()
+	for (cut in cuts)
+	{
+		tp_plot<-c(tp_plot, mean(var$fprate[var$cutoff==cut]))
+	}
+	lines(cuts, tp_plot, type='l', lwd=2)
+}
+# Plot the penal algorithms	
+for (i in 1:3){
+	var<-paml[paml$case==prefix_p[i],]
+	tp_plot<-c()
+	for (cut in cuts)
+	{
+		tp_plot<-c(tp_plot, mean(var$fprate[var$cutoff==cut]))
+	}
+	lines(cuts, tp_plot, type='l', lwd=2)
+}
+
+## now plot fubar
+var<-fubar[fubar$case=='refaln',]
+tp_plot<-c()
+for (cut in cuts)
+{
+	tp_plot<-c(tp_plot, mean(var$fprate[var$cutoff==cut]))
+}
+plot(cuts, tp_plot, type='l', lwd=2, col='blue', ylim=c(0,0.015), xlim=c(0.73, 0.77))
+
+# Plot the nonp algorithms	
+for (i in 1:3){
+	var<-fubar[fubar$case==prefix[i],]
+	tp_plot<-c()
+	for (cut in cuts)
+	{
+		tp_plot<-c(tp_plot, mean(var$fprate[var$cutoff==cut]))
+	}
+	lines(cuts, tp_plot, type='l', lwd=2, col='blue')
+}
+# Plot the penal algorithms	
+for (i in 1:3){
+	var<-fubar[fubar$case==prefix_p[i],]
+	tp_plot<-c()
+	for (cut in cuts)
+	{
+		tp_plot<-c(tp_plot, mean(var$fprate[var$cutoff==cut]))
+	}
+	lines(cuts, tp_plot, type='l', lwd=2, col='blue')
+}
+
+
+
+
 
 
 
@@ -81,64 +148,3 @@ for (i in 1:3){
 	lines(cuts, tp_plot, type='l', lwd=2, col='blue')
 }
 
-################### fprate #########################
-
-## PLOT PAML FIRST
-var<-paml[paml$case=='refaln',]
-tp_plot<-c()
-for (cut in cuts)
-{
-	tp_plot<-c(tp_plot, mean(var$fprate[var$cutoff==cut]))
-}
-plot(cuts, tp_plot, type='l', lwd=2, ylim=c(0,0.01), xlim=c(0.85,1),main='False Positive Rate')
-
-# Plot the nonp algorithms	
-for (i in 1:3){
-	var<-paml[paml$case==prefix[i],]
-	tp_plot<-c()
-	for (cut in cuts)
-	{
-		tp_plot<-c(tp_plot, mean(var$fprate[var$cutoff==cut]))
-	}
-	lines(cuts, tp_plot, type='l', lwd=2)
-}
-# Plot the penal algorithms	
-for (i in 1:3){
-	var<-paml[paml$case==prefix_p[i],]
-	tp_plot<-c()
-	for (cut in cuts)
-	{
-		tp_plot<-c(tp_plot, mean(var$fprate[var$cutoff==cut]))
-	}
-	lines(cuts, tp_plot, type='l', lwd=2)
-}
-
-## now plot fubar
-var<-fubar[fubar$case=='refaln',]
-tp_plot<-c()
-for (cut in cuts)
-{
-	tp_plot<-c(tp_plot, mean(var$fprate[var$cutoff==cut]))
-}
-lines(cuts, tp_plot, type='l', lwd=2, col='blue')
-
-# Plot the nonp algorithms	
-for (i in 1:3){
-	var<-fubar[fubar$case==prefix[i],]
-	tp_plot<-c()
-	for (cut in cuts)
-	{
-		tp_plot<-c(tp_plot, mean(var$fprate[var$cutoff==cut]))
-	}
-	lines(cuts, tp_plot, type='l', lwd=2, col='blue')
-}
-# Plot the penal algorithms	
-for (i in 1:3){
-	var<-fubar[fubar$case==prefix_p[i],]
-	tp_plot<-c()
-	for (cut in cuts)
-	{
-		tp_plot<-c(tp_plot, mean(var$fprate[var$cutoff==cut]))
-	}
-	lines(cuts, tp_plot, type='l', lwd=2, col='blue')
-}
