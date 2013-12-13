@@ -1,5 +1,5 @@
-#fubar <- read.table('data/fubar_sweeps_prk.txt', header=T)
-#paml  <- read.table('data/paml_sweeps_prk.txt', header=T)
+fubar <- read.table('data/fubar_sweeps_prk.txt', header=T)
+paml  <- read.table('data/paml_sweeps_prk.txt', header=T)
 
 cuts<-c(0:100)
 cuts<-cuts/100
@@ -30,7 +30,7 @@ var<-fubar[fubar$case=='refaln',]
 for (x in cuts){
 	tp<-mean(var$tprate[var$cutoff==x])
 	meantp<-c(meantp, tp)
-	fp<-mean(fubar$fprate[var$cutoff==x])
+	fp<-mean(var$fprate[var$cutoff==x])
 	meanfp<-c(meanfp, fp)
 }
 plot(meanfp, meantp, type="l", col=rgb(1,0,0,0.8), lwd=3, ylab='True Positive Rate', xlab='False Positive Rate', main='PAML and FUBAR', cex.axis=0.9, xlim=c(0,1), ylim=c(0,1), frame.plot=F)
@@ -62,7 +62,7 @@ var<-fubar[fubar$case=='refaln',]
 for (x in cuts){
 	tp<-mean(var$tprate[var$cutoff==x])
 	meantp<-c(meantp, tp)
-	fp<-mean(fubar$fprate[var$cutoff==x])
+	fp<-mean(var$fprate[var$cutoff==x])
 	meanfp<-c(meanfp, fp)
 }
 plot(meanfp, meantp, type="l", col='grey70', lwd=1.5, ylab='True Positive Rate', xlab='False Positive Rate', main='PAML', cex.axis=0.9, xlim=c(0,0.1), ylim=c(0,1), frame.plot=F)
@@ -127,7 +127,7 @@ var<-paml[paml$case=='refaln',]
 for (x in cuts){
 	tp<-mean(var$tprate[var$cutoff==x])
 	meantp<-c(meantp, tp)
-	fp<-mean(paml$fprate[var$cutoff==x])
+	fp<-mean(var$fprate[var$cutoff==x])
 	meanfp<-c(meanfp, fp)
 }
 lines(meanfp, meantp, lwd=2)
@@ -144,7 +144,7 @@ var<-paml[paml$case=='refaln',]
 for (x in cuts){
 	tp<-mean(var$tprate[var$cutoff==x])
 	meantp<-c(meantp, tp)
-	fp<-mean(paml$fprate[var$cutoff==x])
+	fp<-mean(var$fprate[var$cutoff==x])
 	meanfp<-c(meanfp, fp)
 }
 plot(meanfp, meantp, type="l", col='grey70', lwd=1.5, ylab='True Positive Rate', xlab='False Positive Rate', main='FUBAR', cex.axis=0.9, xlim=c(0,0.1), ylim=c(0,1), frame.plot=F)
@@ -181,7 +181,7 @@ var<-paml[paml$case=='refaln',]
 for (x in cuts){
 	tp<-mean(var$tprate[var$cutoff==x])
 	meantp<-c(meantp, tp)
-	fp<-mean(paml$fprate[var$cutoff==x])
+	fp<-mean(var$fprate[var$cutoff==x])
 	meanfp<-c(meanfp, fp)
 }
 lines(meanfp, meantp, col='grey70', lwd=1.5)
@@ -219,7 +219,7 @@ var<-fubar[fubar$case=='refaln',]
 for (x in cuts){
 	tp<-mean(var$tprate[var$cutoff==x])
 	meantp<-c(meantp, tp)
-	fp<-mean(fubar$fprate[var$cutoff==x])
+	fp<-mean(var$fprate[var$cutoff==x])
 	meanfp<-c(meanfp, fp)
 }
 lines(meanfp, meantp, lwd=2)

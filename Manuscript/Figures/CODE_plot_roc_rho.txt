@@ -1,5 +1,5 @@
-fubar <- read.table('data/short_fubar_sweeps_rho.txt', header=T)
-paml  <- read.table('data/short_paml_sweeps_rho.txt', header=T)
+fubar <- read.table('data/fubar_sweeps_rho.txt', header=T)
+paml  <- read.table('data/paml_sweeps_rho.txt', header=T)
 
 cuts<-c(0:100)
 cuts<-cuts/100
@@ -13,7 +13,7 @@ colors_p<-c('darkgreen', 'cornflowerblue', 'blueviolet')
 
 
 
-pdf('roc_prk.pdf', width=8, height=3)
+pdf('roc_rho.pdf', width=8, height=3)
 
 
 
@@ -30,7 +30,7 @@ var<-fubar[fubar$case=='refaln',]
 for (x in cuts){
 	tp<-mean(var$tprate[var$cutoff==x])
 	meantp<-c(meantp, tp)
-	fp<-mean(fubar$fprate[var$cutoff==x])
+	fp<-mean(var$fprate[var$cutoff==x])
 	meanfp<-c(meanfp, fp)
 }
 plot(meanfp, meantp, type="l", col=rgb(1,0,0,0.8), lwd=3, ylab='True Positive Rate', xlab='False Positive Rate', main='PAML and FUBAR', cex.axis=0.9, xlim=c(0,1), ylim=c(0,1), frame.plot=F)
@@ -40,7 +40,7 @@ var<-paml[paml$case=='refaln',]
 for (x in cuts){
 	tp<-mean(var$tprate[var$cutoff==x])
 	meantp<-c(meantp, tp)
-	fp<-mean(paml$fprate[var$cutoff==x])
+	fp<-mean(var$fprate[var$cutoff==x])
 	meanfp<-c(meanfp, fp)
 }
 lines(meanfp, meantp, col=rgb(0,0,1, 0.8), type="l", lwd=3)
@@ -65,7 +65,7 @@ for (x in cuts){
 	fp<-mean(fubar$fprate[var$cutoff==x])
 	meanfp<-c(meanfp, fp)
 }
-plot(meanfp, meantp, type="l", col='grey70', lwd=1.5, ylab='True Positive Rate', xlab='False Positive Rate', main='PAML', cex.axis=0.9, xlim=c(0,0.1), ylim=c(0,1), frame.plot=F)
+plot(meanfp, meantp, type="l", col='grey70', lwd=1.5, ylab='True Positive Rate', xlab='False Positive Rate', main='PAML', cex.axis=0.9, xlim=c(0,0.2), ylim=c(0,1), frame.plot=F)
 # Plot the nonp algorithms	
 for (i in 1:3){
 	meantp<-c()
@@ -127,7 +127,7 @@ var<-paml[paml$case=='refaln',]
 for (x in cuts){
 	tp<-mean(var$tprate[var$cutoff==x])
 	meantp<-c(meantp, tp)
-	fp<-mean(paml$fprate[var$cutoff==x])
+	fp<-mean(var$fprate[var$cutoff==x])
 	meanfp<-c(meanfp, fp)
 }
 lines(meanfp, meantp, lwd=2)
@@ -144,10 +144,10 @@ var<-paml[paml$case=='refaln',]
 for (x in cuts){
 	tp<-mean(var$tprate[var$cutoff==x])
 	meantp<-c(meantp, tp)
-	fp<-mean(paml$fprate[var$cutoff==x])
+	fp<-mean(var$fprate[var$cutoff==x])
 	meanfp<-c(meanfp, fp)
 }
-plot(meanfp, meantp, type="l", col='grey70', lwd=1.5, ylab='True Positive Rate', xlab='False Positive Rate', main='FUBAR', cex.axis=0.9, xlim=c(0,0.1), ylim=c(0,1), frame.plot=F)
+plot(meanfp, meantp, type="l", col='grey70', lwd=1.5, ylab='True Positive Rate', xlab='False Positive Rate', main='FUBAR', cex.axis=0.9, xlim=c(0,0.2), ylim=c(0,1), frame.plot=F)
 # Plot the nonp algorithms	
 for (i in 1:3){
 	meantp<-c()
@@ -181,7 +181,7 @@ var<-paml[paml$case=='refaln',]
 for (x in cuts){
 	tp<-mean(var$tprate[var$cutoff==x])
 	meantp<-c(meantp, tp)
-	fp<-mean(paml$fprate[var$cutoff==x])
+	fp<-mean(var$fprate[var$cutoff==x])
 	meanfp<-c(meanfp, fp)
 }
 lines(meanfp, meantp, col='grey70', lwd=1.5)
@@ -219,7 +219,7 @@ var<-fubar[fubar$case=='refaln',]
 for (x in cuts){
 	tp<-mean(var$tprate[var$cutoff==x])
 	meantp<-c(meantp, tp)
-	fp<-mean(fubar$fprate[var$cutoff==x])
+	fp<-mean(var$fprate[var$cutoff==x])
 	meanfp<-c(meanfp, fp)
 }
 lines(meanfp, meantp, lwd=2)
