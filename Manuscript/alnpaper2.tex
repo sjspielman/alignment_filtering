@@ -1,8 +1,4 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%% CURRENT STATUS OF DRAFT  %%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\documentclass[12pt]{article}
+\documentclass[10pt]{article}
 
 \usepackage[margin=1.5in]{geometry}
 \usepackage{graphicx}
@@ -221,6 +217,31 @@ Simulation Set & Method & Unfiltered & GuidanceP & BMweightsP & PDweightsP \\
 \end{tabular}
 \newline
 \textsc{note.}--- Significance levels: $^{\ast\ast} P < 1\times10^{-5}$; $^{\ast} P < 1\times10^{-4}$. \textit{Unfiltered}: average true positive rate (TPR) for unfiltered alignments; \textit{GuidanceP}: average true positive rate (TPR) for alignments filtered with GuidanceP algorithm; \textit{BMweightsP}: average TPR for alignments filtered with BMweightsP algorithm; \textit{PDweightsP}: average TPR for alignments filtered with PDweightsP algorithm. All significance levels are relative to the given simulation set's unfiltered alignment. We detected no significant TPR differences among filters tested within sequence simulation sets. All significance levels were corrected for multiple comparisons with the single-step method.
+\end{table}
+
+
+
+\begin{table}[H]
+\label{tab:penalmodel}
+\caption {Comparison of gap-penalization vs original normalization schemes on the true positive rate of positive selection inference.}
+\begin{tabular}{l l l}
+\hline\noalign{\smallskip}
+Simulation Set & Method & \textit{d} \\
+\noalign{\smallskip}\hline\noalign{\smallskip}
+11 taxa  & Fubar & 0.0007 \\
+              & Paml & -0.0005\\
+\hline
+26 taxa   & Fubar & \textbf{0.0018}$^{\ast}$\\
+              & Paml & \textbf{0.0061}$^{\ast\ast}$\\
+\hline
+60 taxa  & Fubar & \textbf{0.0089}$^{\ast\ast}$ \\
+              & Paml & 0.0054  \\
+\hline
+158 taxa & Fubar & \textbf{0.002}$^{\ast\ast}$  \\
+\hline
+\end{tabular}
+\newline
+\textsc{note.}--- Significance levels: $^{\ast\ast} P < 1\times10^{-6}$; $^{\ast} P < 0.05$. \textit{d}: Magnitude of TPR difference between normalization schemes, represented as gap-penalization minus original. All significance levels were corrected for multiple comparisons with the single-step method.
 \end{table}
 
 
