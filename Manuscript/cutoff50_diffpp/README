@@ -1,4 +1,0 @@
-Files fubarsingle_mask50.txt and pamlsingle_mask50.txt made on 12/13/13 with those scripts. Those are cat'd to single50.txt
-They contain singles using posterior probability cutoffs that are specific to each gene and method. Those cutoffs were calc'd from plotting average refaln fpr against pp cutoff sweeps. Find the cutoff for each gene where fpr=1%.
-fubar --  or5: 0.7083, rho:0.748,    prk:0.785,  flat:0.7855
-paml  --  or5: 0.518,  rho:0.0.3025, prk:0.0625, flat:N/A
