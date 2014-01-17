@@ -1,0 +1,233 @@
+## Completed on 1/15/14. Uses 0.895 posterior probability cutoffs for both paml and fubar. To control for things, we are going to use tprate instead of tprate as the response variable.
+
+library(lme4)
+library(multcomp)
+
+
+fubar<-read.table('parsed_data/fubar90.txt', header=T)
+paml<-read.table('parsed_data/paml90.txt', header=T)
+
+
+
+
+########### Here, do models without the reference alignment in order to determine if our next model should be penalyes or penalno
+fubar2<-fubar[fubar$penal!='zero',]
+paml2<-paml[paml$penal!='zero',]
+
+or5<-fubar2[fubar2$gene=='or5',]
+model<-lmer(tprate ~  penal+(1|count), data=or5)
+summary(glht(model, linfct=mcp(penal="Tukey")))
+#              Estimate Std. Error z value Pr(>|z|)   
+#yes - no == 0 0.0006977  0.0004972   1.403    0.161
+
+rho<-fubar2[fubar2$gene=='rho',]
+model<-lmer(tprate ~  penal+(1|count), data=rho)
+summary(glht(model, linfct=mcp(penal="Tukey")))
+#              Estimate Std. Error z value Pr(>|z|)   
+#yes - no == 0 0.0017997  0.0009276    1.94   0.0524 .
+
+prk<-fubar2[fubar2$gene=='prk',]
+model<-lmer(tprate ~  penal+(1|count), data=prk)
+summary(glht(model, linfct=mcp(penal="Tukey")))
+#              Estimate Std. Error z value Pr(>|z|)    
+#yes - no == 0 0.008895   0.001794   4.958 7.12e-07 ***
+
+flat<-fubar2[fubar2$gene=='flat',]
+model<-lmer(tprate ~  penal+(1|count), data=flat)
+summary(glht(model, linfct=mcp(penal="Tukey")))
+#              Estimate Std. Error z value Pr(>|z|)   
+#yes - no == 0 0.0019925  0.0009264   2.151   0.0315 *
+
+
+or5<-paml2[paml2$gene=='or5',]
+model<-lmer(tprate ~  penal+(1|count), data=or5)
+summary(glht(model, linfct=mcp(penal="Tukey")))
+#               Estimate Std. Error z value Pr(>|z|)
+#yes - no == 0 -0.0005212  0.0008347  -0.624    0.532
+
+rho<-paml2[paml2$gene=='rho',]
+model<-lmer(tprate ~  penal+(1|count), data=rho)
+summary(glht(model, linfct=mcp(penal="Tukey")))
+#              Estimate Std. Error z value Pr(>|z|)    
+#yes - no == 0 0.006069   0.000953   6.368 1.91e-10 ***
+
+
+prk<-paml2[paml2$gene=='prk',]
+model<-lmer(tprate ~  penal+(1|count), data=prk)
+summary(glht(model, linfct=mcp(penal="Tukey")))
+#              Estimate Std. Error z value Pr(>|z|)    
+#yes - no == 0 0.005351   0.003855   1.388    0.165
+
+
+
+############################################################################
+### Penalization does NOT win all the time. But if/when something is significant, penal is better. Thus, let's go with that.
+
+fubar2<-fubar[fubar$penal!='no',]
+paml2<-paml[paml$penal!='no',]
+
+or5<-fubar2[fubar2$gene=='or5',]
+model<-lmer(tprate ~  case+(1|count), data=or5)
+summary(glht(model, linfct=mcp(case='Tukey')))
+#                                 Estimate Std. Error z value Pr(>|z|)  
+#guidance_p - BMweights_p == 0  -0.0008921  0.0009865  -0.904    0.803
+#PDweights_p - BMweights_p == 0 -0.0005356  0.0009865  -0.543    0.948
+#refaln - BMweights_p == 0      -0.0020118  0.0009865  -2.039    0.173
+#PDweights_p - guidance_p == 0   0.0003565  0.0009865   0.361    0.984
+#refaln - guidance_p == 0       -0.0011198  0.0009865  -1.135    0.668
+#refaln - PDweights_p == 0      -0.0014763  0.0009865  -1.497    0.440
+#
+
+rho<-fubar2[fubar2$gene=='rho',]
+model<-lmer(tprate ~  case+(1|count), data=rho)
+summary(glht(model, linfct=mcp(case='Tukey')))
+#                             Estimate Std. Error z value Pr(>|z|)  
+#guidance_p - BMweights_p == 0  -0.0006552  0.0018100  -0.362   0.9838  
+#PDweights_p - BMweights_p == 0  0.0001993  0.0018100   0.110   0.9995  
+#refaln - BMweights_p == 0      -0.0041737  0.0018100  -2.306   0.0966 .
+#PDweights_p - guidance_p == 0   0.0008545  0.0018100   0.472   0.9652  
+#refaln - guidance_p == 0       -0.0035185  0.0018100  -1.944   0.2098  
+#refaln - PDweights_p == 0      -0.0043730  0.0018100  -2.416   0.0741 .
+#
+
+prk<-fubar2[fubar2$gene=='prk',]
+model<-lmer(tprate ~  case+(1|count), data=prk)
+summary(glht(model, linfct=mcp(case='Tukey')))
+#                             Estimate Std. Error z value Pr(>|z|)    
+#guidance_p - BMweights_p == 0   0.002145   0.003960   0.542    0.949    
+#PDweights_p - BMweights_p == 0 -0.001911   0.003960  -0.483    0.963    
+#refaln - BMweights_p == 0      -0.032109   0.003960  -8.109   <1e-05 ***
+#PDweights_p - guidance_p == 0  -0.004056   0.003960  -1.024    0.735    
+#refaln - guidance_p == 0       -0.034255   0.003960  -8.651   <1e-05 ***
+#refaln - PDweights_p == 0      -0.030198   0.003960  -7.627   <1e-05 ***
+#
+
+flat<-fubar2[fubar2$gene=='flat',]
+model<-lmer(tprate ~  case+(1|count), data=flat)
+summary(glht(model, linfct=mcp(case='Tukey')))
+#                            Estimate Std. Error z value Pr(>|z|)    
+#guidance_p - BMweights_p == 0   0.0007709  0.0023067   0.334    0.987    
+#PDweights_p - BMweights_p == 0 -0.0008152  0.0023067  -0.353    0.985    
+#refaln - BMweights_p == 0      -0.0137667  0.0023067  -5.968   <1e-05 ***
+#PDweights_p - guidance_p == 0  -0.0015861  0.0023067  -0.688    0.902    
+#refaln - guidance_p == 0       -0.0145376  0.0023067  -6.302   <1e-05 ***
+#refaln - PDweights_p == 0      -0.0129515  0.0023067  -5.615   <1e-05 ***
+#
+
+
+
+or5<-paml2[paml2$gene=='or5',]
+model<-lmer(tprate ~  case+(1|count), data=or5)
+summary(glht(model, linfct=mcp(case='Tukey')))
+#                            Estimate Std. Error z value Pr(>|z|)  
+#guidance_p - BMweights_p == 0   2.941e-04  1.658e-03   0.177    0.998
+#PDweights_p - BMweights_p == 0  3.932e-05  1.658e-03   0.024    1.000
+#refaln - BMweights_p == 0       7.256e-04  1.658e-03   0.438    0.972
+#PDweights_p - guidance_p == 0  -2.548e-04  1.658e-03  -0.154    0.999
+#refaln - guidance_p == 0        4.314e-04  1.658e-03   0.260    0.994
+#refaln - PDweights_p == 0       6.862e-04  1.658e-03   0.414    0.976
+#
+
+rho<-paml2[paml2$gene=='rho',]
+model<-lmer(tprate ~  case+(1|count), data=rho)
+summary(glht(model, linfct=mcp(case='Tukey')))
+#                            Estimate Std. Error z value Pr(>|z|)    
+#guidance_p - BMweights_p == 0   6.030e-04  1.920e-03   0.314    0.989    
+#PDweights_p - BMweights_p == 0  4.156e-05  1.920e-03   0.022    1.000    
+#refaln - BMweights_p == 0      -8.853e-03  1.920e-03  -4.610   <1e-04 ***
+#PDweights_p - guidance_p == 0  -5.614e-04  1.920e-03  -0.292    0.991    
+#refaln - guidance_p == 0       -9.456e-03  1.920e-03  -4.924   <1e-04 ***
+#refaln - PDweights_p == 0      -8.894e-03  1.920e-03  -4.632   <1e-04 ***
+#
+
+prk<-paml2[paml2$gene=='prk',]
+model<-lmer(tprate ~  case+(1|count), data=prk)
+summary(glht(model, linfct=mcp(case='Tukey')))
+#                            Estimate Std. Error z value Pr(>|z|)  
+#guidance_p - BMweights_p == 0   0.0072620  0.0068327   1.063    0.712
+#PDweights_p - BMweights_p == 0  0.0050415  0.0068327   0.738    0.882
+#refaln - BMweights_p == 0       0.0063733  0.0068327   0.933    0.787
+#PDweights_p - guidance_p == 0  -0.0022204  0.0068327  -0.325    0.988
+#refaln - guidance_p == 0       -0.0008887  0.0068327  -0.130    0.999
+#refaln - PDweights_p == 0       0.0013317  0.0068327   0.195    0.997
+#
+
+
+########### And now, we compare fubar and paml reference alignments via ACCURACY. Since masking has such a weak effect, we should just look at unmasked. The magnitude will be stupidly larger.
+both<-rbind(paml, fubar)
+both<-both[both$penal=='zero',]
+
+or5<-both[both$gene=='or5',]
+model<-lmer(accuracy ~ method+(1|count), data=or5)
+summary(glht(model, linfct=mcp(method='Tukey')))
+#                    Estimate Std. Error z value Pr(>|z|)  
+#fubar - paml == 0 0.0011095  0.0003953   2.807    0.005 **
+
+rho<-both[both$gene=='rho',]
+model<-lmer(accuracy ~ method+(1|count), data=rho)
+summary(glht(model, linfct=mcp(method='Tukey')))
+#                    Estimate Std. Error z value Pr(>|z|)    
+#fubar - paml == 0 0.0025686  0.0006193   4.148 3.36e-05 ***
+
+prk<-both[both$gene=='prk',]
+model<-lmer(accuracy ~ method+(1|count), data=prk)
+summary(glht(model, linfct=mcp(method='Tukey')))
+#                    Estimate Std. Error z value Pr(>|z|)    
+#fubar - paml == 0 -0.011092   0.001316  -8.432   <2e-16 ****
+
+
+############# Get the TPR for reference alignments
+fubar2<-fubar[fubar$penal=='zero',]
+paml2<-paml[paml$penal=='zero',]
+
+mean(fubar2$tprate[fubar2$gene=='or5'])
+# 0.1080763
+mean(fubar2$tprate[fubar2$gene=='rho'])
+# 0.228797
+mean(fubar2$tprate[fubar2$gene=='prk'])
+# 0.3449654
+mean(fubar2$tprate[fubar2$gene=='flat'])
+# 0.3737
+
+mean(paml2$tprate[paml2$gene=='or5'])
+# 0.08734982
+mean(paml2$tprate[paml2$gene=='rho'])
+# 0.1941911
+mean(paml2$tprate[paml2$gene=='prk'])
+# 0.4465748
+
+
+## In conclusion, gap penalization wins as a method. However, the magnitude is too small for us to really care.
+## Additionally, using paml is just better. Period. So you have to decide for yourself whether you'd like to wait a week to get a huge increase in your true positive rate or whether you'll settle for slightly less in 10 minutes.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+########## THE REST IS JUST IN CASE I EVER DO RESEARCH AGAIN.
+#### IN CASE EVER NEED TO DO AN INTERACTION WITH MULTCOMP, JUST MAKE AN INTERACTION VARIABLE.
+#int<-interaction(or5$penal, or5$case)
+#model<-lmer(tprate ~  int+(1|count), data=or5)
+#summary(glht(model, linfct=mcp(int='Tukey')))
+
+
+
+
+
