@@ -1,5 +1,6 @@
-#fubar <- read.table('parsed_data/fubarsweeps_prk.txt', header=T)
-#paml  <- read.table('parsed_data/pamlsweeps_prk.txt', header=T)
+# use this file to make the curves less awkward
+fubar <- read.table('../parsed_data/fubarsweep_prk.txt', header=T)
+paml  <- read.table('../parsed_data/pamlsweep_prk_no0.txt', header=T) 
 
 cuts<-c(0:200)
 cuts<-cuts/200
@@ -8,8 +9,7 @@ prefixp<-c('guidance_p', 'BMweights_p', 'PDweights_p')
 prefix<-c('guidance', 'BMweights', 'PDweights')
 allpre<-c(prefix, prefixp)
 
-pdf('roc.pdf', width=8, height=3)
-
+pdf('roc2.pdf', width=8, height=3)
 
 par(mfrow=c(1,3))
 
