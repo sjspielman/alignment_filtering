@@ -1,0 +1,91 @@
+######### HEAT LINE PLOTS to visually demonstrate that not much is changing from masking.
+
+## fubar prk HEAT LINES
+fubar<-read.table('fubar90.txt', header=T)
+colors<-heat.colors(100, alpha = 1)
+map.color<-function(x)
+{
+	colors[floor(50*x)]
+}
+prefix<-c('refaln', 'guidance', 'BMweights', 'PDweights')
+par(mfrow=c(2,2))
+
+data<-fubar[fubar$gene=='or5' & fubar$penal!='no',]
+line1 <- c()
+for (pre in prefix){
+	line1 <- c(line1, data$accuracy[data$case==pre & data$count==0])
+}
+plot(1:4, line1, pch=20, cex=0.5, ylim=c(0.88, 1), col=map.color(line1[1]), main='fubar, 11 seq', ylab='True Positive Rate', xaxt='n', xlab='Masking Algorithm')
+lines(1:4, line1, col=map.color(line1[1]))
+axis(1,at=1:4,labels=prefix, cex.axis=0.8, las=1)
+
+for (c in 1:99){
+	line1 <- c()
+	for (pre in prefix){
+		line1 <- c(line1, data$accuracy[data$case==pre & data$count==c])
+	}
+	points(1:4, line1, pch=20, cex=.5, col=map.color(line1[1]))
+	lines(1:4, line1, col=map.color(line1[1]))
+}
+
+data<-fubar[fubar$gene=='rho' & fubar$penal!='no',]
+line1 <- c()
+for (pre in prefix){
+	line1 <- c(line1, data$accuracy[data$case==pre & data$count==0])
+}
+plot(1:4, line1, pch=20, cex=0.5, ylim=c(0, 0.05), col=map.color(line1[1]), main='fubar, 26 seq', ylab='True Positive Rate', xaxt='n', xlab='Masking Algorithm')
+lines(1:4, line1, col=map.color(line1[1]))
+axis(1,at=1:4,labels=prefix, cex.axis=0.8, las=1)
+
+for (c in 1:99){
+	line1 <- c()
+	for (pre in prefix){
+		line1 <- c(line1, data$accuracy[data$case==pre & data$count==c])
+	}
+	points(1:4, line1, pch=20, cex=.5, col=map.color(line1[1]))
+	lines(1:4, line1, col=map.color(line1[1]))
+}
+
+
+data<-fubar[fubar$gene=='prk' & fubar$penal!='no',]
+line1 <- c()
+for (pre in prefix){
+	line1 <- c(line1, data$accuracy[data$case==pre & data$count==0])
+}
+plot(1:4, line1, pch=20, cex=0.5, ylim=c(0, 0.05), col=map.color(line1[1]), main='fubar, 60 seq', ylab='True Positive Rate', xaxt='n', xlab='Masking Algorithm')
+lines(1:4, line1, col=map.color(line1[1]))
+axis(1,at=1:4,labels=prefix, cex.axis=0.8, las=1)
+
+for (c in 1:99){
+	line1 <- c()
+	for (pre in prefix){
+		line1 <- c(line1, data$accuracy[data$case==pre & data$count==c])
+	}
+	points(1:4, line1, pch=20, cex=.5, col=map.color(line1[1]))
+	lines(1:4, line1, col=map.color(line1[1]))
+}
+
+
+data<-fubar[fubar$gene=='flat' & fubar$penal!='no',]
+line1 <- c()
+for (pre in prefix){
+	line1 <- c(line1, data$accuracy[data$case==pre & data$count==0])
+}
+plot(1:4, line1, pch=20, cex=0.5, ylim=c(0, 0.05), col=map.color(line1[1]), main='fubar, 158 seq', ylab='True Positive Rate', xaxt='n', xlab='Masking Algorithm')
+lines(1:4, line1, col=map.color(line1[1]))
+axis(1,at=1:4,labels=prefix, cex.axis=0.8, las=1)
+
+for (c in 1:99){
+	line1 <- c()
+	for (pre in prefix){
+		line1 <- c(line1, data$accuracy[data$case==pre & data$count==c])
+	}
+	points(1:4, line1, pch=20, cex=.5, col=map.color(line1[1]))
+	lines(1:4, line1, col=map.color(line1[1]))
+}
+
+
+
+
+
+
