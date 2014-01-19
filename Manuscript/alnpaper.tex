@@ -16,7 +16,7 @@
 \linespread{1.1}
 \begin{document}
 
-\title{\textbf{Masking individual residues for positive selection inference has a minimal effect}}
+\title{\textbf{Masking individual residues in alignments for positive selection inference has a minimal effect}}
 \author{Stephanie J. Spielman$^{1*}$ and Eric T. Dawson$^{1}$ Claus O. Wilke$^{1}$}
 \date{}
 
@@ -40,12 +40,12 @@ Manuscript type: research article
 
 \newpage
 \begin{abstract}
-	Most nucleotide or amino acid sequence studies begin with building a multiple sequence alignment (MSA) with the goal of assigning homology across positions of these diverged sequences. Although a critical step in nearly sequence evolution studies, MSAs may represent a substantial source of error in subsequent applications, ranging from phylogenetic reconstruction to evolutionary rate inference. Motivated by this issue, many have suggested methods which can identify putatively poorly aligned regions in MSAs so that researchers can remove these regions from analyses in an effort to reduce error. One recent method, known as Guidance, generates position-based confidence scores in a given MSA using a bootstrap approach. Some studies have suggested that applying a Guidance filter to protein-coding sequence alignments can improve accuracy in positive selection inference. However, the specific circumstances under which Guidance might offer improvements remain unclear. To elucidate how the Guidance filter behaves in realistic protein-coding sequences, we have reimplemented the Guidance software with several statistical improvements, including methods to phylogenetically correct confidence scores. We find that, overall, neither the original Guidance nor our phylogenetically-corrected version substantially improves positive selection inference. Thus, we cannot equivocally advocate the use of a Guidance-based filter for positive selection inference.
+ Recent studies have noted that errors in multiple sequence alignments have the potential to reduce accuracy in positive selection inference. Many have therefore suggested that users filter their alignments before further analyses. One widely-used filter, known as Guidance, generates position-based confidence scores for a given alignment using a bootstrap approach, thereby allowing users to remove positions of low confidence from the alignment. However, the specific circumstances under which Guidance offers improvements has been unclear. To elucidate how the Guidance filter behaved in realistic protein-coding sequences, we have reimplemented the Guidance software to include two novel algorithms for phylogenetically correcting confidence scores. We additionally introduced a new score normalization scheme which assigned lower scores to highly-gapped alignment columns. Using a sequence simulation approach, we compared our reimplemented Guidance algorithms to the original and found, surprisingly, that no approach examined could substantially improve positive selection inference. Thus, we cannot equivocally advocate the use of a Guidance-based filter for such studies.
 \end{abstract}
 
 
 \section*{Introduction}
-Constructing a multiple sequence alignment (MSA) represents the first step of analysis in most studies of molecular evolution, namely phylogenetic reconstruction and evolutionary rate inference. Recently, several studies have shown that poor MSA quality can significantly hinder accuracy in such downstream analyses \citep{Jordan2011, MarkovaRaina2011, Dwivedi2009, Talavera2007, Ogden2006}. In particular, using low-quality MSAs during positive selection inference elevated false positive rates \citep{Privman2012, Schneider2009, Fletcher2010}. As a consequence, many have advocated applying an alignment filter to MSAs. Such filters, which include Guidance \citep{Penn2010, Privman2012}, GBLOCKS \citep{Castresana2000} and T-Coffee \citep{Notredame2000}, locate putatively poorly aligned regions in alignments, thereby allowing users to curate their alignments to maximize signal. The hope is that culling unreliable positions and/or columns from MSAs will yield increased accuracy in positive selection inference, without excessively sacrificing power.
+Constructing a multiple sequence alignment represents the first step of analysis in most studies of molecular evolution, namely phylogenetic reconstruction and evolutionary rate inference. Recently, several studies have shown that poor alignment quality can significantly hinder accuracy in such downstream analyses \citep{Jordan2011, MarkovaRaina2011, Dwivedi2009, Talavera2007, Ogden2006}. In particular, using low-quality MSAs during positive selection inference elevated false positive rates \citep{Privman2012, Schneider2009, Fletcher2010}. As a consequence, many have advocated applying an alignment filter to MSAs. Such filters, which include Guidance \citep{Penn2010, Privman2012}, GBLOCKS \citep{Castresana2000} and T-Coffee \citep{Notredame2000}, locate putatively poorly aligned regions in alignments, thereby allowing users to curate their alignments to maximize signal. The hope is that culling unreliable positions and/or columns from MSAs will yield increased accuracy in positive selection inference, without excessively sacrificing power.
 
 Of these filters, Guidance \citep{Penn2010} is currently the most widely used in positive selection inference. Guidance derives a confidence score for each MSA position using a bootstrap approach that samples variants in a progressive alignment guide tree. Using the resulting scores, users can mask (i.e. replace with an ambiguous character such as ``?" or ``N") positions which score below a given threshold, thereby removing residues that cannot be confidently placed in the alignment. This method is fairly conservative, as particular positions of low confidence can be removed rather than entire columns. Recent simulation studies have demonstrated that filtering poorly aligned residues with Guidance may increase accuracy when inferring positive selection \citep{Jordan2011,Privman2012}. 
 
@@ -61,7 +61,7 @@ To systematically evaluate Guidance's influence on positive selection inference,
 
 We began by simulating 100 realistic protein-coding sequences using Indelible \citep{Fletcher2009} along each of four different gene trees sizes 11, 26, 60, and 158 taxa. To ensure that these simulations produced real sequence data to the extent possible, we simulated according to evolutionary parameters inferred from H1N1 influenza hemagluttinin (HA), a protein well known to contain positively selected regions \citep{Meyer2012}. We then processed the unaligned sequences with our Guidance reimplementation using the aligner mafft L-INS-I (linsi) \citep{Katoh2005}. We chose to use only linsi, which strongly outperforms other similar alignment softwares for protein alignments \citep{Thompson2011,Nuin2006} without sacrificing speed. We scored each alignment using each of our three scoring algorithms (original Guidance, BMweights, and PDweights) with each of our two normalization schemes (original Guidance and gap-penalization), and masked positions with scores below 0.5 with ``?".
 
-Finally, we assessed positive selection with both the recently-described Fubar \citep{Murrell2013} as implemented in HyPhy \citep{Pond2005} and the widely-used M8 model in Paml \citep{Yang2007}. Note that we use Paml throughout this paper to refer specifically to the M8 model. We considered sites as positively selected if the given method returned a posterior probability $\geq0.90$. Note that, while we processed all alignments with Fubar, we did not infer positive selection for the largest simulation set with Paml due to prohibitive runtimes. 
+Finally, we assessed positive selection with both the recently-described Fubar \citep{Murrell2013} as implemented in HyPhy \citep{Pond2005} and the widely-used M8 model in Paml \citep{Yang2007}. Note that we use Paml throughout this paper to refer specifically to the M8 model.  All phylogenies used during these inferences were constructed on from unfiltered amino acid alignments in RAxML \citep{Stamatakis2006} using the CAT model under the WAG substitution matrix. All filtered alignments stemming from the same unfiltered alignment were analyzed with the same phylogeny to remove any potential bias that distinct phylogenies could introduce.We considered sites as positively selected if the given method returned a posterior probability $\geq0.90$. Note that, while we processed all alignments with Fubar, we did not infer positive selection for the largest simulation set with Paml due to prohibitive runtimes. 
 
 
 \subsection*{Filtering with Guidance has limited utility}
@@ -78,17 +78,15 @@ Analyzing the data with Paml similarly did not result in a significant TPR chang
 
 \subsection*{Influence of Posterior Probability on Selection Inference Methods}
 
-Our analysis recovered several differences in how Paml and Fubar behaved when assessing positive selection. In particular, Fubar outperformed Paml for the two smaller simulation sets of 11 and 26-sequences, but Paml outperformed Fubar for the 60-sequence simulation set (Table \ref{tab:casemodel}. We explained this dependence on the number of sequences analyzed as an artifact of the posterior probability threshold chosen to call sites as positively selected. Figure \ref{tprfpr}demonstrates that, for unfiltered alignments with regards to TPRs, Fubar generally performed better than Paml at lower posterior probabilities, but Paml would be preferred at higher posterior probabilities. As the number of sequences increased, the intersection between methods' TPRs shifted towards lower posterior probabilities. Paml's improved ability to call true positives with the inclusion of more sequences largely dictated this shift; the relationship between posterior probability and TPR for Fubar remained similar between the two simulation sets.  Filtering alignments only marginally, if at all, affected these broad trends that Fubar and Paml portrayed, as seen in Figure \ref{fulltpr}). Thus, the analysis method used affected positive selection inference substantially more than did filtering  alignments with a Guidance-based method.
+Our analysis recovered several differences in how Paml and Fubar behaved when assessing positive selection. In particular, whether Fubar or Paml performed better depended on the number of sequences analyzed; Fubar outperformed Paml for the two smaller simulation sets of 11 and 26-sequences, but Paml outperformed Fubar for the 60-sequence simulation set (Table \ref{tab:casemodel}). We found that this trend resulted from the posterior probability threshold chosen to call sites as positively selected. Figure \ref{tprfpr}shows how TPRs and FPRs for unfiltered alignments behaved for two different simulation sets (26 and 60-sequence) across posterior probability cutoffs. With regards to TPRs,
+Fubar generally performed better than Paml at lower posterior probabilities, whereas Paml outperformed Fubar at high probabilities. As the number of sequences increased, the intersection between methods' TPRs shifted towards lower posterior probabilities. Paml's improved ability to call true positives with the inclusion of more sequences largely dictated this shift, as Fubar's relationship between posterior probability and TPR remained similar between the two simulation sets.  Filtering alignments only marginally, if at all, affected these broad trends that Fubar and Paml portrayed, as seen in Figure \ref{fulltpr}). Thus, the analysis method used affected positive selection inference substantially more than did filtering  alignments with a Guidance-based method. \textbf{possible statement about how it's ok our model was at 0.9. Don't think necessary, though}.
 
-The relationship between posterior probability FPR, unlike that of TPR, was mostly the same between simulation sets for each inference method. While Paml achieved FPRs of nearly zero essentially immediately for both the 26 and 60-sequence simulation sets, Fubar approached a zero FPR more slowly, reaching zero around a posterior probability of 0.8 for each simulation set. As a typical study of positive selection would almost definitely use a posterior probability above at least 0.8, it did not seem as though alignment filtering would provide much benefit to FPRs.
+The relationship between posterior probability and FPR, unlike that of TPR, was mostly consistent across simulation sets for both Fubar and Paml. While Paml achieved FPRs of nearly zero essentially immediately for both the 26 and 60-sequence simulation sets, Fubar approached a zero FPR more slowly, reaching zero around a posterior probability of 0.8 for each simulation set. As a typical study of positive selection would almost definitely use a posterior probability above at least 0.8, alignment filtering would likely not be able to substantially reduce FPR.
 
-These differences between Fubar and Paml evidenced the different approaches they employ to detect positive selection; while Paml's M8 model aims to identify precise $dN/dS$ value at each site in an alignment, Fubar merely approximates whether a site is positively selected but does not attempt to assign a point estimate of $dN/dS$ to each position. With fewer sequences in an alignment, then, Paml was less accurate at determining  a particular site's exact $dN/dS$ would be less precise than was Fubar at simply approximating whether that position was positively selected. Increasing the number of sequences allowed for Paml to make more robust $dN/dS$ estimates while having a relatively smaller effect on Fubar's approximations.
+How TPR and FPR behaved for Fubar and Paml evidenced the different approaches these methods employ to detect positive selection; while Paml's M8 model aims to identify precise $dN/dS$ value at each site in an alignment, Fubar merely approximates whether a site is positively selected but does not attempt to assign a point estimate of $dN/dS$ to each position. With fewer sequences in an alignment, then, Paml was less accurate at determining  a particular site's exact $dN/dS$ would be less precise than was Fubar at simply approximating whether that position was positively selected. Increasing the number of sequences allowed for Paml to make more robust $dN/dS$ estimates while having a relatively smaller effect on Fubar's approximations.
 
 %%%%%%%%%%%%%%%%%%%     OLD TEXT WE MAY WANT TO KEEP AROUND IN CASE %%%%%%%%%%%%%%%%%%%
-%As our models' results were highly sensitive to the posterior probability threshold chosen to assign sites as positively selected, we visually assessed how selecting a different threshold would influence filtering. Figure ~\ref{tprfpr} shows, for unfiltered alignments, how this threshold influences TPR and FPR for both Fubar and Paml, averaged across results from the 60-sequence simulation set. While the TPR for Fubar decreased smoothly across increasing posterior probabilities, TPRs recovered from Paml analyses were more robust to changes in posterior probability; sharp changes in TPR occurred at very low and very high posterior probabilities, but TPR was less sensitive to this threshold between $0.2-0.8$. Similar to its TPR behavior, Fubar's FPR curve slowly trends downwards, reaching a zero FPR when $\geq0.80$. Paml, alternatively, reached an FPR of zero essentially immediately. 
-
 %ROC curves did not control for the posterior probability threshold employed to call sites as positively selected. In other words, a given point on an ROC curve could easily correspond to different posterior probability thresholds for filtered and unfiltered alignments. Thus, while useful in assessing theoretical performance, ROC curves did not capture the reality of data analysis and might actually have been misleading.
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
@@ -102,10 +100,14 @@ These differences between Fubar and Paml evidenced the different approaches they
 
 \section*{Discussion}
 
-1. 
+We have conducted a simulation-based study to evaluate the how introducing phylogenetically-aware scoring algorithms into the Guidance alignment filter influences the detection of positive selection in protein-coding sequences. Additionally, we tested a novel method for normalizing Guidance scores, using both the original Guidance algorithm and our phylogenetically-corrected methods, which assigns inherently lower scores to highly-gapped columns in an alignment. We ensured that our simulations resembled real sequence data by simulating along real gene trees according to evolutionary parameters derived from the H1N1 influenza hemagluttinin protein. We inferred positive selection for all alignments using two methods: the recently introduced and very fast Fubar \citep{Murrell2013} within the HyPhy package \citep{Pond2005} as well as the current standard for evolutionary rate inference, Paml \citep{Yang2007} (specifically the M8 model).
 
-\textbf{all of this is old, probably written early December}.
-Our comprehensive study of alignment filtering with Guidance-based methods indicated that, while masking individual sites rarely hinders positive selection inference, neither does it substantially improve inferences when analyzing protein sequences at realistic divergence levels. These results mirror those made by Jordan and Goldman`s \citep{Jordan2011} study on alignment methods and filtering. While the gap-penalization scheme we have proposed did perform significantly better than did the original normalization scheme, the magnitude of this improvement was minimal. Additionally, that the weighted algorithms did not improve upon the original Guidance algorithm may indicate the minimal benefits that filtering in this manner produces at all. Were Guidance to offer robust improvements when detecting positively selected sites, one might expect that the more statistically controlled approach would boost the method`s performance. However, as we have found that the method itself does not dramatically, if at all, influence positive selection inferences, it is not entirely unexpected that improving the algorithm does not help, either. Based on our results, then, we cannot unequivocally recommend filtering alignments in the manner presented here. 
+We found that, while the gap-penalization scheme marginally improved upon the original normalization method, incorporating phylogenetic information into the scoring scheme did not significantly change accuracy in such analyses. Even so, filtering alignments with any Guidance-based method, including the original, did not substantially improve positive selection inference under any circumstance. That the phylogenetically-weighted algorithms did not improve upon the original Guidance algorithm indicated the minimal benefits that filtering in this manner produced at all. Were the original Guidance to offer robust improvements in positive selection detection, one might expect that our more statistically controlled approach would boost the method's performance. However, as we have found that masking individual positions in an alignment only marginally affected positive selection inference in the first place, one might not expect the algorithmic changes we implemented might to have a dramatic effect.
+
+While several other positive selection inference have noted a prevalence of false positive results, we recovered very low false positive rates. The FPRs we detected were very similar to those of Jordan and Goldman \citet{Jordan2011}, yet substantially lower than those detected by Privman et al. \citet{Privman2012}. \textbf{I am very scared to comment on the Guidance paper at all because I don't think I can do it without it seeming like an attack. Any advice here?} We attributed our small FPRs to the fact that we employed simulated sequences, which represents the only strategy to assess methodological accuracy with complete confidence. While though we took strong measures to ensure that our simulated sequences resembled real data to the extent possible, it is impossible for simulated data to fully capture the evolutionary process. Even so, our realistic simulations did indicate that, while alignment filtering offered some benefits, those improvements were marginal, at best. Indeed, with such minimal changes to positive selection inference, alignment filtering could easily decrease accuracy in a given positive selection study.  
+
+Overall, we cannot unequivocally recommend the use of a Guidance-based alignment filter when inferring evolutionary rates. Once an alignment has been constructed, it does not seem that much can be done to eliminate any misleading information. Instead, researchers should select methods in which the chances of misleading information appearing in alignments are minimized as much as possible. Therefore, we recommend that users select high-quality alignment and positive selection inference methods to minimize any obscuring signal rather than relying on filters.
+
 
 \section*{Methods}
 
@@ -156,7 +158,7 @@ We simulated 100 alignments across four different real gene trees each, yielding
 For each simulation set, we directly calculated an indel (insertion-deletion) rates directly from these trees’ original alignments, to use as simulation parameters, by dividing the total number of gaps present by the total number of positions in each alignment. Respectively, indel rates were 0.053, 0.019, 0.0041, and 0.0066. 
 
 \subsection*{Alignment and Positive Selection Inference}
-We constructed all alignments mafft linsi \citep{Katoh2002,Katoh2005} within the context of our Guidance reimplementation. In addition to an unfiltered alignment, we generated six filtered alignments (one for each filtering algorithm and each normalization scheme), masking residues with scores below cutoff of 0.5. We inferred positive selection for every condition using both Fubar \citep{Murrell2013} with default parameters and the Paml's M8 model, specifying $F3\times4$ codon frequency and ``cleandata = 0" in the control file \citep{Yang2007}. We used the phylogeny built during the Guidance alignment procedure as the input phylogeny for selection inference. Therefore, all alignments derived from the same unfiltered alignment were processed with identical phylogenies to remove any potential bias. Note that while we employed Fubar to assess positive selection for all simulation sets, we did not use Paml to infer positive selection for the largest set (158 sequences).
+We constructed all alignments mafft linsi \citep{Katoh2002,Katoh2005} within the context of our Guidance reimplementation. In addition to an unfiltered alignment, we generated six filtered alignments (one for each filtering algorithm and each normalization scheme), masking residues with scores below cutoff of 0.5. We inferred positive selection for every condition using both Fubar \citep{Murrell2013} with default parameters and the Paml's M8 model, specifying $F3\times4$ codon frequency and ``cleandata = 0" in the control file \citep{Yang2007}. We used the phylogeny built during the Guidance alignment procedure as the input phylogeny for selection inference such that all alignments derived from the same unfiltered alignment were processed with identical phylogenies. Note that while we employed Fubar to assess positive selection for all simulation sets, we did not use Paml to infer positive selection for the largest set (158 sequences).
 
 We then compared resulting positive selection inferences for each alignment to its respective true alignment's $dN/dS$ values, given by Indelible during simulation, to assess performance accuracy. As residues may be differently aligned relative to the true simulated alignment, we adopted a consensus method to compare alignments we constructed to the true simulations. We required that at least 50\% of the residues present in a true alignment column be present in an inferred alignment column. If this condition was met, we considered the true alignment column’s $dN/dS$  selection status (negative, neutral, or positive) to be the true value for the given inferred column. We considered sites positively selected if the posterior probability of $(dN/dS>1) \geq 0.9$.
 
@@ -165,22 +167,24 @@ multcomp \citep{Hothorn2008}. All code used is available at \textbf{the github o
 
 
 
-\begin{figure*}
+\begin{figure*}[H]
+\centerline{\includegraphics[width=7in]{Figures/roc.pdf}}
+\caption{\label{roc} ROC curve as averaged across 60-sequence simulation set. A) Unfiltered alignments for Fubar (solid) and Paml (dashed). Note that neither method achieved FPRs greater than shown. B) Fubar in color with Paml results shown in grey. C) Paml in color with Fubar results shown in grey.}
+\end{figure*}
+
+
+
+\begin{figure*}[H]
 \label{tprfpr}
 \centerline{\includegraphics[width=5in]{Figures/tprfpr.pdf}}
-\caption{TPR (left) and FPR (right) for Paml and Fubar unfiltered alignments, averaged across the 60-sequence simulation set. Fubar is shown as a solid line and Paml as a dashed line.}
-\end{figure*}
-
-\begin{figure*}
-\centerline{\includegraphics[width=7in]{Figures/roc.pdf}}
-\caption{\label{roc} ROC curve as averaged across 60-sequence simulation set. Left: paml (dashed) and fubar (solid) unfiltered. Middle: zoomed in fubar with paml greyed out. Right: zoomed in paml with fubar greyed out. In middle and right, unfiltered alignment black. Gap-penalization in blue, original normalization in red.}
+\caption{True and false positive rates recovered from Fubar and Paml analysis with unfiltered alignments, averaged across the 26-sequence and the 60-sequence simulation sets, against the posterior probability threshold used to call sites as positively selected. A) TPR, 26-sequence set. B) FPR, 26-sequence set. C) TPR, 60-sequence set. D) FPR, 60-sequence set.  As the number of sequences increased, Paml's TPR improved at lower posterior probabilities, while its FPR remained remarkably low across all posterior probabilities for both simulation sets. While Fubar's performance did improve with the inclusion of more sequences, its overall TPR behavior did not change as dramatically as did Paml's.}
 \end{figure*}
 
 
 
-\begin{figure*}
+\begin{figure*}[H]
 \centerline{\includegraphics[width=5in]{Figures/fulltpr.pdf}}
-\caption{\label{subtpr} Zoomed in tpr on y-axis, pp cutoff on x axis. Left: fubar with paml greyed out. Right: paml with fubar greyed out. Unfiltered alignment black. Gap-penalization in blue, original normalization in red.}
+\caption{\label{fulltpr} True positive rate against posterior probability threshold for calling positively selected sites, averaged across the 60-sequence simulation set. A) Fubar in color with Paml results shown in grey. B) Paml in color with Fubar results shown in grey. Filtered alignments behave similarly to unfiltered alignments across all posterior probabilities.}
 \end{figure*}
 
 
@@ -194,13 +198,13 @@ Simulation Set & Method & \textit{d} \\
 11 taxa  & Fubar & 0.0007 \\
               & Paml & -0.0005\\
 \hline
-26 taxa   & Fubar & \textbf{0.0018}$^{\ast}$\\
-              & Paml & \textbf{0.0061}$^{\ast\ast}$\\
+26 taxa   & Fubar & 0.0018$^{\ast}$\\
+              & Paml & 0.0061$^{\ast\ast}$\\
 \hline
-60 taxa  & Fubar & \textbf{0.0089}$^{\ast\ast}$ \\
+60 taxa  & Fubar & 0.0089$^{\ast\ast}$ \\
               & Paml & 0.0054  \\
 \hline
-158 taxa & Fubar & \textbf{0.002}$^{\ast\ast}$  \\
+158 taxa & Fubar & 0.002$^{\ast\ast}$  \\
 \hline
 \end{tabular}
 \newline
@@ -210,27 +214,27 @@ Simulation Set & Method & \textit{d} \\
 
 \begin{table}
 \caption {\label{tab:casemodel} Effect of alignment filtering on the true positive rate of positive selection inference.}
-\begin{tabular}{c l l l l l }
+\begin{tabular}{c c c l l l}
 \hline\noalign{\smallskip}
-Simulation Set & Method & Unfiltered & \multicolumn{2}{c}{GuidanceP} & \multicolumn{2}{c}{BMweightsP} & \multicolumn{2}{c}{PDweightsP} \\ 
-\noalign{\smallskip}\hline\noalign{\smallskip}
-11 taxa  & Fubar & 0.108 & 0.109 (1.04\%)   & 0.110 (1.86\%)  & 0.110 (1.37\%)        \\
-              & Paml &  0.087 & 0.088 (0.49\%) &  0.088 (0.83\%)   & 0.088 (0.79\%)        \\
+& & & \multicolumn{3}{c}{Filtered TPR} \\
+\cline{4-6}\noalign{\smallskip}
+Simulation Set & Method & Unfiltered TPR & \multicolumn{1}{c}{GuidanceP} & \multicolumn{1}{c}{BMweightsP} & \multicolumn{1}{c}{PDweightsP} \\ 
+\hline\noalign{\smallskip}
+11 taxa  & Fubar & 0.108 & 0.109  (1.04\%)   & 0.110  (1.86\%)  & 0.110  (1.37\%)        \\
+              & Paml &  0.087 & 0.088  (0.49\%) &  0.088  (0.83\%)   & 0.088  (0.79\%)        \\
 \hline
-26 taxa   & Fubar &  0.229 & 0.232       & 0.233 & 0.233         \\
-              & Paml & 0.194 &\textbf{0.204}$^{\ast}$ &\textbf{0.203}$^{\ast}$ & \textbf{0.203}$^{\ast}$   \\
+26 taxa   & Fubar &  0.229 & 0.232 (1.54\%)  & 0.233 (1.83\%) & 0.233 (1.91\%)         \\
+              & Paml & 0.194 & \textbf{0.204} (4.87\%)$^{\ast}$ & \textbf{0.203} (4.56\%)$^{\ast}$ & \textbf{0.203} (4.58\%)$^{\ast}$   \\
 \hline
-60 taxa  & Fubar & 0.345 & \textbf{0.379}$^{\ast\ast}$ & \textbf{0.377}$^{\ast\ast}$ & \textbf{0.375}$^{\ast\ast}$  \\
-              & Paml & 0.447 & 0.447 & 0.440 & 0.445  \\
+60 taxa  & Fubar & 0.345 & \textbf{0.379} (9.92\%)$^{\ast\ast}$ & \textbf{0.377} (9.31\%)$^{\ast\ast}$ & \textbf{0.375} (8.75\%)$^{\ast\ast}$  \\
+              & Paml & 0.447 & 0.447 (0.19\%) & 0.440 (-1.43\%) & 0.445 (-0.30\%) \\
 \hline
-158 taxa & Fubar & 0.374 & \textbf{0.388}$^{\ast\ast}$ & \textbf{0.387}$^{\ast\ast}$ & \textbf{0.387}$^{\ast\ast}$  \\
+158 taxa & Fubar & 0.374 & \textbf{0.388} (3.89\%)$^{\ast\ast}$ & \textbf{0.387} (3.68\%)$^{\ast\ast}$ & \textbf{0.387} (3.47\%)$^{\ast\ast}$  \\
 \hline
 \end{tabular}
 \newline
-\textsc{note.}--- Significance levels: $^{\ast\ast} P < 1\times10^{-5}$; $^{\ast} P < 1\times10^{-4}$. \textit{Unfiltered}: average true positive rate (TPR) for unfiltered alignments; \textit{GuidanceP}: average true positive rate (TPR) for alignments filtered with GuidanceP algorithm; \textit{BMweightsP}: average TPR for alignments filtered with BMweightsP algorithm; \textit{PDweightsP}: average TPR for alignments filtered with PDweightsP algorithm. All significance levels are relative to the given simulation set's unfiltered alignment. We detected no significant TPR differences among filters tested within sequence simulation sets. All significance levels were corrected for multiple comparisons with the single-step method.
+\textsc{note.}--- Significance levels: $^{\ast\ast} P < 1\times10^{-5}$; $^{\ast} P < 1\times10^{-4}$. \textit{Unfiltered TPR}: average true positive rate (TPR) for unfiltered alignments; \textit{Filtered TPR}: average true positive rate (TPR) for alignments filtered with each respective algorithm, with percent change from unfiltered alignment shown in parentheses. All significance levels are relative to the given simulation set's unfiltered alignment. We detected no significant TPR differences among filters tested within sequence simulation sets. All significance levels were corrected for multiple comparisons with the single-step method.
 \end{table}
-
-
 
 
 

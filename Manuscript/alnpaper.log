@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012) (format=pdflatex 2012.6.30)  18 JAN 2014 12:18
+This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012) (format=pdflatex 2012.6.30)  19 JAN 2014 10:27
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -289,73 +289,79 @@ Underfull \hbox (badness 10000) in paragraph at lines 30--33
 [1
 
 {/usr/local/texlive/2012/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-[2] [3] [4] [5] [6] [7]
-Missing character: There is no â in font cmr10!
-Missing character: There is no € in font cmr10!
-Missing character: There is no ™ in font cmr10!
- [8]
-Missing character: There is no â in font cmr10!
-Missing character: There is no € in font cmr10!
-Missing character: There is no ™ in font cmr10!
- <Figures/tprfpr.pdf, id=42, 794.97pt x 614.295pt>
-File: Figures/tprfpr.pdf Graphic file (type pdf)
+[2] [3] [4] [5]
+Overfull \hbox (7.15465pt too wide) in paragraph at lines 103--104
+\OT1/cmr/m/n/10 We have con-ducted a simulation-based study to eval-u-ate the h
+ow in-tro-duc-ing phylogenetically-
+ []
 
-<use Figures/tprfpr.pdf>
-Package pdftex.def Info: Figures/tprfpr.pdf used on input line 166.
-(pdftex.def)             Requested size: 361.34999pt x 279.23282pt.
- <Figures/roc.pdf, id=43, 794.97pt x 614.295pt>
+
+Overfull \hbox (10.93248pt too wide) in paragraph at lines 103--104
+\OT1/cmr/m/n/10 mal-iz-ing Guid-ance scores, us-ing both the orig-i-nal Guid-an
+ce al-go-rithm and our phylogenetically-
+ []
+
+[6] [7] [8]
+Missing character: There is no â in font cmr10!
+Missing character: There is no € in font cmr10!
+Missing character: There is no ™ in font cmr10!
+Missing character: There is no â in font cmr10!
+Missing character: There is no € in font cmr10!
+Missing character: There is no ™ in font cmr10!
+ [9] <Figures/roc.pdf, id=45, 794.97pt x 614.295pt>
 File: Figures/roc.pdf Graphic file (type pdf)
 
 <use Figures/roc.pdf>
 Package pdftex.def Info: Figures/roc.pdf used on input line 171.
 (pdftex.def)             Requested size: 505.89pt x 390.92596pt.
- <Figures/subtpr.pdf, id=44, 794.97pt x 614.295pt>
-File: Figures/subtpr.pdf Graphic file (type pdf)
+ <Figures/tprfpr.pdf, id=46, 794.97pt x 614.295pt>
+File: Figures/tprfpr.pdf Graphic file (type pdf)
 
-<use Figures/subtpr.pdf>
-Package pdftex.def Info: Figures/subtpr.pdf used on input line 178.
+<use Figures/tprfpr.pdf>
+Package pdftex.def Info: Figures/tprfpr.pdf used on input line 179.
+(pdftex.def)             Requested size: 361.34999pt x 279.23282pt.
+ <Figures/fulltpr.pdf, id=47, 794.97pt x 614.295pt>
+File: Figures/fulltpr.pdf Graphic file (type pdf)
+
+<use Figures/fulltpr.pdf>
+Package pdftex.def Info: Figures/fulltpr.pdf used on input line 186.
 (pdftex.def)             Requested size: 361.34999pt x 279.23282pt.
 
-./alnpaper.tex:211: Extra alignment tab has been changed to \cr.
-<template> \endtemplate 
-                        
-l.211 ...idanceP} & \multicolumn{2}{c}{BMweightsP}
-                                                   & \multicolumn{2}{c}{PDwe...
-You have given more \span or & marks than there were
-in the preamble to the \halign or \valign now in progress.
-So I'll assume that you meant to type \cr instead.
+Overfull \hbox (57.26532pt too wide) in paragraph at lines 217--237
+[][] 
+ []
 
-(./alnpaper.bbl [9] [10 <./Figures/tprfpr.pdf>] [11 <./Figures/roc.pdf>]
-[12 <./Figures/subtpr.pdf>]) [13] [14] (./alnpaper.aux) ) 
+(./alnpaper.bbl [10] [11]) [12] [13 <./Figures/roc.pdf>] [14 <./Figures/tprfpr.
+pdf>] [15 <./Figures/fulltpr.pdf>] [16] (./alnpaper.aux) ) 
 Here is how much of TeX's memory you used:
  3423 strings out of 493488
- 46509 string characters out of 3141326
- 124638 words of memory out of 3000000
+ 46515 string characters out of 3141326
+ 126638 words of memory out of 3000000
  6686 multiletter control sequences out of 15000+200000
  10584 words of font info for 38 fonts, out of 3000000 for 9000
  957 hyphenation exceptions out of 8191
- 38i,9n,32p,1567b,252s stack positions out of 5000i,500n,10000p,200000b,50000s
-</usr/local/texlive/20
-12/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/201
-2/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2012
-/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb></usr/local/texlive/2012/t
-exmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb></usr/local/texlive/2012/t
-exmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2012/te
-xmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2012/tex
-mf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/local/texlive/2012/texmf
--dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2012/texmf-d
-ist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2012/texmf-dis
-t/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2012/texmf-dist/f
-onts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2012/texmf-dist/font
-s/type1/public/amsfonts/cm/cmr9.pfb></usr/local/texlive/2012/texmf-dist/fonts/t
-ype1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2012/texmf-dist/fonts/ty
-pe1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2012/texmf-dist/fonts/type
-1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2012/texmf-dist/fonts/type1/
-public/amsfonts/cm/cmti10.pfb>
-Output written on alnpaper.pdf (14 pages, 362643 bytes).
+ 38i,9n,32p,1679b,262s stack positions out of 5000i,500n,10000p,200000b,50000s
+</usr/local/texlive/2
+012/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/20
+12/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/201
+2/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb></usr/local/texlive/2012/
+texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb></usr/local/texlive/2012/
+texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2012/t
+exmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2012/te
+xmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/local/texlive/2012/texm
+f-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2012/texmf-
+dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2012/texmf-di
+st/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2012/texmf-dist/
+fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2012/texmf-dist/fon
+ts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/texlive/2012/texmf-dist/fonts/
+type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2012/texmf-dist/fonts/t
+ype1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2012/texmf-dist/fonts/typ
+e1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2012/texmf-dist/fonts/type1
+/public/amsfonts/cm/cmti10.pfb>
+Output written on alnpaper.pdf (16 pages, 396630 bytes).
 PDF statistics:
- 216 PDF objects out of 1000 (max. 8388607)
- 158 compressed objects within 2 object streams
+ 234 PDF objects out of 1000 (max. 8388607)
+ 171 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
  16 words of extra memory for PDF output out of 10000 (max. 10000000)
 
