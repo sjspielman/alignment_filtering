@@ -237,37 +237,112 @@ mean(paml2$tprate[paml2$gene=='prk'])
 # 0.4465748
 
 
-## In conclusion, gap penalization wins as a method. However, the magnitude is too small for us to really care.
-## Additionally, using paml is just better. Period. So you have to decide for yourself whether you'd like to wait a week to get a huge increase in your true positive rate or whether you'll settle for slightly less in 10 minutes.
+#######################################################################
+#######################################################################
+#1/21/14. Statistics for fubarmasks.txt. Use only guidance
+
+
+fubar<-read.table('parsed_data/fubarmasks.txt', header=T)
+
+fubarno<-fubar[fubar$penal=='no',]
+fubaryes<-fubar[fubar$penal=='yes',]
+
+
+or5<-fubarno[fubarno$gene=='or5' & fubarno$case=='guidance',]
+model<-lmer(tprate ~ mask + (1|count), data=or5)
+summary(glht(model, linfct=mcp(mask='Tukey')))
+#                        Estimate Std. Error z value Pr(>|z|)
+#ninety - fifty == 0   -0.0013343  0.0010406  -1.282    0.574
+#seventy - fifty == 0  -0.0007321  0.0010406  -0.704    0.896
+#thirty - fifty == 0   -0.0006527  0.0010406  -0.627    0.923
+#seventy - ninety == 0  0.0006022  0.0010406   0.579    0.939
+#thirty - ninety == 0   0.0006816  0.0010406   0.655    0.914
+#thirty - seventy == 0  0.0000794  0.0010406   0.076    1.000
+#
+
+rho<-fubarno[fubarno$gene=='rho' & fubarno$case=='guidance',]
+model<-lmer(tprate ~ mask + (1|count), data=rho)
+summary(glht(model, linfct=mcp(mask='Tukey')))
+#                        Estimate Std. Error z value Pr(>|z|)
+#ninety - fifty == 0   -0.0024751  0.0017741  -1.395    0.502
+#seventy - fifty == 0  -0.0006070  0.0017741  -0.342    0.986
+#thirty - fifty == 0   -0.0021205  0.0017741  -1.195    0.630
+#seventy - ninety == 0  0.0018681  0.0017741   1.053    0.718
+#thirty - ninety == 0   0.0003546  0.0017741   0.200    0.997
+#thirty - seventy == 0 -0.0015135  0.0017741  -0.853    0.829
+#
+
+prk<-fubarno[fubarno$gene=='prk' & fubarno$case=='guidance',]
+model<-lmer(tprate ~ mask + (1|count), data=prk)
+summary(glht(model, linfct=mcp(mask='Tukey')))
+#                       Estimate Std. Error z value Pr(>|z|)  
+#ninety - fifty == 0    0.0002144  0.0041810   0.051   1.0000  
+#seventy - fifty == 0   0.0044146  0.0041810   1.056   0.7164  
+#thirty - fifty == 0   -0.0058765  0.0041810  -1.406   0.4958  
+#seventy - ninety == 0  0.0042002  0.0041810   1.005   0.7467  
+#thirty - ninety == 0  -0.0060909  0.0041810  -1.457   0.4639  
+#thirty - seventy == 0 -0.0102911  0.0041810  -2.461   0.0661 .
+#
+
+
+flat<-fubarno[fubarno$gene=='flat' & fubarno$case=='guidance',]
+model<-lmer(tprate ~ mask + (1|count), data=flat)
+summary(glht(model, linfct=mcp(mask='Tukey')))
+#                        Estimate Std. Error z value Pr(>|z|)
+#ninety - fifty == 0   -0.0023608  0.0018757  -1.259    0.589
+#seventy - fifty == 0  -0.0017052  0.0018757  -0.909    0.800
+#thirty - fifty == 0   -0.0037939  0.0018757  -2.023    0.180
+#seventy - ninety == 0  0.0006556  0.0018757   0.350    0.985
+#thirty - ninety == 0  -0.0014331  0.0018757  -0.764    0.871
+#thirty - seventy == 0 -0.0020887  0.0018757  -1.114    0.681
+#
 
 
 
+or5<-fubaryes[fubaryes$gene=='or5' & fubaryes$case=='guidance',]
+model<-lmer(tprate ~ mask + (1|count), data=or5)
+summary(glht(model, linfct=mcp(mask='Tukey')))
+#                        Estimate Std. Error z value Pr(>|z|)
+#ninety - fifty == 0   -0.0054483  0.0013868  -3.929   <0.001 ***
+#seventy - fifty == 0   0.0008047  0.0013868   0.580   0.9380    
+#thirty - fifty == 0   -0.0012015  0.0013868  -0.866   0.8222    
+#seventy - ninety == 0  0.0062530  0.0013868   4.509   <0.001 ***
+#thirty - ninety == 0   0.0042468  0.0013868   3.062   0.0117 *  
+#thirty - seventy == 0 -0.0020062  0.0013868  -1.447   0.4701 
+#
 
+rho<-fubaryes[fubaryes$gene=='rho' & fubaryes$case=='guidance',]
+model<-lmer(tprate ~ mask + (1|count), data=rho)
+summary(glht(model, linfct=mcp(mask='Tukey')))
+#                        Estimate Std. Error z value Pr(>|z|)
+#ninety - fifty == 0   -1.227e-02  2.444e-03  -5.019   <1e-05 ***
+#seventy - fifty == 0   4.501e-04  2.444e-03   0.184    0.998    
+#thirty - fifty == 0    3.657e-04  2.444e-03   0.150    0.999    
+#seventy - ninety == 0  1.272e-02  2.444e-03   5.203   <1e-05 ***
+#thirty - ninety == 0   1.263e-02  2.444e-03   5.169   <1e-05 ***
+#thirty - seventy == 0 -8.434e-05  2.444e-03  -0.035    1.000 
+#
 
+prk<-fubaryes[fubaryes$gene=='prk' & fubaryes$case=='guidance',]
+model<-lmer(tprate ~ mask + (1|count), data=prk)
+summary(glht(model, linfct=mcp(mask='Tukey')))
+#                        Estimate Std. Error z value Pr(>|z|)
+#ninety - fifty == 0   -0.097899   0.006476 -15.117   <1e-05 ***
+#seventy - fifty == 0  -0.007154   0.006476  -1.105    0.687    
+#thirty - fifty == 0   -0.003138   0.006476  -0.485    0.963    
+#seventy - ninety == 0  0.090745   0.006476  14.012   <1e-05 ***
+#thirty - ninety == 0   0.094761   0.006476  14.632   <1e-05 ***
+#thirty - seventy == 0  0.004016   0.006476   0.620    0.926   
+#
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-########## THE REST IS JUST IN CASE I EVER DO RESEARCH AGAIN.
-#### IN CASE EVER NEED TO DO AN INTERACTION WITH MULTCOMP, JUST MAKE AN INTERACTION VARIABLE.
-#int<-interaction(or5$penal, or5$case)
-#model<-lmer(tprate ~  int+(1|count), data=or5)
-#summary(glht(model, linfct=mcp(int='Tukey')))
-
-
-
-
-
+flat<-fubaryes[fubaryes$gene=='flat' & fubaryes$case=='guidance',]
+model<-lmer(tprate ~ mask + (1|count), data=flat)
+summary(glht(model, linfct=mcp(mask='Tukey')))
+#                        Estimate Std. Error z value Pr(>|z|)
+#ninety - fifty == 0   -0.0138726  0.0026145  -5.306   <1e-06 ***
+#seventy - fifty == 0  -0.0002597  0.0026145  -0.099    1.000    
+#thirty - fifty == 0    0.0010929  0.0026145   0.418    0.975    
+#seventy - ninety == 0  0.0136128  0.0026145   5.207   <1e-06 ***
+#thirty - ninety == 0   0.0149655  0.0026145   5.724   <1e-06 ***
+#thirty - seventy == 0  0.0013527  0.0026145   0.517    0.955 
+#
