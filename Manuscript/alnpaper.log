@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012) (format=pdflatex 2012.6.30)  21 JAN 2014 15:27
+This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012) (format=pdflatex 2012.6.30)  21 JAN 2014 15:47
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -328,12 +328,12 @@ File: Figures/fulltpr.pdf Graphic file (type pdf)
 Package pdftex.def Info: Figures/fulltpr.pdf used on input line 186.
 (pdftex.def)             Requested size: 505.89pt x 390.92596pt.
 
-Overfull \hbox (30.37688pt too wide) in paragraph at lines 194--212
+Overfull \hbox (32.46022pt too wide) in paragraph at lines 194--212
 [][] 
  []
 
 
-Overfull \hbox (57.26532pt too wide) in paragraph at lines 217--237
+Overfull \hbox (59.34865pt too wide) in paragraph at lines 217--237
 [][] 
  []
 
@@ -346,7 +346,7 @@ Here is how much of TeX's memory you used:
  6686 multiletter control sequences out of 15000+200000
  10584 words of font info for 38 fonts, out of 3000000 for 9000
  957 hyphenation exceptions out of 8191
- 38i,9n,32p,1567b,260s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 38i,9n,32p,1567b,258s stack positions out of 5000i,500n,10000p,200000b,50000s
 </usr/local
 /texlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/
 texlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/t
@@ -364,7 +364,7 @@ ist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2012/texmf-di
 st/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2012/texmf-dist
 /fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2012/texmf-dist/f
 onts/type1/public/amsfonts/cm/cmti10.pfb>
-Output written on alnpaper.pdf (20 pages, 394438 bytes).
+Output written on alnpaper.pdf (20 pages, 395289 bytes).
 PDF statistics:
  247 PDF objects out of 1000 (max. 8388607)
  180 compressed objects within 2 object streams
