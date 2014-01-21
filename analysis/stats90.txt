@@ -10,55 +10,95 @@ paml<-read.table('parsed_data/paml90.txt', header=T)
 
 
 
-########### Here, do models without the reference alignment in order to determine if our next model should be penalyes or penalno
+########### Here, do models without the reference alignment in order to determine if our next model should be penalyes or penalno.
+### These are no random effects.
+
 fubar2<-fubar[fubar$penal!='zero',]
 paml2<-paml[paml$penal!='zero',]
+K<-rbind(c(1,0,0), c(1,1,0), c(1,0,1))
+alg<-rep(c('g','bm','pd'),100)
+
+
 
 or5<-fubar2[fubar2$gene=='or5',]
-model<-lmer(tprate ~  penal+(1|count), data=or5)
-summary(glht(model, linfct=mcp(penal="Tukey")))
-#              Estimate Std. Error z value Pr(>|z|)   
-#yes - no == 0 0.0006977  0.0004972   1.403    0.161
+diff<-or5$tprate[or5$penal=='yes'] - or5$tprate[or5$penal=='no'] ## ordered g,bm,pd
+model<-lm(diff ~ alg)
+summary(glht(model,linfct=K))
+#          Estimate  Std. Error t value Pr(>|t|)
+#1 == 0  0.00107437  0.00086434   1.243    0.515
+#2 == 0 -0.00001762  0.00086434  -0.020    1.000
+#3 == 0  0.00103626  0.00086434   1.199    0.545
+#
+
+
 
 rho<-fubar2[fubar2$gene=='rho',]
-model<-lmer(tprate ~  penal+(1|count), data=rho)
-summary(glht(model, linfct=mcp(penal="Tukey")))
-#              Estimate Std. Error z value Pr(>|z|)   
-#yes - no == 0 0.0017997  0.0009276    1.94   0.0524 .
+diff<-rho$tprate[rho$penal=='yes'] - rho$tprate[rho$penal=='no'] ## ordered g,bm,pd
+model<-lm(diff ~ alg)
+summary(glht(model,linfct=K))
+#        Estimate Std. Error t value Pr(>|t|)
+#1 == 0 0.0032104  0.0016704   1.922    0.157
+#2 == 0 0.0004017  0.0016704   0.241    0.993
+#3 == 0 0.0017871  0.0016704   1.070    0.634
+#
+
+
 
 prk<-fubar2[fubar2$gene=='prk',]
-model<-lmer(tprate ~  penal+(1|count), data=prk)
-summary(glht(model, linfct=mcp(penal="Tukey")))
-#              Estimate Std. Error z value Pr(>|z|)    
-#yes - no == 0 0.008895   0.001794   4.958 7.12e-07 ***
+diff<-prk$tprate[prk$penal=='yes'] - prk$tprate[prk$penal=='no'] ## ordered g,bm,pd
+model<-lm(diff ~ alg)
+summary(glht(model,linfct=K))
+#        Estimate Std. Error t value Pr(>|t|)
+#1 == 0 0.009771   0.003444   2.837  0.01452 * 
+#2 == 0 0.012107   0.003444   3.515  0.00152 **
+#3 == 0 0.004807   0.003444   1.396  0.41459  
+#
+
 
 flat<-fubar2[fubar2$gene=='flat',]
-model<-lmer(tprate ~  penal+(1|count), data=flat)
-summary(glht(model, linfct=mcp(penal="Tukey")))
-#              Estimate Std. Error z value Pr(>|z|)   
-#yes - no == 0 0.0019925  0.0009264   2.151   0.0315 *
+diff<-flat$tprate[flat$penal=='yes'] - flat$tprate[flat$penal=='no'] ## ordered g,bm,pd
+model<-lm(diff ~ alg)
+summary(glht(model,linfct=K))
+#      Estimate Std. Error t value Pr(>|t|)
+#1 == 0 0.003038   0.001825   1.664    0.263
+#2 == 0 0.001848   0.001825   1.012    0.674
+#3 == 0 0.001092   0.001825   0.598    0.909
+#
 
 
 or5<-paml2[paml2$gene=='or5',]
-model<-lmer(tprate ~  penal+(1|count), data=or5)
-summary(glht(model, linfct=mcp(penal="Tukey")))
-#               Estimate Std. Error z value Pr(>|z|)
-#yes - no == 0 -0.0005212  0.0008347  -0.624    0.532
+diff<-or5$tprate[or5$penal=='yes'] - or5$tprate[or5$penal=='no'] ## ordered g,bm,pd
+model<-lm(diff ~ alg)
+summary(glht(model,linfct=K))
+#          Estimate  Std. Error t value Pr(>|t|)
+#1 == 0 -0.00026838  0.00116098  -0.231    0.994
+#2 == 0  0.00002574  0.00116098   0.022    1.000
+#3 == 0 -0.00132099  0.00116098  -1.138    0.588
+#
+
+
+
 
 rho<-paml2[paml2$gene=='rho',]
-model<-lmer(tprate ~  penal+(1|count), data=rho)
-summary(glht(model, linfct=mcp(penal="Tukey")))
-#              Estimate Std. Error z value Pr(>|z|)    
-#yes - no == 0 0.006069   0.000953   6.368 1.91e-10 ***
+diff<-rho$tprate[rho$penal=='yes'] - rho$tprate[rho$penal=='no'] ## ordered g,bm,pd
+model<-lm(diff ~ alg)
+summary(glht(model,linfct=K))
+#       Estimate Std. Error t value Pr(>|t|)   
+#1 == 0 0.005947   0.002074   2.868  0.01321 * 
+#2 == 0 0.006550   0.002074   3.159  0.00523 **
+#3 == 0 0.005711   0.002074   2.754  0.01861 * 
+#
 
 
 prk<-paml2[paml2$gene=='prk',]
-model<-lmer(tprate ~  penal+(1|count), data=prk)
-summary(glht(model, linfct=mcp(penal="Tukey")))
-#              Estimate Std. Error z value Pr(>|z|)    
-#yes - no == 0 0.005351   0.003855   1.388    0.165
-
-
+diff<-prk$tprate[prk$penal=='yes'] - prk$tprate[prk$penal=='no'] ## ordered g,bm,pd
+model<-lm(diff ~ alg)
+summary(glht(model,linfct=K))
+#        Estimate Std. Error t value Pr(>|t|)
+#1 == 0 -0.001995   0.008208  -0.243    0.993
+#2 == 0  0.010010   0.008208   1.220    0.531
+#3 == 0  0.008039   0.008208   0.979    0.696
+#
 
 ############################################################################
 ### Penalization does NOT win all the time. But if/when something is significant, penal is better. Thus, let's go with that.
