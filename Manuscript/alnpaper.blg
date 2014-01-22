@@ -5,10 +5,12 @@ The style file: MBE.bst
 Database file #1: citations.bib
 Warning--entry type for "Notredame2000" isn't style-file defined
 --line 153 of file citations.bib
+Warning--I didn't find a database entry for "Bush1999"
+Warning--I didn't find a database entry for "Kryazhimskiy2008"
 Warning--empty title in Edgar2004
 You've used 34 entries,
             2931 wiz_defined-function locations,
-            820 strings with 10747 characters,
+            824 strings with 10795 characters,
 and the built_in function-call counts, 30029 in all, are:
 = -- 2667
 > -- 882
@@ -47,4 +49,4 @@ warning$ -- 1
 while$ -- 258
 width$ -- 0
 write$ -- 442
-(There were 2 warnings)
+(There were 4 warnings)
