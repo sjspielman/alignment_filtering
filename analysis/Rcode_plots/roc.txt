@@ -1,5 +1,5 @@
 # use this file to make the curves less awkward
-#fubar <- read.table('../parsed_data/fubarsweep_prk_no0.txt', header=T)
+fubar <- read.table('../parsed_data/fubarsweep_prk_no0.txt', header=T)
 paml  <- read.table('../parsed_data/pamlsweep_prk_no0.txt', header=T) 
 
 cuts<-c(0:200)
@@ -9,7 +9,7 @@ prefixp<-c('guidance_p', 'BMweights_p', 'PDweights_p')
 prefix<-c('guidance', 'BMweights', 'PDweights')
 allpre<-c(prefix, prefixp)
 
-pdf('roc.pdf', width=8, height=3)
+pdf('roc_raw.pdf', width=8, height=3)
 
 par(mfrow=c(1,3))
 
@@ -35,7 +35,7 @@ for (x in cuts){
 	meanfp<-c(meanfp, fp)
 }
 lines(meanfp, meantp, type="l", lwd=2, lty=1)
-legend('bottomright', inset=c(0.04, 0.04), lty=c(1,3), lwd=2, c('Paml', 'Fubar'), box.col=NA)
+legend('bottomright', inset=c(0.04, 0.04), lty=c(3,1), lwd=2, c('FUBAR', 'PAML'), box.col=NA)
 
 
 
@@ -53,7 +53,7 @@ for (x in cuts){
 	fp<-mean(var$fprate[var$cutoff==x])
 	meanfp<-c(meanfp, fp)
 }
-plot(meanfp, meantp, type="l", col='grey50', lwd=2, ylab='True Positive Rate', xlab='False Positive Rate', xlim=c(0,0.05), cex.lab=1.2,ylim=c(0,1), frame.plot=F, main='Fubar')
+plot(meanfp, meantp, type="l", col='grey50', lwd=2, ylab='True Positive Rate', xlab='False Positive Rate', xlim=c(0,0.05), cex.lab=1.2,ylim=c(0,1), frame.plot=F)
 # Plot the nonp algorithms	
 for (pre in allpre){
 	meantp<-c()
@@ -131,7 +131,7 @@ for (x in cuts){
 	fp<-mean(var$fprate[var$cutoff==x])
 	meanfp<-c(meanfp, fp)
 }
-plot(meanfp, meantp, type="l", col='grey50', lwd=2, ylab='True Positive Rate', xlab='False Positive Rate', xlim=c(0,0.05), cex.lab=1.2,ylim=c(0,1), frame.plot=F, main='Paml')
+plot(meanfp, meantp, type="l", col='grey50', lwd=2, ylab='True Positive Rate', xlab='False Positive Rate', xlim=c(0,0.05), cex.lab=1.2,ylim=c(0,1), frame.plot=F)
 # Plot the penal algorithms	
 for (pre in allpre){
 	meantp<-c()
