@@ -11,7 +11,7 @@ def parse_args():
             dest="bootstraps", default=10)
     parser.add_argument("-alphabet", help="Whether AAs or NTs are used", type=str,
             default="AA", required=False) ##AA or NT, default is AA
-    ## Gap penalization is now hard-coded by default in accordance wiht the original runs
+    ## Gap penalization is now hard-coded by default in accordance with the original runs
     ## parser.add_argument("-gaps", help="Type of gap penalization", default=0,
     ##        type=int, dest="pflag")
 
