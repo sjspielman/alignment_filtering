@@ -18,7 +18,13 @@ from Bio import SeqIO, AlignIO
 from Bio.Align import MultipleSeqAlignment
 
 from numpy import *
-import os, fnmatch, re, subprocess, sys, shutil
+import os
+import fnmatch
+import re
+import subprocess
+import sys
+import shutil
+import argparse
 
 
 ######################################################################################
@@ -168,4 +174,15 @@ for file in bootfiles:
 
 
 
-	
+def parse_args():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("protein_file", help="A file containing unaligned AA sequences in FASTA format", required=False, dest="infile", type=str)
+    parser.add_argument("protein_format", help="Specifies the format of the input file (fasta or nex", dest=form, type=str, default="fasta")
+    parser.add_argument("num_procs", type=int, help="Number of processes to use", default=1)
+    parser.add_argument("bootstraps", help="The number of bootstraps to perform", required=False,
+    					dest="bootstraps", default=10)
+    parser.add_argument("alphabet", help="Whether AAs or NTs are used", type=str,
+    					default="AA", required=False) ##AA or NT, default is AA
+    parser.add_argument("gap_penalization", help="Type of gap penalization", default=0,
+    					type=int, dest="pflag")
+    args = parser.parse_args()

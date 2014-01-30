@@ -19,7 +19,7 @@ class Aligner:
 	
 	
 	def multiMakeAlignmentsGT(self, prealn_file, n, numprocesses):
-		'''Yes, this function is clunky, but only because multiprocessing.pool does not work when inside a class. hence, workaround.'''
+		'''This function creates a pool of processes and then executes them on one fewer CPU cores than the machine has.'''
 		if numprocesses=='':
 			numprocesses=multiprocessing.cpu_count() - 1 # leave a spare, you never know..		
 		jobs=[]		
@@ -277,17 +277,4 @@ class MuscleAligner(Aligner):
 		outaln.close()
 		return 0
 				
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
 
-		
-		
