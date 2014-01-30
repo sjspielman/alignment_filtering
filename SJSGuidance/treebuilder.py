@@ -1,7 +1,5 @@
-import subprocess, os, sys, re, csv, shutil
-from dendropy import *
-from dendropy import TaxonSet, Tree, TreeList
-from Bio import SeqIO
+import subprocess
+from dendropy import Tree, treecalc
 from random import randint
 
 
@@ -10,8 +8,7 @@ class TreeBuilder:
 		'''initialization function'''
 		return
 		
-		
-
+	
 class builderFastTree(TreeBuilder):
 
 	def __init__(self, executable, options):

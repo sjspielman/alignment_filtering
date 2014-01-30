@@ -1,16 +1,17 @@
-import subprocess, os, sys, re, csv, shutil
-from dendropy import *
-from dendropy import TaxonSet, Tree, TreeList
-from Bio import SeqIO, AlignIO
-from numpy import *
+import subprocess
+import re
+import shutil
+from dendropy import Tree, treecalc
+from Bio import AlignIO
+
 
 class WeightTreeBuilder:
 	def __init__(self):
 		'''initialization function'''
 		return
 
-	def killPolytomyDendro(self, infile):
-		'''actually removes polytomies, except branchmanager is a beotch.'''
+	def rmPolytomy(self, infile):
+		'''Changes polytomies to branch length=0 using DendroPy. Useful for BranchManager, but we should be consistent and use for all weighted scoring.'''
 		rawtree = Tree(stream=open(infile), schema="newick")
 		rawtree.resolve_polytomies(update_splits=True)
 		newtree=str(rawtree)
@@ -23,8 +24,11 @@ class WeightTreeBuilder:
 		return 0
 		
 	
-	def BMweights(self, treefile, weightfile):
+	def calcBMweights(self, treefile, weightfile):
 		'''uses BranchManager to get phylogenetic weights and processes output for later use in scoring function'''
+		
+		self.rmPolytomy(treefile)
+		
 		callBM = 'java -cp BranchManager.jar BM '+treefile+' > '+weightfile
 		runBM = subprocess.call(str(callBM), shell='True')
 		
@@ -48,7 +52,10 @@ class WeightTreeBuilder:
 		
 		return ordered_weights		
 		
-	def PDweights(self, treefile, matrixfile, numseq):
+	def calcPDweights(self, treefile, matrixfile, numseq):
+		
+		self.rmPolytomy(treefile)
+		
 		tree=Tree.get_from_path(treefile, 'newick')
 		patmat=treecalc.PatristicDistanceMatrix(tree)
 		pat_dict={}
@@ -78,14 +85,14 @@ class WeightTreeBuilder:
 		
 
 	
-class scoreTreeRAxML(WeightTreeBuilder):	
-	'''Does both branchmananger weights and patristic distance matrix.'''	
+class weightTreeRAxML(WeightTreeBuilder):	
+	'''Build phylogeny from which to calculate phylogenetic weights using RAxML'''	
 	def __init__(self, executable, options):
 		self.executable = executable
 		self.options = options
 		
 	def buildScoreTree(self, alnfile, treefile):
-		print "Building Scoring Tree with RAxML using amino acid data"
+		print "Building Weighting Tree with RAxML using amino acid data"
 		
 		## Convert alignment to phylip for fasta input
 		aln = AlignIO.read(alnfile, 'fasta')
@@ -94,25 +101,22 @@ class scoreTreeRAxML(WeightTreeBuilder):
 		BuildTree=self.executable+' '+self.options+' -s temp.phy -n out'
 		subprocess.call(BuildTree, shell=True)
 		shutil.move('RAxML_result.out', treefile)
-		subprocess.call('rm RAxML*', shell=True)
+		subprocess.call('rm RAxML*', shell=True) #Removes the extra files RAxML produces when constructing phylogenies
 	
 		return 0
 	
 	
 	
-class scoreTreeFastTree(WeightTreeBuilder):	
-	'''Does both branchmananger weights and patristic distance matrix.'''	
+class weightTreeFastTree(WeightTreeBuilder):	
+	'''Build phylogeny from which to calculate phylogenetic weights using FastTree'''	
 	def __init__(self, executable, options):
 		self.executable = executable
 		self.options = options
 
 	def buildScoreTree(self, alnfile, treefile):
-		print "Building Scoring Tree with FastTree (-slow)"
+		print "Building Weighting Tree with FastTree"
 		BuildTree=self.executable+' '+self.options+' -nosupport '+alnfile+' > '+treefile
 		subprocess.call(BuildTree, shell=True)
-		
-		dist_matrix= self.getPatristic(treefile, matrixfile, numseq)
-		ordered_weights = self.findWeights(treefile, weightfile)
 		
 		return 0
 

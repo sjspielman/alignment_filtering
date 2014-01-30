@@ -102,28 +102,6 @@ prealn_file='prealn.fasta'
 refaln_file='refaln.fasta'
 ##########
 
-##########################################################################################
-###########   DON'T CHANGE ANY OF THE FOLLOWING IN HERE. EVER. I'M SERIOUS.  #############
-
-### each module is (executable, options) ####
-
-# Aligner
-###amod = MuscleAligner("muscle", " -quiet ")
-amod = MafftAligner("mafft", " --quiet ")
-###amod = ClustalAligner("clustalw2", " -quiet ")
-
-# Tree builder (bootstrap trees)
-tmod=builderFastTree("FastTree", " -fastest -nosupport -quiet ") # -nosupport MUST be there
-###tmod=builderSemphy("../semphy/semphy", " -a 20 --jtt -H -J -v 5 --BPrepeats=100 ") ## MUST BE -v 5
-
-# if weighted algorithm, wtmod needed
-wtmod=scoreTreeRAxML("raxmlHPC", " -m PROTCATWAG ")	
-mapmod = Map()
-smod = Scorer()
-bmod = AllBootstrapper(amod, tmod, wtmod, smod)
-mmod = Masker(bmod)
-
-
 
 #User files
 unaligned='protein.fasta' ## Relative path to file you want to file. Should contain unaligned sequences in FASTA FORMAT.
@@ -142,6 +120,27 @@ pflag = 0; # First, I'm hilarious. Second, 0=no gap penalization, 1=gap penaliza
 
 finalaln_file_nuc = 'aln_nuc.fasta'
 finalaln_file_aa  = 'aln_aa.fasta'
+##########################################################################################
+###########   DON'T CHANGE ANY OF THE FOLLOWING IN HERE. EVER. I'M SERIOUS.  #############
+
+### each module is (executable, options) ####
+
+# Aligner
+amod = MafftAligner("mafft", " --quiet ")
+###amod = MuscleAligner("muscle", " -quiet ")
+###amod = ClustalAligner("clustalw2", " -quiet ")
+
+# Tree builder (bootstrap trees)
+tmod=builderFastTree("FastTree", " -fastest -nosupport -quiet ") # -nosupport MUST be there
+###tmod=builderSemphy("../semphy/semphy", " -a 20 --jtt -H -J -v 5 --BPrepeats=100 ") ## MUST BE -v 5
+
+# if weighted algorithm, wtmod needed
+wtmod=scoreTreeRAxML("raxmlHPC", " -m PROTCATWAG ")	
+mapmod = Map()
+smod = Scorer()
+bmod = Bootstrapper(amod, tmod)
+mmod = Masker(bmod)
+
 
 # Create map for sequences (required for mafft aligner, but can keep for all. doesn't waste time.)
 map=mapmod.ids2int(unaligned, 'fasta', prealn_file)
@@ -149,12 +148,30 @@ map=mapmod.ids2int(unaligned, 'fasta', prealn_file)
 # Build initial MSA
 amod.makeAlignment(prealn_file, refaln_file)
 	
+# If user specified either PDweights or BMweights, build a weighting phylogeny and calculate the phylogenetic weights for use in scoring
+if not Guidance:
+	wtmod.buildScoreTree(refaln_file, weightTree_file)
 
-# Make alignments, trees, and calculate scores
-finalscore_fileG = 'gscores.txt'
-finalscore_fileBM='bmscores.txt'
-finalscore_filePD='pdscores.txt'
-(numseq, alnlen, gscores)=bmod.runBootstrap(BootDir, prealn_file, refaln_file, pflag, n, nproc, finalscore_fileG, finalscore_fileBM, finalscore_filePD)	
+# Bootstrap
+bmod.bootstrap(BootDir, prealn_file, refaln_file, n, numprocesses)
+
+
+## something about pflag????
+if Guidance:
+	gscore_file = 'Guidance_scores.txt'
+if BMweights:
+	bmscore_file = 'BMweights_scores.txt'
+if PDweights:
+	pdscore_file = 'PDweights_scores.txt'
+
+
+
+
+
+
+
+
+
 
 #residue masking and pal2nal
 totalmasked=mmod.maskResidues(refaln_file, numseq, alnlen, gscores, x, map, 'fasta', finalaln_file_aa, 'protein', i, save_x_file, 'pat')

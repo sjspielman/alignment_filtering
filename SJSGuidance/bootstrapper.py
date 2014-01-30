@@ -8,7 +8,9 @@ class Bootstrapper(object):
 		self.aligner = aligner
 		self.tree_builder = tree_builder
 	
-	def bootstrap( self, prealn, refMSA_file, n, numprocesses):
+	def bootstrap( self, BootDir, prealn_file, refMSA_file, n, numprocesses):
+		
+		os.chdir(BootDir)
 		
 		# Obtain reference alignment, as well as number of sequences and length of alignment
 		refaln_seq=[]
@@ -33,7 +35,7 @@ class Bootstrapper(object):
 	
 		# Create the boostrapped alignments, using the bootstrapped trees		
 		print "Building bootstrap alignments"
-		self.aligner.multiMakeAlignmentsGT(prealn, n, numprocesses)
+		self.aligner.multiMakeAlignmentsGT(prealn_file, n, numprocesses)
 		
 		return(numseq, alnlen)
 		
@@ -46,11 +48,11 @@ class guidanceBootstrapper(Bootstrapper):
 		'''initialization function'''
 		super(guidanceBootstrapper, self).__init__(aligner, tree_builder)
 
-	def runBootstrap(self, BootDir, prealn, refMSA_file, pflag, n, numprocesses):
+	def runBootstrap(self, BootDir, prealn_file, refMSA_file, pflag, n, numprocesses):
 		os.chdir(BootDir)
 		
 		# Call bootstrapper
-		(numseq, alnlen) = self.bootstrap(prealn, refMSA_file, n, numprocesses)
+		(numseq, alnlen) = self.bootstrap(prealn_file, refMSA_file, n, numprocesses)
 
 		return(numseq, alnlen)
 
@@ -63,21 +65,22 @@ class bmBootstrapper(Bootstrapper):
 		self.weight_tree_builder = weight_tree_builder
 		super(bmBootstrapper, self).__init__(aligner, tree_builder)
 		
-	def runBootstrap(self, BootDir, prealn, refMSA_file, pflag, n, numprocesses): 
+	def runBootstrap(self, BootDir, prealn_file, refMSA_file, pflag, n, numprocesses): 
 		
-		# Create the scoring tree
+		# Create the scoring tree. Remove polytomies from scoring tree as BranchManager requires fully bifurcating trees
 		weightfile='weightfile.txt'
-		scoreTree_file = 'scoring_tree.tre'
-		self.weight_tree_builder.buildScoreTree(refMSA_file, scoreTree_file)
-		ordered_weights = self.weight_tree_builder.calcBMweights(scoreTree_file, weightfile)
+		weightTree_file = 'weighting_tree.tre'
+		self.weight_tree_builder.buildScoreTree(refMSA_file, weightTree_file)
+		self.weight_tree_builder.rmPolytomy(weightTree_file)
+		ordered_weights = self.weight_tree_builder.calcBMweights(weightTree_file, weightfile)
 
 		shutil.copy(weightfile, BootDir)
 		shutil.copy(refaln_file, BootDir)
-		shutil.copy(prealn_file, BootDir)
+		shutil.copy(prealn_file_file, BootDir)
 		os.chdir(BootDir)		
 		
 		# Call bootstrapper
-		(numseq, alnlen) = self.bootstrap(prealn, refMSA_file, n, numprocesses)
+		(numseq, alnlen) = self.bootstrap(prealn_file, refMSA_file, n, numprocesses)
 
 		return(numseq, alnlen)
 		
@@ -89,25 +92,25 @@ class pdBootstrapper(Bootstrapper):
 	def __init__(self, aligner, tree_builder, weight_tree_builder):
 		'''initialization function'''
 		self.weight_tree_builder = weight_tree_builder
-		super(patristicBootstrapper, self).__init__(aligner, tree_builder)
+		super(PDBootstrapper, self).__init__(aligner, tree_builder)
 		
 		
-	def runBootstrap(self, BootDir, prealn, refMSA_file, pflag, n, numprocesses): 
+	def runBootstrap(self, BootDir, prealn_file, refMSA_file, pflag, n, numprocesses): 
 		
 		# Create the scoring tree
 		dist_matrix_file='dist_matrix.txt'
-		scoreTree_file = 'scoring_tree.tre'
+		weightTree_file = 'weighting_tree.tre'
 		
-		self.weight_tree_builder.buildScoreTree(refMSA_file, scoreTree_file)	
-		dist_matrix = self.weight_tree_builder.calcPDweights(scoreTree_file, dist_matrix_file, numseq)
+		self.weight_tree_builder.buildScoreTree(refMSA_file, weightTree_file)	
+		dist_matrix = self.weight_tree_builder.calcPDweights(weightTree_file, dist_matrix_file, numseq)
 		
 		shutil.copy(dist_matrix_file, BootDir)
 		shutil.copy(refaln_file, BootDir)
-		shutil.copy(prealn_file, BootDir)
+		shutil.copy(prealn_file_file, BootDir)
 		os.chdir(BootDir)
 		
 		# Call bootstrapper
-		(numseq, alnlen) = self.bootstrap(prealn, refMSA_file, n, numprocesses)
+		(numseq, alnlen) = self.bootstrap(prealn_file, refMSA_file, n, numprocesses)
 
 		return(numseq, alnlen)
 				
@@ -115,32 +118,34 @@ class pdBootstrapper(Bootstrapper):
 		
 		
 		
-class AllBootstrapper(Bootstrapper):
-	'''Score with all algorithms.'''
+class WeightedBootstrapper(Bootstrapper):
+	'''Bootstrap for both BMweights and PDweights.'''
 	
 	def __init__(self, aligner, tree_builder, weight_tree_builder):
 		'''initialization function'''
 		self.weight_tree_builder = weight_tree_builder
-		super(AllBootstrapper, self).__init__(aligner, tree_builder)	
+		super(WeightedBootstrapper, self).__init__(aligner, tree_builder)	
 		
-	def runBootstrap(self, BootDir, prealn, refMSA_file, pflag, n, numprocesses): 
+	def runBootstrap(self, BootDir, prealn_file, refMSA_file, pflag, n, numprocesses): 
 		
-		# Create the scoring tree
+		# Create the scoring tree. Remove polytomies as BranchManager requires fully bifurcating. As both BMweights and PDweights here, should be consistent and use the same non-polytomy tree for both
 		dist_matrix_file = 'dist_matrix_file.txt'
 		weightfile = 'weightfile.txt'
-		scoreTree_file = 'scoring_tree.tre'
-		buildScoreTree(refMSA_file, scoreTree_file)
-		ordered_weights = self.weight_tree_builder.calcBMweights(scoreTree_file, weightfile)
-		dist_matrix = self.weight_tree_builder.calcPDweights(scoreTree_file, dist_matrix_file, numseq)
+		weightTree_file = 'weighting_tree.tre'
+		
+		self.weight_tree_builder.buildScoreTree(refMSA_file, weightTree_file)
+		self.weight_tree_builder.rmPolytomy(weightTree_file)
+		ordered_weights = self.weight_tree_builder.calcBMweights(weightTree_file, weightfile)
+		dist_matrix = self.weight_tree_builder.calcPDweights(weightTree_file, dist_matrix_file, numseq)
 		
 		shutil.copy(weightfile, BootDir)
 		shutil.copy(dist_matrix_file, BootDir)
 		shutil.copy(refaln_file, BootDir)
-		shutil.copy(prealn_file, BootDir)
+		shutil.copy(prealn_file_file, BootDir)
 		os.chdir(BootDir)
 		
 		# Call bootstrapper
-		(numseq, alnlen) = self.bootstrap(prealn, refMSA_file, n, numprocesses)
+		(numseq, alnlen) = self.bootstrap(prealn_file, refMSA_file, n, numprocesses)
 	
 		return(numseq, alnlen)
 			
