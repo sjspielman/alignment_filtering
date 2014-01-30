@@ -8,8 +8,9 @@ from Bio.SeqRecord import SeqRecord
 import re
 
 class Masker:
-	def __init__(self):
+	def __init__(self, bootstrapper):
 		'''initialization function'''
+		self.bootstrapper=bootstrapper
 		return			
 	
 	def notGapSites(self, parsed, col_index):
@@ -24,7 +25,7 @@ class Masker:
 		return notGaps
 
 
-	def maskResidues(self, refMSA_file, numseq, alnlen, scores, x, idmap, formatout, final_file, seqType, blah, save_x_file, alg):
+	def maskResidues(self, refMSA_file, numseq, alnlen, scores, x, formatout, final_file, seqType, save_x_file, alg):
 		''' Masks poorly aligned residues whose score is <x. Will NOT mask gaps.'''
 		
 		maxmasked = 0.4
@@ -57,7 +58,10 @@ class Masker:
 							newseq=newseq+parsed[row].seq[position]
 				newseqs.append(newseq)
 			
+			print totalmasked
+			print numres
 			fracmasked = float(totalmasked)/float(numres)
+			print fracmasked
 			if fracmasked <= maxmasked:
 				break
 			if fracmasked <= (maxmasked+0.05) and fracmasked > maxmasked:
@@ -68,9 +72,9 @@ class Masker:
 		
 		for i in range(numseq):
 			if str(seqType)=='protein':
-				aln_record=SeqRecord(Seq(newseqs[i],generic_protein), id=str(idmap[i+1]), description='')
+				aln_record=SeqRecord(Seq(newseqs[i],generic_protein), id=str(i+1), description='')
 			elif str(seqType)=='nucleotide':
-				aln_record=SeqRecord(Seq(newseqs[i],generic_dna),id=str(idmap[i+1]), description='')
+				aln_record=SeqRecord(Seq(newseqs[i],generic_dna),id=str(i+1), description='')
 			maskedMSA.append(aln_record)
 	
 		outhandle=open(final_file, 'w')
@@ -78,7 +82,7 @@ class Masker:
 		outhandle.close()
 		
 		xfile=open(save_x_file, 'a')
-		xfile.write(str(blah)+'\t'+str(alg)+'\t'+str(x)+'\t'+str(fracmasked)+'\n')
+		xfile.write(str(alg)+'\t'+str(x)+'\t'+str(fracmasked)+'\n')
 		xfile.close()
 		
 		return (totalmasked)	
@@ -139,3 +143,128 @@ class Masker:
 		outhandle.write(maskedMSA.format(str(formatout)))
 		outhandle.close()
 		return 0
+	
+	
+	
+	
+	
+	def maskResiduesAndGaps(self, refMSA_file, numseq, alnlen, scores, x, idmap, formatout, final_file, seqType):
+		''' Masks poorly aligned residues whose score is <x. Will NOT mask gaps'''
+		
+		#Determine what to mask with and its alphabet for the new MSA
+		new=''
+		if str(seqType)=='protein':
+			new='X'
+		elif str(seqType)=='nucleotide':
+			new='N'		
+			
+		#Parse the reference alignment
+		parsed = AlignIO.read(refMSA_file, 'fasta')
+		
+		maskedMSA=MultipleSeqAlignment([])
+		for row in range(numseq):
+			newseq=''
+			for position in range(alnlen):
+				if scores[row][position]<x: #mask if shitty
+					newseq=newseq+new
+				else: #or, keep that position
+					newseq=newseq+parsed[row].seq[position]
+			if str(seqType)=='protein':
+				aln_record=SeqRecord(Seq(newseq,generic_protein),id=str(idmap[row+1]), description='')
+			elif str(seqType)=='nucleotide':
+				aln_record=SeqRecord(Seq(newseq,generic_dna),id=str(idmap[row+1]), description='')
+			maskedMSA.append(aln_record)
+	
+		outhandle=open(final_file, 'w')
+		outhandle.write(maskedMSA.format(str(formatout)))
+		outhandle.close()
+		return 0	
+	
+	
+	## Replace each residue with it's score. In case of debugging.
+	def replaceResWithScore(self, refMSA_file, scores):
+		parsed = AlignIO.read(refMSA_file, 'fasta')
+		row=str()
+		for a in range( len(scores) ): # loop over rows
+			for b in range( len(scores[1])): #loop over columns
+				score = scores[a,b]
+				if parsed[a,b]=='-':
+					row=row+'\t-\t'
+				else:
+					row=row+'\t'+str(score)+'\t'
+			print row
+			row=str()
+		return 0	
+	
+	
+
+	
+	
+	def maskResiduesViral(self, refMSA_file, scores, x, idmap, formatout, final_file, seqType):	
+		''' Masks poorly aligned residues whose score is >x'''
+		''' This function is specific to OUR VIRUS STUFF. it will skip residues which map to a gap in the ref_seq'''
+		
+		new=''
+		if str(seqType)=='protein':
+			new='X'
+		elif str(seqType)=='nucleotide':
+			new='N'		
+		
+		refMSA_object=self.file2seq(refMSA_file, 'fasta', 2)
+		positions=[]
+		species=[]
+
+		# Find poorly aligned residues
+		for a in range( len(scores) ): # loop over rows
+			for b in range( len(scores[1])): #loop over columns
+				
+				score = scores[a,b]
+				if score > int(x):
+					continue
+				else:
+					positions.append(int(b))
+					species.append(int(a))
+		
+		# Loop over refseq in the refMSA. This is the one whose id is 1. Score each position 0 if not a gap, 1 if a gap
+		gaps=[]
+		for entry in refMSA_object:
+			if entry.id == '1':
+				sequence = entry.seq
+				for aa in sequence:
+					if aa=='-':
+						c=0
+						gaps.append(c)
+					else:
+						c=1
+						gaps.append(c)
+			else:
+				break				
+				
+		# Mask poorly aligned positions with 'X' and save it to the final_file
+		outhandle=open(final_file, 'w')
+		
+		for i in range( len(refMSA_object) ):
+		
+			# Using the previously made map, get the actual id!
+			original_id = str(idmap[i+1])
+			
+			old_seq=refMSA_object[i].seq
+			mut_seq=old_seq.tomutable()
+			y=0
+			for w in species:
+				if w==i:
+					pos=int(positions[y])
+					
+					# SKIP THE GAPPED POSITIONS!!
+					if gaps[pos] == 0:
+						continue
+					elif gaps[pos]==1:
+						mut_seq[pos]=new
+				y+=1
+			new_seq=mut_seq.toseq()		
+			new_record=SeqRecord(new_seq, id=original_id, description='')
+			outhandle.write(new_record.format(str(formatout)))
+		
+		outhandle.close()
+		
+		return 0	

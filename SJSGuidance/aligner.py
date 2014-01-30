@@ -19,7 +19,7 @@ class Aligner:
 	
 	
 	def multiMakeAlignmentsGT(self, prealn_file, n, numprocesses):
-		'''This function creates a pool of processes and then executes them on one fewer CPU cores than the machine has.'''
+		'''Yes, this function is clunky, but only because multiprocessing.pool does not work (lol!) when inside a class. hence, workaround.'''
 		if numprocesses=='':
 			numprocesses=multiprocessing.cpu_count() - 1 # leave a spare, you never know..		
 		jobs=[]		
@@ -65,9 +65,6 @@ class Aligner:
 		return 0
 
 
-
-
-
 class MafftAligner(Aligner):
 	def __init__(self, executable, options):
 		'''"executable" is the path to the MAFFT executable and options are given by options'''
@@ -75,7 +72,7 @@ class MafftAligner(Aligner):
 		self.options = options
 	
 	def makeAlignment( self, prealn_file, alnfile):
-		'''Makes a standard alignment'''
+		'''makes a standard alignment'''
 		print "Making initial alignment with MAFFT"
 		align=self.executable+' '+self.options+' '+prealn_file+' > '+alnfile
 		runalign=subprocess.call(str(align),shell=True)
@@ -85,7 +82,8 @@ class MafftAligner(Aligner):
 	def makeAlignmentGT( self, treefile, prealn_file, alnfile):
 		'''makes an alignment using the provided guide tree'''
 		#print "Making alignment with MAFFT from guide tree, using ", self.executable
-		align=self.executable+' '+self.options+' --retree 1 --treein '+treefile+' '+prealn_file+' > '+alnfile ## TAUguidance forces retree 1, which is some more academic dishonesty, but what else is new.
+		align=self.executable+' '+self.options+' --treein '+treefile+' '+prealn_file+' > '+alnfile ## TAUguidance forces retree 1, which is some more academic dishonesty, but what else is new.
+		print align
 		runalign=subprocess.call(str(align), shell=True)
 		return 0
 			
@@ -102,6 +100,10 @@ class MafftAligner(Aligner):
 			outtree = "tree"+str(i)+".txt"
 			self.Tree2Mafft(rawtree2, outtree)			
 		return 0
+	
+	
+	
+	
 	
 	### THIS FUNCTION WILL CALL THE RUBY SCRIPT. IT IS NOT USED AS THE RUBY SCRIPT IS CODED HERE IN PYTHON (line for line). KEEP IN CASE THOUGH!! ###
 	def processTreesRUBY(self, n, infile):
@@ -121,13 +123,14 @@ class MafftAligner(Aligner):
 			temptree.close()
 			
 			outtree = "tree"+str(i)+".txt"
-			ruby = subprocess.call('ruby ../newick2mafft.rb temp.txt > '+outtree, shell=True)			
+			ruby = subprocess.call('ruby newick2mafft.rb temp.txt > '+outtree, shell=True)			
 		return 0
 		
-	
+		
+		
 		
 	def killMegatomy(self, tree):
-		''' first chunk of that ruby script'''
+		''' first chunk of that ruby function'''
 		findMegatomy = re.search(",(\d+):(\d+\.\d*),(\d+):(\d+\.\d*)", tree)
 		while findMegatomy:
 			hit1 = findMegatomy.group(1)
@@ -157,8 +160,10 @@ class MafftAligner(Aligner):
 
 
 
+
+
 	def Tree2Mafft(self, tree, outfile):	
-		''' converts a newick tree into mafft's native format. line-by-line the ruby script. We have sent to Katoh too, so now mafft will release this script.'''
+		''' converts a newick tree into mafft's native format. line-by-line the ruby script!'''
 		outhandle=open(outfile, 'w')
 		
 		# Replace forbidden characters. 
@@ -265,7 +270,7 @@ class MuscleAligner(Aligner):
 		return 0
 	
 	def reorderAlignment(self, infile, outfile):
-		'''Given an input alignment in fasta format, reorder the sequences (based on ascending id's which are now all ints. indexing begins at 1.) and rewrite the file, again in fasta. Necessary as muscle's flag to do this is deprecated and won't work.'''
+		'''Given an input alignment in fasta format, reorder the sequences (based on ascending id's which are now all ints. indexing begins at 1.) and rewrite the file, again in fasta.'''
 		rawaln = AlignIO.read(infile, 'fasta')
 		outaln = open(outfile, 'w')
 		numseq = len(rawaln)
@@ -277,4 +282,17 @@ class MuscleAligner(Aligner):
 		outaln.close()
 		return 0
 				
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 
+		
+		
