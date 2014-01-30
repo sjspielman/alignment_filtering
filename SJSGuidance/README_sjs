@@ -1,0 +1,20 @@
+README
+To use this software, you must have the following:
+1. c compiler that supports c++ standard library 2011
+2. the alignment software of your choice (clustalw, muscle, mafft)
+3. FastTree (for building the perturbed guide trees)
+4. FastTree or RAxML for building the phylogeny for phylogenetic weighting, if you select this algorithm
+
+
+FUNCTIONS FOR EACH CLASS
+
+Aligner
+makeAlignment( self, prealn_file, alnfile)
+makeAlignmentGT( self, treefile, prealn_file, alnfile)
+multiMakeAlignmentsGT(self, prealn_file, n, numprocesses)
+processTrees(self, n, infile)
+# mafft only
+Tree2Mafft(self, tree, outfile)
+killMegatomy(self, tree)
+#muscle only
+reorderAlignment(self, infile, outfile)
