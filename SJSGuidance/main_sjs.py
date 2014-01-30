@@ -2,6 +2,16 @@
 #### Input files must be in fasta format. Scroll down to see settings...
 
 #!/usr/bin/python
+import sys
+import os
+import fnmatch
+import re
+import subprocess
+import shutil
+import argparse
+
+sys.path.append("src/")
+
 from aligner import *
 from treebuilder import *
 from weight_treebuilder import *
@@ -16,15 +26,7 @@ from Bio.SeqRecord import SeqRecord
 from Bio.Alphabet import generic_dna,generic_protein
 from Bio import SeqIO, AlignIO
 from Bio.Align import MultipleSeqAlignment
-
 from numpy import *
-import os
-import fnmatch
-import re
-import subprocess
-import sys
-import shutil
-import argparse
 
 
 ######################################################################################
@@ -95,7 +97,8 @@ def Pal2Nal(palfile, nucfile, paltype, nuctype, outfile, outputformat):
 ######################################################################################
 
 
-n = 100  # bootstrap n times
+n = 10  # bootstrap n times
+unaligned='TESTSEQ.fasta'
 prealn_file='prealn.fasta'
 refaln_file='refaln.fasta'
 weightfile='treeweights.txt'
@@ -138,11 +141,11 @@ tmod=builderFastTree("FastTree", " -fastest -nosupport -quiet ") # -nosupport MU
 ###tmod=builderSemphy("../semphy/semphy", " -a 20 --jtt -H -J -v 5 --BPrepeats=100 ") ## MUST BE -v 5
 
 # if weighted algorithm, wtmod needed
-wtmod=scoreTreeRAxML("raxmlHPC", " -m PROTCATWAG ")	
+wtmod=weightRAxML("raxmlHPC", " -m PROTCATWAG ")	
 
 mapmod = Map()
 smod = Scorer()
-bmod = Bootstrapper(amod, tmod)
+bmod = AllBootstrapper(amod, tmod, wtmod, smod)
 mmod = Masker(bmod)
 
 ########################################################################################################################################################################
@@ -154,20 +157,20 @@ map=mapmod.ids2int(unaligned, 'fasta', prealn_file)
 	
 # Build reference alignment
 amod.makeAlignment(prealn_file, refaln_file)
-shutil.copy(refaln_file, BootDir)
 
 # Bootstrap
-(numseq, alnlen, gscores, bmscores, pdscores, gscores_p, bmscores_p, pdscores_p)=bmod.runBootstrap(BootDir, raw, refaln_file, n, numproc, finalscore_fileG, finalscore_fileBM, finalscore_filePD, finalscore_fileG_p, finalscore_fileBM_p, finalscore_filePD_p, scoreTree_file, weightfile, dist_matrix_file)	
+(numseq, alnlen, gscores, bmscores, pdscores, gscores_p, bmscores_p, pdscores_p)=bmod.runBootstrap(BootDir, unaligned, refaln_file, n, numproc, finalscore_fileG, finalscore_fileBM, finalscore_filePD, finalscore_fileG_p, finalscore_fileBM_p, finalscore_filePD_p, scoreTree_file, weightfile, dist_matrix_file)	
 	
 #residue masking and pal2nal
 
 masks={'30_':float(0.3)}
-algs={'guidance':guidance, 'BMweights':BMweights, 'PDweights':PDweights, 'guidance_p':guidancep, 'BMweights_p':BMweightsp, 'PDweights_p':PDweightsp}
+algs={'guidance':gscores, 'BMweights':bmscores, 'PDweights':pdscores, 'guidance_p':gscores_p, 'BMweights_p':bmscores_p, 'PDweights_p':pdscores_p}
+temp_res='tempaln_res.aln'	
 
 for x in masks:
 	for alg in algs:
 		outfile=alg+x+str(simcount)+".fasta"
-		mmod.maskResidues(refaln_file, numseq, alnlen, algs[alg], masks[x], 'fasta', temp_res, "protein", simcount, save_x_file, alg)
+		mmod.maskResidues(refaln_file, numseq, alnlen, algs[alg], masks[x], 'fasta', temp_res, "protein")
 		Pal2Nal(temp_res, rawnuc_ints, 'fasta', 'fasta', outfile, 'fasta')
 		shutil.copy(outfile, '../'+alndir_nuc)
 		shutil.copy(temp_res, '../'+alndir_aa+'/'+outfile)
