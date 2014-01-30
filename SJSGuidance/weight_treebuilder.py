@@ -1,7 +1,6 @@
-import subprocess, os, sys, re, csv, shutil
+import subprocess, re, shutil
+from Bio import AlignIO
 from dendropy import *
-from dendropy import TaxonSet, Tree, TreeList
-from Bio import SeqIO, AlignIO
 from numpy import *
 
 class WeightTreeBuilder:
@@ -10,7 +9,7 @@ class WeightTreeBuilder:
 		return
 
 	def killPolytomyDendro(self, infile):
-		'''actually removes polytomies, except branchmanager is a beotch.'''
+		'''Removed polytomies using dendropy'''
 		rawtree = Tree(stream=open(infile), schema="newick")
 		rawtree.resolve_polytomies(update_splits=True)
 		newtree=str(rawtree)
@@ -23,7 +22,7 @@ class WeightTreeBuilder:
 		return 0
 		
 	
-	def findWeights (self, treefile, weightfile):
+	def calcBMweights(self, treefile, weightfile):
 		'''uses BranchManager to get phylogenetic weights and processes output for later use in scoring function'''
 		callBM = 'java -cp BranchManager.jar BM '+treefile+' > '+weightfile
 		runBM = subprocess.call(str(callBM), shell='True')
@@ -48,7 +47,7 @@ class WeightTreeBuilder:
 		
 		return ordered_weights		
 		
-	def getPatristic(self, treefile, matrixfile, numseq):
+	def calcPDweights(self, treefile, matrixfile, numseq):
 		tree=Tree.get_from_path(treefile, 'newick')
 		patmat=treecalc.PatristicDistanceMatrix(tree)
 		pat_dict={}
@@ -78,7 +77,7 @@ class WeightTreeBuilder:
 	
 	
 	
-class bothRAxML(WeightTreeBuilder):	
+class weightRAxML(WeightTreeBuilder):	
 	'''Does both branchmananger weights and patristic distance matrix.'''	
 	def __init__(self, executable, options):
 		self.executable = executable
@@ -94,15 +93,14 @@ class bothRAxML(WeightTreeBuilder):
 		BuildTree=self.executable+' '+self.options+' -s temp.phy -n out'
 		subprocess.call(BuildTree, shell=True)
 		shutil.move('RAxML_bestTree.out', treefile)
-		###subprocess.call('rm RAxML*', shell=True)
 		
-		dist_matrix= self.getPatristic(treefile, matrixfile, numseq)
-		ordered_weights = self.findWeights(treefile, weightfile)
+		dist_matrix= self.calcPDweights(treefile, matrixfile, numseq)
+		ordered_weights = self.calcBMweights(treefile, weightfile)
 		
 		return (dist_matrix, ordered_weights)
 	
 		
-class bothFastTree(WeightTreeBuilder):	
+class weightFastTree(WeightTreeBuilder):	
 	'''Does both branchmananger weights and patristic distance matrix.'''	
 	def __init__(self, executable, options):
 		self.executable = executable
@@ -113,138 +111,7 @@ class bothFastTree(WeightTreeBuilder):
 		BuildTree=self.executable+' '+self.options+' -nosupport '+alnfile+' > '+treefile
 		subprocess.call(BuildTree, shell=True)
 		
-		dist_matrix= self.getPatristic(treefile, matrixfile, numseq)
-		ordered_weights = self.findWeights(treefile, weightfile)
+		dist_matrix= self.calcPDweights(treefile, matrixfile, numseq)
+		ordered_weights = self.calcBMweights(treefile, weightfile)
 		
 		return (dist_matrix, ordered_weights)
-		
-				
-		
-class bothIQTree(WeightTreeBuilder):
-	'''Does both branchmananger weights and patristic distance matrix.'''	
-	def __init__(self, executable, options):
-		self.executable = executable
-		self.options = options
-
-	def buildScoreTree(self, alnfile, treefile, weightfile, matrixfile, numseq):
-		print "Building Scoring Tree with IQ-Tree. (default model=WAG)"
-		BuildTree=self.executable+' '+self.options+' -s '+alnfile
-		subprocess.call(BuildTree, shell=True)
-		shutil.move(alnfile+'.treefile', treefile)
-		
-		dist_matrix= self.getPatristic(treefile, matrixfile, numseq)
-
-		ordered_weights = self.findWeights(treefile, weightfile)
-		return (dist_matrix, ordered_weights)
-
-
-				
-
-class patIQTree(WeightTreeBuilder):
-	def __init__(self, executable, options):
-		self.executable = executable
-		self.options = options
-	
-	def buildScoreTree(self, alnfile, treefile, matrixfile, numseq):
-		print "Building Scoring Tree with IQ-Tree. (default model=WAG)"
-		BuildTree=self.executable+' '+self.options+' -s '+alnfile
-		subprocess.call(BuildTree, shell=True)
-		shutil.move(alnfile+'.treefile', treefile)
-		pat_dict = self.getPatristic(treefile, matrixfile, numseq)
-		return pat_dict
-
-class patFastTree(WeightTreeBuilder):
-	def __init__(self, executable, options):
-		self.executable = executable
-		self.options = options
-	
-	def buildScoreTree(self, alnfile, treefile, matrixfile):
-		print "Building Scoring Tree"
-		BuildTree=self.executable+' '+self.options+' '+alnfile+' > '+treefile
-		runtree=subprocess.call(str(BuildTree), shell='True')	
-		print "Computing Distances"
-		dist_matrix = self.getPatristic(treefile, matrixfile)
-		return dist_matrix
-		
-
-class weightTreeFasttree(WeightTreeBuilder):
-	def __init__(self, executable, options):
-		self.executable = executable
-		self.options = options
-		
-	def buildScoreTree(self, alnfile, treefile, weightfile):
-		print "Building Scoring Tree"
-		BuildTree=self.executable+' '+self.options+' '+alnfile+' > '+treefile
-		runtree=subprocess.call(str(BuildTree), shell='True')
-		print "Processing Polytomies (required by BranchManager)"
-		self.killPolytomyDendro(treefile)	
-		print "Computing Taxon Weights"
-		ordered_weights = self.findWeights(treefile, weightfile)
-		
-		return ordered_weights
-
-class weightIQTree(WeightTreeBuilder):
-	def __init__(self, executable, options):
-		self.executable = executable
-		self.options = options
-	
-	def buildScoreTree(self, alnfile, treefile, weightfile):
-		print "Building Scoring Tree with IQ-Tree. (default model=WAG)"
-		BuildTree=self.executable+' '+self.options+' -s '+alnfile
-		subprocess.call(BuildTree, shell=True)
-		shutil.move(alnfile+'.treefile', treefile)
-		
-		print "Processing Polytomies (required by BranchManager)"
-		self.killPolytomyDendro(treefile)	
-		print "Computing Taxon Weights"
-		ordered_weights = self.findWeights(treefile, weightfile)
-		
-		# Remove iqtree files
-		rmiq='rm '+alnfile+'.*'
-		subprocess.call(rmiq, shell=True)
-		
-		return ordered_weights
-		
-		
-class weightTreeRAXML(WeightTreeBuilder):
-	def __init__(self, executable, options):
-		self.executable = executable
-		self.options = options
-		
-	def buildScoreTree(self, alnfile, treefile, weightfile):
-		# Convert alnfile into phylip for the RAxML builder
-		parsed=AlignIO.read(alnfile, 'fasta')
-		AlignIO.write(parsed, 'refaln.phy', 'phylip')
-		
-		print "Building Scoring Tree (this may be quite slow with RAxML!)"
-		BuildTree=self.executable+' '+self.options+'-d -p 6957 -s refaln.phy -n finaltree'
-		print BuildTree
-		runtree=subprocess.call(str(BuildTree), shell='True')
-		
-		# Move RAxML tree to the treefile
-		command = "mv RAxML_result.finaltree "+treefile
-		subprocess.call(command, shell=True)
-		
-		print "Processing Polytomies (required by BranchManager)"
-		self.killPolytomyDendro(treefile)	
-		print "Computing Taxon Weights"
-		ordered_weights = self.findWeights(treefile, weightfile)
-		
-		print "Removing RAxML vomit"
-		command = 'rm RAxML_*'
-		subprocess.call(command, shell=True)
-		
-		return ordered_weights
-		
-		
-		
-		
-		
-		
-		
-		
-
-
-
-
-

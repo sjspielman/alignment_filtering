@@ -5,25 +5,23 @@ from Bio import AlignIO
     
 class Aligner:
 	def __init__(self):
-		'''initialization function'''
 		return
 
 	def makeAlignment( self, prealn_file, alnfile ):
-		'''makes a standard alignment'''
+		'''Makes an alignment, nothing fancy.'''
 		print "Aligner base class. Function makeAlignment() is not implemented."
 
 	def makeAlignmentGT( self, treefile, prealn_file, alnfile):
-		'''makes an alignment using the provided guide tree'''
+		'''Makes an alignment using a provided guide tree.'''
 		print "Aligner base class. Function makeAlignmentGT() is not implemented."
 	
-	
-	
 	def multiMakeAlignmentsGT(self, prealn_file, n, numprocesses):
-		'''Yes, this function is clunky, but only because multiprocessing.pool does not work (lol!) when inside a class. hence, workaround.'''
+		'''Makes n bootstrap alignments. Note that this function is rather clunky because multiprocessing.pool() does not work when inside a class in python. The code here is a decent workaround of this unfortunate issue.'''
+	
 		if numprocesses=='':
-			numprocesses=multiprocessing.cpu_count() - 1 # leave a spare, you never know..		
-		jobs=[]		
-		pool=multiprocessing.Pool(numprocesses) ## can also for the argument here do multiprocessing.cpu_count()
+			numprocesses=multiprocessing.cpu_count()	
+		pool=multiprocessing.Pool(numprocesses)
+		jobs=[]
 		
 		if numprocesses>=n:
 			for i in range(n):
@@ -67,12 +65,11 @@ class Aligner:
 
 class MafftAligner(Aligner):
 	def __init__(self, executable, options):
-		'''"executable" is the path to the MAFFT executable and options are given by options'''
+		''' "executable" is the path to the MAFFT and its options are given by "options" '''
 		self.executable = executable
 		self.options = options
 	
 	def makeAlignment( self, prealn_file, alnfile):
-		'''makes a standard alignment'''
 		print "Making initial alignment with MAFFT"
 		align=self.executable+' '+self.options+' '+prealn_file+' > '+alnfile
 		runalign=subprocess.call(str(align),shell=True)
@@ -80,15 +77,12 @@ class MafftAligner(Aligner):
 		return 0
 
 	def makeAlignmentGT( self, treefile, prealn_file, alnfile):
-		'''makes an alignment using the provided guide tree'''
-		#print "Making alignment with MAFFT from guide tree, using ", self.executable
-		align=self.executable+' '+self.options+' --treein '+treefile+' '+prealn_file+' > '+alnfile ## TAUguidance forces retree 1, which is some more academic dishonesty, but what else is new.
-		print align
+		align=self.executable+' '+self.options+' --treein '+treefile+' '+prealn_file+' > '+alnfile ## Note that we do not use "--retree 1." Providing an input tree will still capture alignment stochasticity without forcing a poorer alignment, as retree 1 has the potential to do.
 		runalign=subprocess.call(str(align), shell=True)
 		return 0
 			
 	def processTrees(self, n, infile):
-		''' All BS trees need to be taken out of the single file they're in. As different alignment programs have different tree requirements, the formatting can happen in this class'''
+		''' Takes the bootstrapped trees out from a single file and process each into MAFFT format.'''
 		trees=TreeList()
 		trees.read(open(infile, 'r'), 'newick', as_rooted=True)
 		for i in range(n):
@@ -102,35 +96,11 @@ class MafftAligner(Aligner):
 		return 0
 	
 	
-	
-	
-	
-	### THIS FUNCTION WILL CALL THE RUBY SCRIPT. IT IS NOT USED AS THE RUBY SCRIPT IS CODED HERE IN PYTHON (line for line). KEEP IN CASE THOUGH!! ###
-	def processTreesRUBY(self, n, infile):
-		'''NOT USED but just in case, it's here.'''
-		trees=TreeList()
-		trees.read(open(infile, 'r'), 'newick', as_rooted=True)
-		for i in range(n):
-			rawtree = trees[i]
-			# Remove any polytomies and assure that it is rooted.
-			###rawtree.resolve_polytomies() # probably not necessary, but just in case.
-			###rawtree.reroot_at_midpoint()
-			rawtree.update_splits()
-			rawtree2=str(rawtree).replace('[&R] ','')
-			
-			temptree = open('temp.txt', 'w')
-			temptree.write(rawtree2+';')
-			temptree.close()
-			
-			outtree = "tree"+str(i)+".txt"
-			ruby = subprocess.call('ruby newick2mafft.rb temp.txt > '+outtree, shell=True)			
-		return 0
-		
-		
-		
-		
+	#################################################################################
+	### The following two functions are simply the newick2mafft.rb script re-written in python. Note that the MAFFT authors have been notified of this modified code and intend to distribute it.
+				
 	def killMegatomy(self, tree):
-		''' first chunk of that ruby function'''
+		''' First part of the newick2mafft.rb script.'''
 		findMegatomy = re.search(",(\d+):(\d+\.\d*),(\d+):(\d+\.\d*)", tree)
 		while findMegatomy:
 			hit1 = findMegatomy.group(1)
@@ -159,11 +129,8 @@ class MafftAligner(Aligner):
 		return tree
 
 
-
-
-
 	def Tree2Mafft(self, tree, outfile):	
-		''' converts a newick tree into mafft's native format. line-by-line the ruby script!'''
+		''' Second part of the newick2mafft.rb script. Converts a newick tree into MAFFT's native format.'''
 		outhandle=open(outfile, 'w')
 		
 		# Replace forbidden characters. 
@@ -193,7 +160,7 @@ class MafftAligner(Aligner):
 			findparen = re.search('\(', tree)
 		outhandle.close()
 		return 0
-		
+	##############################################################################################
 		
 		
 		
@@ -201,18 +168,16 @@ class MafftAligner(Aligner):
 
 class ClustalAligner(Aligner):
 	def __init__(self, executable, options):
-		'''"executable" is the path to the CLUSTALW executable'''
+		'''"executable" is the path to the CLUSTALW executable, and options are user-specified options.'''
 		self.executable = executable
 		self.options = options
 	
 	def makeAlignment(self, prealn_file, alnfile):
-		'''makes a standard alignment'''
 		print "Making initial alignment with CLUSTALW"
 		align=self.executable+' -align -output=FASTA -outorder=INPUT '+self.options+' -infile='+prealn_file+' -outfile='+alnfile
 		runalign=subprocess.call(str(align),shell=True)
 	
 	def makeAlignmentGT(self, treefile, prealn_file, alnfile):
-		'''makes an alignment using the provided guide tree'''
 		align=self.executable+' -align -output=FASTA -outorder=INPUT '+self.options+' -usetree='+treefile+' -infile='+prealn_file+' -outfile='+alnfile
 		runalign=subprocess.call(str(align), shell=True)
 	
@@ -223,7 +188,6 @@ class ClustalAligner(Aligner):
 		lines=inhandle.readlines()
 		for i in range(n):
 			mytree = str(lines[i])
-			print mytree
 			outhandle = "tree"+str(i)+".txt"
 			outfile = open(outhandle, "w")	
 			outfile.write(mytree)	
@@ -234,26 +198,24 @@ class ClustalAligner(Aligner):
 
 class MuscleAligner(Aligner):
 	def __init__(self, executable, options):
-		'''"executable" is the path to the CLUSTALW executable'''
+		'''"executable" is the path to the MUSCLE executable, and options are user-specified options.'''
 		self.executable = executable
 		self.options = options
 	
 	def makeAlignment(self, prealn_file, alnfile):
-		'''makes a standard alignment'''
 		print "Making initial alignment with Muscle"
 		align=self.executable+' '+self.options+' -in '+prealn_file+' -out temp.aln'
 		runalign=subprocess.call(str(align),shell=True)
 		self.reorderAlignment('temp.aln', alnfile)
 	
 	def makeAlignmentGT(self, treefile, prealn_file, alnfile):
-		'''makes an alignment using the provided guide tree'''
 		temp = 'temp'+alnfile
 		align=self.executable+' '+self.options+' -quiet -usetree_nowarn '+treefile+' -in '+prealn_file+' -out '+temp
 		runalign=subprocess.call(str(align), shell=True)
 		self.reorderAlignment(temp, alnfile)
 	
 	def processTrees(self, n, infile):
-		''' All BS trees need to be taken out of the single file they're in and rooted.'''
+		''' Places bootstrapped trees into separate files. All trees are rooted here.'''
 		trees=TreeList()
 		trees.read(open(infile, 'r'), 'newick', as_rooted=True)
 		for i in range(n):		
@@ -270,7 +232,7 @@ class MuscleAligner(Aligner):
 		return 0
 	
 	def reorderAlignment(self, infile, outfile):
-		'''Given an input alignment in fasta format, reorder the sequences (based on ascending id's which are now all ints. indexing begins at 1.) and rewrite the file, again in fasta.'''
+		'''Given an input alignment in fasta format, reorder the sequences (based on ascending id's which are now all ints. indexing begins at 1.) and rewrite the file, again in fasta. Note that MUSCLE's ability to do this is deprecated, so we have to do it here instead of relying of MUSCLE to do it automatically.'''
 		rawaln = AlignIO.read(infile, 'fasta')
 		outaln = open(outfile, 'w')
 		numseq = len(rawaln)

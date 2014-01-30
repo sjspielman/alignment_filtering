@@ -130,7 +130,7 @@ else:
 	assert 1==0
 numproc = 4
 tmod=builderFastTree("/share/apps/fasttree-2.1.3/FastTreeMP", " -quiet -nosupport ") 
-wtmod=bothRAxML("/share/apps/raxmlHPC-7.3.0/bin/raxmlHPC", " -m PROTCATWAG -p 35325 ")	
+wtmod=weightRAxML("/share/apps/raxmlHPC-7.3.0/bin/raxmlHPC", " -m PROTCATWAG -p 35325 ")	
 smod = Scorer()
 bmod = AllBootstrapper(amod, tmod, wtmod, smod)
 mmod = Masker(bmod)

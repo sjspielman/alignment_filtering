@@ -4,16 +4,15 @@ from numpy import *
 
 class Bootstrapper(object): 
 	def __init__(self, aligner, tree_builder, scorer):
-		'''initialization function'''
 		self.aligner = aligner
 		self.tree_builder = tree_builder
 		self.scorer = scorer
 	
-	def bootstrap( self, prealn, refMSA_file, n, numprocesses):
+	def bootstrap( self, prealn, refaln_file, n, numprocesses):
 		
 		# Obtain reference alignment, as well as number of sequences and length of alignment
 		refaln_seq=[]
-		infile=open(refMSA_file, 'r')
+		infile=open(refaln_file, 'r')
 		parsed = list(SeqIO.parse(infile, 'fasta'))
 		infile.close()
 		for record in parsed:
@@ -25,24 +24,11 @@ class Bootstrapper(object):
 		final_treefile = 'BStrees.tre'
 		
 		# Create the bootstrapped trees
-		
 		print "Constructing bootstrap trees"
 		self.tree_builder.buildBootTrees(n, refaln_seq, numseq, alnlen, final_treefile)
-
-		## this chunk is IQ-Tree
-		#self.tree_builder.buildBootTrees(n, refaln_seq, numseq, alnlen, final_treefile)
-		#print "Constructing INFERENCE trees"
-		#self.tree_builder.buildTrees(n, final_treefile)
-		
-		## this chunk is unique FastTree
-		# Create strictly unique bootstrapped trees
-		#print "Creating STRICTLY UNIQUE bootstrapped trees"
-		#temp_treefile="tempBStre.tre"
-		#self.tree_builder.buildUniqueTrees(n, refaln_seq, numseq, alnlen, final_treefile, temp_treefile, bootseq)
-		#print "done uniquing"
 			
 		# Separate into PROCESSED trees for given alignment software
-		print "Formatting trees" # uses my line-by-line reimplementation of the ruby script
+		print "Formatting trees"
 		self.aligner.processTrees(n, final_treefile) 	
 		
 		print "Building bootstrap alignments"
@@ -60,102 +46,23 @@ class AllBootstrapper(Bootstrapper):
 		self.weight_tree_builder = weight_tree_builder
 		super(AllBootstrapper, self).__init__(aligner, tree_builder, scorer)	
 		
-	def runBootstrap(self, BootDir, prealn, refMSA_file, n, numprocesses, finalscore_fileG, finalscore_fileBM, finalscore_filePD, finalscore_fileG_penal, finalscore_fileBM_penal, finalscore_filePD_penal, scoreTree_file, weightfile, dist_matrix_file): 
+	def runBootstrap(self, BootDir, prealn, refaln_file, n, numprocesses, finalscore_fileG, finalscore_fileBM, finalscore_filePD, finalscore_fileG_penal, finalscore_fileBM_penal, finalscore_filePD_penal, weightTree_file, bmweights_file, pdweights_file): 
 		
 		shutil.copy('BranchManager.jar', BootDir)
 		os.chdir(BootDir)
 		
 		# Call bootstrapper
-		(numseq, alnlen) = self.bootstrap(prealn, refMSA_file, n, numprocesses)
+		(numseq, alnlen) = self.bootstrap(prealn, refaln_file, n, numprocesses)
 		
 		# Create the scoring tree
-		(dist_matrix, ordered_weights) = self.weight_tree_builder.buildScoreTree(refMSA_file, scoreTree_file, weightfile, dist_matrix_file, numseq)
+		(dist_matrix, ordered_bmweights) = self.weight_tree_builder.buildScoreTree(refaln_file, weightTree_file, bmweights_file, pdweights_file, numseq)
 		
 		# Conduct the scoring
 		print "scoring Guidance"
-		(Gscores, Gscores_P)= self.scorer.scoreMSA_Guidance(refMSA_file, n, numseq, alnlen, finalscore_fileG, finalscore_fileG_penal)
+		(Gscores, Gscores_P)= self.scorer.scoreMSA_Guidance(refaln_file, n, numseq, alnlen, finalscore_fileG, finalscore_fileG_penal)
 		print "scoring BranchManager"
-		(BMscores, BMscores_P)=self.scorer.scoreMSA_Weighted(refMSA_file, n, numseq, alnlen, ordered_weights, weightfile, finalscore_fileBM, finalscore_fileBM_penal)
+		(BMscores, BMscores_P)=self.scorer.scoreMSA_Weighted(refaln_file, n, numseq, alnlen, ordered_bmweights, bmweights_file, finalscore_fileBM, finalscore_fileBM_penal)
 		print "scoring Patristic"
-		(PDscores, PDscores_P) = self.scorer.scoreMSA_Patristic(refMSA_file, n, numseq, alnlen, dist_matrix, dist_matrix_file, finalscore_filePD, finalscore_filePD_penal)
+		(PDscores, PDscores_P) = self.scorer.scoreMSA_Patristic(refaln_file, n, numseq, alnlen, dist_matrix, pdweights_file, finalscore_filePD, finalscore_filePD_penal)
 		
 		return(numseq, alnlen, Gscores, BMscores, PDscores, Gscores_P, BMscores_P, PDscores_P)
-			
-		
-
-class patristicBootstrapper(Bootstrapper):
-	''' Process with PDweights, original normalization only'''
-	def __init__(self, aligner, tree_builder, weight_tree_builder, scorer):
-		'''initialization function'''
-		self.weight_tree_builder = weight_tree_builder
-		super(patristicBootstrapper, self).__init__(aligner, tree_builder, scorer)
-		
-		
-	def runBootstrap(self, BootDir, prealn, refMSA_file, n, numprocesses, allscores_file, scoreTree_file): 
-		
-		# Create the scoring tree
-		matrixfile='dist_matrix.txt'
-		dist_matrix = self.weight_tree_builder.buildScoreTree(refMSA_file, scoreTree_file, scoreTree_file, matrixfile)	
-		os.chdir(BootDir)
-		
-		# Call bootstrapper
-		(numseq, alnlen) = self.bootstrap(prealn, refMSA_file, n, numprocesses)
-		
-		print "Scoring using the PATRISTIC"
-		pscores = self.scorer.scoreMSA_patristic(refMSA_file, n, numseq, alnlen, dist_matrix, allscores_file)
-		return(numseq, alnlen, pscores)
-		
-
-
-
-class guidanceBootstrapper(Bootstrapper):
-	''' Process with Guidance, original normalization only'''
-	def __init__(self, aligner, tree_builder, scorer):
-		'''initialization function'''
-		super(guidanceBootstrapper, self).__init__(aligner, tree_builder, scorer)
-
-	def runBootstrap(self, BootDir, prealn, refMSA_file, n, numprocesses, allscores_file):
-		os.chdir(BootDir)
-		(numseq, alnlen) = self.bootstrap(prealn, refMSA_file, n, numprocesses)
-		print "Scoring using the unweighted (original guidance) algorithm"
-		gscores= self.scorer.scoreMSA_Guidance(refMSA_file, n, numseq, alnlen, allscores_file)
-		return(numseq, alnlen, gscores)
-
-class bmBootstrapper(Bootstrapper):
-	''' Process with BMweights, original normalization only'''
-	def __init__(self, aligner, tree_builder, weight_tree_builder, scorer):
-		'''initialization function'''
-		self.weight_tree_builder = weight_tree_builder
-		super(bmBootstrapper, self).__init__(aligner, tree_builder, scorer)
-		
-	def runBootstrap(self, BootDir, prealn, refMSA_file, n, numprocesses, allscores_file, scoreTree_file, weightfile): 
-		
-		# Create the scoring tree
-		ordered_weights = self.weight_tree_builder.buildScoreTree(refMSA_file, scoreTree_file, weightfile)
-		shutil.copy(weightfile, BootDir)
-		os.chdir(BootDir)
-		
-		# Call bootstrapper
-		(numseq, alnlen) = self.bootstrap(prealn, refMSA_file, n, numprocesses)
-		
-		print "Scoring using the weighted algorithm"
-		gweightscores=self.scorer.scoreMSA_originalWeighted(refMSA_file, weightfile, n, numseq, alnlen, ordered_weights, allscores_file)
-
-		return(numseq, alnlen, gweightscores)
-		
-
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
