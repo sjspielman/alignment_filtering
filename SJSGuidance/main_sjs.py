@@ -95,35 +95,38 @@ def Pal2Nal(palfile, nucfile, paltype, nuctype, outfile, outputformat):
 ######################################################################################
 
 
-### FILES ###
-######### !!!!!! DO NOT CHANGE THESE. Or do, but no need. It won't cause a problem but really just leave these as they are. ##
-BootDir='BootDir/'
-prealn_file='prealn.fasta' 
+n = 100  # bootstrap n times
+prealn_file='prealn.fasta'
 refaln_file='refaln.fasta'
-##########
+weightfile='treeweights.txt'
+dist_matrix_file = 'dist_matrix.txt'
+scoreTree_file='scoringtree.tre'
+BootDir='BootDir/'
+numproc = 2
 
 
-#User files
-unaligned='protein.fasta' ## Relative path to file you want to file. Should contain unaligned sequences in FASTA FORMAT.
-seqType='protein' ## protein or nucleotide, but i guess everything is protein?
-#rawnuc="../rawsim_codon0.fasta"
-#save_x_file='../savexfile.txt'
+#Final output files
+simcount=1
+final_guidance="guidance"+str(simcount)+".fasta"
+final_BMweights="BMweights"+str(simcount)+".fasta"
+final_PDweights="PDweights"+str(simcount)+".fasta"
 
-#User options (currently set as default)
-#n = int(sys.argv[1])  #number of bootstraps
-#if n=='':
-#	n=100
-n=10
-x=0.90 # scoring cutoff for masking residues and/or columns. keep only >=x
-nproc=2 ##  1 processor default.
-pflag = 0; # First, I'm hilarious. Second, 0=no gap penalization, 1=gap penalization.
+final_guidance_p="guidance_p"+str(simcount)+".fasta"
+final_BMweights_p="BMweights_p"+str(simcount)+".fasta"
+final_PDweights_p="PDweights_p"+str(simcount)+".fasta"
 
-finalaln_file_nuc = 'aln_nuc.fasta'
-finalaln_file_aa  = 'aln_aa.fasta'
-##########################################################################################
-###########   DON'T CHANGE ANY OF THE FOLLOWING IN HERE. EVER. I'M SERIOUS.  #############
 
-### each module is (executable, options) ####
+finalscore_fileG="scoresG"+str(simcount)+".txt"
+finalscore_fileBM="scoresBM"+str(simcount)+".txt"
+finalscore_filePD="scoresPD"+str(simcount)+".txt"
+
+finalscore_fileG_p="scoresG_p"+str(simcount)+".txt"
+finalscore_fileBM_p="scoresBM_p"+str(simcount)+".txt"
+finalscore_filePD_p="scoresPD_p"+str(simcount)+".txt"
+
+final_BStrees_file="BStrees"+str(simcount)+".txt"
+finalTree_file="aatree"+str(simcount)+".txt"
+
 
 # Aligner
 amod = MafftAligner("mafft", " --quiet ")
@@ -136,70 +139,48 @@ tmod=builderFastTree("FastTree", " -fastest -nosupport -quiet ") # -nosupport MU
 
 # if weighted algorithm, wtmod needed
 wtmod=scoreTreeRAxML("raxmlHPC", " -m PROTCATWAG ")	
+
 mapmod = Map()
 smod = Scorer()
 bmod = Bootstrapper(amod, tmod)
 mmod = Masker(bmod)
 
+########################################################################################################################################################################
+########################################################################################################################################################################
+########################################################################################################################################################################
 
-<<<<<<< HEAD
-
-#User files
-
-unaligned='protein.fasta' ## Relative path to file you want to file. Should contain unaligned sequences in FASTA FORMAT.
-seqType='protein' ## protein or nucleotide, but i guess everything is protein?
-#rawnuc="../rawsim_codon0.fasta"
-#save_x_file='../savexfile.txt'
-
-#User options (currently set as default)
-#n = int(sys.argv[1])  #number of bootstraps
-#if n=='':
-#	n=100
-n=10
-x=0.90 # scoring cutoff for masking residues and/or columns. keep only >=x
-nproc=2 ##  1 processor default.
-pflag = 0; # First, I'm hilarious. Second, 0=no gap penalization, 1=gap penalization.
-
-finalaln_file_nuc = 'aln_nuc.fasta'
-finalaln_file_aa  = 'aln_aa.fasta'
-
-=======
->>>>>>> bac8542b4db69e068144c8e43bf674a47a2f26ff
 # Create map for sequences (required for mafft aligner, but can keep for all. doesn't waste time.)
 map=mapmod.ids2int(unaligned, 'fasta', prealn_file)
 	
-# Build initial MSA
+# Build reference alignment
 amod.makeAlignment(prealn_file, refaln_file)
-	
-# If user specified either PDweights or BMweights, build a weighting phylogeny and calculate the phylogenetic weights for use in scoring
-if not Guidance:
-	wtmod.buildScoreTree(refaln_file, weightTree_file)
+shutil.copy(refaln_file, BootDir)
 
 # Bootstrap
-bmod.bootstrap(BootDir, prealn_file, refaln_file, n, numprocesses)
-
-
-## something about pflag????
-if Guidance:
-	gscore_file = 'Guidance_scores.txt'
-if BMweights:
-	bmscore_file = 'BMweights_scores.txt'
-if PDweights:
-	pdscore_file = 'PDweights_scores.txt'
-
-
-
-
-
-
-
-
-
-
+(numseq, alnlen, gscores, bmscores, pdscores, gscores_p, bmscores_p, pdscores_p)=bmod.runBootstrap(BootDir, raw, refaln_file, n, numproc, finalscore_fileG, finalscore_fileBM, finalscore_filePD, finalscore_fileG_p, finalscore_fileBM_p, finalscore_filePD_p, scoreTree_file, weightfile, dist_matrix_file)	
+	
 #residue masking and pal2nal
-totalmasked=mmod.maskResidues(refaln_file, numseq, alnlen, gscores, x, map, 'fasta', finalaln_file_aa, 'protein', i, save_x_file, 'pat')
 
-#Pal2Nal(finalaln_file_aa, rawnuc, 'fasta', 'fasta', finalaln_file_nuc, 'fasta')
+masks={'30_':float(0.3)}
+algs={'guidance':guidance, 'BMweights':BMweights, 'PDweights':PDweights, 'guidance_p':guidancep, 'BMweights_p':BMweightsp, 'PDweights_p':PDweightsp}
+
+for x in masks:
+	for alg in algs:
+		outfile=alg+x+str(simcount)+".fasta"
+		mmod.maskResidues(refaln_file, numseq, alnlen, algs[alg], masks[x], 'fasta', temp_res, "protein", simcount, save_x_file, alg)
+		Pal2Nal(temp_res, rawnuc_ints, 'fasta', 'fasta', outfile, 'fasta')
+		shutil.copy(outfile, '../'+alndir_nuc)
+		shutil.copy(temp_res, '../'+alndir_aa+'/'+outfile)
+	
+	
+#Also copy reference alignment to alndir_aa and alndir+nuc.
+outref='refaln'+str(simcount)+'.fasta'
+shutil.copy('refaln.fasta', '../'+alndir_aa+'/'+outref)
+Pal2Nal('refaln.fasta', rawnuc_ints, 'fasta', 'fasta', '../'+alndir_nuc+'/'+outref, 'fasta')
+
+
+
+
 
 
 # Clean up BootDir. compress????
@@ -207,23 +188,3 @@ os.chdir('../')
 bootfiles=os.listdir(BootDir)
 for file in bootfiles:
 	os.remove(BootDir+file)	
-
-	
-
-
-
-
-
-def parse_args():
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--protein_file", help="A file containing unaligned AA sequences in FASTA format", required=False, dest="infile", type=str)
-    parser.add_argument("--protein_format", help="Specifies the format of the input file (fasta or nex", dest=form, type=str, default="fasta")
-    parser.add_argument("--num_procs", type=int, help="Number of processes to use", default=1)
-    parser.add_argument("--bootstraps", help="The number of bootstraps to perform", required=False,
-    					dest="bootstraps", default=10)
-    parser.add_argument("alphabet", help="Whether AAs or NTs are used", type=str,
-    					default="AA", required=False) ##AA or NT, default is AA
-    parser.add_argument("gap_penalization", help="Type of gap penalization", default=0,
-    					type=int, dest="pflag")
-    return parser.parse_args()
-

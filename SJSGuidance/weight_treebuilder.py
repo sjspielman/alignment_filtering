@@ -1,7 +1,6 @@
-import subprocess, os, sys, re, csv, shutil
+import subprocess, re, shutil
+from Bio import AlignIO
 from dendropy import *
-from dendropy import TaxonSet, Tree, TreeList
-from Bio import SeqIO, AlignIO
 from numpy import *
 
 class WeightTreeBuilder:
@@ -10,7 +9,7 @@ class WeightTreeBuilder:
 		return
 
 	def killPolytomyDendro(self, infile):
-		'''actually removes polytomies, except branchmanager is a beotch.'''
+		'''Removed polytomies using dendropy'''
 		rawtree = Tree(stream=open(infile), schema="newick")
 		rawtree.resolve_polytomies(update_splits=True)
 		newtree=str(rawtree)
@@ -23,7 +22,7 @@ class WeightTreeBuilder:
 		return 0
 		
 	
-	def BMweights(self, treefile, weightfile):
+	def calcBMweights(self, treefile, weightfile):
 		'''uses BranchManager to get phylogenetic weights and processes output for later use in scoring function'''
 		callBM = 'java -cp BranchManager.jar BM '+treefile+' > '+weightfile
 		runBM = subprocess.call(str(callBM), shell='True')
@@ -48,7 +47,7 @@ class WeightTreeBuilder:
 		
 		return ordered_weights		
 		
-	def PDweights(self, treefile, matrixfile, numseq):
+	def calcPDweights(self, treefile, matrixfile, numseq):
 		tree=Tree.get_from_path(treefile, 'newick')
 		patmat=treecalc.PatristicDistanceMatrix(tree)
 		pat_dict={}
@@ -75,16 +74,16 @@ class WeightTreeBuilder:
 					dist_matrix[i][x] = pat_dict[str(x+1)+'_'+str(i+1)] / maxdist
 		savetxt(matrixfile, dist_matrix, delimiter=' ', fmt='%.5f')
 		return dist_matrix
-		
-
 	
-class scoreTreeRAxML(WeightTreeBuilder):	
+	
+	
+class weightRAxML(WeightTreeBuilder):	
 	'''Does both branchmananger weights and patristic distance matrix.'''	
 	def __init__(self, executable, options):
 		self.executable = executable
 		self.options = options
 		
-	def buildScoreTree(self, alnfile, treefile):
+	def buildScoreTree(self, alnfile, treefile, weightfile, matrixfile, numseq):
 		print "Building Scoring Tree with RAxML using amino acid data"
 		
 		## Convert alignment to phylip for fasta input
@@ -93,26 +92,26 @@ class scoreTreeRAxML(WeightTreeBuilder):
 		
 		BuildTree=self.executable+' '+self.options+' -s temp.phy -n out'
 		subprocess.call(BuildTree, shell=True)
-		shutil.move('RAxML_result.out', treefile)
-		subprocess.call('rm RAxML*', shell=True)
+		shutil.move('RAxML_bestTree.out', treefile)
+		
+		dist_matrix= self.calcPDweights(treefile, matrixfile, numseq)
+		ordered_weights = self.calcBMweights(treefile, weightfile)
+		
+		return (dist_matrix, ordered_weights)
 	
-		return 0
-	
-	
-	
-class scoreTreeFastTree(WeightTreeBuilder):	
+		
+class weightFastTree(WeightTreeBuilder):	
 	'''Does both branchmananger weights and patristic distance matrix.'''	
 	def __init__(self, executable, options):
 		self.executable = executable
 		self.options = options
 
-	def buildScoreTree(self, alnfile, treefile):
+	def buildScoreTree(self, alnfile, treefile, weightfile, matrixfile, numseq):
 		print "Building Scoring Tree with FastTree (-slow)"
 		BuildTree=self.executable+' '+self.options+' -nosupport '+alnfile+' > '+treefile
 		subprocess.call(BuildTree, shell=True)
 		
-		dist_matrix= self.getPatristic(treefile, matrixfile, numseq)
-		ordered_weights = self.findWeights(treefile, weightfile)
+		dist_matrix= self.calcPDweights(treefile, matrixfile, numseq)
+		ordered_weights = self.calcBMweights(treefile, weightfile)
 		
-		return 0
-
+		return (dist_matrix, ordered_weights)
