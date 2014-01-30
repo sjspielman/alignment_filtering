@@ -75,7 +75,7 @@ class MafftAligner(Aligner):
 		self.options = options
 	
 	def makeAlignment( self, prealn_file, alnfile):
-		'''makes a standard alignment'''
+		'''Makes a standard alignment'''
 		print "Making initial alignment with MAFFT"
 		align=self.executable+' '+self.options+' '+prealn_file+' > '+alnfile
 		runalign=subprocess.call(str(align),shell=True)
@@ -265,7 +265,7 @@ class MuscleAligner(Aligner):
 		return 0
 	
 	def reorderAlignment(self, infile, outfile):
-		'''Given an input alignment in fasta format, reorder the sequences (based on ascending id's which are now all ints. indexing begins at 1.) and rewrite the file, again in fasta.'''
+		'''Given an input alignment in fasta format, reorder the sequences (based on ascending id's which are now all ints. indexing begins at 1.) and rewrite the file, again in fasta. Necessary as muscle's flag to do this is deprecated and won't work.'''
 		rawaln = AlignIO.read(infile, 'fasta')
 		outaln = open(outfile, 'w')
 		numseq = len(rawaln)

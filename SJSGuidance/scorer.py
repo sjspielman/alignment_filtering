@@ -254,7 +254,7 @@ class Scorer(PrepScorer,ScoreProcessor):
 		for i in range(n):
 			testMSA_file='bootaln'+str(i)+'.fasta'
 			outfile = "scores"+str(i)+"_"+str(alg)+".txt"
-			scoreCommand='../guidance_score ' + refMSA_file + " " + testMSA_file + " " + outfile
+			scoreCommand='../scorealn/guidance_score ' + refMSA_file + " " + testMSA_file + " " + outfile
 			subprocess.call(scoreCommand, shell=True)
 			scores = loadtxt(outfile)
 			all_scores = all_scores + scores
@@ -269,7 +269,7 @@ class Scorer(PrepScorer,ScoreProcessor):
 		for i in range(n):
 			testMSA_file='bootaln'+str(i)+'.fasta'
 			outfile = "scores"+str(i)+"_"+str(alg)+".txt"
-			scoreCommand='../weighted_guidance_score ' + refMSA_file + " " + testMSA_file + " " + weightfile + " " + outfile
+			scoreCommand='../scorealn/weighted_guidance_score ' + refMSA_file + " " + testMSA_file + " " + weightfile + " " + outfile
 			subprocess.call(scoreCommand, shell=True)
 			scores = loadtxt(outfile)
 			all_scores = all_scores + scores
@@ -285,7 +285,7 @@ class Scorer(PrepScorer,ScoreProcessor):
 		for i in range(n):
 			testMSA_file='bootaln'+str(i)+'.fasta'
 			outfile = "scores"+str(i)+"_"+str(alg)+".txt"
-			scoreCommand='../patristic_guidance_score ' + refMSA_file + " " + testMSA_file + " " + dist_matrix_file + " " + outfile
+			scoreCommand='../scorealn/patristic_guidance_score ' + refMSA_file + " " + testMSA_file + " " + dist_matrix_file + " " + outfile
 			subprocess.call(scoreCommand, shell=True)
 			scores = loadtxt(outfile)
 			all_scores = all_scores + scores
