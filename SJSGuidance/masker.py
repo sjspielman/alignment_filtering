@@ -8,9 +8,8 @@ from Bio.SeqRecord import SeqRecord
 import re
 
 class Masker:
-	def __init__(self, bootstrapper):
+	def __init__(self):
 		'''initialization function'''
-		self.bootstrapper=bootstrapper
 		return			
 	
 	def notGapSites(self, parsed, col_index):
