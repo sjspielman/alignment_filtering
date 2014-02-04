@@ -93,9 +93,11 @@ How TPR and FPR behaved for FUBAR and PAML evidenced the different approaches th
 
 \subsection*{Raising masking thresholds for gap-penalization algorithms can hinder positive-selection inference}
 
-When filtering alignments with Guidance-based methods, one must select a specific score cutoff below which to mask residues. We chose to filter all residues with scores less than 0.5, as previously done by \citet{Jordan2012}. However, it was possible that selecting a different threshold would have yielded different results, so we analyzed how changing this threshold might impact our findings. For this analysis, we considered only the Guidance and GuidanceP scoring schemes since our phylogenetically-corrected algorithms did not perform significantly differently. Using the same position confidence scores previously generated, we masked all such alignments at the additional cutoffs of 0.3, 0.7, and 0.9 and inferred positive selection with FUBAR and PAML.
+When filtering alignments with Guidance-based methods, one must select a specific score cutoff below which to mask residues. We chose to filter all residues with scores less than 0.5, as previously done by \citet{Jordan2012}. However, it was possible that selecting a different threshold would have yielded different results, so we analyzed how changing this threshold might impact our findings. For this analysis, we considered only the Guidance and GuidanceP scoring schemes since our phylogenetically-corrected algorithms did not perform significantly differently. Using the same position confidence scores previously generated, we masked all alignments at the additional cutoffs of 0.3, 0.7, and 0.9 and inferred positive selection with FUBAR and PAML.
 
-To investigate the influence of different masking cutoffs, we fit mixed-effects linear models for each simulation set, with TPR as the response, masking cutoff as a fixed effect, and simulation count as the random effect, for Guidance and GuidanceP results each. Results showed that, for Guidance, all masking cutoffs yielded statistically similar TPRs (multiple comparisons gave all $P>0.06$) for a given simulation set. For GuidanceP, on the other hand, masking cutoffs 0.3, 0.5, and 0.7 gave statistically similar TPRs (all $P>0.45$), whereas using a masking cutoff of 0.9 always yielded significantly lower TPRs than did the other cutoffs. Table \ref{tab:cutoffs} highlights this result, specifically comparing performance between cutoffs 0.5 and 0.9 for GuidanceP. Importantly, for the 60-sequence simulation set (for which we noted the maximum benefit of alignment filtering when analyzed with FUBAR), masking at the stringent cutoff of 0.9 as opposed to the more lenient 0.5 reduced the TPR by roughly 26\%. This extreme TPR decrease yielded an average TPR of 0.281 for alignments masked at 0.9, well below its corresponding average unfiltered TPR of 0.345 (Table \ref{tab:casemodel}). When combined with a strict masking cutoff, the gap-penalization normalization scheme, therefore, had the potential to remove excessive amounts of information from alignments and worsen positive-selection detection. 
+To investigate the influence of different masking cutoffs, we fit mixed-effects linear models for each simulation set, with TPR as the response, masking cutoff as a fixed effect, and simulation count as the random effect, for Guidance and GuidanceP results each. 
+Results showed that, when analyzed with FUBAR, alignments masked with Guidance scores all masking cutoffs yielded statistically similar TPRs (all $P>0.06$) for a given simulation set. When analyzed with PAML, there was no significant in difference in TPR among masking thresholds for both the 11- and 26-sequence simulation sets (all $P>0.10$). PAML's results for the 60-sequence simulation set, however, demonstrated that masking at a threshold of 0.9 was significantly worse than masking at thresholds of 0.3 or 0.5 (each comparison gave $P<0.001$), although there was no significant difference between the 0.3 and 0.5 thresholds' TPRs ($P=0.65$). Masking at 0.9, in fact, resulted in roughly a 4\% decrease in TPR, relative to masking at 0.5. This result suggested that stringent masking thresholds may hinder accuracy in positive-selection inference under certain conditions.
+Indeed, we found that, for alignments masked using the GuidanceP algorithm, while the masking cutoffs of 0.3, 0.5, and 0.7 yielded statistically similar TPRs (all $P>0.45$), masking at the 0.9 threshold universally produced significantly lower TPRs than did the other cutoffs. This trend held for both FUBAR and PAML, as highlighted in Table \ref{tab:cutoffs}, which specifically compares performance between cutoffs 0.5 and 0.9 for GuidanceP. Importantly, for the 60-sequence simulation set, masking at the stringent cutoff of 0.9, as opposed to the more lenient 0.5, reduced the average TPR by over 25\%, when analyzed by both FUBAR and PAML. For both positive-selection inference methods, these extreme TPR decreases produced TPRs well below their corresponding unfiltered TPRs (Table \ref{tab:casemodel}). When combined with a strict masking cutoff, the gap-penalization normalization scheme, therefore, had the potential to remove excessive amounts of information from alignments and worsen positive-selection detection. 
 
 
 \section*{Discussion}
@@ -248,14 +250,17 @@ Simulation Set & Method & Unfiltered TPR & \multicolumn{1}{c}{GuidanceP} & \mult
 
 \begin{table}
 \caption {\label{tab:cutoffs} Effect of masking cutoff on TPR of positive-selection inference.}
-\begin{tabular}{c c c c}
+\begin{tabular}{c c c c c}
 \hline\noalign{\smallskip}
-Simulation Set & 0.5 TPR & 0.9 TPR & Percent TPR Decrease \\ 
+Simulation Set & Method & 0.5 TPR & 0.9 TPR & Percent TPR Decrease \\ 
 \hline\noalign{\smallskip}
-11 taxa & 0.109 & 0.104 & 4.99\%$^{\ast}$\\ 
-26 taxa & 0.232 & 0.220 & 5.28\%$^{\ast\ast}$\\
-60 taxa & 0.379 & 0.281 & 25.8\%$^{\ast\ast\ast}$\\
-158 taxa & 0.388 & 0.374  & 3.57\%$^{\ast\ast\ast}$\\
+11 taxa & FUBAR & 0.109 & 0.104 & 4.99\%$^{\ast}$\\ 
+             & PAML   & 0.087 & 0.080 & 8.36\%$^{\ast}$\\ 
+26 taxa & FUBAR & 0.232 & 0.220 & 5.28\%$^{\ast\ast}$\\
+             & PAML   & 0.204 & 0.195 &  4.34\%$^{\ast}$\\ 
+60 taxa & FUBAR & 0.379 & 0.281 & 25.8\%$^{\ast\ast\ast}$\\
+             & PAML    & 0.447 & 0.327 & 27.0\%$^{\ast}$\\ 
+158 taxa & FUBAR & 0.388 & 0.374  & 3.57\%$^{\ast\ast\ast}$\\
 \hline
 \end{tabular}
 \newline
