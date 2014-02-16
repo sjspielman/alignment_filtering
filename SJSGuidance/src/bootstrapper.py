@@ -46,7 +46,8 @@ class AllBootstrapper(Bootstrapper):
 		self.weight_tree_builder = weight_tree_builder
 		super(AllBootstrapper, self).__init__(aligner, tree_builder, scorer)	
 		
-	def runBootstrap(self, BootDir, prealn_file, refaln_file, n, numprocesses, finalscore_fileG, finalscore_fileBM, finalscore_filePD, finalscore_fileG_penal, finalscore_fileBM_penal, finalscore_filePD_penal, weightTree_file, bmweights_file, pdweights_file): 
+	def runBootstrap(self, BootDir, prealn_file, refaln_file, n, numprocesses, weightTree_file, bmweights_file, pdweights_file): 
+		
 		
 		shutil.copy('src/BranchManager.jar', BootDir)
 		shutil.copy(refaln_file, BootDir)
@@ -59,12 +60,48 @@ class AllBootstrapper(Bootstrapper):
 		# Create the scoring tree
 		(dist_matrix, ordered_bmweights) = self.weight_tree_builder.buildScoreTree(refaln_file, weightTree_file, bmweights_file, pdweights_file, numseq)
 		
+		
+		## Final score files names
+		g="scores_Guidance.txt"
+		bm="scores_BMweights.txt"
+		pd="scores_PDweights.txt"
+		gP="scores_GuidanceP.txt"
+		bmP="scores_BMweightsP.txt"
+		pdP="scores_PDweightsP.txt"
+		
+		
 		# Conduct the scoring
 		print "scoring Guidance"
-		(Gscores, Gscores_P)= self.scorer.scoreMSA_Guidance(refaln_file, n, numseq, alnlen, finalscore_fileG, finalscore_fileG_penal)
+		(gscores, gscores_p)= self.scorer.scoreMSA_Guidance(refaln_file, n, numseq, alnlen, g, gP)
 		print "scoring BranchManager"
-		(BMscores, BMscores_P)=self.scorer.scoreMSA_BMweights(refaln_file, n, numseq, alnlen, ordered_bmweights, bmweights_file, finalscore_fileBM, finalscore_fileBM_penal)
+		(bmscores, bmscores_p)=self.scorer.scoreMSA_BMweights(refaln_file, n, numseq, alnlen, ordered_bmweights, bmweights_file, bm, bmP)
 		print "scoring Patristic"
-		(PDscores, PDscores_P) = self.scorer.scoreMSA_PDweights(refaln_file, n, numseq, alnlen, dist_matrix, pdweights_file, finalscore_filePD, finalscore_filePD_penal)
+		(pdscores, pdscores_p) = self.scorer.scoreMSA_PDweights(refaln_file, n, numseq, alnlen, dist_matrix, pdweights_file, pd, pdP)
 		
-		return(numseq, alnlen, Gscores, BMscores, PDscores, Gscores_P, BMscores_P, PDscores_P)
+		# Place scores into dictionary. Useful for naming final files.
+		alg_scores={'Guidance':gscores, 'BMweights':bmscores, 'PDweights':pdscores, 'GuidanceP':gscores_p, 'BMweightsP':bmscores_p, 'PDweightsP':pdscores_p}
+
+		return(numseq, alnlen, alg_scores)
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
