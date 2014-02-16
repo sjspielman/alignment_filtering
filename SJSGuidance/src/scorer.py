@@ -48,7 +48,7 @@ class ScoreProcessor(PrepScorer):
 	
 	
 	###############################################################################################################
-	def processScoresWeighted(self, n, numseq, alnlen, refMSA_file, ordered_weights, all_scores, allscores_file):
+	def processScoresBMweights(self, n, numseq, alnlen, refMSA_file, ordered_weights, all_scores, allscores_file):
 		
 		#Parse reference alignment and count gaps per column. Save indices for which sequences ARE NOT GAPS, in notGaps
 		parsed = AlignIO.read(refMSA_file, 'fasta')
@@ -107,7 +107,7 @@ class ScoreProcessor(PrepScorer):
 		
 		
 	###############################################################################################################		
-	def processScoresPatristic(self, n, numseq, alnlen, refMSA_file, dist_matrix, all_scores, allscores_file):
+	def processScoresPDweights(self, n, numseq, alnlen, refMSA_file, dist_matrix, all_scores, allscores_file):
 
 		#Parse reference alignment and count gaps per column. Save indices for which sequences ARE NOT GAPS, in notGaps
 		parsed = AlignIO.read(refMSA_file, 'fasta')
@@ -213,7 +213,7 @@ class ScoreProcessor(PrepScorer):
 		return final_scores
 	
 	
-	def processScoresPenalizeWeighted(self, n, alnlen, ordered_weights, all_scores, allscores_file):
+	def processScoresPenalizeBMweights(self, n, alnlen, ordered_weights, all_scores, allscores_file):
 		final_scores = zeros(alnlen)
 		normedscores = zeros(alnlen)
 		
@@ -231,7 +231,7 @@ class ScoreProcessor(PrepScorer):
 		
 		return final_scores
 	
-	def processScoresPenalizePatristic(self, n, alnlen, dist_matrix, all_scores, allscores_file):
+	def processScoresPenalizePDweights(self, n, alnlen, dist_matrix, all_scores, allscores_file):
 		final_scores = zeros(alnlen)
 		normedscores = zeros(alnlen)
 				
@@ -265,7 +265,7 @@ class Scorer(PrepScorer,ScoreProcessor):
 		for i in range(n):
 			testMSA_file='bootaln'+str(i)+'.fasta'
 			outfile = "scores"+str(i)+"_"+str(alg)+".txt"
-			scoreCommand='../src/guidance_score ' + refMSA_file + " " + testMSA_file + " " + outfile
+			scoreCommand='../src/score/guidance_score ' + refMSA_file + " " + testMSA_file + " " + outfile
 			subprocess.call(scoreCommand, shell=True)
 			scores = loadtxt(outfile)
 			all_scores = all_scores + scores
@@ -274,32 +274,32 @@ class Scorer(PrepScorer,ScoreProcessor):
 		return (final_scores, final_scores_penalized)
 	
 	
-	def scoreMSA_Weighted(self, refMSA_file, n, numseq, alnlen, ordered_weights, weightfile, allscores_file, allscores_file_penalized):
+	def scoreMSA_BMweights(self, refMSA_file, n, numseq, alnlen, ordered_weights, weightfile, allscores_file, allscores_file_penalized):
 		alg='bm'
 		all_scores=zeros((numseq, alnlen))
 		for i in range(n):
 			testMSA_file='bootaln'+str(i)+'.fasta'
 			outfile = "scores"+str(i)+"_"+str(alg)+".txt"
-			scoreCommand='../src/weighted_guidance_score ' + refMSA_file + " " + testMSA_file + " " + weightfile + " " + outfile
+			scoreCommand='../src/score/bmweights_score ' + refMSA_file + " " + testMSA_file + " " + weightfile + " " + outfile
 			subprocess.call(scoreCommand, shell=True)
 			scores = loadtxt(outfile)
 			all_scores = all_scores + scores
-		final_scores=self.processScoresWeighted(n, numseq, alnlen, refMSA_file, ordered_weights, all_scores, allscores_file)
-		final_scores_penalized = self.processScoresPenalizeWeighted(n, alnlen, ordered_weights, all_scores, allscores_file_penalized)
+		final_scores=self.processScoresBMweights(n, numseq, alnlen, refMSA_file, ordered_weights, all_scores, allscores_file)
+		final_scores_penalized = self.processScoresPenalizeBMweights(n, alnlen, ordered_weights, all_scores, allscores_file_penalized)
 		return (final_scores, final_scores_penalized)
 	
 	
-	def scoreMSA_Patristic(self, refMSA_file, n, numseq, alnlen, dist_matrix, dist_matrix_file, allscores_file, allscores_file_penalized):
+	def scoreMSA_PDweights(self, refMSA_file, n, numseq, alnlen, dist_matrix, dist_matrix_file, allscores_file, allscores_file_penalized):
 		alg='pd'
 		all_scores=zeros((numseq, alnlen))
 		for i in range(n):
 			testMSA_file='bootaln'+str(i)+'.fasta'
 			outfile = "scores"+str(i)+"_"+str(alg)+".txt"
-			scoreCommand='../src/patristic_guidance_score ' + refMSA_file + " " + testMSA_file + " " + dist_matrix_file + " " + outfile
+			scoreCommand='../src/score/pdweights_score ' + refMSA_file + " " + testMSA_file + " " + dist_matrix_file + " " + outfile
 			subprocess.call(scoreCommand, shell=True)
 			scores = loadtxt(outfile)
 			all_scores = all_scores + scores
-		final_scores = self.processScoresPatristic(n, numseq, alnlen, refMSA_file, dist_matrix, all_scores, allscores_file)
-		final_scores_penalized = self.processScoresPenalizePatristic(n, alnlen, dist_matrix, all_scores, allscores_file_penalized)
+		final_scores = self.processScoresPDweights(n, numseq, alnlen, refMSA_file, dist_matrix, all_scores, allscores_file)
+		final_scores_penalized = self.processScoresPenalizePDweights(n, alnlen, dist_matrix, all_scores, allscores_file_penalized)
 		return (final_scores, final_scores_penalized)
 	

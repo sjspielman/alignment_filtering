@@ -63,8 +63,8 @@ class AllBootstrapper(Bootstrapper):
 		print "scoring Guidance"
 		(Gscores, Gscores_P)= self.scorer.scoreMSA_Guidance(refaln_file, n, numseq, alnlen, finalscore_fileG, finalscore_fileG_penal)
 		print "scoring BranchManager"
-		(BMscores, BMscores_P)=self.scorer.scoreMSA_Weighted(refaln_file, n, numseq, alnlen, ordered_bmweights, bmweights_file, finalscore_fileBM, finalscore_fileBM_penal)
+		(BMscores, BMscores_P)=self.scorer.scoreMSA_BMweights(refaln_file, n, numseq, alnlen, ordered_bmweights, bmweights_file, finalscore_fileBM, finalscore_fileBM_penal)
 		print "scoring Patristic"
-		(PDscores, PDscores_P) = self.scorer.scoreMSA_Patristic(refaln_file, n, numseq, alnlen, dist_matrix, pdweights_file, finalscore_filePD, finalscore_filePD_penal)
+		(PDscores, PDscores_P) = self.scorer.scoreMSA_PDweights(refaln_file, n, numseq, alnlen, dist_matrix, pdweights_file, finalscore_filePD, finalscore_filePD_penal)
 		
 		return(numseq, alnlen, Gscores, BMscores, PDscores, Gscores_P, BMscores_P, PDscores_P)
