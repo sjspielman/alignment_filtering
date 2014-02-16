@@ -104,8 +104,8 @@ refaln_file='refaln.fasta'
 
 
 #User files
-unaligned='protein.fasta' ## Relative path to file you want to file. Should contain unaligned sequences in FASTA FORMAT.
-seqType='protein' ## protein or nucleotide, but i guess everything is protein?
+unaligned=sys.argv[1] ## Relative path to file you want to file. Should contain unaligned sequences in FASTA FORMAT.
+seqType=sys.argv[2] ## protein or nucleotide, but i guess everything is protein?
 #rawnuc="../rawsim_codon0.fasta"
 #save_x_file='../savexfile.txt'
 
@@ -113,9 +113,9 @@ seqType='protein' ## protein or nucleotide, but i guess everything is protein?
 #n = int(sys.argv[1])  #number of bootstraps
 #if n=='':
 #	n=100
-n=10
+n=sys.argv[3]
 x=0.90 # scoring cutoff for masking residues and/or columns. keep only >=x
-nproc=2 ##  1 processor default.
+nproc=sys.argv[4] ##  1 processor default.
 pflag = 0; # First, I'm hilarious. Second, 0=no gap penalization, 1=gap penalization.
 
 finalaln_file_nuc = 'aln_nuc.fasta'
@@ -127,44 +127,22 @@ finalaln_file_aa  = 'aln_aa.fasta'
 
 # Aligner
 amod = MafftAligner("mafft", " --quiet ")
-###amod = MuscleAligner("muscle", " -quiet ")
-###amod = ClustalAligner("clustalw2", " -quiet ")
+	## FOR MUSCLE/CLUSTAL
+	####amod = MuscleAligner("muscle", " -quiet ")
+	###amod = ClustalAligner("clustalw2", " -quiet ")
 
 # Tree builder (bootstrap trees)
 tmod=builderFastTree("FastTree", " -fastest -nosupport -quiet ") # -nosupport MUST be there
-###tmod=builderSemphy("../semphy/semphy", " -a 20 --jtt -H -J -v 5 --BPrepeats=100 ") ## MUST BE -v 5
+	##FOR SEMPHY
+	###tmod=builderSemphy("../semphy/semphy", " -a 20 --jtt -H -J -v 5 --BPrepeats=100 ") ## MUST BE -v 5
 
+bmod = Bootstrapper(amod, tmod)
 # if weighted algorithm, wtmod needed
 wtmod=scoreTreeRAxML("raxmlHPC", " -m PROTCATWAG ")	
-mapmod = Map()
-smod = Scorer()
-bmod = Bootstrapper(amod, tmod)
+###bmod = Bootstrapper(amod, tmod)
 mmod = Masker(bmod)
 
 
-<<<<<<< HEAD
-
-#User files
-
-unaligned='protein.fasta' ## Relative path to file you want to file. Should contain unaligned sequences in FASTA FORMAT.
-seqType='protein' ## protein or nucleotide, but i guess everything is protein?
-#rawnuc="../rawsim_codon0.fasta"
-#save_x_file='../savexfile.txt'
-
-#User options (currently set as default)
-#n = int(sys.argv[1])  #number of bootstraps
-#if n=='':
-#	n=100
-n=10
-x=0.90 # scoring cutoff for masking residues and/or columns. keep only >=x
-nproc=2 ##  1 processor default.
-pflag = 0; # First, I'm hilarious. Second, 0=no gap penalization, 1=gap penalization.
-
-finalaln_file_nuc = 'aln_nuc.fasta'
-finalaln_file_aa  = 'aln_aa.fasta'
-
-=======
->>>>>>> bac8542b4db69e068144c8e43bf674a47a2f26ff
 # Create map for sequences (required for mafft aligner, but can keep for all. doesn't waste time.)
 map=mapmod.ids2int(unaligned, 'fasta', prealn_file)
 	
@@ -188,14 +166,6 @@ if PDweights:
 	pdscore_file = 'PDweights_scores.txt'
 
 
-
-
-
-
-
-
-
-
 #residue masking and pal2nal
 totalmasked=mmod.maskResidues(refaln_file, numseq, alnlen, gscores, x, map, 'fasta', finalaln_file_aa, 'protein', i, save_x_file, 'pat')
 
@@ -207,23 +177,4 @@ os.chdir('../')
 bootfiles=os.listdir(BootDir)
 for file in bootfiles:
 	os.remove(BootDir+file)	
-
-	
-
-
-
-
-
-def parse_args():
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--protein_file", help="A file containing unaligned AA sequences in FASTA format", required=False, dest="infile", type=str)
-    parser.add_argument("--protein_format", help="Specifies the format of the input file (fasta or nex", dest=form, type=str, default="fasta")
-    parser.add_argument("--num_procs", type=int, help="Number of processes to use", default=1)
-    parser.add_argument("--bootstraps", help="The number of bootstraps to perform", required=False,
-    					dest="bootstraps", default=10)
-    parser.add_argument("alphabet", help="Whether AAs or NTs are used", type=str,
-    					default="AA", required=False) ##AA or NT, default is AA
-    parser.add_argument("gap_penalization", help="Type of gap penalization", default=0,
-    					type=int, dest="pflag")
-    return parser.parse_args()
 
