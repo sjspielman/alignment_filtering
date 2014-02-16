@@ -30,27 +30,26 @@ class Masker:
 		
 		new='?'	
 		parsed = AlignIO.read(refMSA_file, 'fasta')
-		while fracmasked > maxmasked:
-			newseqs=[]
-			numres=0
-			totalmasked=0
-			maskedMSA=MultipleSeqAlignment([])
-			for row in range(numseq):
-				newseq=''
-				for position in range(alnlen):
-					thispos=str(parsed[row].seq[position])
-					isgap=re.search('-', thispos)
-					if isgap:
+		newseqs=[]
+		numres=0
+		totalmasked=0
+		maskedMSA=MultipleSeqAlignment([])
+		for row in range(numseq):
+			newseq=''
+			for position in range(alnlen):
+				thispos=str(parsed[row].seq[position])
+				isgap=re.search('-', thispos)
+				if isgap:
+					newseq=newseq+parsed[row].seq[position]
+				else:
+					numres+=1
+					thescore=scores[row][position]
+					if round(thescore)<x: #mask if below threshold. use round to ensure we get the ones >= 0.5 below threshold
+						newseq=newseq+new
+						totalmasked+=1
+					else: #or, keep that position
 						newseq=newseq+parsed[row].seq[position]
-					else:
-						numres+=1
-						thescore=scores[row][position]
-						if thescore<x: #mask if shitty
-							newseq=newseq+new
-							totalmasked+=1
-						else: #or, keep that position
-							newseq=newseq+parsed[row].seq[position]
-				newseqs.append(newseq)
+			newseqs.append(newseq)
 		
 		for i in range(numseq):
 			if str(seqType)=='protein':

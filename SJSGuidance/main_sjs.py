@@ -94,32 +94,56 @@ def Pal2Nal(palfile, nucfile, paltype, nuctype, outfile, outputformat):
 	outfile.close()
 	return 0
 
-def prepareBoot(BootDir):
+def prepareDir(directory, save=False, newname=None):
 	''' Double check that BootDir exists and clear it of all files, as needed. ''' 
-	if (os.path.exists(BootDir)):
-		bootfiles=os.listdir(BootDir)
+	if save:
+		# Be sure newname is properly named. Yes, not an ideal way. I know. But it's fine.
+		if ".tgz" not in newname:
+			newname+=".tgz"
+		compress = "tar -czf "+newname+" "+directory
+		subprocess.call(compress, shell=True)
+	
+	# Cleanup and/or make
+	if (os.path.exists(directory)):
+		bootfiles=os.listdir(directory)
 		for file in bootfiles:
-			os.remove(BootDir+file)	
+			os.remove(directory+file)	
 	else:
-		os.mkdir(BootDir)
+		os.mkdir(directory)
+		
 
 ######################################################################################
 ######################################################################################
 
 
-n = 5  # bootstrap n times
+n = 1 # bootstrap n times
 unaligned='TESTSEQ.fasta'
 prealn_file='prealn.fasta'
 refaln_file='refaln.fasta'
 weightfile='treeweights.txt'
 dist_matrix_file = 'dist_matrix.txt'
 scoreTree_file='scoringtree.tre'
-BootDir='BootDir/'
+
 numproc = 2
 
+final_aln_dir='alignments/'
+BootDir='BootDir/' ## KEEP
 
-#Final output files defined later.
+prepareDir(final_aln_dir)
+prepareDir(BootDir)
+
+#Final output files. Alignment file names defined later as algorithm_maskthreshold_simcount_nuc/aa.fasta (eg, guidance50_1_nuc.fasta or guidance_p50_1_nuc.fasta)
 simcount=1
+finalscore_fileG="scoresG"+str(simcount)+".txt"
+finalscore_fileBM="scoresBM"+str(simcount)+".txt"
+finalscore_filePD="scoresPD"+str(simcount)+".txt"
+
+finalscore_fileG_p="scoresG_p"+str(simcount)+".txt"
+finalscore_fileBM_p="scoresBM_p"+str(simcount)+".txt"
+finalscore_filePD_p="scoresPD_p"+str(simcount)+".txt"
+
+final_BStrees_file="BStrees"+str(simcount)+".txt"
+finalTree_file="aatree"+str(simcount)+".txt"
 
 
 # Aligner
@@ -151,33 +175,34 @@ map=mapmod.ids2int(unaligned, 'fasta', prealn_file)
 amod.makeAlignment(prealn_file, refaln_file)
 
 # Bootstrap
-prepareBoot(BootDir)
 (numseq, alnlen, gscores, bmscores, pdscores, gscores_p, bmscores_p, pdscores_p)=bmod.runBootstrap(BootDir, unaligned, refaln_file, n, numproc, finalscore_fileG, finalscore_fileBM, finalscore_filePD, finalscore_fileG_p, finalscore_fileBM_p, finalscore_filePD_p, scoreTree_file, weightfile, dist_matrix_file)	
 	
 # Residue masking and pal2nal. Can mask at multiple cutoffs as desired here.
 masks={'30_':float(0.3)}
 algs={'guidance':gscores, 'BMweights':bmscores, 'PDweights':pdscores, 'guidance_p':gscores_p, 'BMweights_p':bmscores_p, 'PDweights_p':pdscores_p}
 temp_res='tempaln_res.aln'	
+
+print "\nMasking residues"
 for x in masks:
 	for alg in algs:
 		mmod.maskResidues(refaln_file, numseq, alnlen, algs[alg], masks[x], 'fasta', temp_res, "protein")
 		
 		# Save the final masked alignment file. Can also convert to nucleotide alignment using Pal2Nal if so desired.
 		outfile_aa=alg+x+str(simcount)+"_aa.fasta"
-		shutil.copy(temp_res, '../'+outfile_aa)
-		outfile_nuc=alg+str(simcount)+"_nuc.fasta"
-		Pal2Nal(temp_res, rawnuc_ints, 'fasta', 'fasta', outfile_nuc, 'fasta')
+		shutil.copy(temp_res, '../'+final_aln_dir+outfile_aa)
+		#outfile_nuc=alg+str(simcount)+"_nuc.fasta"
+		#Pal2Nal(temp_res, rawnuc_ints, 'fasta', 'fasta', outfile_nuc, 'fasta')
 		
 	
 # Save unmasked alignment as well
 outref='refaln'+str(simcount)+'.fasta'
-shutil.copy('refaln.fasta', '../')
+shutil.copy('refaln.fasta', '../'+final_aln_dir)
 #Can convert this to nucleotide if desired with Pal2Nal.
 
 
-# Clean up BootDir. compress????
+# Clean up BootDir.
 os.chdir('../')
-prepareBoot(BootDir)
+prepareDir(BootDir, save=True, newname="savedirectory") #save=True will compress and save the directory to whatever we make newname
 	
 	
 	
