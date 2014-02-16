@@ -295,7 +295,7 @@ class Scorer(PrepScorer,ScoreProcessor):
 		for i in range(n):
 			testMSA_file='bootaln'+str(i)+'.fasta'
 			outfile = "scores"+str(i)+"_"+str(alg)+".txt"
-			scoreCommand='../src/rpatristic_guidance_score ' + refMSA_file + " " + testMSA_file + " " + dist_matrix_file + " " + outfile
+			scoreCommand='../src/patristic_guidance_score ' + refMSA_file + " " + testMSA_file + " " + dist_matrix_file + " " + outfile
 			subprocess.call(scoreCommand, shell=True)
 			scores = loadtxt(outfile)
 			all_scores = all_scores + scores
