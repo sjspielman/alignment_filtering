@@ -1,7 +1,7 @@
-#### Python script to run the guidances.
-#### Input files must be in fasta format. Scroll down to see settings...
-
 #!/usr/bin/python
+
+######### GUIDANCE REIMPLEMENTATION (with some novel scoring algorithms) WRITTEN BY SJS, ETD ##########
+
 import sys
 import os
 import fnmatch
