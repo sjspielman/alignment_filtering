@@ -7,20 +7,96 @@ The University of Texas at Austin
 INTRODUCTION
 -----------------------------------------------------
 1.1 Description
+	This program runs a masking algorithm similar to GUIDANCE <CITATION>,
+	which aims to improve false positive rates in protein alignments. It is
+	provided as supplementary material.
+
+1.2 Dependencies
+	SJSGuidance requires:
+		1. A C compiler which supports the C++ 2011 Standards (Tested with Intel 13 and GCC 4.8)
+		2. MUSCLE, MAFFT, or ClustalW for alignment (mafft is preferable; use of the others will
+		require modifying the code and is not recommended).
+		3. FasTree is required for building perturbed guide trees
+		4. RAxML is required for performing phylogenetic weighting.
+		5. Dendropy must be installed and on the PYTHONPATH.
+
+	Installing MAFFT:
+	MAFFT is published and supported by Kazutaka Katoh at AIST. It can be freely installed
+	from this page:
+	http://mafft.cbrc.jp/alignment/software/
+	It requires a modern C compiler. To ensure it is on the system path, try typing "which mafft"
+	on the command line. If this fails, please append the mafft binaries to the system path.
+
+	Installing FasTree
+	FasTree is a rapid treebuilder used to make guide trees. It is freely available from the following site:
+	http://www.microbesonline.org/fasttree/
+	Installation instructions are available from the website. FasTree is so quick we decided not to implement
+	OpenMP support in our code, so there's no need to worry about anything but the basic install.
+
+	Installing Dendropy
+	Dendropy is a python library for Python 2.x which performs a variety of phylogenetic computing
+	functions. It is freely available from:
+	http://pythonhosted.org/DendroPy/
+	It requires nothing but a working python install.
+
 
 CODE ORGANIZATION
 -----------------------------------------------------
-2.1 Main.py
+2.1 sjs_guidance.py
+
+2.2 main.py
+
+2.3 aligner.py
+
+2.4 bootstrapper.py
+
+2.5 scorer.py
+
+2.6 treebuilder.py
+
+2.7 weight_treebuilder.py
+
+2.8 masker.py
+
+
 
 RUNNING SJSGUIDANCE
 -----------------------------------------------------
 3.1 Command Line Flags
 
+	-infile <INFILE.fasta> or -infile <INFILE.fa>
+	A file in FASTA format which contains amino acid sequences to be aligned.
+	The user will be prompted if no file is provided.
+
+	-n <NUM_THREADS>
+	Takes an integer argument for the number of hardware threads to use. This number should
+	be less than the total number of cores in the machines.
+
+	-bootstraps <NUM_BOOTSTRAPS>
+	Takes an integer argument for the number of bootstraps. If no argument is given,
+	ten will be performed.
+
+	-alphabet protein or -alphabet nucleotide
+	The alphabet to use for analysis. Protein is the default and is supplied if no
+	argument is given.
+
 3.2 Usage
+python sjs_guidance.py
+	Running this will prompt the user for the infile and use the default options for
+	threads and bootstraps.
+
+python sjs_guidance.py -infile <MYFILE>.fasta -n 2 -bootstraps 20
+	Running this will perform analysis using 2 threads and 20 bootstraps.
+
+NB: Arguments are not positional, so any ordering should be fine (e.g. switching -n and
+-bootstraps in the previous line). It is recommended the user fill in as many flags as possible
+to run exactly the analysis they desire.
+
 
 CONTACTING THE AUTHORS
 -----------------------------------------------------
 Stephanie Spielman
+University of Texas at Austin
 
 Eric T Dawson
 eric.t.dawson<AT>gmail.com
@@ -28,3 +104,4 @@ University of Texas at Austin
 Texas Advanced Computing Center
 
 Claus O Wilke
+University of Texas at Austin
