@@ -10,6 +10,75 @@ class TreeBuilder:
 		'''initialization function'''
 		return
 
+
+class builderFastTree(TreeBuilder):
+	def __init__(self, executable, options):
+		'''"executable" is the path to the FastTree executable, and "options" are options to be handed to executable'''
+		self.executable = executable
+		self.options = options
+	
+	def makeBootAlignments(self, n, refaln_seq, numseq, alnlen, outfile):
+		'''into a SINGLE FILE: makes n bootstrap alignment replicates from a given reference alignment sequence (refaln_seq). Doesn't involve alignment software at all.'''
+		outhandle=open(outfile, 'w')
+		for i in range(n):
+			outhandle.write(' '+str(numseq)+' '+str(alnlen)+'\n')
+			indices = []
+			for a in range(alnlen):
+				indices.append(randint(0,alnlen-1))	
+			for s in range(numseq):
+				newseq=''
+				id=s+1
+				for a in indices:
+					newseq=newseq+refaln_seq[s][a]
+				outhandle.write(str(id)+'        '+newseq+'\n')
+		outhandle.close()
+
+
+	def buildUniqueTrees(self, n, refaln_seq, numseq, alnlen, final_treefile, temp_treefile, bootseq):
+		'''Constructs the bootstrap trees, but forcing that each tree is unique.'''
+		baseTrees=[]
+		redo=False
+		numsametrees=0
+		## Make a single bootstrap tree
+		self.buildTrees(1, refaln_seq, numseq, alnlen, final_treefile, bootseq)
+		atree = Tree(stream=open(final_treefile), schema="newick")
+		baseTrees.append(atree)
+		numtrees=1
+		
+		finalhandle=open(final_treefile, 'a')
+		while numtrees<n:
+			self.buildTrees(1, refaln_seq, numseq, alnlen, temp_treefile, bootseq)
+			testTree = Tree(stream=open(temp_treefile), schema="newick")
+			for baseTree in baseTrees:
+				dist=baseTree.symmetric_difference(testTree)
+				if dist == 0:
+					numsametrees+=1
+					redo=True
+					break
+				else:
+					redo=False
+			if redo==False:
+				baseTrees.append(testTree)
+				finalhandle.write(str(testTree)+'\n')
+				numtrees+=1
+				print numtrees, "so far"
+		finalhandle.close()
+		print "Found", str(numsametrees), "same trees."
+		return 0			
+
+	def buildBootTrees( self, num, refaln_seq, numseq, alnlen, outfile):
+		bootseq = 'refaln.BS'
+		self.makeBootAlignments(num, refaln_seq, numseq, alnlen, bootseq)
+		BuildTree=self.executable+' '+self.options+' -nosupport -n '+str(num)+' '+bootseq+' > '+outfile
+		runtree=subprocess.call(str(BuildTree), shell='True')	
+		return 0
+
+
+###########################################################################################################
+###########################################################################################################
+####### FOLLOWING CLASSES ARE NOT USED, BUT YOU ARE WELCOME TO USE THEM IF YOU WANT TO! sjs, 2/16/14 ######
+###########################################################################################################
+
 class builderIQTree(TreeBuilder):
 	def __init__(self, executable, options):
 		self.executable = executable
@@ -88,69 +157,4 @@ class builderSemphy(TreeBuilder):
 		BuildTree=self.executable+' '+self.options+' -s refaln.fasta -o out.out -T semphytree.tre -l log.out '
 		runtree=subprocess.call(str(BuildTree), shell='True')	
 		self.extractTrees(n, 'log.out', final_treefile)
-		return 0
-
-
-
-class builderFastTree(TreeBuilder):
-
-	def __init__(self, executable, options):
-		'''"executable" is the path to the FastTree executable, and "options" are options to be handed to executable'''
-		self.executable = executable
-		self.options = options
-	
-	def makeBootAlignments(self, n, refaln_seq, numseq, alnlen, outfile):
-		'''into a SINGLE FILE: makes n bootstrap alignment replicates from a given reference alignment sequence (refaln_seq). Doesn't involve alignment software at all.'''
-		outhandle=open(outfile, 'w')
-		for i in range(n):
-			outhandle.write(' '+str(numseq)+' '+str(alnlen)+'\n')
-			indices = []
-			for a in range(alnlen):
-				indices.append(randint(0,alnlen-1))	
-			for s in range(numseq):
-				newseq=''
-				id=s+1
-				for a in indices:
-					newseq=newseq+refaln_seq[s][a]
-				outhandle.write(str(id)+'        '+newseq+'\n')
-		outhandle.close()
-
-
-	def buildUniqueTrees(self, n, refaln_seq, numseq, alnlen, final_treefile, temp_treefile, bootseq):
-		'''Constructs the bootstrap trees, but forcing that each tree is unique.'''
-		baseTrees=[]
-		redo=False
-		numsametrees=0
-		## Make a single bootstrap tree
-		self.buildTrees(1, refaln_seq, numseq, alnlen, final_treefile, bootseq)
-		atree = Tree(stream=open(final_treefile), schema="newick")
-		baseTrees.append(atree)
-		numtrees=1
-		
-		finalhandle=open(final_treefile, 'a')
-		while numtrees<n:
-			self.buildTrees(1, refaln_seq, numseq, alnlen, temp_treefile, bootseq)
-			testTree = Tree(stream=open(temp_treefile), schema="newick")
-			for baseTree in baseTrees:
-				dist=baseTree.symmetric_difference(testTree)
-				if dist == 0:
-					numsametrees+=1
-					redo=True
-					break
-				else:
-					redo=False
-			if redo==False:
-				baseTrees.append(testTree)
-				finalhandle.write(str(testTree)+'\n')
-				numtrees+=1
-				print numtrees, "so far"
-		finalhandle.close()
-		print "Found", str(numsametrees), "same trees."
-		return 0			
-
-	def buildBootTrees( self, num, refaln_seq, numseq, alnlen, outfile):
-		bootseq = 'refaln.BS'
-		self.makeBootAlignments(num, refaln_seq, numseq, alnlen, bootseq)
-		BuildTree=self.executable+' '+self.options+' -nosupport -n '+str(num)+' '+bootseq+' > '+outfile
-		runtree=subprocess.call(str(BuildTree), shell='True')	
 		return 0

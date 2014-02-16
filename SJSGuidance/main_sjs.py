@@ -29,7 +29,7 @@ from Bio.Align import MultipleSeqAlignment
 from numpy import *
 
 
-######################################################################################
+#####################################################################################
 ######################################################################################
 def Pal2Nal(palfile, nucfile, paltype, nuctype, outfile, outputformat):
 	''' Convert a protein alignment to a nucleotide alignment. Can handle only the ambiguities N, X, ?. '''
@@ -93,11 +93,21 @@ def Pal2Nal(palfile, nucfile, paltype, nuctype, outfile, outputformat):
 	umm=AlignIO.write(nucMSA, outfile, "fasta")
 	outfile.close()
 	return 0
+
+def prepareBoot(BootDir):
+	''' Double check that BootDir exists and clear it of all files, as needed. ''' 
+	if (os.path.exists(BootDir)):
+		bootfiles=os.listdir(BootDir)
+		for file in bootfiles:
+			os.remove(BootDir+file)	
+	else:
+		os.mkdir(BootDir)
+
 ######################################################################################
 ######################################################################################
 
 
-n = 10  # bootstrap n times
+n = 5  # bootstrap n times
 unaligned='TESTSEQ.fasta'
 prealn_file='prealn.fasta'
 refaln_file='refaln.fasta'
@@ -108,27 +118,8 @@ BootDir='BootDir/'
 numproc = 2
 
 
-#Final output files
+#Final output files defined later.
 simcount=1
-final_guidance="guidance"+str(simcount)+".fasta"
-final_BMweights="BMweights"+str(simcount)+".fasta"
-final_PDweights="PDweights"+str(simcount)+".fasta"
-
-final_guidance_p="guidance_p"+str(simcount)+".fasta"
-final_BMweights_p="BMweights_p"+str(simcount)+".fasta"
-final_PDweights_p="PDweights_p"+str(simcount)+".fasta"
-
-
-finalscore_fileG="scoresG"+str(simcount)+".txt"
-finalscore_fileBM="scoresBM"+str(simcount)+".txt"
-finalscore_filePD="scoresPD"+str(simcount)+".txt"
-
-finalscore_fileG_p="scoresG_p"+str(simcount)+".txt"
-finalscore_fileBM_p="scoresBM_p"+str(simcount)+".txt"
-finalscore_filePD_p="scoresPD_p"+str(simcount)+".txt"
-
-final_BStrees_file="BStrees"+str(simcount)+".txt"
-finalTree_file="aatree"+str(simcount)+".txt"
 
 
 # Aligner
@@ -152,6 +143,7 @@ mmod = Masker(bmod)
 ########################################################################################################################################################################
 ########################################################################################################################################################################
 
+
 # Create map for sequences (required for mafft aligner, but can keep for all. doesn't waste time.)
 map=mapmod.ids2int(unaligned, 'fasta', prealn_file)
 	
@@ -159,35 +151,35 @@ map=mapmod.ids2int(unaligned, 'fasta', prealn_file)
 amod.makeAlignment(prealn_file, refaln_file)
 
 # Bootstrap
+prepareBoot(BootDir)
 (numseq, alnlen, gscores, bmscores, pdscores, gscores_p, bmscores_p, pdscores_p)=bmod.runBootstrap(BootDir, unaligned, refaln_file, n, numproc, finalscore_fileG, finalscore_fileBM, finalscore_filePD, finalscore_fileG_p, finalscore_fileBM_p, finalscore_filePD_p, scoreTree_file, weightfile, dist_matrix_file)	
 	
-#residue masking and pal2nal
-
+# Residue masking and pal2nal. Can mask at multiple cutoffs as desired here.
 masks={'30_':float(0.3)}
 algs={'guidance':gscores, 'BMweights':bmscores, 'PDweights':pdscores, 'guidance_p':gscores_p, 'BMweights_p':bmscores_p, 'PDweights_p':pdscores_p}
 temp_res='tempaln_res.aln'	
-
 for x in masks:
 	for alg in algs:
-		outfile=alg+x+str(simcount)+".fasta"
 		mmod.maskResidues(refaln_file, numseq, alnlen, algs[alg], masks[x], 'fasta', temp_res, "protein")
-		Pal2Nal(temp_res, rawnuc_ints, 'fasta', 'fasta', outfile, 'fasta')
-		shutil.copy(outfile, '../'+alndir_nuc)
-		shutil.copy(temp_res, '../'+alndir_aa+'/'+outfile)
+		
+		# Save the final masked alignment file. Can also convert to nucleotide alignment using Pal2Nal if so desired.
+		outfile_aa=alg+x+str(simcount)+"_aa.fasta"
+		shutil.copy(temp_res, '../'+outfile_aa)
+		outfile_nuc=alg+str(simcount)+"_nuc.fasta"
+		Pal2Nal(temp_res, rawnuc_ints, 'fasta', 'fasta', outfile_nuc, 'fasta')
+		
 	
-	
-#Also copy reference alignment to alndir_aa and alndir+nuc.
+# Save unmasked alignment as well
 outref='refaln'+str(simcount)+'.fasta'
-shutil.copy('refaln.fasta', '../'+alndir_aa+'/'+outref)
-Pal2Nal('refaln.fasta', rawnuc_ints, 'fasta', 'fasta', '../'+alndir_nuc+'/'+outref, 'fasta')
-
-
-
-
+shutil.copy('refaln.fasta', '../')
+#Can convert this to nucleotide if desired with Pal2Nal.
 
 
 # Clean up BootDir. compress????
 os.chdir('../')
-bootfiles=os.listdir(BootDir)
-for file in bootfiles:
-	os.remove(BootDir+file)	
+prepareBoot(BootDir)
+	
+	
+	
+	
+	
