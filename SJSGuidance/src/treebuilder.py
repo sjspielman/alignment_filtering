@@ -32,8 +32,17 @@ class builderFastTree(TreeBuilder):
 					newseq=newseq+refaln_seq[s][a]
 				outhandle.write(str(id)+'        '+newseq+'\n')
 		outhandle.close()
+	
+
+	def buildBootTrees( self, num, refaln_seq, numseq, alnlen, outfile):
+		bootseq = 'refaln.BS'
+		self.makeBootAlignments(num, refaln_seq, numseq, alnlen, bootseq)
+		BuildTree=self.executable+' '+self.options+' -nosupport -n '+str(num)+' '+bootseq+' > '+outfile
+		runtree=subprocess.call(str(BuildTree), shell='True')	
+		return 0
 
 
+	## This function is currently not used, and we do not advocate its use. It was originally implemented to fully re-implement Guidance, but we do not feel that forcing bootstrap replicates to be unique accurately reflects the spirit of the bootstrap.
 	def buildUniqueTrees(self, n, refaln_seq, numseq, alnlen, final_treefile, temp_treefile, bootseq):
 		'''Constructs the bootstrap trees, but forcing that each tree is unique.'''
 		baseTrees=[]
@@ -64,20 +73,47 @@ class builderFastTree(TreeBuilder):
 				print numtrees, "so far"
 		finalhandle.close()
 		print "Found", str(numsametrees), "same trees."
-		return 0			
-
-	def buildBootTrees( self, num, refaln_seq, numseq, alnlen, outfile):
-		bootseq = 'refaln.BS'
-		self.makeBootAlignments(num, refaln_seq, numseq, alnlen, bootseq)
-		BuildTree=self.executable+' '+self.options+' -nosupport -n '+str(num)+' '+bootseq+' > '+outfile
-		runtree=subprocess.call(str(BuildTree), shell='True')	
-		return 0
-
+		return 0		
 
 ###########################################################################################################
 ###########################################################################################################
 ####### FOLLOWING CLASSES ARE NOT USED, BUT YOU ARE WELCOME TO USE THEM IF YOU WANT TO! sjs, 2/16/14 ######
 ###########################################################################################################
+
+## Note that if you want to use this, you'll need to set the treebuilder class in main.py as follows - (but double check your executable path)
+###     tmod=builderSemphy("../semphy/semphy", " -a 20 --jtt -H -J -v 5 --BPrepeats="+str(n)+" ")
+class builderSemphy(TreeBuilder):
+	def __init__(self, executable, options):
+		self.executable = executable
+		self.options = options
+	
+	def extractTrees(self, n, semphylog, outfile):
+		treecounter=0
+		inhandle=open(semphylog, 'r')
+		lines=inhandle.readlines()
+		inhandle.close()
+		outhandle=open(outfile, 'w')
+		numlines=len(lines)
+		
+		## Start collecting trees at line 9 (index 8).
+		for a in range(8, numlines):
+			tree=str(lines[a])
+			outhandle.write(tree)
+			treecounter+=1
+			
+			# Just in case. Likely unnecessary.		
+			if treecounter==int(n):
+				break
+		outhandle.close()	
+		return 0
+		
+	def buildTrees(self, n, refaln_seq, numseq, alnlen, final_treefile, bootseq):		
+		''' Builds with semphy. DOESN'T need all those arguments, but FastTree does, and I'm trying to keep bootstrapper looking nice.'''
+		BuildTree=self.executable+' '+self.options+' -s refaln.fasta -o out.out -T semphytree.tre -l log.out '
+		runtree=subprocess.call(str(BuildTree), shell='True')	
+		self.extractTrees(n, 'log.out', final_treefile)
+		return 0
+
 
 class builderIQTree(TreeBuilder):
 	def __init__(self, executable, options):
@@ -126,35 +162,3 @@ class builderIQTree(TreeBuilder):
 		subprocess.call(command, shell=True)
 		return 0
 			
-
-class builderSemphy(TreeBuilder):
-	def __init__(self, executable, options):
-		self.executable = executable
-		self.options = options
-	
-	def extractTrees(self, n, semphylog, outfile):
-		treecounter=0
-		inhandle=open(semphylog, 'r')
-		lines=inhandle.readlines()
-		inhandle.close()
-		outhandle=open(outfile, 'w')
-		numlines=len(lines)
-		
-		## Start collecting trees at line 9 (index 8).
-		for a in range(8, numlines):
-			tree=str(lines[a])
-			outhandle.write(tree)
-			treecounter+=1
-			
-			# Just in case. Likely unnecessary.		
-			if treecounter==int(n):
-				break
-		outhandle.close()	
-		return 0
-		
-	def buildTrees(self, n, refaln_seq, numseq, alnlen, final_treefile, bootseq):		
-		''' Builds with semphy. DOESN'T need all those arguments, but FastTree does, and I'm trying to keep bootstrapper looking nice.'''
-		BuildTree=self.executable+' '+self.options+' -s refaln.fasta -o out.out -T semphytree.tre -l log.out '
-		runtree=subprocess.call(str(BuildTree), shell='True')	
-		self.extractTrees(n, 'log.out', final_treefile)
-		return 0

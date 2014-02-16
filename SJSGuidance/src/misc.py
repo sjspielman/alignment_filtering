@@ -35,7 +35,8 @@ def prepareDir(directory, save=False, newname=None):
 		
 		
 		
-def buildMap(unaligned_aa, format, prealn_file):		
+def buildMap(unaligned_aa, format, prealn_file):	
+	''' Create map to original ids. New ids are ints'''	
 	idmap={}		
 	count=0
 	
@@ -53,6 +54,7 @@ def buildMap(unaligned_aa, format, prealn_file):
 	return idmap
 
 def unMap(idmap, alnfile, final_alnfile, numseq):
+	''' Write alignment file with correct ids '''
 	
 	aln = AlignIO.read(alnfile, "fasta")
 	out = open(final_alnfile, 'w')

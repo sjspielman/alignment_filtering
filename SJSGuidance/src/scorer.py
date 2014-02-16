@@ -79,7 +79,7 @@ class ScoreProcessor(PrepScorer):
 						shortlist.append(norm*n)
 			normScores.append(shortlist)
 		
-		#Normalize scores. this is gross.
+		#Normalize scores. yes, this is gross.
 		final_scores = zeros(numseq)
 		col = 0
 		for column in all_scores.T: #transposes it so loops over columns of all_scores instead of default rows

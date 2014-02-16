@@ -164,7 +164,8 @@ class MafftAligner(Aligner):
 		
 		
 		
-		
+
+########################### You are welcome to run this software with either of these two classes, although we don't recommend as mafft --auto alignments are much better than muscle or clustal alignments!! ###############
 
 class ClustalAligner(Aligner):
 	def __init__(self, executable, options):
