@@ -17,8 +17,9 @@ INTRODUCTION
 		2. MUSCLE, MAFFT, or ClustalW for alignment (mafft is preferable; use of the others will
 		require modifying the code and is not recommended).
 		3. FastTree is required for building perturbed guide trees
-		4. Either RAxML or FastTree is required for performing phylogenetic weighting
-		5. Dendropy must be installed and on the PYTHONPATH.
+		4. RAxML is required for performing phylogenetic weighting
+		5. BranchManager is required for performing phylogenetic weighting
+		6. Dendropy must be installed and on the PYTHONPATH.
 
 	Installing MAFFT:
 	MAFFT is published and supported by Kazutaka Katoh at AIST. It can be freely installed
@@ -27,20 +28,27 @@ INTRODUCTION
 	It requires a modern C compiler. To ensure it is on the system path, try typing "which mafft"
 	on the command line. If this fails, please append the mafft binaries to the system path.
 
-	Installing FastTree
+	Installing FastTree:
 	FastTree is a rapid treebuilder used to make guide trees. It is freely available from the following site:
 	http://www.microbesonline.org/fasttree/
 	Installation instructions are available from the website. FastTree is so quick we decided not to implement
 	OpenMP support in our code, so there's no need to worry about anything but the basic install.
+	
+	Installing RAxML:
+	....
+	
+	Installing BranchManager:
+	[Note that the .jar compiled for Unix is released with our code in src/ already]
+	http://mendel.stanford.edu/SidowLab/downloads/BM/BM_ReadMe.txt
 
-	Installing Dendropy
+	Installing Dendropy:
 	Dendropy is a python library for Python 2.x which performs a variety of phylogenetic computing
 	functions. It is freely available from:
 	http://pythonhosted.org/DendroPy/
 	It requires nothing but a working python install.
 
 1.3 Compiling scoring programs
-	The C++ programs used to score alignments are guidance_score, bmweights_score, pdweights_score. Compile each with the following lines:
+	The C++ programs used to score alignments are guidance_score, bmweights_score, pdweights_score. Compile each with the following lines from inside the directory src/score
 	g++ -std=c++0x -O3 guidance_score.cpp -o guidance_score
 	g++ -std=c++0x -O3 bmweights_score.cpp -o bmweights_score
 	g++ -std=c++0x -O3 pdweights_score.cpp -o pdweights_score
@@ -91,17 +99,17 @@ RUNNING SJSGUIDANCE
 	Takes an integer argument for the number of bootstraps. If no argument is given,
 	ten will be performed.
 
-	-alphabet protein or -alphabet nucleotide
+	-alphabet prot or -alphabet dna
 	The alphabet to use for analysis. Protein is the default and is supplied if no
 	argument is given.
 
 3.2 Usage
-python sjs_guidance.py
+python run_sjs_guidance.py
 	Running this will prompt the user for the infile and use the default options for
 	threads and bootstraps.
 
-python sjs_guidance.py -infile <MYFILE>.fasta -n 2 -bootstraps 20
-	Running this will perform analysis using 2 threads and 20 bootstraps.
+python run_sjs_guidance.py -infile <MYFILE>.fasta -n 2 -bootstraps 50
+	Running this will perform analysis using 2 threads and 50 bootstraps (although the default of 100 bootstraps is recommended).
 
 NB: Arguments are not positional, so any ordering should be fine (e.g. switching -n and
 -bootstraps in the previous line). It is recommended the user fill in as many flags as possible
