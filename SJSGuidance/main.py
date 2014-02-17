@@ -25,21 +25,22 @@ from weight_treebuilder import *
 from scorer import *
 from bootstrapper import *
 from misc import *
+import time
 
 
 
 ###################### User input (or derived from user input) ###########################
 
-n =  sys.argv[2]      #bootstraps
-numproc =  sys.argv[3]  #threads
+n =  sys.argv[3]      #bootstraps
+numproc =  sys.argv[4]  #threads
 
 
 unaligned = sys.argv[1]  #infile
 prefix =  str(sys.argv[1]).split(".")[0] ## please set this up to be the infile's name without the extension. as in, if they have a file called "myseqs.fasta" the prefix is "myseqs"
 form    = "fasta" #infile format. 
-alphabet  = sys.argv[4] # This should be either "prot" or "dna"
+alphabet  = sys.argv[2] # This should be either "protein" or "nucleotide"
 final_aln_dir = str(prefix) # where alignments will end up. name this like the infile. Make sure this string ends with /
-final_boot_name = "final_boot" #this is the final name for the .tgz (compress everything in BootDir/). Can we make the name a time-stamp or something?
+final_boot_name = "final_boot" + str(time.localtime()[3]) + str(time.localtime()[4]) + str(time.localtime()[5])#this is the final name for the .tgz (compress everything in BootDir/). Can we make the name a time-stamp or something?
 
 ############################### Internal variables #######################################
 prealn_file='prealn.fasta' # Will contain the raw (unaligned) sequences in fasta format with integer sequence names

@@ -1,8 +1,20 @@
-Scripts in this directory..
+SJS 2/17/14. Scripts used to perform analysis in "Limited utility of residue masking for positive selection inference." authors SJS, ETD, COW.
 
-parsing/ 
---> Scripts for parsing the fubar and paml output files.
+parsing/
+	Used to parse output files from fubar and paml selection inferences
+		parsefubar.py and parsepaml.py used to collect positively selected sites at a posterior probability cutoff of 0.9. Generates TPR, FPR, etc
+		sweepfubar.py and sweeppaml.py used to cycle over posterior probability cutoffs 0-100 and generate TPR, FPR, etc. Useful for ROC analysis and relationship between TPR/FPR and posterior probability.
 
-OLD SCRIPTS THAT DON'T SEEM TO BE RELEVANT
-fubar_auc.py and paml_auc.py for that one time we thought about having auc instead of tpr as the response variable in the models
-median_cutoff.py was to find the median pp cutoff for fpr=1%.
+selection_inference/
+	Basic scripts for conducting PAML (codeml.ctl) and FUBAR (autoFUBAR.bf) inferences
+
+simulation/
+	Scripts used to simulate sequences with Indelible as well as trees along which we evolved.
+	trees/ 
+		See manuscript for phylogeny citations.
+			flat:158 sequences
+			or5: 11 sequences
+			rho: 26 sequences
+			prk: 60 sequences
+	HA/ 
+		Inference of H1N1 HA parameters

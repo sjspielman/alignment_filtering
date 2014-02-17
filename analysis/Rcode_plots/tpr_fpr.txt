@@ -4,146 +4,146 @@ cuts<-cuts/200
 prefix_p<-c('guidance_p', 'BMweights_p', 'PDweights_p')
 prefix<-c('guidance', 'BMweights', 'PDweights')
 allpre<-c(prefix_p, prefix)
-
-
-### 26-sequence simulation plots
-fubar <- read.table('../parsed_data/fubarsweep_rho.txt', header=T)
-paml  <- read.table('../parsed_data/pamlsweep_rho.txt', header=T)
-
+#
+#
+#### 26-sequence simulation plots
+#fubar <- read.table('../parsed_data/fubarsweep_rho.txt', header=T)
+#paml  <- read.table('../parsed_data/pamlsweep_rho.txt', header=T)
+#
+######## Plot fubar and paml tpr, fpr (1 tpr plot, 1 fpr plot). Fubar=dashed line, Paml=solid line.
+#pdf('tprfpr_raw.pdf', width=8, height=7)
+#par(mfrow=c(2,2))
+#data<-fubar[fubar$case=='refaln',]
+#tp<-c()
+#fp_f<-c()
+#for (cut in cuts)
+#{
+#	tp<-c(tp, mean(data$tprate[data$cutoff==cut]))
+#	fp_f<-c(fp_f, mean(data$fprate[data$cutoff==cut]))
+#}
+#plot(cuts, tp, type='l', lwd=2, lty=3, frame.plot=F, xlab='Posterior Probability Threshold', ylab='True Positive Rate', cex.lab=1.2)
+#abline(v=0.895)
+#data<-paml[paml$case=='refaln',]
+#tp<-c()
+#fp_p<-c()
+#for (cut in cuts)
+#{
+#	tp<-c(tp, mean(data$tprate[data$cutoff==cut]))
+#	fp_p<-c(fp_p, mean(data$fprate[data$cutoff==cut]))
+#}
+#lines(cuts, tp, type='l', lwd=2, lty=1)
+#plot(cuts, fp_f, type='l', lwd=2, lty=3, frame.plot=F, xlab='Posterior Probability Threshold', ylab='False Positive Rate', cex.lab=1.2)
+#lines(cuts, fp_p, type='l', lwd=2, lty=1)
+#legend('topright', inset=c(0.04, 0.04), lty=c(3,1), lwd=2, c('FUBAR', 'PAML'), box.col=NA, cex=1.2)
+#
+#### 60-sequence simulation plots
+#fubar <- read.table('../parsed_data/fubarsweep_prk.txt', header=T)
+#paml  <- read.table('../parsed_data/pamlsweep_prk.txt', header=T)
+#
 ####### Plot fubar and paml tpr, fpr (1 tpr plot, 1 fpr plot). Fubar=dashed line, Paml=solid line.
-pdf('tprfpr_raw.pdf', width=8, height=7)
-par(mfrow=c(2,2))
-data<-fubar[fubar$case=='refaln',]
-tp<-c()
-fp_f<-c()
-for (cut in cuts)
-{
-	tp<-c(tp, mean(data$tprate[data$cutoff==cut]))
-	fp_f<-c(fp_f, mean(data$fprate[data$cutoff==cut]))
-}
-plot(cuts, tp, type='l', lwd=2, lty=3, frame.plot=F, xlab='Posterior Probability Threshold', ylab='True Positive Rate', cex.lab=1.2)
-abline(v=0.895)
-data<-paml[paml$case=='refaln',]
-tp<-c()
-fp_p<-c()
-for (cut in cuts)
-{
-	tp<-c(tp, mean(data$tprate[data$cutoff==cut]))
-	fp_p<-c(fp_p, mean(data$fprate[data$cutoff==cut]))
-}
-lines(cuts, tp, type='l', lwd=2, lty=1)
-plot(cuts, fp_f, type='l', lwd=2, lty=3, frame.plot=F, xlab='Posterior Probability Threshold', ylab='False Positive Rate', cex.lab=1.2)
-lines(cuts, fp_p, type='l', lwd=2, lty=1)
-legend('topright', inset=c(0.04, 0.04), lty=c(3,1), lwd=2, c('FUBAR', 'PAML'), box.col=NA, cex=1.2)
+#data<-fubar[fubar$case=='refaln',]
+#tp<-c()
+#fp_f<-c()
+#for (cut in cuts)
+#{
+#	tp<-c(tp, mean(data$tprate[data$cutoff==cut]))
+#	fp_f<-c(fp_f, mean(data$fprate[data$cutoff==cut]))
+#}
+#plot(cuts, tp, type='l', lwd=2, lty=3, frame.plot=F, xlab='Posterior Probability Threshold', ylab='True Positive Rate', cex.lab=1.2)
+#abline(v=0.895)
+#data<-paml[paml$case=='refaln',]
+#tp<-c()
+#fp_p<-c()
+#for (cut in cuts)
+#{
+#	tp<-c(tp, mean(data$tprate[data$cutoff==cut]))
+#	fp_p<-c(fp_p, mean(data$fprate[data$cutoff==cut]))
+#}
+#lines(cuts, tp, type='l', lwd=2, lty=1)
+#plot(cuts, fp_f, type='l', lwd=2, lty=3, frame.plot=F, xlab='Posterior Probability Threshold', ylab='False Positive Rate', cex.lab=1.2)
+#lines(cuts, fp_p, type='l', lwd=2, lty=1)
+#dev.off()
+#
+#
 
-### 60-sequence simulation plots
+
+
+
 fubar <- read.table('../parsed_data/fubarsweep_prk.txt', header=T)
 paml  <- read.table('../parsed_data/pamlsweep_prk.txt', header=T)
+###### Plot fubar and paml tpr (0,1) on both axes
+pdf('fulltpr_raw.pdf',width=8, height=4)
+par(mfrow=c(1,2))
 
-###### Plot fubar and paml tpr, fpr (1 tpr plot, 1 fpr plot). Fubar=dashed line, Paml=solid line.
-data<-fubar[fubar$case=='refaln',]
-tp<-c()
-fp_f<-c()
-for (cut in cuts)
-{
-	tp<-c(tp, mean(data$tprate[data$cutoff==cut]))
-	fp_f<-c(fp_f, mean(data$fprate[data$cutoff==cut]))
-}
-plot(cuts, tp, type='l', lwd=2, lty=3, frame.plot=F, xlab='Posterior Probability Threshold', ylab='True Positive Rate', cex.lab=1.2)
-abline(v=0.895)
 data<-paml[paml$case=='refaln',]
 tp<-c()
-fp_p<-c()
 for (cut in cuts)
 {
 	tp<-c(tp, mean(data$tprate[data$cutoff==cut]))
-	fp_p<-c(fp_p, mean(data$fprate[data$cutoff==cut]))
 }
-lines(cuts, tp, type='l', lwd=2, lty=1)
-plot(cuts, fp_f, type='l', lwd=2, lty=3, frame.plot=F, xlab='Posterior Probability Threshold', ylab='False Positive Rate', cex.lab=1.2)
-lines(cuts, fp_p, type='l', lwd=2, lty=1)
+plot(cuts, tp, type='l', col='grey65', lwd=2, frame.plot=F, xlab='Posterior Probability Threshold', ylab='True Positive Rate', xlim=c(0, 1), ylim=c(0,1), main='Fubar')
+legend('bottomleft', lty=1, lwd=2, col=c('black', 'red', 'blue'), c('Unfiltered', 'Original', 'Gap-penalization'), box.col=NA, cex=0.77)
+
+data<-fubar[fubar$case=='refaln',]
+tp_ref<-c()
+for (cut in cuts)
+{
+	tp_ref<-c(tp_ref, mean(data$tprate[data$cutoff==cut]))
+}
+lines(cuts, tp_ref, type='l', lwd=2)
+for (pre in prefix){
+data<-fubar[fubar$case==pre,]
+tp<-c()
+for (cut in cuts)
+{
+	tp<-c(tp, mean(data$tprate[data$cutoff==cut]))
+}
+lines(cuts, tp, type='l', col='red', lwd=0.6)
+}
+for (pre in prefix_p){
+data<-fubar[fubar$case==pre,]
+tp<-c()
+for (cut in cuts)
+{
+	tp<-c(tp, mean(data$tprate[data$cutoff==cut]))
+}
+lines(cuts, tp, type='l', col='blue', lwd=0.6)
+}
+#lines(cuts, tp_ref, type='l', lwd=2)
+
+
+plot(cuts, tp_ref, type='l', col='grey65', lwd=2, frame.plot=F, xlab='Posterior Probability Threshold', ylab='True Positive Rate', xlim=c(0, 1), ylim=c(0,1), main='Paml')
+data<-paml[paml$case=='refaln',]
+tp_ref<-c()
+for (cut in cuts)
+{
+	tp_ref<-c(tp_ref, mean(data$tprate[data$cutoff==cut]))
+}
+lines(cuts, tp_ref, type='l', lwd=2)
+for (pre in prefix){
+data<-paml[paml$case==pre,]
+tp<-c()
+for (cut in cuts)
+{
+	tp<-c(tp, mean(data$tprate[data$cutoff==cut]))
+}
+lines(cuts, tp, type='l', col='red', lwd=0.6)
+}
+for (pre in prefix_p){
+data<-paml[paml$case==pre,]
+tp<-c()
+for (cut in cuts)
+{
+	tp<-c(tp, mean(data$tprate[data$cutoff==cut]))
+}
+lines(cuts, tp, type='l', col='blue', lwd=0.6)
+}
+lines(cuts, tp_ref, type='l')
+
 dev.off()
 
 
 
-
-#
-#
-#fubar <- read.table('../parsed_data/fubarsweep_prk.txt', header=T)
-#paml  <- read.table('../parsed_data/pamlsweep_prk.txt', header=T)
-####### Plot fubar and paml tpr (0,1) on both axes
-#pdf('fulltpr.pdf',width=8, height=4)
-#par(mfrow=c(1,2))
-#
-#data<-paml[paml$case=='refaln',]
-#tp<-c()
-#for (cut in cuts)
-#{
-#	tp<-c(tp, mean(data$tprate[data$cutoff==cut]))
-#}
-#plot(cuts, tp, type='l', col='grey65', lwd=1.5, frame.plot=F, xlab='Posterior Probability Threshold', ylab='True Positive Rate', xlim=c(0, 1), ylim=c(0,1), main='Fubar')
-#legend('bottomleft', lty=1, lwd=2, col=c('black', 'red', 'blue'), c('Unfiltered', 'Original', 'Gap-penalization'), box.col=NA, cex=0.77)
-#
-#data<-fubar[fubar$case=='refaln',]
-#tp_ref<-c()
-#for (cut in cuts)
-#{
-#	tp_ref<-c(tp_ref, mean(data$tprate[data$cutoff==cut]))
-#}
-#lines(cuts, tp_ref, type='l', lwd=2)
-#for (pre in prefix){
-#data<-fubar[fubar$case==pre,]
-#tp<-c()
-#for (cut in cuts)
-#{
-#	tp<-c(tp, mean(data$tprate[data$cutoff==cut]))
-#}
-#lines(cuts, tp, type='l', col='red', lwd=0.6)
-#}
-#for (pre in prefix_p){
-#data<-fubar[fubar$case==pre,]
-#tp<-c()
-#for (cut in cuts)
-#{
-#	tp<-c(tp, mean(data$tprate[data$cutoff==cut]))
-#}
-#lines(cuts, tp, type='l', col='blue', lwd=0.6)
-#}
-##lines(cuts, tp_ref, type='l', lwd=2)
-#
-#
-#plot(cuts, tp_ref, type='l', col='grey65', lwd=1.5, frame.plot=F, xlab='Posterior Probability Threshold', ylab='True Positive Rate', xlim=c(0, 1), ylim=c(0,1), main='Paml')
-#data<-paml[paml$case=='refaln',]
-#tp_ref<-c()
-#for (cut in cuts)
-#{
-#	tp_ref<-c(tp_ref, mean(data$tprate[data$cutoff==cut]))
-#}
-#lines(cuts, tp_ref, type='l', lwd=2)
-#for (pre in prefix){
-#data<-paml[paml$case==pre,]
-#tp<-c()
-#for (cut in cuts)
-#{
-#	tp<-c(tp, mean(data$tprate[data$cutoff==cut]))
-#}
-#lines(cuts, tp, type='l', col='red', lwd=0.6)
-#}
-#for (pre in prefix_p){
-#data<-paml[paml$case==pre,]
-#tp<-c()
-#for (cut in cuts)
-#{
-#	tp<-c(tp, mean(data$tprate[data$cutoff==cut]))
-#}
-#lines(cuts, tp, type='l', col='blue', lwd=0.6)
-#}
-#lines(cuts, tp_ref, type='l')
-#
-#dev.off()
-#
-#
-#
 #
 #
 #

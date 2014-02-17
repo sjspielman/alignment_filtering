@@ -1,4 +1,4 @@
-\begin{thebibliography}{34}
+\begin{thebibliography}{39}
 \providecommand{\natexlab}[1]{#1}
 \expandafter\ifx\csname urlstyle\endcsname\relax
   \providecommand{\doi}[1]{doi:\discretionary{}{}{}#1}\else
@@ -17,6 +17,11 @@ Bates D, Maechler M, Bolker B. 2012.
   multi-locus phylogeny of the flatfishes {(Teleostei: Pleuronectiformes)}.
 \newblock Systematic Biology 62(5):763--785.
 
+\bibitem[{Bush et~al.(1999)Bush, Bender, Subbarao, Cox, and Fitch}]{Bush1999}
+Bush R, Bender C, Subbarao K, Cox N, Fitch W. 1999.
+\newblock Predicting the evolution of human influenza a.
+\newblock Science 286:1921--1925.
+
 \bibitem[{Castresana(2000)}]{Castresana2000}
 Castresana J. 2000.
 \newblock Selection of conserved blocks from multiple alignments for their use
@@ -31,6 +36,8 @@ Dwivedi B, Gadagkar S~R. 2009.
 
 \bibitem[{Edgar(2004)}]{Edgar2004}
 Edgar R~C. 2004.
+\newblock {MUSCLE}: multiple sequence alignment with high accuracy and high
+  throughput.
 \newblock Nucleic Acids Research 32:1792--1797.
 
 \bibitem[{Fletcher and Yang(2009)}]{Fletcher2009}
@@ -79,6 +86,18 @@ Katoh K, Misawa K, Kuma K~I, Miyata T. 2002.
 \newblock {HyPhy}: hypothesis testing using phylogenies.
 \newblock Bioinformatics 12:676--679.
 
+\bibitem[{Kryazhimskiy et~al.(2008)Kryazhimskiy, Bazykin, Plotkin, and
+  Dushoff}]{Kryazhimskiy2008}
+Kryazhimskiy S, Bazykin G, Plotkin J, Dushoff J. 2008.
+\newblock Directionality in the evolution of influenza a haemagglutinin.
+\newblock Proc Royal Soc B 275:2455--2464.
+
+\bibitem[{Loytynoja and Goldman(2008)}]{Loytynoja2008}
+Loytynoja A, Goldman N. 2008.
+\newblock Phylogeny--aware gap placement prevents errors in sequence alignment
+  and evolutionary analysis.
+\newblock Science 320:1632--1635.
+
 \bibitem[{Markova-Raina and Petrov(2011)}]{MarkovaRaina2011}
 Markova-Raina P, Petrov D. 2011.
 \newblock {High sensitivity to aligner and high rate of false positives in the
@@ -109,6 +128,7 @@ Nielsen R, Yang Z. 1998.
 Notredame C, Higgins D~G, J H. 2000.
 \newblock {T--Coffee}: a novel method for fast and accurate multiple sequence
   alignment.
+\newblock J Mol Biol 302:205--–217.
 
 \bibitem[{Nuin et~al.(2006)Nuin, Wang, and Tillier}]{Nuin2006}
 Nuin P~A~S, Wang Z, Tillier E~R~M. 2006.
@@ -152,8 +172,14 @@ Spielman S~J, Wilke C~O. 2013.
   transmembrane domains of {G protein--coupled receptors}.
 \newblock Journal of Molecular Evolution 76:172--182.
 
-\bibitem[{Stamatakis(2006)}]{Stamatakis2006}
-Stamatakis A. 2006.
+\bibitem[{Stamatakis(2006{\natexlab{a}})}]{Stamatakis2006C}
+Stamatakis A. 2006{\natexlab{a}}.
+\newblock Phylogenetic models of rate heterogeneity: a high performance
+  computing perspective.
+\newblock In Proc. of IPDPS2006.
+
+\bibitem[{Stamatakis(2006{\natexlab{b}})}]{Stamatakis2006}
+Stamatakis A. 2006{\natexlab{b}}.
 \newblock {RAxML-VI-HPC}: maximum likelihood-based phylogenetic analyses with
   thousands of taxa and mixed models.
 \newblock Bioinformatics 22:21:2688--2690.
@@ -188,6 +214,12 @@ Thompson J~D, Linard B, Lecompte O, Poch O. 2011.
 \newblock A comprehensive benchmark study of multiple sequence alignment
   methods: Current challenges and future perspectives.
 \newblock PLoS ONE 6(3):e18093.
+
+\bibitem[{Whelan and Goldman(2001)}]{Whelan2001}
+Whelan S, Goldman N. 2001.
+\newblock A general empirical model of protein evolution derived from multiple
+  protein families using a maximum-likelihood approach.
+\newblock Mol Biol Evol 18:691--699.
 
 \bibitem[{Yang et~al.(2011)Yang, Maruyama, Sekimoto, Sakayama, and
   Nozaki}]{Yang2011}

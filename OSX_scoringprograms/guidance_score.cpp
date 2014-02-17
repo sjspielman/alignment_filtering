@@ -1,5 +1,5 @@
 // Written by COW. Requires new 2011 stdlib. Compile with the following line:
-// g++-4.7.2 -std=c++0x -O3 guidance_score.cpp -o guidance_score
+// g++ -std=c++0x -O3 guidance_score.cpp -o guidance_score
 
 #include <iostream>
 #include <fstream>
