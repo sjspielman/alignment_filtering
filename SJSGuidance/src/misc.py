@@ -89,7 +89,7 @@ def maskResidues(refMSA_file, numseq, alnlen, map, scores, x, formatout, final_f
 		newseqs.append(newseq)
 	
 	for i in range(numseq):
-		if str(seqType)=='protein':
+		if str(seqType)=='prot':
 			aln_record=SeqRecord(Seq(newseqs[i],generic_protein), id=str(map[i+1]), description='')
 		elif str(seqType)=='dna':
 			aln_record=SeqRecord(Seq(newseqs[i],generic_dna), id=str(map[i+1]), description='')

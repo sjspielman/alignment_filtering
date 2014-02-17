@@ -37,7 +37,7 @@ numproc =  sys.argv[3]  #threads
 unaligned = sys.argv[1]  #infile
 prefix =  str(sys.argv[1]).split(".")[0] ## please set this up to be the infile's name without the extension. as in, if they have a file called "myseqs.fasta" the prefix is "myseqs"
 form    = "fasta" #infile format. 
-alphabet  = sys.argv[4] # This should be either "protein" or "nucleotide"
+alphabet  = sys.argv[4] # This should be either "prot" or "dna"
 final_aln_dir = str(prefix) # where alignments will end up. name this like the infile. Make sure this string ends with /
 final_boot_name = "final_boot" #this is the final name for the .tgz (compress everything in BootDir/). Can we make the name a time-stamp or something?
 
