@@ -9,14 +9,11 @@ except:
 
 def parse_args():
     parser = argparse.ArgumentParser(prefix_chars='+-', usage='--protein_file <User File>')
-    parser.add_argument("-infile", help="A file containing unaligned AA sequences in FASTA format", required=False, dest="infile", type=str)
-    parser.add_argument("-n",dest="threads", type=int, help="Number of processes to use")
-    parser.add_argument("-form",dest="form", type=str, help="The file format (usually FASTA)", default="FASTA")
-    parser.add_argument("-bootstraps", help="The number of bootstraps to perform", required=False,
-            dest="bootstraps")
-    parser.add_argument("-alphabet", help="Whether AAs or NTs are used (protein or nucleotide)", type=str,
-            default="protein", required=False, dest="alphabet") ##AA or NT, default is AA
-    ## Gap penalization is now hard-coded by default in accordance with the original runs
+    parser.add_argument("-infile",help="A file containing unaligned AA sequences in FASTA format", dest="infile", type=str, required=False)
+    parser.add_argument("-p",     help="Number of processes to use",                               dest="threads", type=int, required=False, default=1)
+    parser.add_argument("-form",  help="The file format (usually FASTA)",                          dest="form", type=str, default="FASTA")
+    parser.add_argument("-n",     help="The number of bootstraps to perform",                      dest="bootstraps", type=int, required=False, default=100)
+    parser.add_argument("-d",     help="Whether protein or nucleotides are used (prot or dna)",    dest="alphabet", type=str, required=False, default="prot")
 
     return parser.parse_args()
 
@@ -26,10 +23,10 @@ def getMafft():
         print "MAFFT needs to be installed and on the system path"
         print "See the README on how to do this."
 
-def getFastree():
-    found = subprocess.call(["which", "fastree"])
+def getFastTree():
+    found = subprocess.call(["which", "fasttree"])
     if not found == 0:
-        print "FasTree needs to be installed and on the system path"
+        print "FastTree needs to be installed and on the system path"
         print "See the README on how to do this"
 
 def getRAxML():
@@ -37,32 +34,30 @@ def getRAxML():
     if not found:
         print "RAxML needs to be installed and on the system path"
         print "See the README on how to do this."
+        
 
 def main():
     getMafft()
-    getFastree()
+    getFastTree()
     getRAxML()
     args = parse_args()
     user_file = args.infile
     while args.infile is None:
-        args.infile = raw_input("Please provide a protein file in FASTA format: ")
+        args.infile = raw_input("Please provide an input sequence file in FASTA format: ")
     while args.form is None:
         print ""
         args.form = raw_input("Please tell me what format the infile is in.\nIt should be a FASTA file: ")
     if args.threads is None:
         print ""
-        print "One thread will be used. To change the number of threads, use the -n flag"
+        print "One thread will be used. To change the number of threads, use the -p flag"
         print "More threads will run faster, but you shouldn't use more than the number of cores in your machine\n"
-        args.threads = 1
     if args.bootstraps is None:
         print ""
-        print "Ten bootstraps will be performed. To change the number of bootstraps, use the -bootstraps flag\n"
-        args.bootstraps = 10
+        print "100 bootstraps will be performed. To change the number of bootstraps, use the -n flag\n"
     if args.alphabet is None:
+    	print ""
         print "No alphabet was selected, so amino acids will be used by default. Use the -alphabet flag to specify an alphabet.\n"
-        args.alphabet = "AA"
     command = "python main.py " + str(args.infile) + " " + str(args.alphabet) + " " + str(args.bootstraps) + " " + str(args.threads)
     subprocess.call(command, shell=True)
     
-
 main()
