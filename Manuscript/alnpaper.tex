@@ -33,7 +33,7 @@
 \noindent
 Address:\\
 $^1$Department of Integrative Biology, Center for Computational Biology and Bioinformatics, and Institute of Cellular and Molecular Biology.
-The University of Texas at Austin, Austin, TX 78731, USA.\\
+The University of Texas at Austin, Austin, TX 78712, USA.\\
 
 \bigskip
 \noindent
@@ -49,7 +49,7 @@ Manuscript type: Article; Methods
 
 \newpage
 \begin{abstract}
-Recently, it has been noted that errors in multiple sequence alignments have the potential to reduce accuracy in positive-selection inference. It has therefore been suggested that alignments be filtered before further analyses. One widely-used filter, Guidance, generates position-based confidence scores for a given alignment using a bootstrap approach, thereby allowing users to remove positions of low confidence from the alignment. Recently studies on the utility of the Guidance filter for positive-selection inference have yielded inconsistent results; some have demonstrated that Guidance substantially improved accuracy, but others have found that Guidance neither improved nor worsened selection inference. Motivated by these discrepancies, we have conducted a extensive simulation-based study to elucidate Guidance's impact on positive-selection inference for realistic protein-coding sequences. In particular, we investigated whether novel Guidance-based scoring algorithms, which phylogenetically correct confidence scores, and a new gap-penalization score-normalization scheme could improve upon the original Guidance's performance. We found that no filter, including the original Guidance, substantially improved positive-selection inference relative to unfiltered alignments across multiple inference methods, including FUBAR and PAML (specifically its M8 model). Instead, the analysis method used influenced positive-selection inference far more than did filtering alignments with a Guidance-based strategy.
+Errors in multiple sequence alignments have the potential to reduce accuracy in positive-selection inference. It has therefore been suggested that alignments be filtered before further analyses. One widely-used filter, Guidance, generates position-based confidence scores for a given alignment using a bootstrap approach, thereby allowing users to remove positions of low confidence from the alignment. Recent studies on the utility of the Guidance filter for positive-selection inference have yielded inconsistent results; some have demonstrated that Guidance substantially improved accuracy, but others have found that Guidance neither improved nor worsened selection inference. Motivated by these discrepancies, we have conducted a extensive simulation-based study to elucidate Guidance's impact on positive-selection inference for realistic protein-coding sequences. In particular, we investigated whether novel Guidance-based scoring algorithms, which phylogenetically correct confidence scores, and a new gap-penalization score-normalization scheme could improve upon the original Guidance's performance. We found that no filter, including the original Guidance, substantially improved positive-selection inference relative to unfiltered alignments across multiple inference methods, including FUBAR and PAML (specifically its M8 model). Instead, the analysis method used influenced positive-selection inference far more than did filtering alignments with a Guidance-based strategy.
 \end{abstract}
 
 
@@ -130,7 +130,7 @@ In sum, we have found that, while alignment filtering offered some benefits to p
 Overall, we cannot unequivocally recommend the use of a Guidance-based alignment filter when inferring positive selection. Once an alignment has been constructed, it does not seem that much can be done to eliminate any misleading information. Instead, users should employ inference methods in which the error can be minimized as much as possible without necessitating post-hoc correction. Therefore, we recommend that users select high-quality alignment and inference methods to minimize any obscuring signal, instead of relying on filters. If one must filter an alignment, we recommend using a lenient cutoff ($\leq0.5$) to avoid sacrificing power, which might worsen inferences.
 
 
-\section*{Methods}
+\section*{Materials and Methods}
 
 \subsection*{Guidance Reimplementation}
 Our reimplemented Guidance is written in Python and C++. Following the algorithm set forth in Penn et al. \citep{Penn2010}, we first create a reference alignment using a user-specified progressive alignment software, with choices of Clustalw \citep{Thompson1994}, MUSCLE \citep{Edgar2004}, or MAFFT \citep{Katoh2002, Katoh2005}. We then generate $N$ (where $N=100$, by default) bootstrapped alignment replicates, each of which is used to create a bootstrapped tree in FastTree2 \citep{Price2010}. We then use these $N$ trees as guide trees to create $N$ new perturbed alignments, which we subsequently compare to the reference alignment to generate a confidence score for each residue. Users can specify options for their aligner and phylogeny reconstruction method as desired.
@@ -185,8 +185,8 @@ We then compared resulting positive-selection inferences for each alignment to i
 Statistics were performed using Python and R. Linear modeling was conducted using the R package lme4 \citep{Bates2012}. We inferred effect magnitudes and significance and corrected for multiple testing using the R multcomp package's glht() function with default settings \citep{Hothorn2008}. All code used is available at https://github.com/clauswilke/alignment\underline{\hspace*{0.2cm}}filtering.
 
 
-\section{Acknowledgements}
-This work was supported by ....
+\section*{Acknowledgements}
+This work was supported by ARO Grant W911NF-12-1-0390 and the National Institutes of Health (http://nih.gov/) grant R01 GM088344 to COW.
 
 
 \begin{figure*}[H]
