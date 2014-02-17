@@ -35,10 +35,15 @@ INTRODUCTION
 	OpenMP support in our code, so there's no need to worry about anything but the basic install.
 	
 	Installing RAxML:
-	....
+    RAxML is provided by the Exelexis lab (under the direction of Alexandros Stamatakis). It is available from:
+    https://github.com/stamatak/standard-RAxML
+    RAxML has thorough instructions for installation but the process is of moderate difficulty. You'll need a
+    modern C compiler. It is recommended you build with support for PTHREADS and SSE3 if your system supports it,
+    as this will greatly enhance efficiency.
 	
 	Installing BranchManager:
-	[Note that the .jar compiled for Unix is released with our code in src/ already]
+    The jar file for BranchManager is included with our source code. A working (and relatively up-to-date) Java
+    install is required, but that's all.
 	http://mendel.stanford.edu/SidowLab/downloads/BM/BM_ReadMe.txt
 
 	Installing Dendropy:
