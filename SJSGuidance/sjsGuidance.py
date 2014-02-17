@@ -56,8 +56,8 @@ def main():
         args.threads = 1
     if args.bootstraps is None:
         print ""
-        print "Ten bootstraps will be performed. To change the number of bootstraps, use the -bootstraps flag\n"
-        args.bootstraps = 10
+        print "One Hundred bootstraps will be performed. To change the number of bootstraps, use the -bootstraps flag\n"
+        args.bootstraps = 100
     if args.alphabet is None:
         print "No alphabet was selected, so amino acids will be used by default. Use the -alphabet flag to specify an alphabet.\n"
         args.alphabet = "AA"
