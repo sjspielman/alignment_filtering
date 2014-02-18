@@ -9,12 +9,12 @@ selection_inference/
 	Basic scripts for conducting PAML (codeml.ctl) and FUBAR (autoFUBAR.bf) inferences
 
 simulation/
-	Scripts used to simulate sequences with Indelible as well as trees along which we evolved.
+	Scripts used to simulate sequences with Indelible: runindelible.py and control.txt
 	trees/ 
 		See manuscript for phylogeny citations.
-			flat:158 sequences
 			or5: 11 sequences
 			rho: 26 sequences
 			prk: 60 sequences
+			flat:158 sequences
 	HA/ 
 		Inference of H1N1 HA parameters
