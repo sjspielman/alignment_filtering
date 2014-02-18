@@ -1,4 +1,4 @@
-## Completed on 1/15/14. Uses 0.895 posterior probability cutoffs for both paml and fubar. To control for things, we are going to use tprate instead of tprate as the response variable.
+## Completed on 1/15/14. Uses 0.895 posterior probability cutoffs for both paml and fubar. ##
 
 library(lme4)
 library(multcomp)
@@ -191,29 +191,6 @@ summary(glht(model, linfct=mcp(case='Tukey')))
 #refaln - guidance_p == 0       -0.0008887  0.0068327  -0.130    0.999
 #refaln - PDweights_p == 0       0.0013317  0.0068327   0.195    0.997
 #
-
-
-########### And now, we compare fubar and paml reference alignments via ACCURACY. Since masking has such a weak effect, we should just look at unmasked. The magnitude will be stupidly larger.
-both<-rbind(paml, fubar)
-both<-both[both$penal=='zero',]
-
-or5<-both[both$gene=='or5',]
-model<-lmer(accuracy ~ method+(1|count), data=or5)
-summary(glht(model, linfct=mcp(method='Tukey')))
-#                    Estimate Std. Error z value Pr(>|z|)  
-#fubar - paml == 0 0.0011095  0.0003953   2.807    0.005 **
-
-rho<-both[both$gene=='rho',]
-model<-lmer(accuracy ~ method+(1|count), data=rho)
-summary(glht(model, linfct=mcp(method='Tukey')))
-#                    Estimate Std. Error z value Pr(>|z|)    
-#fubar - paml == 0 0.0025686  0.0006193   4.148 3.36e-05 ***
-
-prk<-both[both$gene=='prk',]
-model<-lmer(accuracy ~ method+(1|count), data=prk)
-summary(glht(model, linfct=mcp(method='Tukey')))
-#                    Estimate Std. Error z value Pr(>|z|)    
-#fubar - paml == 0 -0.011092   0.001316  -8.432   <2e-16 ****
 
 
 ############# Get the TPR for reference alignments

@@ -1,9 +1,11 @@
+##  Performs statistic to assess any differences among TPR based on the chosen masking threshold. Tested are thresholds 0.3, 0.5, 0.7, 0.9.
+## We use only guidance, guidance_p for this analysis since we never found a difference between guidance and either phylogenetic scoring algorithm..
 library(lme4)
 library(multcomp)
 
 
 #####################################################################
-### 1/21/14. Statistics for fubarmasks.txt. Use only guidance, _p ###
+### 1/21/14. Statistics for .txt. Use only guidance, _p ###
 #####################################################################
 
 fubar<-read.table('parsed_data/fubarmasks.txt', header=T)
