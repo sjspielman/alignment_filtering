@@ -15,13 +15,7 @@ class Bootstrapper(object):
 		self.final_treefile = "BStrees.tre"
 		self.BootDir      = kwargs.get("BootDir", "BootDir/")
 		
-		# Don't overload in case 
-		availableCPU = multiprocessing.cpu_count() 
-		if availableCPU > 1:
-			availableCPU -= 1
-			
-		self.numprocesses = kwargs.get("threads", availableCPU)
-		print "cpu", multiprocessing.cpu_count()
+		self.numprocesses = kwargs.get("threads", 1)
 		
 		############# input assertions ##########
 		assert(self.aligner is not None), "No aligner was passed to Bootstrapper."
@@ -30,7 +24,6 @@ class Bootstrapper(object):
 		assert(self.n is not None), "Number of bootstraps was not specified."
 		assert(self.prealn_file is not None), "Raw sequence file was not specified."
 		assert(self.refaln_file is not None), "Reference alignment file was not specified."
-		assert(self.numprocesses is not None), "You appear to have no CPUs on your system."
 		#########################################
 
 		# Parse reference alignment for internal use

@@ -45,9 +45,14 @@ def main():
         args.form = raw_input("Please tell me what format the infile is in.\nIt should be a FASTA file: ")
     if args.threads is None:
         print ""
-        print "One thread will be used. To change the number of threads, use the -n flag."
-        print "More threads will run faster, but you shouldn't use more than the number of cores in your machine.\n"
-        args.threads = 1
+        import multiprocessing 
+        availableCPU = multiprocessing.cpu_count() 
+        if availableCPU > 1:
+            availableCPU -= 1
+        args.threads = availableCPU
+        print str(args.threads)+ ", calculated from (1 - total CPUs), on your machine will be used. To change the this, use the -n flag."
+        print "More threads will run faster, but you shouldn't use more than the number of CPUs in your machine.\n"
+        assert 1==0
     if args.bootstraps is None:
         print ""
         print "100 bootstraps will be performed. To change the number of bootstraps, use the -bootstraps flag.\n"
