@@ -32,7 +32,7 @@ import time
 ###################### User input (or derived from user input) ###########################
 
 n =  int(sys.argv[3])      #bootstraps
-numproc =  sys.argv[4]  #threads
+numproc =  int(sys.argv[4])  #threads
 
 
 unaligned = sys.argv[1]  #infile
@@ -64,13 +64,13 @@ prepareDir(BootDir)
 ### amod, tmod, wtmod all take arguments in the form (executable, options). We recommend these options, but you are welcome to play around. 
 
 # Aligner
-amod = MafftAligner(executable = "mafft")
+amod = MafftAligner("mafft", " --auto --quiet ")
 ### Note that you can align with muscle and/or clustal if you feel passionate about it, but you'll have to set this up on your own. Relevant classes in src/aligner.py 
 
 # Tree builder (build the boostrap trees)
 tmod=builderFastTree("FastTree", " -fastest -nosupport -quiet ") # -nosupport **MUST** be there
 
-# But the scoring tree
+# Scoring tree
 if alphabet == "protein":
 	model = "-m PROTCATWAG"
 elif alphabet == "dna":
@@ -81,7 +81,8 @@ wtmod=weightRAxML("raxmlHPC", model) # You can provide other options here if you
 smod = Scorer()
 
 # Bootstrapper. Most things are going to happen using this class.
-bmod = AllBootstrapper(amod, tmod, wtmod, smod)
+bmod = AllBootstrapper(bootstraps = n, prealn_file = prealn_file, refaln_file = refaln_file, BootDir = BootDir, threads = numproc,
+                       aligner=amod, tree_builder = tmod, weight_tree_builder = wtmod, scorer = smod)
 
 
 ############################################### ACTUALLY RUN GUIDANCE HERE #################################################
@@ -95,7 +96,7 @@ print "Building reference alignment"
 amod.makeAlignment(prealn_file, refaln_file)
 
 # Bootstrap. Creates perturbed guide trees and alignments and then scores according to our 6 algorithms.
-(numseq, alnlen, alg_scores)=bmod.runBootstrap(BootDir, unaligned, refaln_file, n, numproc,scoreTree_file, weightfile, dist_matrix_file)	
+(numseq, alnlen, alg_scores)=bmod.runBootstrap()	
 	
 
 # Mask across specified thresholds for all algorithms.
