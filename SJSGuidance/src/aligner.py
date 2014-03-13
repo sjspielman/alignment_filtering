@@ -1,10 +1,9 @@
 import subprocess, sys, re, os, multiprocessing
-from multiprocessing import pool
 from dendropy import *
 from Bio import AlignIO
     
 class Aligner:
-	def __init__(self):
+	def __init__(self, prealn_file, alnfile):
 		return
 
 	def makeAlignment( self, prealn_file, alnfile ):
