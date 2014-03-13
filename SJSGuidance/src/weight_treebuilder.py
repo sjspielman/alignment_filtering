@@ -2,6 +2,7 @@ import subprocess, re, shutil
 from Bio import AlignIO
 from dendropy import *
 from numpy import *
+from random import randint
 
 class WeightTreeBuilder:
 	def __init__(self):
@@ -90,7 +91,9 @@ class weightRAxML(WeightTreeBuilder):
 		aln = AlignIO.read(alnfile, 'fasta')
 		AlignIO.write(aln, 'temp.phy', 'phylip')
 		
-		BuildTree=self.executable+' '+self.options+' -s temp.phy -n out'
+		seed = randint(1,100000)	
+		BuildTree=self.executable+' '+self.options+' -s temp.phy -p '+str(seed)+ ' -n out'
+		print BuildTree
 		subprocess.call(BuildTree, shell=True)
 		shutil.move('RAxML_bestTree.out', treefile)
 		
