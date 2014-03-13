@@ -27,7 +27,7 @@ class Bootstrapper(object):
 		#########################################
 
 		# These will be defined in the fxn parseRefAln
-		sef.alnlen = None
+		self.alnlen = None
 		self.numseq = None
 
 
