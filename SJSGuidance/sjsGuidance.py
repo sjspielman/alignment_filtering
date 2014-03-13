@@ -9,9 +9,9 @@ except:
 
 def parse_args():
     parser = argparse.ArgumentParser(prefix_chars='+-', usage='--protein_file <User File>')
-    parser.add_argument("-infile", help="A file containing unaligned AA sequences in FASTA format", required=False, dest="infile", type=str)
+    parser.add_argument("-infile", help="A file containing unaligned sequences in FASTA format", required=False, dest="infile", type=str)
     parser.add_argument("-n",dest="threads", type=int, help="Number of processes to use")
-    parser.add_argument("-form",dest="form", type=str, help="The file format (usually FASTA)", default="FASTA")
+    parser.add_argument("-form",dest="form", type=str, help="The infile format (usually FASTA)", default="FASTA")
     parser.add_argument("-bootstraps", help="The number of bootstraps to perform", required=False,
             dest="bootstraps")
     parser.add_argument("-alphabet", help="Whether AAs or NTs are used (protein or nucleotide)", type=str,
@@ -22,25 +22,19 @@ def parse_args():
 
 def getMafft():
     found = subprocess.call(["which", "mafft"])
-    if not found == 0:
-        print "MAFFT needs to be installed and on the system path"
-        print "See the README on how to do this."
+    assert (found == 0), "MAFFT needs to be installed and on the system path. See the README for instructions."
 
-def getFastree():
-    found = subprocess.call(["which", "fastree"])
-    if not found == 0:
-        print "FasTree needs to be installed and on the system path"
-        print "See the README on how to do this"
+def getFastTree():
+    found = subprocess.call(["which", "fasttree"])
+    assert (found == 0), "FastTree needs to be installed and on the system path. See the README for instructions."
 
 def getRAxML():
     found = subprocess.call(["which", "raxmlHPC"])
-    if not found:
-        print "RAxML needs to be installed and on the system path"
-        print "See the README on how to do this."
+    assert (found == 0), "RAxML needs to be installed and on the system path. See the README for instructions."
 
 def main():
     getMafft()
-    getFastree()
+    getFastTree()
     getRAxML()
     args = parse_args()
     user_file = args.infile
@@ -51,12 +45,12 @@ def main():
         args.form = raw_input("Please tell me what format the infile is in.\nIt should be a FASTA file: ")
     if args.threads is None:
         print ""
-        print "One thread will be used. To change the number of threads, use the -n flag"
-        print "More threads will run faster, but you shouldn't use more than the number of cores in your machine\n"
+        print "One thread will be used. To change the number of threads, use the -n flag."
+        print "More threads will run faster, but you shouldn't use more than the number of cores in your machine.\n"
         args.threads = 1
     if args.bootstraps is None:
         print ""
-        print "One Hundred bootstraps will be performed. To change the number of bootstraps, use the -bootstraps flag\n"
+        print "100 bootstraps will be performed. To change the number of bootstraps, use the -bootstraps flag.\n"
         args.bootstraps = 100
     if args.alphabet is None:
         print "No alphabet was selected, so amino acids will be used by default. Use the -alphabet flag to specify an alphabet.\n"
