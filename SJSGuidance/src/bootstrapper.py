@@ -27,6 +27,7 @@ class Bootstrapper(object):
 		#########################################
 
 		# These will be defined in the fxn parseRefAln
+		self.refaln_seq = []
 		self.alnlen = None
 		self.numseq = None
 
@@ -44,6 +45,8 @@ class Bootstrapper(object):
 		
 	def bootstrap(self):
 		''' Create bootstrapped trees and then from those create perturbed alignments.'''
+		
+		self.parseRefAln()
 		
 		# Create the bootstrapped trees
 		print "Constructing bootstrap trees"
