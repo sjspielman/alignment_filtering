@@ -52,7 +52,6 @@ def main():
         args.threads = availableCPU
         print str(args.threads)+ ", calculated from (1 - total CPUs), on your machine will be used. To change the this, use the -n flag."
         print "More threads will run faster, but you shouldn't use more than the number of CPUs in your machine.\n"
-        assert 1==0
     if args.bootstraps is None:
         print ""
         print "100 bootstraps will be performed. To change the number of bootstraps, use the -bootstraps flag.\n"

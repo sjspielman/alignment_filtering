@@ -40,16 +40,15 @@ prefix =  str(sys.argv[1]).split(".")[0] ## please set this up to be the infile'
 form    = "fasta" #infile format. 
 alphabet  = sys.argv[2] # This should be either "protein" or "nucleotide"
 final_aln_dir = str(prefix) # where alignments will end up. name this like the infile. Make sure this string ends with /
+if final_aln_dir[-1] != '/':
+	final_aln_dir += '/'
+
 final_boot_name = "final_boot" + str(time.localtime()[3]) + str(time.localtime()[4]) + str(time.localtime()[5])#this is the final name for the .tgz (compress everything in BootDir/). Can we make the name a time-stamp or something?
 
 ############################### Internal variables #######################################
 prealn_file='prealn.fasta' # Will contain the raw (unaligned) sequences in fasta format with integer sequence names
 refaln_file='refaln.fasta' # Will contain the reference (unmasked!) alignment
 temp_res='tempaln_res.aln' # Used as a temporary alignment file during masking	
-
-scoreTree_file='scoringtree.tre'     # Will contain the phylogeny used for computing all weights
-weightfile='treeweights.txt'         # Will contain phylogenetic weights as calculated by BranchManager
-dist_matrix_file = 'dist_matrix.txt' # Will contain the patristic distance matri
 BootDir='BootDir/'                   # Directory where most stuff will happen
 
 # By default, masking will happen at these four thresholds. Again, change if you want.
@@ -81,8 +80,8 @@ wtmod=weightRAxML("raxmlHPC", model) # You can provide other options here if you
 smod = Scorer()
 
 # Bootstrapper. Most things are going to happen using this class.
-bmod = AllBootstrapper(bootstraps = n, prealn_file = prealn_file, refaln_file = refaln_file, BootDir = BootDir, threads = numproc,
-                       aligner=amod, tree_builder = tmod, weight_tree_builder = wtmod, scorer = smod)
+bmod = AllBootstrapper(bootstraps = n, prealn_file = prealn_file, refaln_file = refaln_file, BootDir = BootDir, 
+                       threads = numproc, aligner=amod, tree_builder = tmod, weight_tree_builder = wtmod, scorer = smod)
 
 
 ############################################### ACTUALLY RUN GUIDANCE HERE #################################################
