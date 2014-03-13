@@ -31,7 +31,7 @@ import time
 
 ###################### User input (or derived from user input) ###########################
 
-n =  sys.argv[3]      #bootstraps
+n =  int(sys.argv[3])      #bootstraps
 numproc =  sys.argv[4]  #threads
 
 
@@ -64,7 +64,7 @@ prepareDir(BootDir)
 ### amod, tmod, wtmod all take arguments in the form (executable, options). We recommend these options, but you are welcome to play around. 
 
 # Aligner
-amod = MafftAligner("mafft", " --auto --quiet ")
+amod = MafftAligner(executable = "mafft")
 ### Note that you can align with muscle and/or clustal if you feel passionate about it, but you'll have to set this up on your own. Relevant classes in src/aligner.py 
 
 # Tree builder (build the boostrap trees)
