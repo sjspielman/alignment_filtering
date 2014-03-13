@@ -14,8 +14,14 @@ class Bootstrapper(object):
 		self.refaln_file  = kwargs.get("refaln_file")
 		self.final_treefile = "BStrees.tre"
 		self.BootDir      = kwargs.get("BootDir", "BootDir/")
-		self.numprocesses = kwargs.get("threads", multiprocessing.cpu_count())
 		
+		# Don't overload in case 
+		availableCPU = multiprocessing.cpu_count() 
+		if availableCPU > 1:
+			availableCPU -= 1
+			
+		self.numprocesses = kwargs.get("threads", availableCPU)
+		print "cpu", multiprocessing.cpu_count()
 		
 		############# input assertions ##########
 		assert(self.aligner is not None), "No aligner was passed to Bootstrapper."

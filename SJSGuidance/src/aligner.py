@@ -3,7 +3,7 @@ from dendropy import *
 from Bio import AlignIO
     
 class Aligner:
-	def __init__(self, prealn_file, alnfile):
+	def __init__(self):
 		return
 
 	def makeAlignment( self, prealn_file, alnfile ):
@@ -17,8 +17,6 @@ class Aligner:
 	def multiMakeAlignmentsGT(self, prealn_file, n, numprocesses):
 		'''Makes n bootstrap alignments. Note that this function is rather clunky because multiprocessing.pool() does not work when inside a class in python. The code here is a decent workaround of this unfortunate issue.'''
 
-		if numprocesses=='':
-			numprocesses=multiprocessing.cpu_count()	
 		pool=multiprocessing.Pool(numprocesses)
 		jobs=[]
 
