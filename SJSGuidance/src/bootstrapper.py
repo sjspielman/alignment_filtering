@@ -26,8 +26,13 @@ class Bootstrapper(object):
 		assert(self.refaln_file is not None), "Reference alignment file was not specified."
 		#########################################
 
+		# These will be defined in the fxn parseRefAln
+		sef.alnlen = None
+		self.numseq = None
+
+
+	def parseRefAln(self):
 		# Parse reference alignment for internal use
-		self.refaln_seq=[]
 		infile=open(self.refaln_file, 'r')
 		parsed = list(SeqIO.parse(infile, 'fasta'))
 		infile.close()
@@ -35,8 +40,6 @@ class Bootstrapper(object):
 			self.refaln_seq.append(str(record.seq))
 		self.numseq = len(self.refaln_seq)
 		self.alnlen = len(self.refaln_seq[0])	
-		
-		#Final file name information
 		
 		
 	def bootstrap(self):
