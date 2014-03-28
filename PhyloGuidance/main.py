@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-######### GUIDANCE REIMPLEMENTATION (with some novel scoring algorithms) WRITTEN BY SJS, ETD ##########
+######### GUIDANCE REIMPLEMENTATION, PHYLOGUIDANCE (with some novel scoring algorithms) WRITTEN BY SJS, ETD ##########
 from numpy import *
 from dendropy import *
 

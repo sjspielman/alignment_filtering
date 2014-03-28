@@ -4,7 +4,9 @@
 \linespread{1.5}
 \usepackage{graphicx}
 \usepackage{natbib}
-%correct punctuation for MBE
+
+\pdfminorversion 4
+
 \bibpunct[,]{(}{)}{;}{a}{}{,}
 \usepackage{tablefootnote}
 \usepackage{amsmath}
@@ -13,6 +15,14 @@
 \renewcommand{\topfraction}{.9}
 \renewcommand{\textfraction}{0.1}
 \renewcommand{\floatpagefraction}{.9}
+
+
+\usepackage{fancyhdr}
+
+\fancypagestyle{plain}{%
+   \fancyhead[R]{\fbox{\big{\textbf{Article; Methods}}}}
+   \renewcommand{\headrulewidth}{0pt}
+}
 
 
 \begin{document}
@@ -186,21 +196,21 @@ This work was supported by ARO Grant W911NF-12-1-0390 and the National Institute
 \caption{\label{roc} ROC curve as averaged across 60-sequence simulation set. A) Unfiltered alignments for FUBAR (dashed) and PAML (solid). Note that neither method achieved FPRs greater than shown. B) FUBAR in color with PAML results shown in grey. C) PAML in color with FUBAR results shown in grey.}
 \end{figure*}
 
-\bigskip
+\newpage
 
 \begin{figure*}[H]
 \centerline{\includegraphics[width=5in]{Figures/tprfpr.pdf}}
 \caption{\label{tprfpr} True and false positive rates recovered from FUBAR (dashed lines) and PAML (solid lines) analysis with unfiltered alignments, averaged across the 26-sequence and the 60-sequence simulation sets, against posterior probability thresholds used to call sites as positively selected. Vertical lines indicate the posterior probability threshold of 0.9 used in the present study to call positively-selected sites. A) TPR, 26-sequence set. B) FPR, 26-sequence set. C) TPR, 60-sequence set. D) FPR, 60-sequence set.  As the number of sequences increased, PAML's TPR improved at lower posterior probabilities, while its FPR remained remarkably low across all posterior probabilities for both simulation sets. While FUBAR's performance did improve with the inclusion of more sequences, its overall TPR behavior did not change as dramatically as did PAML's.}
 \end{figure*}
 
-\bigskip
+\newpage
 
 \begin{figure*}[H]
 \centerline{\includegraphics[width=5in]{Figures/fulltpr.pdf}}
 \caption{\label{fulltpr} True positive rate against posterior probability threshold for calling positively selected sites, averaged across the 60-sequence simulation set. Filtered alignments behave similarly to unfiltered alignments across all posterior probabilities. A) FUBAR results in color with PAML unfiltered alignment shown in grey. B) PAML results in color with FUBAR unfiltered alignment shown in grey. }
 \end{figure*}
 
-\bigskip
+\newpage
 
 \begin{table}[H]
 \caption {\label{tab:penalmodel} Comparison between original and gap-penalization normalization schemes on TPR of positive-selection inference.}
@@ -226,7 +236,7 @@ This work was supported by ARO Grant W911NF-12-1-0390 and the National Institute
 \textsc{note.}--- Significance levels: $^{\ast\ast} P < 0.01$; $^{\ast} P < 0.05$. Each column displays the magnitude of TPR difference between normalization schemes, represented as gap-penalization minus original, for each algorithm, respectively. Percentage changes from the original normalization scheme are shown in parentheses. All significance levels were corrected for multiple comparisons using the R multcomp package \citep{Hothorn2008}.
 \end{table}
 
-\bigskip
+\newpage
 
 \begin{table}
 \caption {\label{tab:casemodel} Effect of alignment filtering on TPR of positive-selection inference.}
@@ -252,7 +262,7 @@ Simulation Set & Method & Unfiltered TPR & \multicolumn{1}{c}{GuidanceP} & \mult
 \textsc{note.}--- Significance levels: $^{\ast\ast} P < 10^{-5}$; $^{\ast} P < 10^{-4}$. Unfiltered TPR: average TPR for unfiltered alignments; Filtered TPR: average TPR for alignments filtered with each respective algorithm, with percent change from unfiltered alignment shown in parentheses. All significance levels are relative to the given simulation set's unfiltered alignment. We detected no significant TPR differences among filters tested within sequence simulation sets. All significance levels were corrected for multiple comparisons using the R multcomp package \citep{Hothorn2008}.
 \end{table}
 
-\bigskip
+\newpage
 
 \begin{table}
 \caption {\label{tab:cutoffs} Effect of masking cutoff on TPR of positive-selection inference.}
