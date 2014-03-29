@@ -259,7 +259,8 @@ class Scorer(PrepScorer,ScoreProcessor):
 		'''initialization function'''
 		return
 
-	def scoreMSA_Guidance(self, refMSA_file, n, numseq, alnlen, allscores_file, allscores_file_penalized):
+	def scoreMSA_Guidance(self, refMSA_file, numSaveTrees, numseq, alnlen, allscores_file, allscores_file_penalized):
+		n = len(numSaveTrees)
 		alg='g'
 		all_scores=zeros((numseq, alnlen))		
 		for i in range(n):
@@ -268,13 +269,18 @@ class Scorer(PrepScorer,ScoreProcessor):
 			scoreCommand='../src/score/guidance_score ' + refMSA_file + " " + testMSA_file + " " + outfile
 			subprocess.call(scoreCommand, shell=True)
 			scores = loadtxt(outfile)
+			
+			# Multiply the scores by how many times numSaveTrees calls for
+			scores = scores*numSaveTrees[i]	
 			all_scores = all_scores + scores
+		
 		final_scores=self.processScoresGuidance(n, numseq, alnlen, refMSA_file, all_scores, allscores_file)
 		final_scores_penalized=self.processScoresPenalize(n, numseq, alnlen, all_scores, allscores_file_penalized)
 		return (final_scores, final_scores_penalized)
 	
 	
-	def scoreMSA_BMweights(self, refMSA_file, n, numseq, alnlen, ordered_weights, weightfile, allscores_file, allscores_file_penalized):
+	def scoreMSA_BMweights(self, refMSA_file, numSaveTrees, numseq, alnlen, ordered_weights, weightfile, allscores_file, allscores_file_penalized):
+		n = len(numSaveTrees)
 		alg='bm'
 		all_scores=zeros((numseq, alnlen))
 		for i in range(n):
@@ -283,13 +289,18 @@ class Scorer(PrepScorer,ScoreProcessor):
 			scoreCommand='../src/score/bmweights_score ' + refMSA_file + " " + testMSA_file + " " + weightfile + " " + outfile
 			subprocess.call(scoreCommand, shell=True)
 			scores = loadtxt(outfile)
+			
+			# Multiply the scores by how many times numSaveTrees calls for
+			scores = scores*numSaveTrees[i]	
 			all_scores = all_scores + scores
+			
 		final_scores=self.processScoresBMweights(n, numseq, alnlen, refMSA_file, ordered_weights, all_scores, allscores_file)
 		final_scores_penalized = self.processScoresPenalizeBMweights(n, alnlen, ordered_weights, all_scores, allscores_file_penalized)
 		return (final_scores, final_scores_penalized)
 	
 	
-	def scoreMSA_PDweights(self, refMSA_file, n, numseq, alnlen, dist_matrix, dist_matrix_file, allscores_file, allscores_file_penalized):
+	def scoreMSA_PDweights(self, refMSA_file, numSaveTrees, numseq, alnlen, dist_matrix, dist_matrix_file, allscores_file, allscores_file_penalized):
+		n = len(numSaveTrees)
 		alg='pd'
 		all_scores=zeros((numseq, alnlen))
 		for i in range(n):
@@ -298,7 +309,11 @@ class Scorer(PrepScorer,ScoreProcessor):
 			scoreCommand='../src/score/pdweights_score ' + refMSA_file + " " + testMSA_file + " " + dist_matrix_file + " " + outfile
 			subprocess.call(scoreCommand, shell=True)
 			scores = loadtxt(outfile)
+			
+			# Multiply the scores by how many times numSaveTrees calls for
+			scores = scores*numSaveTrees[i]					
 			all_scores = all_scores + scores
+			
 		final_scores = self.processScoresPDweights(n, numseq, alnlen, refMSA_file, dist_matrix, all_scores, allscores_file)
 		final_scores_penalized = self.processScoresPenalizePDweights(n, alnlen, dist_matrix, all_scores, allscores_file_penalized)
 		return (final_scores, final_scores_penalized)
