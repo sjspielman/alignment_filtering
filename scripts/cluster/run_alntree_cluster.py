@@ -63,10 +63,10 @@ bmod = AllBootstrapper(bootstraps = n, prealn_file = rawnuc, refaln_file = refal
 raw='rawsim_aa'+str(blah)+'.fasta'
 rawnuc='rawsim_codon'+str(blah)+'.fasta'
 
-command='cp -r /home/sjs3495/'+seqdir'/'+gene+'/seqs/'+raw+' .'
+command='cp -r /home/sjs3495/'+seqdir+'/'+raw+' .'
 call=subprocess.call(command, shell=True)
 assert(call == 0), "Raw aa not copied"
-command='cp -r /home/sjs3495/rawdata/'+seqdir'/'+gene+'/seqs/'+rawnuc+' .'
+command='cp -r /home/sjs3495/rawdata/'+seqdir+'/'+rawnuc+' .'
 call=subprocess.call(command, shell=True)
 assert(call == 0), "Raw nuc not copied"
 
