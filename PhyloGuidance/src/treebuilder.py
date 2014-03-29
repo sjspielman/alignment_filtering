@@ -85,7 +85,7 @@ class builderFastTree(TreeBuilder):
 		
 		# Double check that the correct number of trees (num bootstraps requested) have been accounted for
 		sum = 0
-		for i in range(numSaveTrees):
+		for i in numSaveTrees:
 			sum += i
 		assert (sum == num), "The correct number of trees have not been built. This is a problem. Email stephanie.spielman@gmail.com "
 		
