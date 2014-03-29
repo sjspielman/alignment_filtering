@@ -59,9 +59,9 @@ shutil.copy(raw, 'BootDir/')
 shutil.copy(rawnuc, 'BootDir/') #need to also bring this into BootDir since will Pal2Nal at the very end there.
 
 alndir_aa='aaguided_'+gene
-alndir_nuc='nucguided_'+'_'+gene
-treedir='aatrees_'+'_'+gene
-miscdir='misc_'+'_'+gene
+alndir_nuc='nucguided_'+gene
+treedir='aatrees_'+gene
+miscdir='bootdirs_'+gene
 os.mkdir(alndir_aa)
 os.mkdir(alndir_nuc)
 os.mkdir(treedir)
@@ -129,5 +129,7 @@ subprocess.call(command, shell=True)
 
 # Save the BootDir
 os.chdir('../')
-prepareDir(BootDir, save=True, newname=miscdir)
+new = 'bootdir'+str(blah)+'.tgz'
+prepareDir(BootDir, save=True, newname=new)
+shutil.copy(new, miscdir)
 
