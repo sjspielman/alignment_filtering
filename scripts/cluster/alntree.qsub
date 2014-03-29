@@ -1,0 +1,54 @@
+## Submission script for alntree. Original 8/6/13.
+
+# Edited 3/29/14 to reflect changes to run_alntree_cluster.py
+
+
+#!/bin/bash
+#$ -N aln
+#$ -e e_aln
+#$ -o o_aln
+#$ -S /bin/bash
+#$ -q wilke
+#$ -m beas
+#$ -t 1-100:1
+#$ -pe serial 10
+
+DIR=seqs_real
+GENE=or5
+SEQDIR=
+
+
+source ~/.bashrc
+
+# Create Working Directory and remove anything that might have been there woops!
+RDIR=/home/sjs3495/alntree
+WDIR=/state/partition1/sjs3495/$JOB_NAME-$JOB_ID-$SGE_TASK_ID
+
+mkdir -p $RDIR
+mkdir -p $WDIR
+
+if [ ! -d $WDIR ]
+then
+  echo $WDIR not created
+  exit
+fi
+cd $WDIR
+
+
+
+# Copy Data and Config Files
+cp -r /home/sjs3495/alignment_filtering/PhyloGuidance/* .
+cp /home/sjs3495/run_alntree_cluster.py .
+
+# Command to run
+export OMP_NUM_THREADS=9
+module load python
+pwd
+python run_alntree_cluster.py $SGE_TASK_ID $GENE $DIR $RDIR $ALIGNER
+
+# Cleanup
+cp -r nucguided_* $RDIR
+cp -r misc_* $RDIR
+cp -r aaguided_* $RDIR
+cp -r aatrees_* $RDIR
+rm -rf $WDIR

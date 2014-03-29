@@ -1,0 +1,48 @@
+## 8/6/13
+
+
+#!/bin/bash
+#$ -N fubar
+#$ -e e_fubar
+#$ -o o_fubar
+#$ -S /bin/bash
+#$ -q wilke
+#$ -m beas
+#$ -t 1-100:1
+#$ -pe serial 2
+
+DIR=seqs_real
+GENE=flat
+ALIGNER=linsi
+
+source ~/.bashrc
+
+# Create Working Directory and remove anything that might have been there woops!
+RDIR=/home/sjs3495/fubar
+WDIR=/state/partition1/sjs3495/$JOB_NAME-$JOB_ID-$SGE_TASK_ID
+
+mkdir -p $RDIR
+mkdir -p $WDIR
+
+if [ ! -d $WDIR ]
+then
+  echo $WDIR not created
+  exit
+fi
+cd $WDIR
+
+
+
+# Copy Data and Config Files
+cp -r /home/sjs3495/FUBARmaterials .
+cp /home/sjs3495/fubar.py .
+
+# Command to run
+sed -i "s/placeholder/$JOB_NAME-$JOB_ID-$SGE_TASK_ID/g" FUBARmaterials/autoFUBAR.bf
+module load python
+pwd
+python fubar.py $SGE_TASK_ID $GENE $DIR
+
+# Cleanup
+cp -r fubar_* $RDIR
+rm -rf $WDIR

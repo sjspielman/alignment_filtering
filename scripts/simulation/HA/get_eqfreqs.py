@@ -1,0 +1,94 @@
+## Calculate codon frequencies from an alignment. For tractability we are only going to infer from first 50 sequences. As sequences are in random order, this should be fine.
+import re, os, sys, subprocess, shutil, fnmatch
+from Bio.Seq import Seq
+from Bio.SeqRecord import SeqRecord
+from Bio.Alphabet import generic_dna,generic_protein
+from Bio import SeqIO, AlignIO
+from Bio.Align import MultipleSeqAlignment
+import numpy
+
+codon_dict = {"TTT":0, "TTC":0, "TTA":0, "TTG":0, "TCT":0, "TCC":0, "TCA":0, "TCG":0, "TAT":0, "TAC":0, "TAA":0, "TAG":0, "TGT":0, "TGC":0, "TGA":0, "TGG":0, "CTT":0, "CTC":0, "CTA":0, "CTG":0, "CCT":0, "CCC":0, "CCA":0, "CCG":0, "CAT":0, "CAC":0, "CAA":0, "CAG":0, "CGT":0, "CGC":0, "CGA":0, "CGG":0, "ATT":0, "ATC":0, "ATA":0, "ATG":0, "ACT":0, "ACC":0, "ACA":0, "ACG":0, "AAT":0, "AAC":0, "AAA":0, "AAG":0, "AGT":0, "AGC":0, "AGA":0, "AGG":0, "GTT":0, "GTC":0, "GTA":0, "GTG":0, "GCT":0, "GCC":0, "GCA":0, "GCG":0, "GAT":0, "GAC":0, "GAA":0, "GAG":0, "GGT":0, "GGC":0, "GGA":0, "GGG":0}
+
+infile=open('50seqs_HA.fasta', 'r') #This is just a single string. Gaps removed.
+seq = infile.read()
+infile.close()
+
+start=0 #counter for codon starting position
+end=3 #counter for codon ending position
+
+while end <= len(seq) : 
+	codon=seq[start:end]
+	codon_dict[codon]+=1
+	start+=3
+	end+=3
+
+numcodon=len(seq)/3
+total=0
+for entry in codon_dict:
+	print entry, float(codon_dict[entry])/numcodon
+'''
+CTT 0.00956645634032
+ATG 0.014766019651
+ACA 0.0323261106896
+ACG 0.00207242381067
+ATC 0.0121014747516
+AAC 0.0398756545714
+ATA 0.0242214532872
+AGG 0.0149510574913
+CCT 0.00601372980775
+ACT 0.0114353385267
+AGC 0.0156912088522
+AAG 0.0228891808375
+AGA 0.0181892196954
+CAT 0.01554317858
+AAT 0.0455193086986
+ATT 0.0191884240327
+CTG 0.024091926799
+CTA 0.0182447310475
+CTC 0.00192439353848
+CAC 0.0111762855504
+TGG 0.0176341061747
+CCG 0.00175785948226
+AGT 0.0136557926096
+CCA 0.0234813019262
+CAA 0.0187073256481
+CCC 0.00751253631368
+TAT 0.0323631182577
+GGT 0.013988860722
+TGT 0.0157652239883
+CGA 1.85037840238e-05
+CAG 0.00902984660363
+TCT 0.0123420239439
+GAT 0.0197065299854
+CGG 0.000148030272191
+TTT 0.0151731028995
+TGC 0.0106951871658
+GGG 0.0207797494588
+TAG 0.0
+GGA 0.0349906555891
+TAA 0.0
+GGC 0.00704994171308
+TAC 0.014007364506
+TTC 0.0210573062191
+TCG 0.00157282164203
+TTA 0.0130081601688
+TTG 0.0192809429528
+TCC 0.0168199396777
+ACC 0.00827119145865
+TCA 0.0207242381067
+GCA 0.0190033861925
+GTA 0.0233517754381
+GCC 0.0156912088522
+GTC 0.0128786336806
+GCG 0.00451492330182
+GTG 0.0152471180356
+GAG 0.0249245970801
+GTT 0.0128231223285
+GCT 0.0133967396333
+AAA 0.0456858427548
+TGA 0.0
+GAC 0.0156171937161
+CGT 0.000111022704143
+GAA 0.0474251984531
+CGC 0.0
+'''
