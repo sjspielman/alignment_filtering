@@ -8,6 +8,10 @@ from Bio import SeqIO, AlignIO
 from Bio.Align import MultipleSeqAlignment
 
 
+def makeDir(dir):
+	if not os.path.exists(dir):
+		os.mkdir(dir)
+	
 ##### Translates and allows for gaps
 def myTranslate(seq, codon_table):
 	peptide = ''
@@ -34,28 +38,51 @@ amino_acids = 'FFLLSSSSYY**CC*WLLLLPPPPHHQQRRRRIIIMTTTTNNKKSSRRVVVVAAAADDEEGGGG'
 codon_table = dict(zip(codons, amino_acids))
 
 
-# Simulate according to HA params, but with div/indels of the trees and their original alignments.
-gene_indels={'or5':'0.053', 'rho':'0.019', 'prk':'0.0041', 'flat':'0.0066'}
 
+simdir = '/Users/sjspielman/Dropbox/aln/results/Simulation/'
+rundir = os.getcwd()
+
+type = sys.argv[1] # neutral or HA
+if type == 'neutral':
+	outdir_base = simdir+'Neutral/'
+elif type == 'HA':
+	outdir_base = simdir+'HA/'
+else:
+	assert(1==0), "Need to specify argument neutral or HA"
+makeDir(outdir_base)
+	
+	
+
+# Simulate according to HA params, but with div/indels of the trees and their original alignments.
+#gene_indels={'or5':'0.053', 'rho':'0.019', 'prk':'0.0041', 'flat':'0.0066'}
+gene_indels = {'rho':0.019}
 
 for gene in gene_indels:
-	cfile=open('control.txt', 'r')
+	cfile=open(type+'_control.txt', 'r')
 	control=cfile.read()
 	cfile.close()
 		
-	seqbase='sequences/'+gene+'/'
-	ratesbase='truerates/'+gene+'/'
-	logbase='logs/'+gene+'/'
+	makeDir(outdir_base+'sequences/')
+	makeDir(outdir_base+'truerates/')
+	makeDir(outdir_base+'logs/')
+	
+	seqbase=outdir_base+'sequences/'+gene+'/'
+	ratesbase=outdir_base+'truerates/'+gene+'/'
+	logbase=outdir_base+'logs/'+gene+'/'
+	
+	makeDir(seqbase)
+	makeDir(ratesbase)
+	makeDir(logbase)
 	
 	seqdir=seqbase+'seqs/'
 	ratesdir=ratesbase+'seqs/'
 	logdir = logbase+'seqs/'
 	
-	os.mkdir(seqdir)
-	os.mkdir(ratesdir)
-	os.mkdir(logdir)
+	makeDir(seqdir)
+	makeDir(ratesdir)
+	makeDir(logdir)
 	
-	treefile = 'GenerateTrees/'+gene+'.tre'
+	treefile = simdir+'GenerateTrees/real_'+gene+'.tre'
 	infile = open(treefile, 'r')
 	tree = infile.read()
 	infile.close()
@@ -71,6 +98,7 @@ for gene in gene_indels:
 	cfile.close()
 		
 	for n in range(100): ## 100 reps for each
+		os.chdir(rundir)
 		runIndelible = subprocess.call('indelible control.txt', shell=True)
 
 		# New file names
@@ -126,4 +154,7 @@ for gene in gene_indels:
 		outhandle.close()
 		
 		os.remove('results_TRUE.phy')
-		os.chdir('../../../')	
+
+os.chdir(rundir)	
+os.remove('control.txt')
+os.remove('trees.txt')
