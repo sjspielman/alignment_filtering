@@ -112,7 +112,7 @@ for x in masks:
 	for alg in alg_scores:
 		outfile = alg+x+str(blah)+".fasta"
 	
-		maskResidues(refaln_file, numseq, alnlen, map, alg_scores[alg], masks[x], 'fasta', temp_res, "protein")
+		maskResiduesNOMAP(refaln_file, numseq, alnlen, alg_scores[alg], masks[x], 'fasta', temp_res, "protein")
 		Pal2Nal(temp_res, rawnuc, 'fasta', 'fasta', outfile, 'fasta')
 		shutil.copy(temp_res, '../'+alndir_aa+'/'+outfile)
 		shutil.copy(outfile, '../'+alndir_nuc)
