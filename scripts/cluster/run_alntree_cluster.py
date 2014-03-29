@@ -56,10 +56,10 @@ assert(call == 0), "Raw nuc not copied"
 shutil.copy(raw, 'BootDir/')
 shutil.copy(rawnuc, 'BootDir/') #need to also bring this into BootDir since will Pal2Nal at the very end there.
 
-alndir_aa='aaguided_'+gene+'_'+direc
-alndir_nuc='nucguided_'+'_'+gene+'_'+direc
-treedir='aatrees_'+'_'+gene+'_'+direc
-miscdir='misc_'+'_'+gene+'_'+direc
+alndir_aa='aaguided_'+gene
+alndir_nuc='nucguided_'+'_'+gene
+treedir='aatrees_'+'_'+gene
+miscdir='misc_'+'_'+gene
 os.mkdir(alndir_aa)
 os.mkdir(alndir_nuc)
 os.mkdir(treedir)
