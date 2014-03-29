@@ -46,10 +46,10 @@ masks={'_30':0.3, '_50':0.5, '_70':0.7, '_90':0.9}
 raw='rawsim_aa'+str(blah)+'.fasta'
 rawnuc='rawsim_codon'+str(blah)+'.fasta'
 
-command='cp -r /home/sjs3495/'+seqdir+'/'+raw+' .'
+command='cp '+seqdir+'/'+raw+' .'
 call=subprocess.call(command, shell=True)
 assert(call == 0), "Raw aa not copied"
-command='cp -r /home/sjs3495/rawdata/'+seqdir+'/'+rawnuc+' .'
+command='cp '+seqdir+'/'+rawnuc+' .'
 call=subprocess.call(command, shell=True)
 assert(call == 0), "Raw nuc not copied"
 
