@@ -35,23 +35,6 @@ BootDir='BootDir/'                   # Directory where most stuff will happen
 prepareDir(BootDir)
 
 masks={'_30':0.3, '_50':0.5, '_70':0.7, '_90':0.9}
-
-amod = MafftAligner("/home/sjs3495/bin/bin/mafft", " --auto --quiet ")
-### Note that you can align with muscle and/or clustal if you feel passionate about it, but you'll have to set this up on your own. Relevant classes in src/aligner.py 
-
-# Tree builder (build the boostrap trees)
-tmod=builderFastTree("/share/apps/fasttree-2.1.3/FastTreeMP", " -fastest -nosupport -quiet ") # -nosupport **MUST** be there
-
-# Scoring tree
-wtmod=weightRAxML("/share/apps/raxmlHPC-7.3.0/bin/raxmlHPC", " -m PROTCATWAG ") # You can provide other options here if you are comfortable with RAxML.
-
-# Scorer
-smod = Scorer()
-
-# Bootstrapper. Most things are going to happen using this class.
-bmod = AllBootstrapper(bootstraps = n, prealn_file = rawnuc, refaln_file = refaln_file, BootDir = BootDir, 
-                       threads = numproc, aligner=amod, tree_builder = tmod, weight_tree_builder = wtmod, scorer = smod)
-
 ##############################################################################################################################
 ##############################################################################################################################
 
