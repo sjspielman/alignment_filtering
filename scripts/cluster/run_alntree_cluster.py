@@ -1,5 +1,5 @@
 ######### LAST EDIT ON 3/29/14. ##############
-## Call as python run_alntree_cluster.py <run_number> <gene> <typedir> <seqdir> <rdir> <numproc>
+## Call as python run_alntree_cluster.py <run_number> <gene> <seqdir> <rdir> <numproc>
 ## typedir = seqs_real or something
 ## seqdir  = where the raw sim sequence files are
 
@@ -17,10 +17,9 @@ from bootstrapper import *
 
 blah = int(sys.argv[1]) - 1 ##array job so -1
 gene = sys.argv[2] ## either or5, rho, prk, flat
-direc = sys.argv[3] ## this has been seqs_real. I anticipate that this will change in the future to HA vs neutral(?)
-seqdir = sys.argv[4] ## where the raw simulated files are
-rdir = sys.argv[5]## return directory 
-numproc = int(sys.argv[6]) ## number of threads
+seqdir = sys.argv[3] ## where the raw simulated files are
+rdir = sys.argv[4]## return directory 
+numproc = int(sys.argv[5]) ## number of threads
 
 ##############################################################################################################################
 ##############################################################################################################################
@@ -64,10 +63,10 @@ bmod = AllBootstrapper(bootstraps = n, prealn_file = rawnuc, refaln_file = refal
 raw='rawsim_aa'+str(blah)+'.fasta'
 rawnuc='rawsim_codon'+str(blah)+'.fasta'
 
-command='cp -r /home/sjs3495/'+seqdir'/'+gene+'/'+direc+'/'+raw+' .'
+command='cp -r /home/sjs3495/'+seqdir'/'+gene+'/seqs/'+raw+' .'
 call=subprocess.call(command, shell=True)
 assert(call == 0), "Raw aa not copied"
-command='cp -r /home/sjs3495/rawdata/'+seqdir'/'+gene+'/'+direc+'/'+rawnuc+' .'
+command='cp -r /home/sjs3495/rawdata/'+seqdir'/'+gene+'/seqs/'+rawnuc+' .'
 call=subprocess.call(command, shell=True)
 assert(call == 0), "Raw nuc not copied"
 
