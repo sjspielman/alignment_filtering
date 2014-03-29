@@ -8,7 +8,7 @@ except:
     print "Please install Dendropy. See the README for details."
 
 def parse_args():
-    parser = argparse.ArgumentParser(prefix_chars='+-', usage='--protein_file <User File>')
+    parser = argparse.ArgumentParser(prefix_chars='+-', usage='Enter python phyloGuidance.py --help/-h for instructions')
     parser.add_argument("-infile", help="A file containing unaligned sequences in FASTA format", required=False, dest="infile", type=str)
     parser.add_argument("-n",dest="threads", type=int, help="Number of processes to use")
     parser.add_argument("-form",dest="form", type=str, help="The infile format (usually FASTA)", default="FASTA")
@@ -33,10 +33,10 @@ def getRAxML():
     assert (found == 0), "RAxML needs to be installed and on the system path. See the README for instructions."
 
 def main():
+    args = parse_args()
     getMafft()
     getFastTree()
     getRAxML()
-    args = parse_args()
     user_file = args.infile
     while args.infile is None:
         args.infile = raw_input("Please provide a protein file in FASTA format: ")
