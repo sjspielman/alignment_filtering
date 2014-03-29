@@ -4,6 +4,8 @@
 ## seqdir  = where the raw sim sequence files are
 
 import re, os, sys, subprocess, shutil
+
+sys.path.append("src/")
 from aligner import *
 from misc import *
 from treebuilder import *
