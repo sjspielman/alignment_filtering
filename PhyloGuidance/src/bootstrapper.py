@@ -50,14 +50,21 @@ class Bootstrapper(object):
 		
 		# Create the bootstrapped trees
 		print "Constructing bootstrap trees"
-		self.tree_builder.buildBootTrees(self.n, self.refaln_seq, self.numseq, self.alnlen, self.final_treefile)
-			
+		#self.tree_builder.buildBootTrees(self.n, self.refaln_seq, self.numseq, self.alnlen, self.final_treefile)
+		numSaveTrees = self.tree_builder.buildBootTreesNoReps(self.n, self.refaln_seq, self.numseq, self.alnlen, self.final_treefile)
+		
+		# We only need to process unique guide trees. This will be a massive time-saver when conducting alignments. 
+		# The missing (n - new_n) will be accounted for in scorer.py . 
+		new_n = len(numSaveTrees)
+	
 		# Separate into PROCESSED trees for given alignment software
 		print "Formatting trees"
-		self.aligner.processTrees(self.n, self.final_treefile) 	
+		self.aligner.processTrees(new_n, self.final_treefile) 	
 		
 		print "Building bootstrap alignments"
-		self.aligner.multiMakeAlignmentsGT(self.prealn_file, self.n, self.numprocesses)
+		self.aligner.multiMakeAlignmentsGT(self.prealn_file, new_n, self.numprocesses)
+		
+		return numSaveTrees
 				
 		
 class AllBootstrapper(Bootstrapper):
@@ -79,8 +86,8 @@ class AllBootstrapper(Bootstrapper):
 		shutil.copy(self.prealn_file, self.BootDir)
 		os.chdir(self.BootDir)
 		
-		# Call bootstrapper
-		self.bootstrap()
+		# Call bootstrapper. Returns a list of how many of each tree saved we want to use. Should add to 100
+		numSaveTrees = self.bootstrap()
 		
 		# Create the scoring tree
 		(dist_matrix, ordered_bmweights) = self.weight_tree_builder.buildScoreTree(self.refaln_file, self.weightTree_file, self.bmweights_file, self.pdweights_file, self.numseq)
@@ -97,11 +104,11 @@ class AllBootstrapper(Bootstrapper):
 		
 		# Conduct the scoring
 		print "scoring Guidance"
-		(gscores, gscores_p)= self.scorer.scoreMSA_Guidance(self.refaln_file, self.n, self.numseq, self.alnlen, g, gP)
+		(gscores, gscores_p)= self.scorer.scoreMSA_Guidance(self.refaln_file, self.n, self.numseq, self.alnlen, g, gP, numSaveTrees)
 		print "scoring BranchManager"
-		(bmscores, bmscores_p)=self.scorer.scoreMSA_BMweights(self.refaln_file, self.n, self.numseq, self.alnlen, ordered_bmweights, self.bmweights_file, bm, bmP)
+		(bmscores, bmscores_p)=self.scorer.scoreMSA_BMweights(self.refaln_file, self.n, self.numseq, self.alnlen, ordered_bmweights, self.bmweights_file, bm, bmP, numSaveTrees)
 		print "scoring Patristic"
-		(pdscores, pdscores_p) = self.scorer.scoreMSA_PDweights(self.refaln_file, self.n, self.numseq, self.alnlen, dist_matrix, self.pdweights_file, pd, pdP)
+		(pdscores, pdscores_p) = self.scorer.scoreMSA_PDweights(self.refaln_file, self.n, self.numseq, self.alnlen, dist_matrix, self.pdweights_file, pd, pdP, numSaveTrees)
 		
 		# Place scores into dictionary. Useful for naming final files.
 		alg_scores={'Guidance':gscores, 'BMweights':bmscores, 'PDweights':pdscores, 'GuidanceP':gscores_p, 'BMweightsP':bmscores_p, 'PDweightsP':pdscores_p}
