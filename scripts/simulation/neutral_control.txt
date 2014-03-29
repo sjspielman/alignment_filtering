@@ -1,4 +1,4 @@
-// Run Indelible sequence simulations according to temporary neutral parameters. retain HA eq freqs and indel rate.
+// Run Indelible sequence simulations according to temporary neutral parameters. retain HA eq freqs.
 // On 3/29/14, got rates from R as seq(from=0.5, to=1.5, by=0.5) and 1/21 is around 0.047, so equally spaced. temporary until get good data from sergei.
 
 [TYPE] CODON 2     	// algorithms 1 or 2, see paper for details.
