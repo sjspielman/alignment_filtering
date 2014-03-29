@@ -100,7 +100,7 @@ bmod = AllBootstrapper(bootstraps = n, prealn_file = rawnuc, refaln_file = refal
 ############################################## RUNNING "GUIDANCE" HERE #######################################################
 
 # Build reference alignment
-amod.makeAlignment(rawnuc, refaln_file)
+amod.makeAlignment(raw, refaln_file)
 
 # Bootstrap. Creates perturbed guide trees and alignments and then scores according to our 6 algorithms.
 (numseq, alnlen, alg_scores)=bmod.runBootstrap()	
