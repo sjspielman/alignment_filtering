@@ -83,7 +83,7 @@ amod = MafftAligner("/home/sjs3495/bin/bin/mafft", " --auto --quiet ")
 tmod=builderFastTree("/share/apps/fasttree-2.1.3/FastTreeMP", " -fastest -nosupport -quiet ") # -nosupport **MUST** be there
 
 # Scoring tree
-wtmod=weightRAxML("/share/apps/raxmlHPC-7.3.0/bin/raxmlHPC", " -m PROTCATWAG ") # You can provide other options here if you are comfortable with RAxML.
+wtmod=weightRAxML("/share/apps/RAxML-7.7.6/bin/raxmlHPC-MPI", " -m PROTCATWAG -T "+str(numproc)) # You can provide other options here if you are comfortable with RAxML.
 
 # Scorer
 smod = Scorer()
