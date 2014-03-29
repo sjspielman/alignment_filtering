@@ -42,43 +42,62 @@ class builderFastTree(TreeBuilder):
 		return 0
 
 
-	## This function is currently not used, and we do not advocate its use. It was originally implemented to fully re-implement Guidance, but we do not feel that forcing bootstrap replicates to be unique accurately reflects the spirit of the bootstrap.
-	def buildUniqueTrees(self, n, refaln_seq, numseq, alnlen, final_treefile, temp_treefile, bootseq):
-		'''Constructs the bootstrap trees, but forcing that each tree is unique.'''
-		baseTrees=[]
-		redo=False
-		numsametrees=0
-		## Make a single bootstrap tree
-		self.buildTrees(1, refaln_seq, numseq, alnlen, final_treefile, bootseq)
-		atree = Tree(stream=open(final_treefile), schema="newick")
-		baseTrees.append(atree)
-		numtrees=1
-		
-		finalhandle=open(final_treefile, 'a')
-		while numtrees<n:
-			self.buildTrees(1, refaln_seq, numseq, alnlen, temp_treefile, bootseq)
-			testTree = Tree(stream=open(temp_treefile), schema="newick")
-			for baseTree in baseTrees:
-				dist=baseTree.symmetric_difference(testTree)
-				if dist == 0:
-					numsametrees+=1
-					redo=True
-					break
-				else:
-					redo=False
-			if redo==False:
-				baseTrees.append(testTree)
-				finalhandle.write(str(testTree)+'\n')
-				numtrees+=1
-				print numtrees, "so far"
-		finalhandle.close()
-		print "Found", str(numsametrees), "same trees."
-		return 0		
 
-###########################################################################################################
-###########################################################################################################
-####### FOLLOWING CLASSES ARE NOT USED, BUT YOU ARE WELCOME TO USE THEM IF YOU WANT TO! sjs, 2/16/14 ######
-###########################################################################################################
+	def buildBootTreesNoReps(self, num, refaln_seq, numseq, alnlen, outfile):
+		''' Construct bootstrap trees, but if found a repeat just remember which ones are repeats and save that many alns from it later '''
+		
+		saveTrees = []
+		numSaveTrees = []
+		
+		## Final file
+		finalTrees = open(outfile, 'w')
+	
+		self.buildBootTrees(1, refaln_seq, numseq, alnlen, 'temp.tre')
+		
+		# Save tree
+		tree = Tree(stream=open('temp.tre'), schema="newick")
+		finalTrees.write(str(tree)+';\n')
+		saveTrees.append(tree)
+		numSaveTrees.append(1)
+		
+		for i in range(1,num):
+			self.buildBootTrees(1, refaln_seq, numseq, alnlen, 'temp.tre')
+			
+			# Compare it to all current trees to see if we already have it
+			testTree = Tree(stream=open('temp.tre'), schema="newick")
+			newTree = True
+			for x in range(len(saveTrees)):
+				dist = saveTrees[x].symmetric_difference(testTree)
+				
+				# Have the tree already. Increment 1 to that tree's index
+				if ( dist - 1. < 1e-10 ):
+					numSaveTrees[x]+=1
+					newTree = False
+					break
+			
+			# Need to save the tree
+			if newTree:
+				numSaveTrees.append(1)
+				saveTrees.append(testTree)
+				finalTrees.write(str(testTree)+';\n')
+		
+		finalTrees.close()
+		
+		# Double check that the correct number of trees (num bootstraps requested) have been accounted for
+		sum = 0
+		for i in range(numSaveTrees):
+			sum += i
+		assert (sum == num), "The correct number of trees have not been built. This is a problem. Email stephanie.spielman@gmail.com "
+		
+		return numSaveTrees
+		
+		
+			
+
+#####################################################################################################################
+#####################################################################################################################
+####### FOLLOWING CLASSES ARE NOT USED AND ARE PROBABLY SOMEWHAT DEPRECATED. YOU CAN REVIVE THEM AT YOUR OWN RISK!!!!
+####################################################################################################################
 
 ## Note that if you want to use this, you'll need to set the treebuilder class in main.py as follows - (but double check your executable path)
 ###     tmod=builderSemphy("../semphy/semphy", " -a 20 --jtt -H -J -v 5 --BPrepeats="+str(n)+" ")
