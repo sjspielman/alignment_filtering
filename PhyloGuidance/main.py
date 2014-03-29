@@ -12,11 +12,6 @@ import sys
 import shutil
 import argparse
 
-from Bio.Seq import Seq
-from Bio.SeqRecord import SeqRecord
-from Bio.Alphabet import generic_dna,generic_protein
-from Bio import SeqIO, AlignIO
-from Bio.Align import MultipleSeqAlignment
 
 sys.path.append("src/")
 from aligner import *
