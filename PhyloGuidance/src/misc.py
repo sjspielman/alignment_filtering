@@ -99,6 +99,41 @@ def maskResidues(refMSA_file, numseq, alnlen, map, scores, x, formatout, final_f
 	outhandle.write(maskedMSA.format(str(formatout)))
 	outhandle.close()
 
+def maskResiduesNOMAP(refMSA_file, numseq, alnlen, scores, x, formatout, final_file, seqType):
+	''' Masks poorly aligned residues whose score is <x. Will NOT mask gaps.'''
+	
+	new='?'	
+	parsed = AlignIO.read(refMSA_file, 'fasta')
+	newseqs=[]
+	numres=0
+	totalmasked=0
+	maskedMSA=MultipleSeqAlignment([])
+	for row in range(numseq):
+		newseq=''
+		for position in range(alnlen):
+			thispos=str(parsed[row].seq[position])
+			if thispos=='-':
+				newseq=newseq+parsed[row].seq[position]
+			else:
+				numres+=1
+				thescore=scores[row][position]
+				if round(thescore)<x: #mask if below threshold. use round to ensure we get the ones >= 0.5 below threshold
+					newseq=newseq+new
+					totalmasked+=1
+				else: #or, keep that position
+					newseq=newseq+parsed[row].seq[position]
+		newseqs.append(newseq)
+	
+	for i in range(numseq):
+		if str(seqType)=='protein':
+			aln_record=SeqRecord(Seq(newseqs[i],generic_protein), id=str(i), description='')
+		elif str(seqType)=='dna':
+			aln_record=SeqRecord(Seq(newseqs[i],generic_dna), id=str(i), description='')
+		maskedMSA.append(aln_record)
+
+	outhandle=open(final_file, 'w')
+	outhandle.write(maskedMSA.format(str(formatout)))
+	outhandle.close()
 
 
 
