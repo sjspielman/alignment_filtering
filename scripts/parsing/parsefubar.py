@@ -169,16 +169,20 @@ def calcStats(tp, fp, tn, fn):
 ################################################################################################
 
 
-prefix=['refaln', 'guidance', 'BMweights', 'PDweights', 'guidance_p', 'BMweights_p', 'PDweights_p']
-genes=['or5','rho','prk','flat']
-base='seqs_real'
-mask='50'
+prefix=['refaln', 'Guidance', 'BMweights', 'PDweights', 'GuidanceP', 'BMweightsP', 'PDweightsP']
+genes=['rho']
+mask={'50':'fifty'}
 
 datadir='/Users/sjspielman/Dropbox/aln/results/'
+if type=='neutral':
+	datadir += 'neutral/'
+elif type == 'HA':
+	datadir += 'HA/'
+
 
 outfile='fubar90.txt'
 outhandle=open(outfile, 'w')
-outhandle.write('count\ttprate\tfprate\t\tfnrate\taccuracy\tcase\tgene\tmethod\tpenal\n')
+outhandle.write('count\ttprate\tfprate\t\tfnrate\taccuracy\tcase\tgene\tmask\tmethod\tpenal\n')
 
 
 for gene in genes:
@@ -187,12 +191,12 @@ for gene in genes:
 	print gene+'\n'
 	
 	# Directories: fubar output, alignments (all made with linsi)
-	fudir = datadir+'fubar/fubar_'+gene+'_'+base+'/'
-	alndir = datadir+'alntree/nucguided_linsi_'+gene+'_'+base+'/'
+	fudir = datadir+'fubar/fubar_'+gene+'/'
+	alndir = datadir+'alntree/nucguided_'+gene+'/'
 	
 	# Directories: true simulated alignments and evolutionary rate categories
-	truerates_dir=datadir+'Simulation/truerates/'+gene+'/'+base+'/'
-	truealn_dir=datadir+'Simulation/sequences/'+gene+'/'+base+'/'
+	truerates_dir=datadir+'Simulation/truerates/'+gene+'/'
+	truealn_dir=datadir+'Simulation/sequences/'+gene+'/'
 	
 			
 	for n in range(100):
@@ -214,41 +218,42 @@ for gene in genes:
 		
 		
 		########### Accuracy assessment #########
-		for case in prefix:
-			
-			## Get file names and whether or not gap-penalized algorithm
-			if case=='refaln':
-				penal='zero'
-				fubar=fudir+'refaln'+str(n)+'.fasta.fubar'
-				aln=refaln
-				parsed=refparsed
-			
-			elif case=='guidance' or case=='BMweights' or case=='PDweights':
-				penal='no'
-				name = case+'50_'+str(n)+'.fasta'
-				aln=alndir+name		
-				fubar=fudir+name+'.fubar'
-				parsed=AlignIO.read(aln, 'fasta')
-			
-			else:
-				penal='yes'
-				name = case+'50_'+str(n)+'.fasta'
-				aln=alndir+name
-				fubar=fudir+name+'.fubar'
-				parsed=AlignIO.read(aln, 'fasta')	
+		for mask in masks:
+			for case in prefix:
 				
-			testprobs = parseFubar(mapRef, fubar)	
+				## Get file names and whether or not gap-penalized algorithm
+				if case=='refaln':
+					penal='zero'
+					fubar=fudir+'refaln'+str(n)+'.fasta.fubar'
+					aln=refaln
+					parsed=refparsed
 				
-			## Ensure that the mapping went ok.
-			if len(truepos)!=len(testprobs):
-				print case, len(map), len(truepos), len(testprobs)
-				print "Mapping failed."
-				assert 1==0
-
-
-			## Fubar assessment	at single posterior probability cutoff			
-			(tp,tn,fp,fn,tprate,fprate,tnrate,fnrate,accuracy)=sweepRates(0.895, truepos, testprobs)
-			outhandle.write(str(n)+'\t'+str(tprate)+'\t'+str(fprate)+'\t'+str(fnrate)+'\t'+str(accuracy)+'\t'+case+'\t'+gene+'\tfubar\t'+penal+'\n')	
+				elif case=='Guidance' or case=='BMweights' or case=='PDweights':
+					penal='no'
+					name = case+mask+'_'+str(n)+'.fasta'
+					aln=alndir+name		
+					fubar=fudir+name+'.fubar'
+					parsed=AlignIO.read(aln, 'fasta')
+				
+				else:
+					penal='yes'
+					name = case+mask+'_'+str(n)+'.fasta'
+					aln=alndir+name
+					fubar=fudir+name+'.fubar'
+					parsed=AlignIO.read(aln, 'fasta')	
+					
+				testprobs = parseFubar(mapRef, fubar)	
+						
+				## Ensure that the mapping went ok.
+				if len(truepos)!=len(testprobs):
+					print case, len(map), len(truepos), len(testprobs)
+					print "Mapping failed."
+					assert 1==0
+	
+	
+				## Fubar assessment	at single posterior probability cutoff			
+				(tp,tn,fp,fn,tprate,fprate,tnrate,fnrate,accuracy)=sweepRates(0.895, truepos, testprobs)
+				outhandle.write(str(n)+'\t'+str(tprate)+'\t'+str(fprate)+'\t'+str(fnrate)+'\t'+str(accuracy)+'\t'+case+'\t'+gene+'\t'+masks[mask]+'\tfubar\t'+penal+'\n')	
 
 outhandle.close()
 
