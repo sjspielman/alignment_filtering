@@ -13,8 +13,8 @@ outdir='fubar_'+gene+'/'
 os.mkdir(outdir)
 
 
-masks=['30_']#,'50_', '70_', '90_']
-algs=['Guidance_']#, 'BMweights_', 'PDweights_', 'GuidanceP_', 'BMweightsP_', 'PDweightsP_', 'refaln']
+masks=['30_','50_', '70_', '90_']
+algs=['Guidance_', 'BMweights_', 'PDweights_', 'GuidanceP_', 'BMweightsP_', 'PDweightsP_', 'refaln']
 
 
 shutil.copy(treedir+"aatree"+str(n)+'.txt', rundir+'tree.tre')
