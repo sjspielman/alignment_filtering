@@ -11,11 +11,11 @@
 #$ -q wilke
 #$ -m beas
 #$ -t 1-100:1
-#$ -pe serial 10
+#$ -pe serial 8
 
-DIR=seqs_real
+
 GENE=rho
-SEQDIR=/home/sjs3495/raw_neutral/GENE/seqs
+SEQDIR=/home/sjs3495/raw_neutral/$GENE/seqs
 RDIR=/home/sjs3495/alntree_neutral
 source ~/.bashrc
 
@@ -35,19 +35,19 @@ cd $WDIR
 
 
 # Copy Data and Config Files
-cp /home/sjs3495/alignment_filtering/PhyloGuidance/src/* .
-cp /home/sjs3495/linux_scoring/* .
+cp -r /home/sjs3495/alignment_filtering/PhyloGuidance/src .
+cp /home/sjs3495/linux_scoring/* src/score/
 cp /home/sjs3495/alignment_filtering/scripts/cluster/run_alntree_cluster.py .
 
 # Command to run
-export OMP_NUM_THREADS=9
+export OMP_NUM_THREADS=7
 module load python
 pwd
-python run_alntree_cluster.py $SGE_TASK_ID $GENE $DIR $RDIR $ALIGNER
+python run_alntree_cluster.py $SGE_TASK_ID $GENE $SEQDIR 7
 
 # Cleanup
 cp -r nucguided_* $RDIR
-cp -r misc_* $RDIR
+cp -r bootdirs_* $RDIR
 cp -r aaguided_* $RDIR
 cp -r aatrees_* $RDIR
 rm -rf $WDIR
