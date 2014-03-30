@@ -1,7 +1,6 @@
 ######### LAST EDIT ON 3/29/14. ##############
-## Call as python run_alntree_cluster.py <run_number> <gene> <seqdir> <rdir> <numproc>
-## typedir = seqs_real or something
-## seqdir  = where the raw sim sequence files are
+## Call as python run_alntree_cluster.py <run_number> <gene> <seqdir> <numproc>
+## seqdir  = where the raw sim sequence files are. given in the qsub.
 
 import re, os, sys, subprocess, shutil
 
@@ -20,8 +19,7 @@ from bootstrapper import *
 blah = int(sys.argv[1]) - 1 ##array job so -1
 gene = sys.argv[2] ## either or5, rho, prk, flat
 seqdir = sys.argv[3] ## where the raw simulated files are
-rdir = sys.argv[4]## return directory 
-numproc = int(sys.argv[5]) ## number of threads
+numproc = int(sys.argv[4]) ## number of threads
 
 ##############################################################################################################################
 ##############################################################################################################################
@@ -32,8 +30,8 @@ numproc = int(sys.argv[5]) ## number of threads
 
 n=100
 refaln_file='refaln.fasta' # Will contain the reference (unmasked!) alignment
-temp_res='tempaln_res.aln' # Used as a temporary alignment file during masking	
-BootDir='BootDir/'                   # Directory where most stuff will happen
+temp_res='temp.aln'        # Used as a temporary alignment file during masking	
+BootDir='BootDir/'        
 prepareDir(BootDir)
 
 masks={'_30':0.3, '_50':0.5, '_70':0.7, '_90':0.9}
@@ -47,6 +45,7 @@ masks={'_30':0.3, '_50':0.5, '_70':0.7, '_90':0.9}
 ## copy over raw simulation sequences.
 rawaa='rawsim_aa'+str(blah)+'.fasta'
 rawnuc='rawsim_codon'+str(blah)+'.fasta'
+prealn_file = rawaa
 
 command='cp '+seqdir+'/'+rawaa+' .'
 call=subprocess.call(command, shell=True)
@@ -55,7 +54,6 @@ command='cp '+seqdir+'/'+rawnuc+' .'
 call=subprocess.call(command, shell=True)
 assert(call == 0), "Raw nuc not copied"
 
-shutil.copy(rawaa, 'BootDir/')
 shutil.copy(rawnuc, 'BootDir/') #need to also bring this into BootDir since will Pal2Nal at the very end there.
 
 alndir_aa='aaguided_'+gene
@@ -82,14 +80,14 @@ amod = MafftAligner("/home/sjs3495/bin/bin/mafft", " --auto --quiet ")
 # Tree builder (build the boostrap trees)
 tmod=builderFastTree("/share/apps/fasttree-2.1.3/FastTreeMP", " -fastest -nosupport -quiet ") # -nosupport **MUST** be there
 
-# Scoring tree
-wtmod=weightRAxML("/share/apps/RAxML-7.7.6/bin/raxmlHPC-MPI", " -m PROTCATWAG -T "+str(numproc)) # You can provide other options here if you are comfortable with RAxML.
+# Scoring tree. Note that raxml is having some optimization issues with protcatwag.
+wtmod=weightRAxML("/share/apps/RAxML-7.7.6/bin/raxmlHPC-MPI", " -m PROTGAMMAWAG -T "+str(numproc)) # You can provide other options here if you are comfortable with RAxML.
 
 # Scorer
 smod = Scorer()
 
 # Bootstrapper. Most things are going to happen using this class.
-bmod = AllBootstrapper(bootstraps = n, prealn_file = rawaa, refaln_file = refaln_file, BootDir = BootDir, 
+bmod = AllBootstrapper(bootstraps = n, prealn_file = prealn_file, refaln_file = refaln_file, BootDir = BootDir, 
                        threads = numproc, aligner=amod, tree_builder = tmod, weight_tree_builder = wtmod, scorer = smod)
 ##############################################################################################################################
 ##############################################################################################################################
@@ -100,7 +98,7 @@ bmod = AllBootstrapper(bootstraps = n, prealn_file = rawaa, refaln_file = refaln
 ############################################## RUNNING "GUIDANCE" HERE #######################################################
 
 # Build reference alignment
-amod.makeAlignment(rawaa, refaln_file)
+amod.makeAlignment(prealn_file, refaln_file)
 
 # Bootstrap. Creates perturbed guide trees and alignments and then scores according to our 6 algorithms.
 (numseq, alnlen, alg_scores)=bmod.runBootstrap()	
