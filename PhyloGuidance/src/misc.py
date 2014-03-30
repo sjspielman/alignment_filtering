@@ -126,9 +126,9 @@ def maskResiduesNOMAP(refMSA_file, numseq, alnlen, scores, x, formatout, final_f
 	
 	for i in range(numseq):
 		if str(seqType)=='protein':
-			aln_record=SeqRecord(Seq(newseqs[i],generic_protein), id=str(i), description='')
+			aln_record=SeqRecord(Seq(newseqs[i],generic_protein), id=str(i+1), description='')
 		elif str(seqType)=='dna':
-			aln_record=SeqRecord(Seq(newseqs[i],generic_dna), id=str(i), description='')
+			aln_record=SeqRecord(Seq(newseqs[i],generic_dna), id=str(i+1), description='')
 		maskedMSA.append(aln_record)
 
 	outhandle=open(final_file, 'w')
