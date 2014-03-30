@@ -110,7 +110,7 @@ amod.makeAlignment(raw, refaln_file)
 print "\nMasking residues"
 for x in masks:
 	for alg in alg_scores:
-		outfile = alg+x+str(blah)+".fasta"
+		outfile = alg+x+"_"+str(blah)+".fasta"
 	
 		maskResiduesNOMAP(refaln_file, numseq, alnlen, alg_scores[alg], masks[x], 'fasta', temp_res, "protein")
 		Pal2Nal(temp_res, rawnuc, 'fasta', 'fasta', outfile, 'fasta')
