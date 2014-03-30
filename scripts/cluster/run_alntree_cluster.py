@@ -45,17 +45,17 @@ masks={'_30':0.3, '_50':0.5, '_70':0.7, '_90':0.9}
 ##############################################################################################################################
 ################ COPY OVER RAW SIMULATION SEQUENCES AND SET UP RETURN DIRECTORIES ############################################
 ## copy over raw simulation sequences.
-raw='rawsim_aa'+str(blah)+'.fasta'
+rawaa='rawsim_aa'+str(blah)+'.fasta'
 rawnuc='rawsim_codon'+str(blah)+'.fasta'
 
-command='cp '+seqdir+'/'+raw+' .'
+command='cp '+seqdir+'/'+rawaa+' .'
 call=subprocess.call(command, shell=True)
 assert(call == 0), "Raw aa not copied"
 command='cp '+seqdir+'/'+rawnuc+' .'
 call=subprocess.call(command, shell=True)
 assert(call == 0), "Raw nuc not copied"
 
-shutil.copy(raw, 'BootDir/')
+shutil.copy(rawaa, 'BootDir/')
 shutil.copy(rawnuc, 'BootDir/') #need to also bring this into BootDir since will Pal2Nal at the very end there.
 
 alndir_aa='aaguided_'+gene
@@ -89,7 +89,7 @@ wtmod=weightRAxML("/share/apps/RAxML-7.7.6/bin/raxmlHPC-MPI", " -m PROTCATWAG -T
 smod = Scorer()
 
 # Bootstrapper. Most things are going to happen using this class.
-bmod = AllBootstrapper(bootstraps = n, prealn_file = rawnuc, refaln_file = refaln_file, BootDir = BootDir, 
+bmod = AllBootstrapper(bootstraps = n, prealn_file = rawaa, refaln_file = refaln_file, BootDir = BootDir, 
                        threads = numproc, aligner=amod, tree_builder = tmod, weight_tree_builder = wtmod, scorer = smod)
 ##############################################################################################################################
 ##############################################################################################################################
@@ -100,7 +100,7 @@ bmod = AllBootstrapper(bootstraps = n, prealn_file = rawnuc, refaln_file = refal
 ############################################## RUNNING "GUIDANCE" HERE #######################################################
 
 # Build reference alignment
-amod.makeAlignment(raw, refaln_file)
+amod.makeAlignment(rawaa, refaln_file)
 
 # Bootstrap. Creates perturbed guide trees and alignments and then scores according to our 6 algorithms.
 (numseq, alnlen, alg_scores)=bmod.runBootstrap()	
