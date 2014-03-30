@@ -101,6 +101,7 @@ for x in masks:
 		maskResidues(refaln_file, numseq, alnlen, map, alg_scores[alg], masks[x], 'fasta', temp_res, alphabet)
 		outfile_aa=prefix+"_"+alg+x+".fasta"
 		shutil.copy(temp_res, '../'+final_aln_dir+outfile_aa)
+os.remove(temp_res)
 
 # Save unmasked alignment as well
 unMap(map, refaln_file, '../'+final_aln_dir+prefix+"_unmasked.fasta", numseq)
