@@ -4,12 +4,12 @@ from Bio import AlignIO, SeqIO
 
 ################################################################################################
 ################################################################################################
-def parseTrueRates(trfile, truealn, mapTrue):
+def parseTrueRates(trfile, truealn, mapTrue, posStart):
 	'''Retrieve data for each position in the true alignment, from a file generated during simulation giving the TRUE SIMULATED rates. Info starts at line 11 of the truerates files.'''
 	'''ONLY FOR SITES WHERE REFTAXON IS NOT A GAP IN THE TRUEALN!!!!'''
 	poslist=[] ## each entry corresponds to a position. 0=negative, 1=positively selected.
 	
-	## FOR HA, CAT >=18 IS POSITIVE	
+	###### FOR HA, CAT >=18 IS POSITIVE. FOR NEUTRAL, CAT>=11 POSITIVE. ####
 
 	## Parse truerates file
 	infile=open(trfile, 'r')
@@ -20,7 +20,7 @@ def parseTrueRates(trfile, truealn, mapTrue):
 		find=re.search('^\d+\t(\d+)\t', truelines[counter])
 		if find:
 			rate=int(find.group(1))
-			if rate >=18: ## HA!!!
+			if rate >=posStart: 
 				poslist.append(rate)
 			else:
 				poslist.append(0)
@@ -71,7 +71,7 @@ def buildMap(trueparsed, parsed, numseq, alnlen):
 	(mapRef, mapTrue) = getConsensus(allMaps)
 	
 	# Now find the true evolutionary rates using mapTrue
-	truepos =  parseTrueRates(trfile, truealn, mapTrue)
+	truepos =  parseTrueRates(trfile, truealn, mapTrue, posStart)
 
 	return (mapRef, truepos)
 	
@@ -131,15 +131,19 @@ def sweepRates(x, truepos, testprobs):
 		if float(testprobs[i])>=x:
 			if truepos[i]==0:
 				fp+=1
+				#print "FALSE POS", truepos[i], testprobs[i]
 			elif truepos[i]>0:
 				tp+=1
+				#print "TRUE POS", truepos[i], testprobs[i]
 				#if str(x)=='0.9':
 				#	print "tp", truepos[i]
 		#Negative cases
 		elif float(testprobs[i])<x:
 			if truepos[i]==0:
+				#print "\tTRUE NEG", truepos[i], testprobs[i]
 				tn+=1
 			elif truepos[i]>0:
+				#print "FALSE NEG", truepos[i], testprobs[i]
 				fn+=1
 				#if str(x)=='0.9':
 				#	print "fn", truepos[i]
@@ -169,18 +173,21 @@ def calcStats(tp, fp, tn, fn):
 ################################################################################################
 
 
-prefix=['refaln', 'Guidance', 'BMweights', 'PDweights', 'GuidanceP', 'BMweightsP', 'PDweightsP']
+prefix=['refaln', 'Guidance_', 'BMweights_', 'PDweights_', 'GuidanceP_', 'BMweightsP_', 'PDweightsP_']
 genes=['rho']
-mask={'50':'fifty'}
+masks={'50':'fifty'}
 
 datadir='/Users/sjspielman/Dropbox/aln/results/'
+type = 'neutral'
+
 if type=='neutral':
 	datadir += 'neutral/'
+	posStart = 11
 elif type == 'HA':
 	datadir += 'HA/'
+	posStart = 18
 
-
-outfile='fubar90.txt'
+outfile='/Users/sjspielman/Research/alignment_filtering/data/fubar_neutral_90.txt'
 outhandle=open(outfile, 'w')
 outhandle.write('count\ttprate\tfprate\t\tfnrate\taccuracy\tcase\tgene\tmask\tmethod\tpenal\n')
 
@@ -228,7 +235,7 @@ for gene in genes:
 					aln=refaln
 					parsed=refparsed
 				
-				elif case=='Guidance' or case=='BMweights' or case=='PDweights':
+				elif case=='Guidance_' or case=='BMweights_' or case=='PDweights_':
 					penal='no'
 					name = case+mask+'_'+str(n)+'.fasta'
 					aln=alndir+name		
