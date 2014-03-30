@@ -8,6 +8,7 @@ n=int(sys.argv[1]) - 1
 gene=sys.argv[2]
 alndir=sys.argv[3]+'/'
 treedir=sys.argv[4]+'/'
+cpu=sys.argv[5]
 
 outdir='fubar_'+gene+'/'
 os.mkdir(outdir)
@@ -32,7 +33,7 @@ for alg in algs:
 
 		shutil.move(name, 'temp.fasta')
 
-		cline='/home/sjs3495/bin/bin/HYPHYMP autoFUBAR.bf'
+		cline='/home/sjs3495/bin/bin/HYPHYMP autoFUBAR.bf CPU='+cpu
 		runit=subprocess.call(cline, shell=True)
 		final_file='tree.tre.fubar.csv'
 		shutil.move(final_file, '../'+outdir+name+'.fubar')
