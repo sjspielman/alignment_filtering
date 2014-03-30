@@ -17,8 +17,8 @@ masks=['30_','50_', '70_', '90_']
 algs=['Guidance_', 'BMweights_', 'PDweights_', 'GuidanceP_', 'BMweightsP_', 'PDweightsP_', 'refaln']
 
 
-copy=treedir+"aatree"+str(n)+'.txt '+rundir+'tree.tre'
-subprocess.call(copy, shell=True)
+shutil.copy(treedir+"aatree"+str(n)+'.txt', rundir+'tree.tre')
+
 
 os.chdir(rundir)
 for alg in algs:
@@ -26,12 +26,9 @@ for alg in algs:
 	
 		if alg=='refaln':
 			name='refaln'+str(n)+'.fasta'
-			copy=alndir+name+' .'
 		else:
-			name=alg+x+str(n)+".fasta"
-			copy=alndir+name+' .'
-		
-		subprocess.call(copy, shell=True)
+			name=alg+x+str(n)+".fasta"	
+		shutil.copy(alndir+name, ".")
 
 		shutil.move(name, 'temp.fasta')
 
