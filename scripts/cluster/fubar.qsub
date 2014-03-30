@@ -1,5 +1,4 @@
-## 8/6/13
-
+## Tweaked 3/29/14
 
 #!/bin/bash
 #$ -N fubar
@@ -9,16 +8,15 @@
 #$ -q wilke
 #$ -m beas
 #$ -t 1-100:1
-#$ -pe serial 2
 
-DIR=seqs_real
-GENE=flat
-ALIGNER=linsi
+GENE=rho
+ALNDIR=/home/sjs3495/alntree_neutral/nucguided_$GENE
+TREEDIR=/home/sjs3495/alntree_neutral/aatrees_$GENE
+RDIR=/home/sjs3495/fubar_neutral
 
 source ~/.bashrc
 
 # Create Working Directory and remove anything that might have been there woops!
-RDIR=/home/sjs3495/fubar
 WDIR=/state/partition1/sjs3495/$JOB_NAME-$JOB_ID-$SGE_TASK_ID
 
 mkdir -p $RDIR
@@ -34,14 +32,14 @@ cd $WDIR
 
 
 # Copy Data and Config Files
-cp -r /home/sjs3495/FUBARmaterials .
-cp /home/sjs3495/fubar.py .
+cp -r /home/sjs3495/stuff_aln_project/FUBARmaterials .
+cp /home/sjs3495/alignment_filtering/scripts/cluster/fubar.py .
 
 # Command to run
 sed -i "s/placeholder/$JOB_NAME-$JOB_ID-$SGE_TASK_ID/g" FUBARmaterials/autoFUBAR.bf
 module load python
 pwd
-python fubar.py $SGE_TASK_ID $GENE $DIR
+python fubar.py $SGE_TASK_ID $GENE $ALNDIR $TREEDIR
 
 # Cleanup
 cp -r fubar_* $RDIR

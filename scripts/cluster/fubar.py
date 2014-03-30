@@ -1,33 +1,20 @@
-## 8/6/13
+## Rewritten 3/29/14
 
-import re, os, sys, subprocess, fnmatch
-import shutil
-
-def GetFiles(ext, dirpath):
-        files=[]
-        dir=os.listdir(dirpath)
-        for file in dir:
-                if fnmatch.fnmatch(file, str(ext)+'.+'):
-                        files.append(file)
-        return files
-########
+import os, sys, subprocess, fnmatch, shutil
 
 rundir='FUBARmaterials/'
 
-n=int(sys.argv[1])
-if n==100:
-	n=0
+n=int(sys.argv[1]) - 1
 gene=sys.argv[2]
-base=sys.argv[3]
+alndir=sys.argv[3]
+treedir=sys.argv[4]
 
-outdir='fubar_'+gene+'_'+base+'/'
+outdir='fubar_'+gene+'/'
 os.mkdir(outdir)
 
-alndir='cp /home/sjs3495/alntree/nucguided_linsi_'+gene+'_'+base+'/'
-treedir='cp /home/sjs3495/alntree/aatrees_linsi_'+gene+'_'+base+'/aatree'
 
-masks=['30_']#['50_', '70_', '90_']
-algs=['guidance', 'BMweights', 'PDweights', 'guidance_p', 'BMweights_p', 'PDweights_p']#, 'refaln']
+masks=['30_','50_', '70_', '90_']
+algs=['Guidance_', 'BMweights_', 'PDweights_', 'GuidanceP_', 'BMweightsP_', 'PDweightsP_', 'refaln']
 
 
 copy=treedir+str(n)+'.txt '+rundir+'tree.tre'
