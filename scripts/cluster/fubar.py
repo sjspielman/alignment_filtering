@@ -32,7 +32,7 @@ for alg in algs:
 
 		shutil.move(name, 'temp.fasta')
 
-		cline='/home/sjs3495/bin/bin/HYPHYMP autoFUBAR.bf CPU=10'
+		cline='/home/sjs3495/bin/bin/HYPHYMP autoFUBAR.bf'
 		runit=subprocess.call(cline, shell=True)
 		final_file='tree.tre.fubar.csv'
 		shutil.move(final_file, '../'+outdir+name+'.fubar')
