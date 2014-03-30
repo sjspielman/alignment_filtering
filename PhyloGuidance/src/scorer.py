@@ -259,11 +259,11 @@ class Scorer(PrepScorer,ScoreProcessor):
 		'''initialization function'''
 		return
 
-	def scoreMSA_Guidance(self, refMSA_file, numSaveTrees, numseq, alnlen, allscores_file, allscores_file_penalized):
-		n = len(numSaveTrees)
+	def scoreMSA_Guidance(self, refMSA_file, n, numseq, alnlen, allscores_file, allscores_file_penalized, numSaveTrees):
+		n_trees= len(numSaveTrees)
 		alg='g'
 		all_scores=zeros((numseq, alnlen))		
-		for i in range(n):
+		for i in range(n_trees):
 			testMSA_file='bootaln'+str(i)+'.fasta'
 			outfile = "scores"+str(i)+"_"+str(alg)+".txt"
 			scoreCommand='../src/score/guidance_score ' + refMSA_file + " " + testMSA_file + " " + outfile
@@ -279,11 +279,11 @@ class Scorer(PrepScorer,ScoreProcessor):
 		return (final_scores, final_scores_penalized)
 	
 	
-	def scoreMSA_BMweights(self, refMSA_file, numSaveTrees, numseq, alnlen, ordered_weights, weightfile, allscores_file, allscores_file_penalized):
-		n = len(numSaveTrees)
+	def scoreMSA_BMweights(self, refMSA_file, n, numseq, alnlen, ordered_weights, weightfile, allscores_file, allscores_file_penalized, numSaveTrees):
+		n_trees = len(numSaveTrees)
 		alg='bm'
 		all_scores=zeros((numseq, alnlen))
-		for i in range(n):
+		for i in range(n_trees):
 			testMSA_file='bootaln'+str(i)+'.fasta'
 			outfile = "scores"+str(i)+"_"+str(alg)+".txt"
 			scoreCommand='../src/score/bmweights_score ' + refMSA_file + " " + testMSA_file + " " + weightfile + " " + outfile
@@ -299,11 +299,11 @@ class Scorer(PrepScorer,ScoreProcessor):
 		return (final_scores, final_scores_penalized)
 	
 	
-	def scoreMSA_PDweights(self, refMSA_file, numSaveTrees, numseq, alnlen, dist_matrix, dist_matrix_file, allscores_file, allscores_file_penalized):
-		n = len(numSaveTrees)
+	def scoreMSA_PDweights(self, refMSA_file, n, numseq, alnlen, dist_matrix, dist_matrix_file, allscores_file, allscores_file_penalized, numSaveTrees):
+		n_trees = len(numSaveTrees)
 		alg='pd'
 		all_scores=zeros((numseq, alnlen))
-		for i in range(n):
+		for i in range(n_trees):
 			testMSA_file='bootaln'+str(i)+'.fasta'
 			outfile = "scores"+str(i)+"_"+str(alg)+".txt"
 			scoreCommand='../src/score/pdweights_score ' + refMSA_file + " " + testMSA_file + " " + dist_matrix_file + " " + outfile

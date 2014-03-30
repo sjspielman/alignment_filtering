@@ -104,11 +104,11 @@ class AllBootstrapper(Bootstrapper):
 		
 		# Conduct the scoring
 		print "scoring Guidance"
-		(gscores, gscores_p)= self.scorer.scoreMSA_Guidance(self.refaln_file, numSaveTrees, self.numseq, self.alnlen, g, gP)
+		(gscores, gscores_p)= self.scorer.scoreMSA_Guidance(self.refaln_file, self.n, self.numseq, self.alnlen, g, gP, numSaveTrees)
 		print "scoring BranchManager"
-		(bmscores, bmscores_p)=self.scorer.scoreMSA_BMweights(self.refaln_file, numSaveTrees, self.numseq, self.alnlen, ordered_bmweights, self.bmweights_file, bm, bmP)
+		(bmscores, bmscores_p)=self.scorer.scoreMSA_BMweights(self.refaln_file, self.n, self.numseq, self.alnlen, ordered_bmweights, self.bmweights_file, bm, bmP, numSaveTrees)
 		print "scoring Patristic"
-		(pdscores, pdscores_p) = self.scorer.scoreMSA_PDweights(self.refaln_file, numSaveTrees, self.numseq, self.alnlen, dist_matrix, self.pdweights_file, pd, pdP)
+		(pdscores, pdscores_p) = self.scorer.scoreMSA_PDweights(self.refaln_file, self.n, self.numseq, self.alnlen, dist_matrix, self.pdweights_file, pd, pdP, numSaveTrees)
 		
 		# Place scores into dictionary. Useful for naming final files.
 		alg_scores={'Guidance':gscores, 'BMweights':bmscores, 'PDweights':pdscores, 'GuidanceP':gscores_p, 'BMweightsP':bmscores_p, 'PDweightsP':pdscores_p}
