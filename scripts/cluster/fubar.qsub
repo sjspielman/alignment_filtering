@@ -1,14 +1,17 @@
 ## Tweaked 3/29/14
 
+
 #!/bin/bash
-#$ -N fubar
-#$ -e e_fubar
-#$ -o o_fubar
+#$ -N fubarCPU
+#$ -e e_$JOB_NAME
+#$ -o o_$JOB_NAME
 #$ -S /bin/bash
 #$ -q wilke
 #$ -m beas
 #$ -t 1-100:1
+#$ -pe serial 5
 
+CPU=5
 GENE=rho
 ALNDIR=/home/sjs3495/alntree_neutral/nucguided_$GENE
 TREEDIR=/home/sjs3495/alntree_neutral/aatrees_$GENE
@@ -39,7 +42,7 @@ cp /home/sjs3495/alignment_filtering/scripts/cluster/fubar.py .
 sed -i "s/placeholder/$JOB_NAME-$JOB_ID-$SGE_TASK_ID/g" FUBARmaterials/autoFUBAR.bf
 module load python
 pwd
-python fubar.py $SGE_TASK_ID $GENE $ALNDIR $TREEDIR
+python fubar.py $SGE_TASK_ID $GENE $ALNDIR $TREEDIR $CPU
 
 # Cleanup
 cp -r fubar_* $RDIR
