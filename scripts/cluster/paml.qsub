@@ -1,26 +1,35 @@
-## redone on 12/13/13 to run mask50 for the prk non-penal methods ONLY.
+## Tweaked 3/30/14
 
 
 #!/bin/bash
 #$ -N paml
-#$ -e e_paml
-#$ -o o_paml
+#$ -e e_$JOB_NAME
+#$ -o o_$JOB_NAME
 #$ -S /bin/bash
 #$ -q wilke
 #$ -m beas
-#$ -t 80-80:1
+#$ -t 1-100:1
 
 source ~/.bashrc
-ALG=guidance
-GENE=prk
-MASK=30_
 
+### Define run conditions ###
+GENE=rho
+MASK=50
+ALG=Guidance
+NUM=`expr $SGE_TASK_ID - 1`
+ALN=""
+if [ $ALG == "refaln" ]; then
+	$ALN=$ALG$NUM.fasta
+else
+	$ALN+=${ALG}_${MASK}_${NUM}.fasta
+fi
 
-# Create Working Directory and remove anything that might have been there woops!
-RDIR=/home/sjs3495/paml_prk_3090
+ALNDIR=/home/sjs3495/alntree_neutral/nucguided_$GENE
+TREEDIR=/home/sjs3495/alntree_neutral/aatrees_$GENE
+RDIR=/home/sjs3495/paml_neutral
 WDIR=/state/partition1/sjs3495/$JOB_NAME-$JOB_ID-$SGE_TASK_ID
 
-#mkdir -p $RDIR
+mkdir -p $RDIR
 mkdir -p $WDIR
 
 if [ ! -d $WDIR ]
@@ -30,17 +39,33 @@ then
 fi
 cd $WDIR
 
+# Copy over files to run with.  Includes control file, executable, alignment, and tree
+cp  /home/sjs3495/alignment_filtering/scripts/selection_inference/codeml.ctl .
+cp /home/sjs3495/bin/codeml .
+cp $ALNDIR/$ALN temp.fasta
+cp $TREEDIR/aatree$NUM.tre .
 
+# Run paml
+codeml codeml.ctl
 
-# Copy Data and Config Files
-cp  /home/sjs3495/codeml.ctl .
-cp /home/sjs3495/paml.py .
+# Save the final paml file
+mv rst $RDIR/$ALN.rst
 
-# Command to run
-module load python
-pwd
-python paml.py $SGE_TASK_ID $ALG $GENE $MASK
-
-# Cleanup
-cp -r paml_* $RDIR
+# Delete everything
 rm -rf $WDIR
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
