@@ -17,11 +17,11 @@ GENE=rho
 MASK=50
 ALG=Guidance
 NUM=`expr $SGE_TASK_ID - 1`
-ALN=""
+
 if [ $ALG == "refaln" ]; then
-	$ALN=$ALG$NUM.fasta
+	ALN=$ALG$NUM.fasta
 else
-	$ALN+=${ALG}_${MASK}_${NUM}.fasta
+	ALN=${ALG}_${MASK}_${NUM}.fasta
 fi
 
 ALNDIR=/home/sjs3495/alntree_neutral/nucguided_$GENE
@@ -43,10 +43,10 @@ cd $WDIR
 cp  /home/sjs3495/alignment_filtering/scripts/selection_inference/codeml.ctl .
 cp /home/sjs3495/bin/codeml .
 cp $ALNDIR/$ALN temp.fasta
-cp $TREEDIR/aatree$NUM.tre .
+cp $TREEDIR/aatree$NUM.txt tree.tre
 
 # Run paml
-codeml codeml.ctl
+./codeml codeml.ctl
 
 # Save the final paml file
 mv rst $RDIR/$ALN.rst
