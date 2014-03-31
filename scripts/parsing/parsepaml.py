@@ -4,12 +4,12 @@ from Bio import AlignIO, SeqIO
 
 ################################################################################################
 ################################################################################################
-def parseTrueRates(trfile, truealn, mapTrue):
+def parseTrueRates(trfile, truealn, mapTrue, posStart):
 	'''Retrieve data for each position in the true alignment, from a file generated during simulation giving the TRUE SIMULATED rates. Info starts at line 11 of the truerates files.'''
 	'''ONLY FOR SITES WHERE REFTAXON IS NOT A GAP IN THE TRUEALN!!!!'''
 	poslist=[] ## each entry corresponds to a position. 0=negative, 1=positively selected.
 	
-	## FOR HA, CAT >=18 IS POSITIVE	
+	###### FOR HA, CAT >=18 IS POSITIVE. FOR NEUTRAL, CAT>=11 POSITIVE. ####
 
 	## Parse truerates file
 	infile=open(trfile, 'r')
@@ -20,7 +20,7 @@ def parseTrueRates(trfile, truealn, mapTrue):
 		find=re.search('^\d+\t(\d+)\t', truelines[counter])
 		if find:
 			rate=int(find.group(1))
-			if rate >=18: ## HA!!!
+			if rate >=posStart:
 				poslist.append(rate)
 			else:
 				poslist.append(0)
@@ -28,7 +28,7 @@ def parseTrueRates(trfile, truealn, mapTrue):
 			print "bad find"
 	return poslist
 ################################################################################################
-def buildMap(trueparsed, parsed, numseq, alnlen):
+def buildMap(trueparsed, parsed, numseq, alnlen, posStart):
 	''' Returns, for each taxon in the alignment, the position that each codon has in the true alignment. Uses numpy arrays.'''
 	codons=alnlen/3
 	allMaps = zeros(codons, dtype=int)	## numseq and alnlen refer to parsed (NOT the true alignment!!)	
@@ -71,7 +71,7 @@ def buildMap(trueparsed, parsed, numseq, alnlen):
 	(mapRef, mapTrue) = getConsensus(allMaps)
 	
 	# Now find the true evolutionary rates using mapTrue
-	truepos =  parseTrueRates(trfile, truealn, mapTrue)
+	truepos =  parseTrueRates(trfile, truealn, mapTrue, posStart)
 
 	return (mapRef, truepos)
 	
@@ -186,17 +186,20 @@ def calcStats(tp, fp, tn, fn):
 ################################################################################################
 
 
-prefix=['refaln', 'Guidance', 'BMweights', 'PDweights', 'GuidanceP', 'BMweightsP', 'PDweightsP']
+prefix=['refaln', 'Guidance_', 'BMweights_', 'PDweights_', 'GuidanceP_', 'BMweightsP_', 'PDweightsP_']
 genes=['rho']
-mask={'50':'fifty'}
+masks={'50':'fifty'}
 
 datadir='/Users/sjspielman/Dropbox/aln/results/'
+type='neutral'
 if type=='neutral':
 	datadir += 'neutral/'
+	posStart = 11
 elif type == 'HA':
 	datadir += 'HA/'
+	posStart = 18
 
-outfile='paml90.txt'
+outfile='/Users/sjspielman/Research/alignment_filtering/data/paml_neutral_90.txt'
 outhandle=open(outfile, 'w')
 outhandle.write('count\ttprate\tfprate\t\tfnrate\taccuracy\tcase\tgene\tmask\tmethod\tpenal\n')
 
@@ -207,12 +210,12 @@ for gene in genes:
 	print gene+'\n'
 	
 	# Directories: fubar output, paml output, alignments (all made with linsi)
-	pamldir = datadir+'pamlM8/paml_'+gene+'/'
+	pamldir = datadir+'paml/paml_'+gene+'/'
 	alndir = datadir+'alntree/nucguided_'+gene+'/'
 	
 	# Directories: true simulated alignments and evolutionary rate categories
-	truerates_dir=datadir+'Simulation/truerates/'+gene+'/'+base+'/'
-	truealn_dir=datadir+'Simulation/sequences/'+gene+'/'+base+'/'
+	truerates_dir=datadir+'Simulation/truerates/'+gene+'/'
+	truealn_dir=datadir+'Simulation/sequences/'+gene+'/'
 	
 			
 	for n in range(100):
@@ -230,7 +233,7 @@ for gene in genes:
 		numseq=len(refparsed)
 			
 		# Build map to true alignment and obtain simulated positive selection state (binary - 0=notpos, 1=pos)
-		(mapRef, truepos) = buildMap(trueparsed, refparsed, numseq, alnlen)
+		(mapRef, truepos) = buildMap(trueparsed, refparsed, numseq, alnlen, posStart)
 		
 		
 		########### Accuracy assessment #########
@@ -244,7 +247,7 @@ for gene in genes:
 					aln=refaln
 					parsed=refparsed
 				
-				elif case=='Guidance' or case=='BMweights' or case=='PDweights':
+				elif case=='Guidance_' or case=='BMweights_' or case=='PDweights_':
 					penal='no'
 					name = case+mask+'_'+str(n)+'.fasta'
 					aln=alndir+name		
@@ -268,7 +271,7 @@ for gene in genes:
 	
 				## Paml assessment at single posterior probability cutoff
 				(tp,tn,fp,fn,tprate,fprate,tnrate,fnrate,accuracy)=sweepRates(0.895, truepos, testprobs)
-				outhandle.write(str(n)+'\t'+str(tprate)+'\t'+str(fprate)+'\t'+str(fnrate)+'\t'+str(accuracy)+'\t'+case+'\t'+gene+'\tpaml\t'+penal+'\n')	
+				outhandle.write(str(n)+'\t'+str(tprate)+'\t'+str(fprate)+'\t'+str(fnrate)+'\t'+str(accuracy)+'\t'+case+'\t'+gene+'\t'+masks[mask]+'\tpaml\t'+penal+'\n')	
 
 outhandle.close()
 
