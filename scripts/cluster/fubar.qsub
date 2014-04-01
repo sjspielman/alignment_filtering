@@ -1,8 +1,8 @@
-## Tweaked 3/29/14
+## Tweaked 3/29/14, 4/1/14.
 
 
 #!/bin/bash
-#$ -N fubarCPU
+#$ -N fubar
 #$ -e e_$JOB_NAME
 #$ -o o_$JOB_NAME
 #$ -S /bin/bash
@@ -11,39 +11,59 @@
 #$ -t 1-100:1
 #$ -pe serial 5
 
+source ~./bashrc
+
 CPU=5
-GENE=rho
-ALNDIR=/home/sjs3495/alntree_neutral/nucguided_$GENE
-TREEDIR=/home/sjs3495/alntree_neutral/aatrees_$GENE
-RDIR=/home/sjs3495/fubar_neutral
+DATASET=HA     # HA or GP41
 
-source ~/.bashrc
+## Run-specific settings
+GENE=rho       # or5, rho, prk, flat
+MASK=50        # 30, 50, 70, 90
+ALG=Guidance   # Guidance, GuidanceP, BMweights, BMweightsP, PDweights, PDweightsP
+NUM=`expr $SGE_TASK_ID - 1` # Rep number. Since I index from 0 but array jobs from 1, must -1 from task id
 
-# Create Working Directory and remove anything that might have been there woops!
+
+
+# Alignment file name
+if [ $ALG == "refaln" ]; then
+	ALN=$ALG$NUM.fasta
+else
+	ALN=${ALG}_${MASK}_${NUM}.fasta
+fi
+
+# Set up directories
+ALNDIR=/home/sjs3495/ALNPAPER_RESULTS/$DATASET/alntree/nucguided_$GENE
+TREEDIR=/home/sjs3495/ALNPAPER_RESULTS/$DATASET/alntree/aatrees_$GENE
+RDIR=/home/sjs3495/ALNPAPER_RESULTS/$DATASET/fubar/fubar_$GENE
 WDIR=/state/partition1/sjs3495/$JOB_NAME-$JOB_ID-$SGE_TASK_ID
 
 mkdir -p $RDIR
 mkdir -p $WDIR
-
 if [ ! -d $WDIR ]
 then
   echo $WDIR not created
   exit
 fi
+
 cd $WDIR
 
+# Copy fubar files
+cp -r /home/sjs3495/bin/HBL/FUBAR/* .
+cp -r /home/sjs3495/stuff_aln_project/autoFUBAR_dN_only.bf .
+cp /home/sjs3495/bin/bin/HYPHYMP .
+
+# Copy data files
+cp $ALNDIR/$ALN temp.fasta
+cp $TREEDIR/aatree$NUM.txt tree.tre
 
 
-# Copy Data and Config Files
-cp -r /home/sjs3495/stuff_aln_project/FUBARmaterials .
-cp /home/sjs3495/alignment_filtering/scripts/cluster/fubar.py .
+# Format the fubar file and run
+sed -i "s/placeholder/$JOB_NAME-$JOB_ID-$SGE_TASK_ID/g" autoFUBAR_dN_only.bf
+./HYPHYMP autoFUBAR_dN_only.bf CPU=5
 
-# Command to run
-sed -i "s/placeholder/$JOB_NAME-$JOB_ID-$SGE_TASK_ID/g" FUBARmaterials/autoFUBAR.bf
-module load python
-pwd
-python fubar.py $SGE_TASK_ID $GENE $ALNDIR $TREEDIR $CPU
+# Save the output file to an appropriate name
+mv tree.tre.fubar.csv $ALN.fubar 
 
 # Cleanup
-cp -r fubar_* $RDIR
+cp $ALN.fubar $RDIR
 rm -rf $WDIR
