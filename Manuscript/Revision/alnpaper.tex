@@ -1,7 +1,7 @@
 \documentclass[11pt]{article}
 
 \usepackage[margin=1.0in]{geometry}
-\linespread{1.5}
+%\linespread{1.5}
 \usepackage{graphicx}
 \usepackage{natbib}
 
@@ -51,7 +51,8 @@ Manuscript type: Article; Methods
 
 \newpage
 \begin{abstract}
-Errors in multiple sequence alignments have the potential to reduce accuracy in positive-selection inference. It has therefore been suggested that alignments be filtered before further analyses. One widely-used filter, Guidance, generates position-based confidence scores for a given alignment using a bootstrap approach, thereby allowing users to remove positions of low confidence from the alignment. Recent studies on the utility of the Guidance filter for positive-selection inference have yielded inconsistent results; some have demonstrated that Guidance substantially improved accuracy, but others have found that Guidance neither improved nor worsened selection inference. Motivated by these discrepancies, we have conducted a extensive simulation-based study to elucidate Guidance's impact on positive-selection inference for realistic protein-coding sequences. In particular, we investigated whether novel Guidance-based scoring algorithms, which phylogenetically correct confidence scores, and a new gap-penalization score-normalization scheme could improve upon the original Guidance's performance. We found that no filter, including the original Guidance, substantially improved positive-selection inference relative to unfiltered alignments across multiple inference methods, including FUBAR and PAML (specifically its M8 model). Instead, the analysis method used influenced positive-selection inference far more than did filtering alignments with a Guidance-based strategy.
+Errors in multiple sequence alignments are known to reduce accuracy in positive-selection inference. Thus, it has been suggested that users filter alignments before conducting further analyses. One widely-used filter, Guidance, generates position-based alignment confidence scores, allowing users to remove positions of low confidence. Studies investigating this filter's utility for positive-selection inference have yielded inconsistent results; some have demonstrated that Guidance substantially improved accuracy, but others have found that Guidance affected accuracy very minimally. Motivated by these discrepancies, we have conducted a extensive simulation-based study to fully characterize how Guidance impacts positive-selection inference for realistic protein-coding sequences. We particularly investigated whether novel scoring algorithms, which phylogenetically correct confidence scores, or a new gap-penalization score-normalization scheme could improve upon Guidance's performance. We found that no filter, including the original Guidance, substantially improved positive-selection inference across multiple inference methods. Instead, the analysis method used influenced positive-selection inference far more than did alignment filtering.
+% EXACTLY 150 WORDS AS WRITTEN ABOVE. 
 \end{abstract}
 
 
