@@ -1,6 +1,5 @@
-## Submission script for alntree. Original 8/6/13.
-
-# Edited 3/29/14 to reflect changes to run_alntree_cluster.py
+### USE TO RUN ALIGNMENTS AND PHYLOGENIES WILL ALL ALGORITHMS
+### FINALIZED WITH PROPER DIRECTORIES ON 4/2/14.
 
 
 #!/bin/bash
@@ -13,13 +12,11 @@
 #$ -t 1-100:1
 #$ -pe serial 8
 
+DATASET=GP41
+GENE=or5
+SEQDIR=/home/sjs3495/ALNPAPER_RESULTS/$DATASET/simseqs/$GENE
+RDIR=/home/sjs3495/ALNPAPER_RESULTS/$DATASET/alntree/$GENE
 
-GENE=rho
-SEQDIR=/home/sjs3495/raw_neutral/$GENE/seqs
-RDIR=/home/sjs3495/alntree_neutral
-source ~/.bashrc
-
-# Create Working Directory and remove anything that might have been there woops!
 WDIR=/state/partition1/sjs3495/$JOB_NAME-$JOB_ID-$SGE_TASK_ID
 
 mkdir -p $RDIR
@@ -36,7 +33,7 @@ cd $WDIR
 
 # Copy Data and Config Files
 cp -r /home/sjs3495/alignment_filtering/PhyloGuidance/src .
-cp /home/sjs3495/linux_scoring/* src/score/
+cp /home/sjs3495/stuff_aln_project/linux_scoring/* src/score/
 cp /home/sjs3495/alignment_filtering/scripts/cluster/run_alntree_cluster.py .
 
 # Command to run
