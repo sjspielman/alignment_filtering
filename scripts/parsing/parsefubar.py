@@ -18,9 +18,9 @@ elif dataset == 'HA':
 	datadir += 'HA/'
 	posStart = 18
 
-#outfile='/Users/sjspielman/Research/alignment_filtering/data/parsed_data/fubar_'+dataset+'_90.txt'
-#outhandle=open(outfile, 'w')
-#outhandle.write('count\ttprate\tfprate\t\tfnrate\taccuracy\tcase\tgene\tmask\tmethod\tpenal\n')
+outfile='/Users/sjspielman/Research/alignment_filtering/data/parsed_data/fubar_'+dataset+'_90.txt'
+outhandle=open(outfile, 'w')
+outhandle.write('count\ttprate\tfprate\t\tfnrate\taccuracy\tcase\tgene\tmask\tmethod\tpenal\n')
 
 
 for gene in genes:
@@ -114,9 +114,7 @@ for gene in genes:
 				## FUBAR assessment	at single posterior probability cutoff			
 				(tp,tn,fp,fn,tprate,fprate,tnrate,fnrate,accuracy)=sweepRates(0.895, truepos, testprobs)
 				outhandle.write(str(n)+'\t'+str(tprate)+'\t'+str(fprate)+'\t'+str(fnrate)+'\t'+str(accuracy)+'\t'+case+'\t'+gene+'\t'+masks[mask]+'\tfubar\t'+penal+'\n')	
-
-
-#outhandle.close()
+outhandle.close()
 
 			
 			
