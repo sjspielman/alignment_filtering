@@ -524,6 +524,7 @@ function BuildCategory (resp , catName)
         }
         if( resp == 1 ) {
           gdDefString*("\n\nglobal "+catName+" = 1;\n"+catName+":<100000;"+catName+":>0.000000001;\n");
+          fprintf(stdout,gdDefString,"\n");
           ExecuteCommands (gdDefString);
           return 0;
         }
@@ -573,6 +574,7 @@ function BuildCategory (resp , catName)
 
         gdDefString*("}};\n\ncategory "+catName+"  = ("+resp+", categFreqMatrix_"+catName+" , MEAN, , categRateMatrix_"+catName+", 0, 1e25);\n\n");
         gdDefString*0;
+        fprintf(stdout,gdDefString,"\n");
         ExecuteCommands (gdDefString);
         return 0;
 }

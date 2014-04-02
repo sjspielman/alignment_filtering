@@ -4,17 +4,20 @@ Contains files used to infer evolutionary parameters from GP41 (HIV) and HA (H1N
 
 get_eqfreqs.py  -  script to obtain codon frequencies from a given file. The files used for this were HA/50seqs_HA.fasta and GP41/50seqs_GP41.txt , each of which contain the first 50 sequences of their respective datasets. As sequences are all in random order, this contains a random selection of 50 sequences from the total. This was done for tractability. The frequencies returned from this script are shown, commented out, in the script itself. They were used as input parameters for sequence simulation in Indelible (Fletcher and Yang 2009).
 
+
 HA/
-50seqs_HA.fasta
-aln_aa_H1N1_HA.fasta  -> amino acid alignment
-aln_nuc_H1N1_HA.fasta  -> back-translated nucleotide alignment
-tree_H1N1_HA.tre      -> RAxML constructed phylogeny from nucleotide sequences using GTRGAMMA model
+	50seqs_HA.fasta
+	aln_aa_H1N1_HA.fasta  -> amino acid alignment
+	aln_nuc_H1N1_HA.fasta  -> back-translated nucleotide alignment
+	tree_H1N1_HA.tre      -> RAxML constructed phylogeny from nucleotide sequences using GTRGAMMA model
+
+	HyPhy_files/ contains files to run evolutionary rate inference with HyPhy on the alignment.
+		To repeat this analysis, run HYPHYMP REL_5cat.bf. The files GY94_Header.ibf (contains misc functions needed for analysis), matrix.mdl (contains instantaneous matrix). The input file, hyin_H1N1_NP.txt, must be in the same working directory as REL_5cat.bf. You should get a file out similar to what is seen in H1N1_HA.out. Site rates may be inferred from this file using a Bayes Empirical Bayes approach with the script parseHyPhy.py.
 
 GP41/
-50seqs_GP41.fasta
+	50seqs_GP41.fasta
 
-
-In each directory, HA and GP41, you'll see this - 
-HyPhy_files/ contains files to run evolutionary rate inference with HyPhy on the alignment.
-	To repeat this analysis, run HYPHYMP REL_5cat.bf. The files GY94_Header.ibf (contains misc functions needed for analysis), matrix.mdl (contains instantaneous matrix). The input file (either hyin_H1N1_NP.txt or gp41.nex must be in the same working directory as REL_5cat.bf. You should get a file out similar to what is seen in H1N1_HA.out or GP41.out. Site rates may be inferred using this file using a Bayes Empirical Bayes approach. 
-	
+	FUBAR_files/
+	GP41 had some problems with the REL model, and FEL was taking forever, so we used FUBAR's rates. FUBAR was run with defaults. gp41 alignment and tree were provided by Sergei. All output from FUBAR shown here. Rate distribution inferred from beta/alpha values given in tree.tre.fubar.csv. Note that when calculating rates, we included only those <=dN/dS of 6 because FUBAR approximate method can inflate dN values (to like 10000) when dS is tiny.
+	HyPhy_files/
+	We still needed a kappa for this, so we got a kappa from a small (151) set of these genes, found in temp.txt (tree was created w/ FastTree -wag -fastest -nosupport), with the standard global GY94 model.
