@@ -13,7 +13,7 @@
 			//	0		1		2		3		4		5		6		7		8		9		10		11		12		13		14		15		16		17		18		19		20		21		22		23		24		25		26		27		28
 	
 	[indelmodel]  POW 1.8 40  // Power law insertion length distribution
-	[indelrate] 0.053
+	[indelrate] 0.05
 	[statefreq] 
           0.0151731028995	0.0210573062191	0.0130081601688	0.0192809429528  //  TTT  TTC  TTA  TTG
           0.0123420239439	0.0168199396777	0.0207242381067	0.00157282164203 //  TCT  TCC  TCA  TCG 
