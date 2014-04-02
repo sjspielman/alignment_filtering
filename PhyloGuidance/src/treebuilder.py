@@ -67,7 +67,7 @@ class builderFastTree(TreeBuilder):
 		numSaveTrees.append(1)
 		
 		for i in range(1,num):
-			self.buildBootTrees(1, refaln_seq, numseq, alnlen, 'temp.tre')
+			self.buildBootTree(refaln_seq, numseq, alnlen, 'temp.tre')
 			
 			# Compare it to all current trees to see if we already have it
 			testTree = Tree(stream=open('temp.tre'), schema="newick")
