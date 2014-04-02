@@ -29,6 +29,8 @@ while end <= len(seq) :
 
 sum=0
 
+count = 0
+
 indelible_order = ['T', 'C', 'A', 'G']
 four_codons = []
 numcodon=len(seq)/3
@@ -40,12 +42,16 @@ for a in range(4):
 			codon = codon2 + indelible_order[c]
 			value =float(codon_dict[codon])/numcodon 
 			sum += value
+			count += 1 
+			if count == 64:
+				missing = 1. - sum # stupid flop. shouldn't make a difference at ALL.
+				sum += missing
+				value += missing
 			four_codons.append(value)
 		print four_codons[0], four_codons[1], four_codons[2], four_codons[3]
 		four_codons=[]
 
-print sum ## For GP41, sum=0.998028985507. Indelible will rescale this. I'm comfortable with this being basically 1 due to rounding errors.
-
+print sum 
 '''
 HA:
 CTT 0.00956645634032

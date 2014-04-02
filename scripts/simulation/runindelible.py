@@ -12,7 +12,8 @@ def makeDir(dir):
 	if not os.path.exists(dir):
 		os.mkdir(dir)
 	
-##### Translates and allows for gaps
+##########################################################################################
+####################### Translates and allows for gaps ###################################
 def myTranslate(seq, codon_table):
 	peptide = ''
 	for i in xrange(0, len(seq), 3):
@@ -36,28 +37,27 @@ bases = ['T', 'C', 'A', 'G']
 codons = [a+b+c for a in bases for b in bases for c in bases]
 amino_acids = 'FFLLSSSSYY**CC*WLLLLPPPPHHQQRRRRIIIMTTTTNNKKSSRRVVVVAAAADDEEGGGG'
 codon_table = dict(zip(codons, amino_acids))
+##########################################################################################
 
 
 
-simdir = '/Users/sjspielman/Dropbox/aln/results/Simulation/'
+simdir = '/Users/sjspielman/Dropbox/aln/results/'
 rundir = os.getcwd()
 
-type = sys.argv[1] # neutral or HA
-if type == 'neutral':
-	outdir_base = simdir+'Neutral/'
+type = sys.argv[1] # GP41 or HA selective profile
+if type == 'GP41':
+	outdir_base = simdir+'GP41/simulation/'
 elif type == 'HA':
-	outdir_base = simdir+'HA/'
+	outdir_base = simdir+'HA/simulation/'
 else:
-	assert(1==0), "Need to specify argument neutral or HA"
+	assert(1==0), "Need to specify argument GP41 or HA"
 makeDir(outdir_base)
 	
-	
+## Gene names from which simulation phylogenies were taken. In order, #taxa = 11, 26, 60, 158.
+genes = ['or5', 'rho', 'prk', 'flat']
 
-# Simulate according to HA params, but with div/indels of the trees and their original alignments.
-#gene_indels={'or5':'0.053', 'rho':'0.019', 'prk':'0.0041', 'flat':'0.0066'}
-gene_indels = {'rho':0.019}
-
-for gene in gene_indels:
+for gene in genes:
+	#print "NEW GENE!\n"
 	cfile=open(type+'_control.txt', 'r')
 	control=cfile.read()
 	cfile.close()
@@ -66,17 +66,9 @@ for gene in gene_indels:
 	makeDir(outdir_base+'truerates/')
 	makeDir(outdir_base+'logs/')
 	
-	seqbase=outdir_base+'sequences/'+gene+'/'
-	ratesbase=outdir_base+'truerates/'+gene+'/'
-	logbase=outdir_base+'logs/'+gene+'/'
-	
-	makeDir(seqbase)
-	makeDir(ratesbase)
-	makeDir(logbase)
-	
-	seqdir=seqbase+'seqs/'
-	ratesdir=ratesbase+'seqs/'
-	logdir = logbase+'seqs/'
+	seqdir=outdir_base+'sequences/'+gene+'/'
+	ratesdir=outdir_base+'truerates/'+gene+'/'
+	logdir=outdir_base+'logs/'+gene+'/'
 	
 	makeDir(seqdir)
 	makeDir(ratesdir)
@@ -155,6 +147,6 @@ for gene in gene_indels:
 		
 		os.remove('results_TRUE.phy')
 
-os.chdir(rundir)	
-os.remove('control.txt')
-os.remove('trees.txt')
+	os.chdir(rundir)	
+	os.remove('control.txt')
+	os.remove('trees.txt')
