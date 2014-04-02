@@ -26,17 +26,15 @@ sed -i 's/GENE=rho/GENE=prk/g' $QSUB_PAML
 qsub $QSUB_FU
 qsub $QSUB_PAML
 
-# HA, flat
+# HA, flat. FUBAR ONLY.
 sed -i 's/GENE=prk/GENE=flat/g' $QSUB_FU
-sed -i 's/GENE=prk/GENE=flat/g' $QSUB_PAML
 qsub $QSUB_FU
-qsub $QSUB_PAML
 ##########################################################################################
 
 
 ## RESET TO OR5 AND SWAP DATASET TO GP41
 sed -i 's/GENE=flat/GENE=or5/g' $QSUB_FU
-sed -i 's/GENE=flat/GENE=or5/g' $QSUB_PAML
+sed -i 's/GENE=prk/GENE=or5/g' $QSUB_PAML
 sed -i 's/DATASET=HA/DATASET=GP41/g' $QSUB_FU
 sed -i 's/DATASET=HA/DATASET=GP41/g' $QSUB_PAML
 
@@ -58,17 +56,15 @@ sed -i 's/GENE=rho/GENE=prk/g' $QSUB_PAML
 qsub $QSUB_FU
 qsub $QSUB_PAML
 
-# GP41, flat
+# GP41, flat. FUBAR ONLY.
 sed -i 's/GENE=prk/GENE=flat/g' $QSUB_FU
-sed -i 's/GENE=prk/GENE=flat/g' $QSUB_PAML
 qsub $QSUB_FU
-qsub $QSUB_PAML
 ##########################################################################################
 
 
 #### RESET TO STARTING CONDITIONS
 sed -i 's/GENE=flat/GENE=or5/g' $QSUB_FU
-sed -i 's/GENE=flat/GENE=or5/g' $QSUB_PAML
+sed -i 's/GENE=prk/GENE=or5/g' $QSUB_PAML
 sed -i 's/DATASET=GP41/DATASET=HA/g' $QSUB_FU
 sed -i 's/DATASET=GP41/DATASET=HA/g' $QSUB_PAML
 
