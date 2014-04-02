@@ -16,7 +16,7 @@ CPU=5
 DATASET=GP41    # HA or GP41
 
 ## Run-specific settings
-GENE=rho       # or5, rho, prk, flat
+GENE=or5       # or5, rho, prk, flat
 MASK=50        # 30, 50, 70, 90
 ALG=Guidance   # Guidance, GuidanceP, BMweights, BMweightsP, PDweights, PDweightsP
 NUM=`expr $SGE_TASK_ID - 1` # Rep number. Since I index from 0 but array jobs from 1, must -1 from task id
