@@ -62,7 +62,8 @@ class Bootstrapper(object):
 		self.aligner.processTrees(new_n, self.final_treefile) 	
 		
 		print "Building bootstrap alignments"
-		self.aligner.multiMakeAlignmentsGT(self.prealn_file, new_n, self.numprocesses)
+		########## OVERRIDING SOME STUFF ON 4/2/14 TO NOT BREAK THE CLUSTER. USE 4 NUMPROCESSES INSTEAD OF THE REQUESTED. #########
+		self.aligner.multiMakeAlignmentsGT(self.prealn_file, new_n, 4)
 		
 		return numSaveTrees
 				
