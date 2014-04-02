@@ -42,7 +42,7 @@ class builderFastTree(TreeBuilder):
 		# Double-check that FastTree worked. (It has been throwing some floating point exceptions.) If not, make a new bootstrap alignment and try again.
 		numReps = 0
 		while os.path.getsize(outfile) <= 0:
-			self.makeBootAlignments(num, refaln_seq, numseq, alnlen, bootseq)
+			self.makeBootAlignment(refaln_seq, numseq, alnlen, bootseq)
 			runtree=subprocess.call(str(BuildTree), shell='True')	
 			assert(numReps<10), "Serious FastTree problem."
 			numReps+=1
