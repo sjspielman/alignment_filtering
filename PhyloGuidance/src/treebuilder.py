@@ -17,26 +17,25 @@ class builderFastTree(TreeBuilder):
 		self.executable = executable
 		self.options = options
 	
-	def makeBootAlignments(self, n, refaln_seq, numseq, alnlen, outfile):
+	def makeBootAlignment(self, refaln_seq, numseq, alnlen, outfile):
 		'''into a SINGLE FILE: makes n bootstrap alignment replicates from a given reference alignment sequence (refaln_seq). Doesn't involve alignment software at all.'''
 		outhandle=open(outfile, 'w')
-		for i in range(n):
-			outhandle.write(' '+str(numseq)+' '+str(alnlen)+'\n')
-			indices = []
-			for a in range(alnlen):
-				indices.append(randint(0,alnlen-1))	
-			for s in range(numseq):
-				newseq=''
-				id=s+1
-				for a in indices:
-					newseq=newseq+refaln_seq[s][a]
-				outhandle.write(str(id)+'        '+newseq+'\n')
+		outhandle.write(' '+str(numseq)+' '+str(alnlen)+'\n')
+		indices = []
+		for a in range(alnlen):
+			indices.append(randint(0,alnlen-1))	
+		for s in range(numseq):
+			newseq=''
+			id=s+1
+			for a in indices:
+				newseq=newseq+refaln_seq[s][a]
+			outhandle.write(str(id)+'        '+newseq+'\n')
 		outhandle.close()
 	
 
 	def buildBootTree( self, refaln_seq, numseq, alnlen, outfile):
 		bootseq = 'refaln.BS'
-		self.makeBootAlignments(num, refaln_seq, numseq, alnlen, bootseq)
+		self.makeBootAlignment(refaln_seq, numseq, alnlen, bootseq)
 		BuildTree=self.executable+' '+self.options+' -nosupport '+bootseq+' > '+outfile
 		runtree=subprocess.call(str(BuildTree), shell='True')	
 		
