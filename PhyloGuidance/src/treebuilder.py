@@ -58,7 +58,7 @@ class builderFastTree(TreeBuilder):
 		## Final file
 		finalTrees = open(outfile, 'w')
 	
-		self.buildBootTree(1, refaln_seq, numseq, alnlen, 'temp.tre')
+		self.buildBootTree(refaln_seq, numseq, alnlen, 'temp.tre')
 		
 		# Save tree
 		tree = Tree(stream=open('temp.tre'), schema="newick")
