@@ -2,21 +2,25 @@
 
 #!/bin/bash
 #$ -N truepaml
-#$ -e e_truepaml
-#$ -o o_truepaml
+#$ -e e_$JOBNAME
+#$ -o o_$JOBNAME
 #$ -S /bin/bash
 #$ -q wilke
 #$ -m beas
 #$ -t 1-100:1
-#$ -pe serial 1
-
-DIR=seqs_a
-GENE=or5
 
 source ~/.bashrc
 
-# Create Working Directory and remove anything that might have been there woops!
-RDIR=/home/sjs3495/truepaml_HA
+DATASET=HA     # HA or GP41
+GENE=or5       # or5, rho, prk, flat
+NUM=`expr $SGE_TASK_ID - 1` # Rep number. Since I index from 0 but array jobs from 1, must -1 from task id
+ALN=truealn_codon${NUM}.fasta
+OUTFILE=truealn$NUM.fasta.rst ## have 2 extensions for consistency with inferred alignment files
+
+
+ALNDIR=/home/sjs3495/ALNPAPER_RESULTS/$DATASET/simseqs/$GENE
+TREEDIR=/home/sjs3495/ALNPAPER_RESULTS/trees
+RDIR=/home/sjs3495/ALNPAPER_RESULTS/$DATASET/fubar/fubar_$GENE
 WDIR=/state/partition1/sjs3495/$JOB_NAME-$JOB_ID-$SGE_TASK_ID
 
 mkdir -p $RDIR
@@ -30,16 +34,21 @@ fi
 cd $WDIR
 
 
+# Copy paml files
+cp  /home/sjs3495/alignment_filtering/scripts/selection_inference/codeml.ctl .
+cp /home/sjs3495/bin/codeml .
 
-# Copy Data and Config Files
-cp -r /home/sjs3495/codeml.ctl .
-cp /home/sjs3495/truepaml.py .
+# Copy data files
+cp $ALNDIR/$ALN temp.fasta
+cp $TREEDIR/$GENE.txt tree.tre
 
-# Command to run
-module load python
-pwd
-python truepaml.py $SGE_TASK_ID $GENE $DIR
+# Run paml
+./codeml codeml.ctl
 
-# Cleanup
-cp -r truepaml_* $RDIR
+# rename output file
+mv rst $OUTFILE
+
+# Save and cleanup
+cp $OUTFILE $RDIR
 rm -rf $WDIR
+

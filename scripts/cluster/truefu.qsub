@@ -2,21 +2,26 @@
 
 #!/bin/bash
 #$ -N truefu
-#$ -e e_truefu
-#$ -o o_truefu
+#$ -e e_$JOBNAME
+#$ -o o_$JOBNAME
 #$ -S /bin/bash
 #$ -q wilke
 #$ -m beas
 #$ -t 1-100:1
-#$ -pe serial 2
-
-DIR=seqs_a
-GENE=prk
+#$ -pe serial 5
 
 source ~/.bashrc
 
-# Create Working Directory and remove anything that might have been there woops!
-RDIR=/home/sjs3495/truefu_HA
+DATASET=HA     # HA or GP41
+GENE=or5       # or5, rho, prk, flat
+NUM=`expr $SGE_TASK_ID - 1` # Rep number. Since I index from 0 but array jobs from 1, must -1 from task id
+ALN=truealn_codon${NUM}.fasta
+OUTFILE=truealn$NUM.fasta.fubar ## have 2 extensions for consistency with inferred alignment files
+
+
+ALNDIR=/home/sjs3495/ALNPAPER_RESULTS/$DATASET/simseqs/$GENE
+TREEDIR=/home/sjs3495/ALNPAPER_RESULTS/trees
+RDIR=/home/sjs3495/ALNPAPER_RESULTS/$DATASET/fubar/fubar_$GENE
 WDIR=/state/partition1/sjs3495/$JOB_NAME-$JOB_ID-$SGE_TASK_ID
 
 mkdir -p $RDIR
@@ -30,17 +35,26 @@ fi
 cd $WDIR
 
 
+# Copy fubar files
+cp -r /home/sjs3495/bin/HBL/FUBAR/* .
+cp -r /home/sjs3495/stuff_aln_project/autoFUBAR_dN_only.bf .
+cp /home/sjs3495/bin/bin/HYPHYMP .
 
-# Copy Data and Config Files
-cp -r /home/sjs3495/FUBARmaterials .
-cp /home/sjs3495/truefu.py .
+# Copy data files
+cp $ALNDIR/$ALN temp.fasta
+cp $TREEDIR/$GENE.txt tree.tre
 
-# Command to run
-sed -i "s/placeholder/$JOB_NAME-$JOB_ID-$SGE_TASK_ID/g" FUBARmaterials/autoFUBAR.bf
-module load python
-pwd
-python truefu.py $SGE_TASK_ID $GENE $DIR
 
-# Cleanup
-cp -r truefu_* $RDIR
+# Format the fubar file and run
+sed -i "s/placeholder/$JOB_NAME-$JOB_ID-$SGE_TASK_ID/g" autoFUBAR_dN_only.bf
+./HYPHYMP autoFUBAR_dN_only.bf CPU=5
+
+# rename output file
+mv tree.tre.fubar.csv $OUTFILE
+
+# Save and cleanup
+cp $OUTFILE $RDIR
 rm -rf $WDIR
+
+
+
