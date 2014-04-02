@@ -34,13 +34,19 @@ class builderFastTree(TreeBuilder):
 		outhandle.close()
 	
 
-	def buildBootTrees( self, num, refaln_seq, numseq, alnlen, outfile):
+	def buildBootTree( self, refaln_seq, numseq, alnlen, outfile):
 		bootseq = 'refaln.BS'
 		self.makeBootAlignments(num, refaln_seq, numseq, alnlen, bootseq)
-		BuildTree=self.executable+' '+self.options+' -nosupport -n '+str(num)+' '+bootseq+' > '+outfile
+		BuildTree=self.executable+' '+self.options+' -nosupport '+bootseq+' > '+outfile
 		runtree=subprocess.call(str(BuildTree), shell='True')	
-		return 0
-
+		
+		# Double-check that FastTree worked. (It has been throwing some floating point exceptions.) If not, make a new bootstrap alignment and try again.
+		numReps = 0
+		while os.path.getsize(outfile) <= 0:
+			self.makeBootAlignments(num, refaln_seq, numseq, alnlen, bootseq)
+			runtree=subprocess.call(str(BuildTree), shell='True')	
+			assert(numReps<10), "Serious FastTree problem."
+			numReps+=1
 
 
 	def buildBootTreesNoReps(self, num, refaln_seq, numseq, alnlen, outfile):
