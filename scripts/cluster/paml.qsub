@@ -13,6 +13,7 @@
 source ~/.bashrc
 
 ### Define run conditions ###
+DATASET=GP41
 GENE=rho
 MASK=50
 ALG=Guidance
@@ -24,9 +25,9 @@ else
 	ALN=${ALG}_${MASK}_${NUM}.fasta
 fi
 
-ALNDIR=/home/sjs3495/alntree_neutral/nucguided_$GENE
-TREEDIR=/home/sjs3495/alntree_neutral/aatrees_$GENE
-RDIR=/home/sjs3495/paml_neutral
+ALNDIR=/home/sjs3495/ALNPAPER_RESULTS/$DATASET/alntree/nucguided_$GENE
+TREEDIR=/home/sjs3495/ALNPAPER_RESULTS/$DATASET/alntree/aatrees_$GENE
+RDIR=/home/sjs3495/ALNPAPER_RESULTS/$DATASET/paml/paml_$GENE
 WDIR=/state/partition1/sjs3495/$JOB_NAME-$JOB_ID-$SGE_TASK_ID
 
 mkdir -p $RDIR

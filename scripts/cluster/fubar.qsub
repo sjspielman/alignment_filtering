@@ -13,7 +13,7 @@
 
 
 CPU=5
-DATASET=HA     # HA or GP41
+DATASET=GP41    # HA or GP41
 
 ## Run-specific settings
 GENE=rho       # or5, rho, prk, flat
