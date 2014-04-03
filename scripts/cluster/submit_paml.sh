@@ -7,13 +7,13 @@
 #MASK=50
 #ALG=refaln
 
-QSUB=/home/sjs3495/alignment_filtering/scripts/cluster/fubar.qsub
+QSUB=/home/sjs3495/alignment_filtering/scripts/cluster/paml.qsub
 
 ## Run reference alignment
 qsub $QSUB
 
 ####### Run or5
-sed -i 's/ALG=refaln/ALG=Guidance/g'
+sed -i 's/ALG=refaln/ALG=Guidance/g' $QSUB
 qsub $QSUB
 sed -i 's/ALG=Guidance/ALG=GuidanceP/g' $QSUB
 qsub $QSUB
@@ -138,13 +138,12 @@ sed -i 's/GENE=rho/GENE=prk/g' $QSUB
 qsub $QSUB
 sed -i 's/ALG=Guidance/ALG=GuidanceP/g' $QSUB
 qsub $QSUB
-sed -i 's/ALG=GuidanceP/ALG=Guidance/g' $QSUB
 
 
 ########################### FULL RESET TO INITIAL CONDITIONS #############################
 
 sed -i 's/MASK=90/MASK=50/g' $QSUB
 sed -i 's/GENE=prk/GENE=or5/g' $QSUB
-sed -i 's/ALG=Guidance/ALG=refaln/g' $QSUB
+sed -i 's/ALG=GuidanceP/ALG=refaln/g' $QSUB
 
 

@@ -14,9 +14,9 @@ source ~/.bashrc
 
 ### Define run conditions ###
 DATASET=GP41
-GENE=rho
+GENE=or5
 MASK=50
-ALG=Guidance
+ALG=refaln
 NUM=`expr $SGE_TASK_ID - 1`
 
 if [ $ALG == "refaln" ]; then
@@ -54,19 +54,4 @@ mv rst $RDIR/$ALN.rst
 
 # Delete everything
 rm -rf $WDIR
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
