@@ -11,7 +11,7 @@ QSUB=/home/sjs3495/alignment_filtering/scripts/cluster/fubar.qsub
 qsub $QSUB
 
 ####### Run or5
-sed -i 's/ALG=refaln/ALG=Guidance/g'
+sed -i 's/ALG=refaln/ALG=Guidance/g' $QSUB
 qsub $QSUB
 sed -i 's/ALG=Guidance/ALG=GuidanceP/g' $QSUB
 qsub $QSUB
@@ -30,7 +30,7 @@ sed -i 's/GENE=or5/GENE=rho/g' $QSUB
 
 ######## Run rho
 qsub $QSUB
-sed -i 's/ALG=refaln/ALG=Guidance/g'
+sed -i 's/ALG=refaln/ALG=Guidance/g' $QSUB
 qsub $QSUB
 sed -i 's/ALG=Guidance/ALG=GuidanceP/g' $QSUB
 qsub $QSUB
@@ -49,7 +49,7 @@ sed -i 's/GENE=rho/GENE=prk/g' $QSUB
 
 ######## Run prk
 qsub $QSUB
-sed -i 's/ALG=refaln/ALG=Guidance/g'
+sed -i 's/ALG=refaln/ALG=Guidance/g' $QSUB
 qsub $QSUB
 sed -i 's/ALG=Guidance/ALG=GuidanceP/g' $QSUB
 qsub $QSUB
@@ -68,7 +68,7 @@ sed -i 's/GENE=prk/GENE=flat/g' $QSUB
 
 ######## Run flat
 qsub $QSUB
-sed -i 's/ALG=refaln/ALG=Guidance/g'
+sed -i 's/ALG=refaln/ALG=Guidance/g' $QSUB
 qsub $QSUB
 sed -i 's/ALG=Guidance/ALG=GuidanceP/g' $QSUB
 qsub $QSUB
