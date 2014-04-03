@@ -27,10 +27,12 @@ sed -i 's/ALG=PDweights/ALG=PDweightsP/g' $QSUB
 qsub $QSUB
 
 ######## Reset algorithm and change gene
-sed -i 's/ALG=PDweightsP/ALG=Guidance/g' $QSUB
+sed -i 's/ALG=PDweightsP/ALG=refaln/g' $QSUB
 sed -i 's/GENE=or5/GENE=rho/g' $QSUB
 
 ######## Run rho
+qsub $QSUB
+sed -i 's/ALG=refaln/ALG=Guidance/g' $QSUB
 qsub $QSUB
 sed -i 's/ALG=Guidance/ALG=GuidanceP/g' $QSUB
 qsub $QSUB
@@ -44,10 +46,12 @@ sed -i 's/ALG=PDweights/ALG=PDweightsP/g' $QSUB
 qsub $QSUB
 
 ######## Reset algorithm and change gene
-sed -i 's/ALG=PDweightsP/ALG=Guidance/g' $QSUB
+sed -i 's/ALG=PDweightsP/ALG=refaln/g' $QSUB
 sed -i 's/GENE=rho/GENE=prk/g' $QSUB
 
 ######## Run prk
+qsub $QSUB
+sed -i 's/ALG=refaln/ALG=Guidance/g' $QSUB
 qsub $QSUB
 sed -i 's/ALG=Guidance/ALG=GuidanceP/g' $QSUB
 qsub $QSUB
