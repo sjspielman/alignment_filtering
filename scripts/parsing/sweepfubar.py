@@ -45,7 +45,7 @@ cutoffs=arange(0,1.01,0.01)
 
 outfile='/Users/sjspielman/Research/alignment_filtering/data/parsed_data/fubarsweep_'+dataset+'_'+gene+'.txt'
 outhandle=open(outfile, 'w')
-outhandle.write('count\tcutoff\ttprate\tfprate\ttnrate\tfnrate\taccuracy\tcase\tgene\tmethod\tpenal\n')
+outhandle.write('count\tcutoff\ttprate\tfprate\ttnrate\tfnrate\taccuracy\tcase\tgene\tmethod\n')
 
 		
 for n in range(100):
@@ -83,19 +83,11 @@ for n in range(100):
 			aln=refaln
 			parsed=refparsed
 		
-		elif case=='Guidance' or case=='BMweights' or case=='PDweights':
-			penal='no'
+		else:
 			name = alg+'_50_'+str(n)+'.fasta'
 			aln=alndir+name		
 			fubar=fudir+name+'.fubar'
 			parsed=AlignIO.read(aln, 'fasta')
-		
-		else:
-			penal='yes'
-			name = alg+'_50_'+str(n)+'.fasta'
-			aln=alndir+name
-			fubar=fudir+name+'.fubar'
-			parsed=AlignIO.read(aln, 'fasta')	
 		
 		# Get case info
 		testprobs = parseFUBAR(mapRef, fubar)	
@@ -105,7 +97,7 @@ for n in range(100):
 		## Accuracy across posterior probability cutoffs
 		for x in cutoffs:
 			(tp,tn,fp,fn,tprate,fprate,tnrate,fnrate,accuracy)=sweepRates(float(x), truepos, testprobs)
-			outhandle.write(str(n)+'\t'+str(x)+'\t'+str(tprate)+'\t'+str(fprate)+'\t'+str(fnrate)+'\t'+str(fnrate)+'\t'+str(accuracy)+'\t'+alg+'\t'+gene+'\tfubar\t'+penal+'\n')	
+			outhandle.write(str(n)+'\t'+str(x)+'\t'+str(tprate)+'\t'+str(fprate)+'\t'+str(fnrate)+'\t'+str(fnrate)+'\t'+str(accuracy)+'\t'+alg+'\t'+gene+'\tfubar\n')	
 
 outhandle.close()
 
