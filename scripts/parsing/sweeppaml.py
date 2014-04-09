@@ -1,273 +1,103 @@
 ## Sweep across posterior probability cutoffs. Mostly useful for ROC curve.
 ## Note that this must be run on a gene-by-gene basis to prevent file sizes from getting out of hand.
 
+### USAGE: python sweeppaml.py <dataset> <gene> ### 
+
 import re, os, sys, subprocess, fnmatch, csv, shutil
 from numpy import *
 from Bio import AlignIO, SeqIO
+import re, os, sys, subprocess, fnmatch, csv, shutil
+from numpy import *
+from Bio import AlignIO, SeqIO
+import parsing_fxns
 
-################################################################################################
-################################################################################################
-def parseTrueRates(trfile, truealn, mapTrue):
-	'''Retrieve data for each position in the true alignment, from a file generated during simulation giving the TRUE SIMULATED rates. Info starts at line 11 of the truerates files.'''
-	'''ONLY FOR SITES WHERE REFTAXON IS NOT A GAP IN THE TRUEALN!!!!'''
-	poslist=[] ## each entry corresponds to a position. 0=negative, 1=positively selected.
+
+
+################### Input arguments ###################
+dataset = sys.argv[1]
+gene = sys.argv[2]
+assert (dataset == 'HA' or dataset == 'GP41'), "Must specify either HA or GP41 as the dataset."
+assert (gene == 'rho' or gene == 'prk'), "Must specify either rho or prk as a gene."
+if dataset == 'GP41':
+	datadir += 'GP41/'
+	posStart = 10
+elif dataset == 'HA':
+	datadir += 'HA/'
+	posStart = 18
+######################################################	
 	
-	## FOR HA, CAT >=18 IS POSITIVE	
 
-	## Parse truerates file
-	infile=open(trfile, 'r')
-	truelines=infile.readlines()
-	infile.close()
-	truelines=truelines[10:] ## only keep these lines since before that it's all header crap.	
-	for counter in mapTrue:
-		find=re.search('^\d+\t(\d+)\t', truelines[counter])
-		if find:
-			rate=int(find.group(1))
-			if rate >=18: ## HA!!!
-				poslist.append(rate)
-			else:
-				poslist.append(0)
-		else:
-			print "bad find"
-	return poslist
-################################################################################################
-def buildMap(trueparsed, parsed, numseq, alnlen):
-	''' Returns, for each taxon in the alignment, the position that each codon has in the true alignment. Uses numpy arrays.'''
-	codons=alnlen/3
-	allMaps = zeros(codons, dtype=int)	## numseq and alnlen refer to parsed (NOT the true alignment!!)	
-	
-	taxonlist=[]
-	for entry in parsed:
-		taxonlist.append(str(entry.id))	
-	
-	for reftaxon in taxonlist:
-		truelist=[]
-		map=zeros(codons, dtype=int)	
-		# Get sequences for this reftaxon
-		for entry in trueparsed:
-			if str(entry.id)==reftaxon:
-				trueseq=str(entry.seq)
-				break
-		for entry in parsed:
-			if str(entry.id)==reftaxon:
-				refseq=str(entry.seq)
-				break
-		#Build the map. Record the index for each non-gap site in trueseq. 
-		#Then, go through the refseq and for the nongaps, pop off that index. For the gaps, add a 'G'.
-		for a in range(0,len(trueseq),3):
-			if trueseq[a] != '-': 
-				truelist.append(a/3)		
-		for a in range(0,len(refseq),3):
-			if refseq[a] == '-':
-				map[a/3] = '-1'
-			else:
-				map[a/3]=truelist.pop(0)
-		printmap=map.tolist()
-		#print printmap,'\n'
-		allMaps = vstack((allMaps, map))
-	allMaps = delete(allMaps, 0, axis=0)	
-
-	printall = allMaps.tolist()
-	#print allMaps
-
-	# Now get the consensus
-	(mapRef, mapTrue) = getConsensus(allMaps)
-	
-	# Now find the true evolutionary rates using mapTrue
-	truepos =  parseTrueRates(trfile, truealn, mapTrue)
-
-	return (mapRef, truepos)
-	
-	
-def getConsensus(allMaps):
-	consMap=[] # will have final consensus map
-	
-	for column in allMaps.T: # transpose so can loop over columns.
-		
-		# Check that the most frequent occurs at least 50% of the time.			
-		col = column.tolist()
-		most = int(max(set(col), key=col.count))
-		countmost = col.count(most)
-		perc_max = float(countmost)/float(len(col))
-		if perc_max >= 0.5:
-			consMap.append(most)
-		else:
-			consMap.append(-1)	
-
-	# Create two lists to tell which indices to collect from reference aln and which from true aln.
-	mapRef=[]
-	mapTrue=[]
-	counter=0
-	for entry in consMap:
-		if entry != -1:
-			mapRef.append(counter)
-			mapTrue.append(entry)
-		counter+=1	
-	return (mapRef, mapTrue)
-################################################################################################
-def parsePaml(map, paml_file, alnlen):
-	allpaml=[]
-	testprobs=[]
-	
-	paml = open(paml_file, 'r')
-	all_lines = paml.readlines()
-	paml.close()
-	
-	#First par down the PAML file to keep only the relevant lines
-	counter=0
-	for line in all_lines:
-		find = re.search('^Bayes Empirical Bayes', line)
-		if find:
-			lines = all_lines[counter+3:counter+3+alnlen]
-			break
-		else:
-			counter+=1
-			continue
-	
-	# Retrieve pr(w>1)
-	for line in lines:
-		find = re.search('^\s*\d+\s.+ (\d\.\d+) \(\s*\d+\)', line)
-		if find:
-		
-			# just to kill scientific notation. if it's this small who cares what it's prob is. doesn't even matter for sweeping.
-			if float(find.group(1)) <= 0.001:
-				allpaml.append(0.001)
-			else:
-				allpaml.append(float(find.group(1)))
-	for entry in map:
-		testprobs.append(allpaml[entry])	
-	return testprobs
-###########################################################################################################
-def sweepRates(x, truepos, testprobs):
-	'''This function doesn't actually sweep. Just compares probabilities for a given posterior probability, x.'''
-	tp=0
-	tn=0
-	fp=0
-	fn=0
-	x=float(x)
-
-	for i in range(len(truepos)):
-		#Positive cases
-		if float(testprobs[i])>=x:
-			if truepos[i]==0:
-				fp+=1
-			elif truepos[i]>0:
-				tp+=1
-				#if str(x)=='0.9':
-				#	print "tp", truepos[i]
-		#Negative cases
-		elif float(testprobs[i])<x:
-			if truepos[i]==0:
-				tn+=1
-			elif truepos[i]>0:
-				fn+=1
-				#if str(x)=='0.9':
-				#	print "fn", truepos[i]
-	(tprate,fprate,tnrate,fnrate,accuracy) = calcStats(tp, fp, tn, fn)
-	return (tp,tn,fp,fn,tprate,fprate,tnrate,fnrate,accuracy)
-
-def calcStats(tp, fp, tn, fn):
-	'''Pretty obvious.'''
-	if fn==0 and tp==0:
-		fnrate=0
-		tprate=0
-	else:
-		fnrate=(float(fn))/(float(fn+tp))
-		tprate=(float(tp))/(float(fn+tp))
-	if tn==0 and fp==0:
-		tnrate=0
-		fprate=0
-	else:
-		tnrate=(float(tn))/(float(tn+fp))
-		fprate=(float(fp))/(float(tn+fp))
-	accuracy = (float(tp+tn)/float(tp+tn+fp+fn))
-	return (tprate,fprate,tnrate,fnrate,accuracy)
-################################################################################################
-################################################################################################
-################################################################################################
-################################################################################################
-################################################################################################
-
-gene='rho'
-prefix=['refaln', 'guidance', 'BMweights', 'PDweights', 'guidance_p', 'BMweights_p', 'PDweights_p']
-base='seqs_real'
-mask='50'
-
-
-cutoffs=arange(0,1.005,0.005)
-
-
+################## Important stuff ####################
 datadir='/Users/sjspielman/Dropbox/aln/results/'
 
-outfile='pamlsweep_'+gene+'.txt'
-outhandle=open(outfile, 'w')
-outhandle.write('count\tcutoff\ttprate\tfprate\ttnrate\tfnrate\taccuracy\tcase\tgene\tmethod\tpenal\n')
-
-
-
-# Directories: paml output, alignments (all made with linsi)
-pamldir = datadir+'pamlM8/paml_linsi_'+gene+'_'+base+'/'
-alndir = datadir+'alntree/nucguided_linsi_'+gene+'_'+base+'/'
-
+# Directories: paml output, alignments (all made with linsi, except for true alignments as generated by Indelible)
+pamldir = pamldir = datadir+'paml/paml_'+gene+'/'
+alndir  = datadir+'alntree/nucguided_'+gene+'/'
+	
 # Directories: true simulated alignments and evolutionary rate categories
-truerates_dir=datadir+'Simulation/truerates/'+gene+'/'+base+'/'
-truealn_dir=datadir+'Simulation/sequences/'+gene+'/'+base+'/'
+truerates_dir=datadir+'Simulation/truerates/'+gene+'/'
+truealn_dir=datadir+'Simulation/sequences/'+gene+'/'
+
+# Only use the penalization algorithms
+algs=['refaln', 'GuidanceP', 'BMweightsP', 'PDweightsP']
+cutoffs=arange(0,1.01,0.01)
+######################################################
+
+outfile='/Users/sjspielman/Research/alignment_filtering/data/parsed_data/pamlsweep_'+dataset+'_'+gene+'.txt'
+outhandle=open(outfile, 'w')
+outhandle.write('count\tcutoff\ttprate\tfprate\ttnrate\tfnrate\taccuracy\tcase\tgene\tmethod\n')
 
 		
 for n in range(100):
 	print str(n)
 	
-	# True alignment and evolutionary rate files
+	## File names (refaln, truealn, truerates)
+	refaln=alndir+'refaln'+str(n)+'.fasta'
 	trfile=truerates_dir+'truerates'+str(n)+'.txt'
 	truealn=truealn_dir+'truealn_codon'+str(n)+'.fasta'
-	trueparsed=AlignIO.read(truealn, 'fasta')
-	
-	# Reference alignment
-	refaln=alndir+'refaln'+str(n)+'.fasta'
+			
+	## Read in the reference alignment and collect some relevant info
+	handle = open(refaln, 'r')
 	refparsed=AlignIO.read(refaln, 'fasta')
+	handle.close()
 	alnlen=len(refparsed[0])
 	numseq=len(refparsed)
+	
+	## Read in the true alignment
+	handle = open(truealn, 'r')
+	trueparsed=AlignIO.read(handle, 'fasta')
+	handle.close()
+	true_alnlen = len(trueparsed[0])
 		
-	# Build map to true alignment and obtain simulated positive selection state (binary - 0=notpos, 1=pos)
-	(mapRef, truepos) = buildMap(trueparsed, refparsed, numseq, alnlen)
+	## Build map to true alignment and obtain simulated positive selection state (binary - 0=notpos, 1=pos)
+	mapRef, mapTrue = consensusMap(trueparsed, refparsed, numseq, alnlen)	
+	truepos = parseTrueRates(trfile, mapTrue, posStart)
 	
-	
-	########### Accuracy assessment #########
-	for case in prefix:
+	################################ Accuracy assessment ###################################
+	for alg in algs:
 		
 		## Get file names and whether or not gap-penalized algorithm
-		if case=='refaln':
+		if alg=='refaln':
 			penal='zero'
-			paml=pamldir+'refaln'+str(n)+'.fasta.rst'
+			paml=fudir+'refaln'+str(n)+'.fasta.rst'
 			aln=refaln
 			parsed=refparsed
 		
-		elif case=='guidance' or case=='BMweights' or case=='PDweights':
-			penal='no'
-			name = case+'50_'+str(n)+'.fasta'
+		else:
+			name = alg+'_50_'+str(n)+'.fasta'
 			aln=alndir+name		
-			paml=pamldir+name+'.rst'
+			paml=fudir+name+'.rst'
 			parsed=AlignIO.read(aln, 'fasta')
 		
-		else:
-			penal='yes'
-			name = case+'50_'+str(n)+'.fasta'
-			aln=alndir+name
-			paml=pamldir+name+'.rst'
-			parsed=AlignIO.read(aln, 'fasta')	
-			
-		testprobs = parsePaml(mapRef, paml, alnlen)	
-			
-		## Ensure that the mapping went ok.
-		if len(truepos)!=len(testprobs):
-			print case, len(map), len(truepos), len(testprobs)
-			print "Mapping failed."
-			assert 1==0
+		# Get case info
+		testprobs = parsePAML(mapRef, paml, alnlen)	
+		assert(len(truepos)==len(testprobs)), "PAML Mapping has failed."
+	
 
-		## Paml assessment at swept across posterior probability cutoffs
+		## Accuracy across posterior probability cutoffs
 		for x in cutoffs:
 			(tp,tn,fp,fn,tprate,fprate,tnrate,fnrate,accuracy)=sweepRates(float(x), truepos, testprobs)
-			outhandle.write(str(n)+'\t'+str(x)+'\t'+str(tprate)+'\t'+str(fprate)+'\t'+str(fnrate)+'\t'+str(fnrate)+'\t'+str(accuracy)+'\t'+case+'\t'+gene+'\tpaml\t'+penal+'\n')	
+			outhandle.write(str(n)+'\t'+str(x)+'\t'+str(tprate)+'\t'+str(fprate)+'\t'+str(fnrate)+'\t'+str(fnrate)+'\t'+str(accuracy)+'\t'+alg+'\t'+gene+'\tpaml\n')	
 
 outhandle.close()
 
