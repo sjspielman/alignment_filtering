@@ -38,23 +38,14 @@ alndir  = datadir+'alntree/nucguided_'+gene+'/'
 truerates_dir=datadir+'Simulation/truerates/'+gene+'/'
 truealn_dir=datadir+'Simulation/sequences/'+gene+'/'
 
-algs=['refaln', 'Guidance', 'GuidanceP', 'BMweights', 'BMweightsP', 'PDweights', 'PDweightsP']
+# Only use the penalization algorithms
+algs=['refaln', 'GuidanceP', 'BMweightsP', 'PDweightsP']
 cutoffs=arange(0,1.01,0.01)
 ######################################################
 
 outfile='/Users/sjspielman/Research/alignment_filtering/data/parsed_data/fubarsweep_'+dataset+'_'+gene+'.txt'
 outhandle=open(outfile, 'w')
 outhandle.write('count\tcutoff\ttprate\tfprate\ttnrate\tfnrate\taccuracy\tcase\tgene\tmethod\tpenal\n')
-
-
-
-# Directories: fubar output, alignments (all made with linsi)
-fudir = datadir+'fubar/fubar_'+gene+'_'+base+'/'
-alndir = datadir+'alntree/nucguided_linsi_'+gene+'_'+base+'/'
-
-# Directories: true simulated alignments and evolutionary rate categories
-truerates_dir=datadir+'Simulation/truerates/'+gene+'/'+base+'/'
-truealn_dir=datadir+'Simulation/sequences/'+gene+'/'+base+'/'
 
 		
 for n in range(100):
