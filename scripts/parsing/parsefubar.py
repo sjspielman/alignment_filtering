@@ -77,7 +77,7 @@ for gene in genes:
 		testprobs = parseFUBAR(map, fubar)	
 		assert( len(truepos)==len(testprobs)), "True FUBAR Mapping has failed."
 		(tp,tn,fp,fn,tprate,fprate,tnrate,fnrate,accuracy) = getAccuracy(ppcutoff, truepos, testprobs)
-		outhandle.write(str(n)+'\t'+str(tprate)+'\t'+str(fprate)+'\t'+str(fnrate)+'\t'+str(accuracy)+'\t'+case+'\t'+gene+'\ttrue\tfubar\ttrue\n')	
+		outhandle.write(str(n)+'\t'+str(tprate)+'\t'+str(fprate)+'\t'+str(fnrate)+'\t'+str(accuracy)+'\ttruealn\t'+gene+'\ttrue\tfubar\ttrue\n')	
 		###########################################################################################################
 
 		###########################################################################################################
@@ -89,11 +89,11 @@ for gene in genes:
 		truepos = parseTrueRates(trfile, mapTrue, posStart)
 		
 		fubar = fudir+'refaln'+str(n)+'.fasta.fubar'	
-		testprobs_fubar = parseFUBAR(mapRef, fubar)	
-		assert( len(truepos)==len(testprobs_fubar)), "FUBAR Mapping has failed."
+		testprobs = parseFUBAR(mapRef, fubar)	
+		assert( len(truepos)==len(testprobs)), "Reference FUBAR Mapping has failed."
 		
 		(tp,tn,fp,fn,tprate,fprate,tnrate,fnrate,accuracy) = getAccuracy(ppcutoff, truepos, testprobs)
-		outhandle.write(str(n)+'\t'+str(tprate)+'\t'+str(fprate)+'\t'+str(fnrate)+'\t'+str(accuracy)+'\t'+case+'\t'+gene+'\tzero\tfubar\tzero\n')	
+		outhandle.write(str(n)+'\t'+str(tprate)+'\t'+str(fprate)+'\t'+str(fnrate)+'\t'+str(accuracy)+'\trefaln\t'+gene+'\tzero\tfubar\tzero\n')	
 		###########################################################################################################
 
 		
@@ -108,11 +108,15 @@ for gene in genes:
 				else:
 					penal='yes'
 					
-				# Collect alignment, fubar, and paml files for this case
+				# Collect alignment and fubar files for this algorithm
 				name = alg+'_'+mask+'_'+str(n)+'.fasta'
 				aln=alndir+name	
+				
+				# Get information relevant to this case
 				parsed=AlignIO.read(aln, 'fasta')	
-				fubar=fudir+name+'.fubar'
+				fubar=fudir+name+'.fubar' 
+				testprobs = parseFUBAR(mapRef, fubar)	
+				assert( len(truepos)==len(testprobs)), "FUBAR Mapping has failed."
 	
 				## FUBAR assessment	at single posterior probability cutoff			
 				(tp,tn,fp,fn,tprate,fprate,tnrate,fnrate,accuracy)=sweepRates(0.895, truepos, testprobs)
@@ -127,11 +131,15 @@ for gene in genes:
 			else:
 				penal='yes'
 				
-			# Collect alignment, fubar, and paml files for this case
-			name = alg+'_50_'+str(n)+'.fasta'
+			# Collect alignment and fubar files for this algorithm
+			name = alg+'_'+mask+'_'+str(n)+'.fasta'
 			aln=alndir+name	
+			
+			# Get information relevant to this case
 			parsed=AlignIO.read(aln, 'fasta')	
-			fubar=fudir+name+'.fubar'
+			fubar=fudir+name+'.fubar' 
+			testprobs = parseFUBAR(mapRef, fubar)	
+			assert( len(truepos)==len(testprobs)), "FUBAR Mapping has failed."
 	
 			## FUBAR assessment	at single posterior probability cutoff			
 			(tp,tn,fp,fn,tprate,fprate,tnrate,fnrate,accuracy)=sweepRates(0.895, truepos, testprobs)

@@ -69,16 +69,33 @@ for gene in genes:
 		paml  = pamldir+'truealn'+str(n)+'.fasta.rst'
 		
 		# Map for truealn only. Can just go position by position as the true alignment is, shockingly, the same as itself.
-		map = []
+		tempmap = []
 		for i in range(truealn_len):
-			map.append(i)
-		truepos = parseTrueRates(trfile, map, posStart)
+			tempmap.append(i)
+		truepos = parseTrueRates(trfile, tempmap, posStart)
 		
 		testprobs = parsePAML(map, paml, true_alnlen)
-		assert( len(truepos)==len(testprobs)), "True PAML Mapping has failed."
-		(tp,tn,fp,fn,tprate,fprate,tnrate,fnrate,accuracy) = getAccuracy(ppcutoff, truepos, testprobs_fubar)
-		outhandle.write(str(n)+'\t'+str(tprate)+'\t'+str(fprate)+'\t'+str(fnrate)+'\t'+str(accuracy)+'\t'+case+'\t'+gene+'\ttrue\tpaml\ttrue\n')	
+		assert(len(truepos)==len(testprobs)), "True PAML Mapping has failed."
+		(tp,tn,fp,fn,tprate,fprate,tnrate,fnrate,accuracy) = getAccuracy(ppcutoff, truepos, testprobs)
+		outhandle.write(str(n)+'\t'+str(tprate)+'\t'+str(fprate)+'\t'+str(fnrate)+'\t'+str(accuracy)+'\ttruealn\t'+gene+'\ttrue\tpaml\ttrue\n')	
 		###########################################################################################################
+
+		###########################################################################################################
+		################## Assess accuracy for the refaln. Comes first since it isn't masked.  ####################
+		
+		
+		# Note that these values will be used for all subsequent alignments in this n rep		
+		mapRef, mapTrue = consensusMap(trueparsed, refparsed, numseq, alnlen)	
+		truepos = parseTrueRates(trfile, mapTrue, posStart)
+		
+		paml = pamldir+'refaln'+str(n)+'.fasta.rst'	
+		testprobs = parsePAML(mapRef, paml, alnlen)
+		assert(len(truepos)==len(testprobs)), "Reference PAML Mapping has failed."
+		
+		(tp,tn,fp,fn,tprate,fprate,tnrate,fnrate,accuracy) = getAccuracy(ppcutoff, truepos, testprobs)
+		outhandle.write(str(n)+'\t'+str(tprate)+'\t'+str(fprate)+'\t'+str(fnrate)+'\t'+str(accuracy)+'\trefaln\t'+gene+'\tzero\tpaml\tzero\n')	
+		###########################################################################################################
+
 
 		###########################################################################################################		
 		########################## Assess accuracy for Guidance(P), which use all masks ###########################
@@ -91,11 +108,15 @@ for gene in genes:
 				else:
 					penal='yes'
 					
-				# Collect alignment, fubar, and paml files for this case
+				# Collect alignment and paml files for this algorithm
 				name = alg+'_'+mask+'_'+str(n)+'.fasta'
 				aln=alndir+name	
+				
+				# Get information relevant to this case
 				parsed=AlignIO.read(aln, 'fasta')	
-				fubar=fudir+name+'.fubar'
+				paml=pamldir+name+'.rst' 
+				testprobs = parsePAML(mapRef, paml, alnlen)
+				assert(len(truepos)==len(testprobs)), "PAML Mapping has failed."
 	
 				## FUBAR assessment	at single posterior probability cutoff			
 				(tp,tn,fp,fn,tprate,fprate,tnrate,fnrate,accuracy)=sweepRates(0.895, truepos, testprobs)
@@ -110,11 +131,15 @@ for gene in genes:
 			else:
 				penal='yes'
 				
-			# Collect alignment, fubar, and paml files for this case
-			name = alg+'_50_'+str(n)+'.fasta'
+			# Collect alignment and paml files for this algorithm
+			name = alg+'_'+mask+'_'+str(n)+'.fasta'
 			aln=alndir+name	
+			
+			# Get information relevant to this case
 			parsed=AlignIO.read(aln, 'fasta')	
-			fubar=fudir+name+'.fubar'
+			paml=pamldir+name+'.rst' 
+			testprobs = parsePAML(mapRef, paml, alnlen)
+			assert(len(truepos)==len(testprobs)), "PAML Mapping has failed."
 	
 			## FUBAR assessment	at single posterior probability cutoff			
 			(tp,tn,fp,fn,tprate,fprate,tnrate,fnrate,accuracy)=sweepRates(0.895, truepos, testprobs)
