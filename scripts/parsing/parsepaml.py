@@ -3,9 +3,12 @@ from numpy import *
 from Bio import AlignIO, SeqIO
 import parsing_fxns
 
-algs=['Guidance', 'BMweights', 'PDweights', 'GuidanceP', 'BMweightsP', 'PDweightsP']
-genes=['or5', 'rho', 'prk']
+# Weighted algorithms
+walgs=['BMweights', 'PDweights', 'BMweightsP', 'PDweightsP']
+# Guidance algorithms
+galgs=['Guidance', 'GuidanceP']
 masks={'30': 'thirty', '50':'fifty', '70':'seventy', '90':'ninety'}
+genes=['or5', 'rho', 'prk', 'flat']
 pp_cutoff = 0.895 # Posterior probability threshold for calling sites as positively selected or not.
 
 datadir='/Users/sjspielman/Dropbox/aln/results/'
@@ -77,43 +80,46 @@ for gene in genes:
 		outhandle.write(str(n)+'\t'+str(tprate)+'\t'+str(fprate)+'\t'+str(fnrate)+'\t'+str(accuracy)+'\t'+case+'\t'+gene+'\ttrue\tpaml\ttrue\n')	
 		###########################################################################################################
 
-		###########################################################################################################
-		################## Assess accuracy for the refaln. Comes first since it isn't masked.  ####################
-		
-		
-		# Note that these values will be used for all subsequent alignments in this n rep		
-		mapRef, mapTrue = consensusMap(trueparsed, refparsed, numseq, alnlen)	
-		truepos = parseTrueRates(trfile, mapTrue, posStart)
-		
-		paml  = pamldir+'refaln'+str(n)+'.fasta.rst'	
-		testprobs = parsePAML(mapRef, paml, alnlen)
-		assert( len(truepos)==len(testprobs)), "PAML Mapping has failed."
-		
-		(tp,tn,fp,fn,tprate,fprate,tnrate,fnrate,accuracy) = getAccuracy(ppcutoff, truepos, testprobs)
-		outhandle.write(str(n)+'\t'+str(tprate)+'\t'+str(fprate)+'\t'+str(fnrate)+'\t'+str(accuracy)+'\t'+case+'\t'+gene+'\tzero\tpaml\tzero\n')	
-		###########################################################################################################
-
-		
 		###########################################################################################################		
-		########################## Finally, assess accuracy for the filtered alignments ###########################
+		########################## Assess accuracy for Guidance(P), which use all masks ###########################
 		for mask in masks:
-			for case in algs:
+			for alg in galgs:
 				
 				# Penalization algorithm or not? (for printing to outfile)
-				if case=='Guidance' or case=='BMweights' or case=='PDweights':
+				if alg=='Guidance':
 					penal='no'				
 				else:
 					penal='yes'
 					
-				# Collect alignment and paml files for this case
-				name = case+'_'+mask+'_'+str(n)+'.fasta'
+				# Collect alignment, fubar, and paml files for this case
+				name = alg+'_'+mask+'_'+str(n)+'.fasta'
 				aln=alndir+name	
 				parsed=AlignIO.read(aln, 'fasta')	
-				paml=pamldir+name+'.rst'	
+				fubar=fudir+name+'.fubar'
 	
-				## PAML accuracy assessment for single posterior probability cutoff		
-				(tp,tn,fp,fn,tprate,fprate,tnrate,fnrate,accuracy)=sweepRates(ppcutoff, truepos, testprobs)
-				outhandle.write(str(n)+'\t'+str(tprate)+'\t'+str(fprate)+'\t'+str(fnrate)+'\t'+str(accuracy)+'\t'+case+'\t'+gene+'\t'+masks[mask]+'\tpaml\t'+penal+'\n')	
+				## FUBAR assessment	at single posterior probability cutoff			
+				(tp,tn,fp,fn,tprate,fprate,tnrate,fnrate,accuracy)=sweepRates(0.895, truepos, testprobs)
+				outhandle.write(str(n)+'\t'+str(tprate)+'\t'+str(fprate)+'\t'+str(fnrate)+'\t'+str(accuracy)+'\t'+alg+'\t'+gene+'\t'+masks[mask]+'\tpaml\t'+penal+'\n')
+				
+		###########################################################################################################		
+		####################### Assess accuracy for BM/PDweights(P), which use only mask 0.5 ######################
+		for alg in walgs:		
+			# Penalization algorithm or not? (for printing to outfile)
+			if alg=='BMweights' or alg=='PDweights':
+				penal='no'				
+			else:
+				penal='yes'
+				
+			# Collect alignment, fubar, and paml files for this case
+			name = alg+'_50_'+str(n)+'.fasta'
+			aln=alndir+name	
+			parsed=AlignIO.read(aln, 'fasta')	
+			fubar=fudir+name+'.fubar'
+	
+			## FUBAR assessment	at single posterior probability cutoff			
+			(tp,tn,fp,fn,tprate,fprate,tnrate,fnrate,accuracy)=sweepRates(0.895, truepos, testprobs)
+			outhandle.write(str(n)+'\t'+str(tprate)+'\t'+str(fprate)+'\t'+str(fnrate)+'\t'+str(accuracy)+'\t'+alg+'\t'+gene+'\tfifty\tpaml\t'+penal+'\n')		
+
 outhandle.close()
 
 			
