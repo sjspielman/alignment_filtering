@@ -75,7 +75,7 @@ for gene in genes:
 		truepos = parseTrueRates(trfile, map, posStart)
 		
 		testprobs = parseFUBAR(map, fubar)	
-		assert( len(truepos)==len(testprobs)), "True FUBAR Mapping has failed."
+		assert(len(truepos)==len(testprobs)), "True FUBAR Mapping has failed."
 		(tp,tn,fp,fn,tprate,fprate,tnrate,fnrate,accuracy) = getAccuracy(ppcutoff, truepos, testprobs)
 		outhandle.write(str(n)+'\t'+str(tprate)+'\t'+str(fprate)+'\t'+str(fnrate)+'\t'+str(accuracy)+'\ttruealn\t'+gene+'\ttrue\tfubar\ttrue\n')	
 		###########################################################################################################
@@ -90,7 +90,7 @@ for gene in genes:
 		
 		fubar = fudir+'refaln'+str(n)+'.fasta.fubar'	
 		testprobs = parseFUBAR(mapRef, fubar)	
-		assert( len(truepos)==len(testprobs)), "Reference FUBAR Mapping has failed."
+		assert(len(truepos)==len(testprobs)), "Reference FUBAR Mapping has failed."
 		
 		(tp,tn,fp,fn,tprate,fprate,tnrate,fnrate,accuracy) = getAccuracy(ppcutoff, truepos, testprobs)
 		outhandle.write(str(n)+'\t'+str(tprate)+'\t'+str(fprate)+'\t'+str(fnrate)+'\t'+str(accuracy)+'\trefaln\t'+gene+'\tzero\tfubar\tzero\n')	
@@ -116,7 +116,7 @@ for gene in genes:
 				parsed=AlignIO.read(aln, 'fasta')	
 				fubar=fudir+name+'.fubar' 
 				testprobs = parseFUBAR(mapRef, fubar)	
-				assert( len(truepos)==len(testprobs)), "FUBAR Mapping has failed."
+				assert(len(truepos)==len(testprobs)), "FUBAR Mapping has failed."
 	
 				## FUBAR assessment	at single posterior probability cutoff			
 				(tp,tn,fp,fn,tprate,fprate,tnrate,fnrate,accuracy)=sweepRates(0.895, truepos, testprobs)
