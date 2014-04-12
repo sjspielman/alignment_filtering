@@ -1,7 +1,7 @@
 import re, sys, csv
 from numpy import *
 from Bio import AlignIO, SeqIO
-import parsing
+import parsing_fxns
 
 # Weighted algorithms
 walgs=['BMweights', 'PDweights', 'BMweightsP', 'PDweightsP']
