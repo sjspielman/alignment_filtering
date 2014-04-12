@@ -88,7 +88,7 @@ def parseTrueRates(trfile, mapTrue, posStart):
 	assert len(truelines) == len(mapTrue), "Map and truerates files inconsistent."
 
 	for counter in mapTrue:
-		print truelines[counter]
+		#print truelines[counter]
 		find=re.search('^\d+\t(\d+)\t', truelines[counter])
 		assert(find), "Could not parse truerates file."
 		if find:
@@ -154,7 +154,7 @@ def parsePaml(map, paml_file, alnlen):
 ###########################################################################################################
 
 ###########################################################################################################
-def getAccuracy(x, truepos, testprobs, outfile, method):
+def getAccuracy(x, truepos, testprobs):
 	'''Determine accuracy statistics (tpr, fpr, etc).'''
 	# x: posterior probability cutoff
 	# truepos: whether that position was positively selected or not in the true alignment
