@@ -20,8 +20,10 @@ if dataset == 'GP41':
 elif dataset == 'HA':
 	datadir += 'HA/'
 	posStart = 18
+maptype = sys.argv[2]
+assert (maptype == 'singletaxonmap' or maptype == 'consensusmap'), "Must specify either taxon or consensus map strategy."
 
-outfile='/Users/sjspielman/Research/alignment_filtering/data/parsed_data/fubar_'+dataset+'_90.txt'
+outfile='/Users/sjspielman/Research/alignment_filtering/data/parsed_data/fubar_'+dataset+'_90_'+str(maptype)+'.txt'
 outhandle=open(outfile, 'w')
 outhandle.write('count\ttprate\tfprate\t\tfnrate\taccuracy\tcase\tgene\tmask\tmethod\tpenal\n')
 
@@ -68,13 +70,7 @@ for gene in genes:
 	
 		fubar = fudir+'truealn'+str(n)+'.fasta.fubar'	
 		
-		# Map for truealn only. Can just go position by position as the true alignment is, shockingly, the same as itself.
-		map = []
-		for i in range(true_alnlen):
-			map.append(i)
-		truepos = parseTrueRates(trfile, map, posStart)
-		
-		testprobs = parseFUBAR(map, fubar)	
+		(truepos, testprobs) = assessTrueFUBAR(trfile, fubar, posStart)
 		assert(len(truepos)==len(testprobs)), "True FUBAR Mapping has failed."
 		(tp,tn,fp,fn,tprate,fprate,tnrate,fnrate,accuracy) = getAccuracy(pp_cutoff, truepos, testprobs)
 		outhandle.write(str(n)+'\t'+str(tprate)+'\t'+str(fprate)+'\t'+str(fnrate)+'\t'+str(accuracy)+'\ttruealn\t'+gene+'\ttrue\tfubar\ttrue\n')	
@@ -84,12 +80,17 @@ for gene in genes:
 		################## Assess accuracy for the refaln. Comes first since it isn't masked.  ####################
 		
 		
-		# Note that these values will be used for all subsequent alignments in this n rep		
-		mapRef, mapTrue = consensusMap(trueparsed, refparsed, numseq, alnlen)	
-		truepos = parseTrueRates(trfile, mapTrue, posStart)
+		# Note that these values will be used for all subsequent alignments in this n rep.
+		# wantRef = sites we want from reference. wantTrue = sites we want from true. Note the alternative mapping strategies.	
+		if maptype == 'singletaxonmap':		
+			wantRef, wantTrue = singleTaxonMap(trueparsed, refparsed, numseq, alnlen)	
+		else:
+			wantRef, wantTrue = ConsensusMap(trueparsed, refparsed, numseq, alnlen)
+		
+		truepos = parseTrueRates(trfile, wantTrue, posStart)
 		
 		fubar = fudir+'refaln'+str(n)+'.fasta.fubar'	
-		testprobs = parseFUBAR(mapRef, fubar)	
+		testprobs = parseFUBAR(wantRef, fubar)	
 		assert(len(truepos)==len(testprobs)), "Reference FUBAR Mapping has failed."
 		
 		(tp,tn,fp,fn,tprate,fprate,tnrate,fnrate,accuracy) = getAccuracy(pp_cutoff, truepos, testprobs)
@@ -113,7 +114,7 @@ for gene in genes:
 				
 				# Get information relevant to this case
 				fubar=fudir+name+'.fubar' 
-				testprobs = parseFUBAR(mapRef, fubar)	
+				testprobs = parseFUBAR(wantRef, fubar)	
 				assert(len(truepos)==len(testprobs)), "FUBAR Mapping has failed."
 	
 				## FUBAR assessment	at single posterior probability cutoff			
@@ -135,7 +136,7 @@ for gene in genes:
 			
 			# Get information relevant to this case
 			fubar=fudir+name+'.fubar' 
-			testprobs = parseFUBAR(mapRef, fubar)	
+			testprobs = parseFUBAR(wantRef, fubar)	
 			assert( len(truepos)==len(testprobs)), "FUBAR Mapping has failed."
 	
 			## FUBAR assessment	at single posterior probability cutoff			
