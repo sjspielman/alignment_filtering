@@ -60,7 +60,7 @@ def consensusMap(trueparsed, parsed, numseq, alnlen):
 		most = int(max(set(col), key=col.count))
 		countmost = col.count(most)
 		perc_max = float(countmost)/float(len(col))
-		if perc_max >= 0.5:
+		if perc_max > 0.5: # Needs to be >, not >= to ensure columns aren't repeated
 			mapRef.append(counter) # "counter" refers to the refaln position
 			mapTrue.append(most)   # "most" refers to the truealn position 
 		counter+=1
