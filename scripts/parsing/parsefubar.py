@@ -130,7 +130,7 @@ for gene in genes:
 				penal='yes'
 				
 			# Collect alignment and fubar files for this algorithm
-			name = alg+'_'+mask+'_'+str(n)+'.fasta'
+			name = alg+'_50_'+str(n)+'.fasta'
 			aln=alndir+name	
 			
 			# Get information relevant to this case
