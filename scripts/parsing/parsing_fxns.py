@@ -14,7 +14,7 @@ def singleTaxonMap(trueparsed, parsed, numseq, alnlen):
 	# numseq: number of sequences in alignment.
 	# alnlen: alignment length of the REFERENCE alignment.
 	
-	reftaxon = 'taxon11' # Arbitrary, based entirely on my birthday.
+	reftaxon = '11' # Arbitrary, based entirely on my birthday.
 	
 	# Get the true and reference alignment sequences for this taxon
 	trueseq = ''
@@ -27,26 +27,31 @@ def singleTaxonMap(trueparsed, parsed, numseq, alnlen):
 		if str(entry.id)==reftaxon:
 			refseq=str(entry.seq)
 			break
-	
+	print trueseq
+	print refseq
 	#Build the map. Record the index for each non-gap site in trueseq. Then, go through the refseq and for the nongaps, pop off that index. For the gaps, add a '-1'.
 	truelist=[]
 	map2True = []
 	for a in range(len(trueseq)):
 		if trueseq[a] != '-': 
 			truelist.append(a)	### Contains positions which are NOT gaps in the true alignment	
+	#print truelist
 	for a in range(len(refseq)):
 		if refseq[a] == '-':
-			map2True.append('-1')    
+			map2True.append(-1)    
 		else:
 			map2True.append(truelist.pop(0))
+	#print map2True
 	
 	# Convert.
 	wantRef = []
 	wantTrue = []
 	for i in range(len(map2True)):
-		wantRef.append(i)
-		wantTrue.append(map2True[i])
-
+		# if refseq is a gap, we don't want 
+		if map2True[i] != -1:
+			wantRef.append(i)
+			wantTrue.append(map2True[i])
+	assert ( len(wantRef) > 0 and len(wantRef) == len(wantTrue) ), "Bad map building."
 	return wantRef, wantTrue
 ###########################################################################################################
 
