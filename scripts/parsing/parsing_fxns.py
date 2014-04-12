@@ -18,7 +18,6 @@ def consensusMap(trueparsed, parsed, numseq, alnlen):
 	for entry in range(numseq):
 	
 		taxon = str(entry) ### Taxon names are integers 0-numseq
-		
 		# Will contain indices for positions in the TRUE alignment sequence which are NOT gaps
 		truelist=[]                        
 		
@@ -43,9 +42,9 @@ def consensusMap(trueparsed, parsed, numseq, alnlen):
 				truelist.append(a)		
 		for a in range(len(refseq)):
 			if refseq[a] == '-':
-				map2True[a] = '-1'       # Note: we need to say a/3 since the rate file returns a rate for each residue.
+				map2True[a] = '-1'    
 			else:
-				map2True[a]=truelist.pop(0) # Note: we need to say a/3 since the rate file returns a rate for each residue.
+				map2True[a]=truelist.pop(0)
 		
 		allMaps = vstack((allMaps, map2True))
 	allMaps = delete(allMaps, 0, axis=0)	
@@ -65,9 +64,7 @@ def consensusMap(trueparsed, parsed, numseq, alnlen):
 			mapRef.append(counter) # "counter" refers to the refaln position
 			mapTrue.append(most)   # "most" refers to the truealn position 
 		counter+=1
-	print float(len(mapTrue))/float(alnlen)
-
-
+	#print float(len(mapTrue))/float(alnlen)
 	return (mapRef, mapTrue)
 ###########################################################################################################
 
