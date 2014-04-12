@@ -9,10 +9,10 @@
 #$ -q wilke
 #$ -m beas
 #$ -t 1-100:1
-#$ -pe serial 5
+#$ -pe serial 3
 
 
-CPU=5
+CPU=3
 DATASET=GP41    # HA or GP41
 
 ## Run-specific settings
@@ -58,7 +58,7 @@ cp $TREEDIR/aatree$NUM.txt tree.tre
 
 # Format the fubar file and run
 sed -i "s/placeholder/$JOB_NAME-$JOB_ID-$SGE_TASK_ID/g" autoFUBAR_dN_only.bf
-./HYPHYMP autoFUBAR_dN_only.bf CPU=5
+./HYPHYMP autoFUBAR_dN_only.bf CPU=$CPU
 
 # Save the output file to an appropriate name
 mv tree.tre.fubar.csv $ALN.fubar 
