@@ -76,7 +76,7 @@ for gene in genes:
 		
 		testprobs = parseFUBAR(map, fubar)	
 		assert(len(truepos)==len(testprobs)), "True FUBAR Mapping has failed."
-		(tp,tn,fp,fn,tprate,fprate,tnrate,fnrate,accuracy) = getAccuracy(ppcutoff, truepos, testprobs)
+		(tp,tn,fp,fn,tprate,fprate,tnrate,fnrate,accuracy) = getAccuracy(pp_cutoff, truepos, testprobs)
 		outhandle.write(str(n)+'\t'+str(tprate)+'\t'+str(fprate)+'\t'+str(fnrate)+'\t'+str(accuracy)+'\ttruealn\t'+gene+'\ttrue\tfubar\ttrue\n')	
 		###########################################################################################################
 
@@ -92,7 +92,7 @@ for gene in genes:
 		testprobs = parseFUBAR(mapRef, fubar)	
 		assert(len(truepos)==len(testprobs)), "Reference FUBAR Mapping has failed."
 		
-		(tp,tn,fp,fn,tprate,fprate,tnrate,fnrate,accuracy) = getAccuracy(ppcutoff, truepos, testprobs)
+		(tp,tn,fp,fn,tprate,fprate,tnrate,fnrate,accuracy) = getAccuracy(pp_cutoff, truepos, testprobs)
 		outhandle.write(str(n)+'\t'+str(tprate)+'\t'+str(fprate)+'\t'+str(fnrate)+'\t'+str(accuracy)+'\trefaln\t'+gene+'\tzero\tfubar\tzero\n')	
 		###########################################################################################################
 
