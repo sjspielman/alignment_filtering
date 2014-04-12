@@ -70,7 +70,7 @@ for gene in genes:
 		
 		# Map for truealn only. Can just go position by position as the true alignment is, shockingly, the same as itself.
 		map = []
-		for i in range(truealn_len):
+		for i in range(true_alnlen):
 			map.append(i)
 		truepos = parseTrueRates(trfile, map, posStart)
 		
