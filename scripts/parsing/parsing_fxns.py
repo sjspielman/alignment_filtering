@@ -5,6 +5,42 @@ from Bio import AlignIO, SeqIO
 ### SJS ###
 # Contains all the functions used by the fubar/paml parsing/accuracy inference scripts.
 
+
+###########################################################################################################
+def singleTaxonMap(trueparsed, parsed, numseq, alnlen):
+	''' Map for relevant sites for both the true (given by Indelible) and reference (inferred, no filtering) based on a single taxon. '''
+	# trueparsed: the true alignment
+	# parsed: the reference alignment
+	# numseq: number of sequences in alignment.
+	# alnlen: alignment length of the REFERENCE alignment.
+	
+	reftaxon = 'taxon11' # Arbitrary, based entirely on my birthday.
+	
+	map2True=zeros(alnlen, dtype=int)
+	# Get the true and reference alignment sequences for this taxon
+	trueseq = ''
+	refseq = ''
+	for entry in trueparsed:
+		if str(entry.id)==reftaxon:
+			trueseq=str(entry.seq)
+			break
+	for entry in parsed:
+		if str(entry.id)==reftaxon:
+			refseq=str(entry.seq)
+			break
+	
+	#Build the map. Record the index for each non-gap site in trueseq. Then, go through the refseq and for the nongaps, pop off that index. For the gaps, add a '-1'.
+	for a in range(len(trueseq)):
+		if trueseq[a] != '-': 
+			truelist.append(a)		
+		for a in range(len(refseq)):
+			if refseq[a] == '-':
+				map2True[a] = '-1'    
+			else:
+				map2True[a]=truelist.pop(0) 
+	return map2True # Index = refaln position. Value = truealn position.
+###########################################################################################################
+
 ###########################################################################################################
 def consensusMap(trueparsed, parsed, numseq, alnlen):
 	''' Build maps to relevant sites for both the true (given by Indelible) and reference (inferred, no filtering) based on >=50% of sites being in that column. '''
