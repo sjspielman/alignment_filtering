@@ -13,7 +13,7 @@ def consensusMap(trueparsed, parsed, numseq, alnlen):
 	# numseq: number of sequences in alignment.
 	# alnlen: alignment length of the REFERENCE alignment.
 	
-	allMaps = zeros(alnlen/3, dtype=int)
+	allMaps = zeros(alnlen, dtype=int)
 	
 	for entry in range(numseq):
 	
@@ -23,7 +23,7 @@ def consensusMap(trueparsed, parsed, numseq, alnlen):
 		truelist=[]                        
 		
 		## The index in map2True corresponds to the refaln position. The value in map2True corresponds to the truealn position. If the reference position is a gap, the value will instead be -1.
-		map2True=zeros(alnlen/3, dtype=int)
+		map2True=zeros(alnlen, dtype=int)
 			
 		# Get the true and reference alignment sequences for this taxon
 		trueseq = ''
@@ -38,14 +38,14 @@ def consensusMap(trueparsed, parsed, numseq, alnlen):
 				break
 		
 		#Build the map. Record the index for each non-gap site in trueseq. Then, go through the refseq and for the nongaps, pop off that index. For the gaps, add a '-1'.
-		for a in range(0,len(trueseq),3):
+		for a in range(len(trueseq)):
 			if trueseq[a] != '-': 
-				truelist.append(a/3)		
-		for a in range(0,len(refseq),3):
+				truelist.append(a)		
+		for a in range(len(refseq)):
 			if refseq[a] == '-':
-				map2True[a/3] = '-1'       # Note: we need to say a/3 since the rate file returns a rate for each residue.
+				map2True[a] = '-1'       # Note: we need to say a/3 since the rate file returns a rate for each residue.
 			else:
-				map2True[a/3]=truelist.pop(0) # Note: we need to say a/3 since the rate file returns a rate for each residue.
+				map2True[a]=truelist.pop(0) # Note: we need to say a/3 since the rate file returns a rate for each residue.
 		
 		allMaps = vstack((allMaps, map2True))
 	allMaps = delete(allMaps, 0, axis=0)	
@@ -65,7 +65,7 @@ def consensusMap(trueparsed, parsed, numseq, alnlen):
 			mapRef.append(counter) # "counter" refers to the refaln position
 			mapTrue.append(most)   # "most" refers to the truealn position 
 		counter+=1
-	print float(len(mapTrue))/float(alnlen/3)
+	print float(len(mapTrue))/float(alnlen)
 
 
 	return (mapRef, mapTrue)
@@ -85,8 +85,11 @@ def parseTrueRates(trfile, mapTrue, posStart):
 	truelines=infile.readlines()
 	infile.close()
 	truelines=truelines[10:] ## only keep these lines since before that it's all header crap.	
-	
+	print len(truelines)
+	print len(mapTrue)
+	assert 1==0
 	for counter in mapTrue:
+		print truelines[counter]
 		find=re.search('^\d+\t(\d+)\t', truelines[counter])
 		assert(find), "Could not parse truerates file."
 		if find:
