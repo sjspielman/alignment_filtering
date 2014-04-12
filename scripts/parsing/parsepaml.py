@@ -21,7 +21,10 @@ elif dataset == 'HA':
 	datadir += 'HA/'
 	posStart = 18
 
-outfile='/Users/sjspielman/Research/alignment_filtering/data/parsed_data/paml_'+dataset+'_90.txt'
+maptype = sys.argv[2]
+assert (maptype == 'singletaxonmap' or maptype == 'consensusmap'), "Must specify either taxon or consensus map strategy."
+
+outfile='/Users/sjspielman/Research/alignment_filtering/data/parsed_data/paml_'+dataset+'_90_'+str(maptype)+'.txt'
 outhandle=open(outfile, 'w')
 outhandle.write('count\ttprate\tfprate\t\tfnrate\taccuracy\tcase\tgene\tmask\tmethod\tpenal\n')
 
@@ -85,7 +88,11 @@ for gene in genes:
 		
 		
 		# Note that these values will be used for all subsequent alignments in this n rep		
-		mapRef, mapTrue = consensusMap(trueparsed, refparsed, numseq, alnlen)	
+		# wantRef = sites we want from reference. wantTrue = sites we want from true. Note the alternative mapping strategies.	
+		if maptype == 'singletaxonmap':		
+			wantRef, wantTrue = singleTaxonMap(trueparsed, refparsed, numseq, alnlen)	
+		else:
+			wantRef, wantTrue = ConsensusMap(trueparsed, refparsed, numseq, alnlen)
 		truepos = parseTrueRates(trfile, mapTrue, posStart)
 		
 		paml = pamldir+'refaln'+str(n)+'.fasta.rst'	
