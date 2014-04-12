@@ -182,7 +182,7 @@ def getAccuracy(x, truepos, testprobs):
 ###########################################################################################################
 
 ###########################################################################################################
-def calcAccuracyStats(tp, fp, tn, fn):
+def calcStats(tp, fp, tn, fn):
 	''' See function name for details. '''
 	if fn==0 and tp==0:
 		fnrate=0
