@@ -117,7 +117,7 @@ for gene in genes:
 				assert(len(truepos)==len(testprobs)), "FUBAR Mapping has failed."
 	
 				## FUBAR assessment	at single posterior probability cutoff			
-				(tp,tn,fp,fn,tprate,fprate,tnrate,fnrate,accuracy)=sweepRates(0.895, truepos, testprobs)
+				(tp,tn,fp,fn,tprate,fprate,tnrate,fnrate,accuracy)=getAccuracy(pp_cutoff, truepos, testprobs)
 				outhandle.write(str(n)+'\t'+str(tprate)+'\t'+str(fprate)+'\t'+str(fnrate)+'\t'+str(accuracy)+'\t'+alg+'\t'+gene+'\t'+masks[mask]+'\tfubar\t'+penal+'\n')
 				
 		###########################################################################################################		
@@ -139,7 +139,7 @@ for gene in genes:
 			assert( len(truepos)==len(testprobs)), "FUBAR Mapping has failed."
 	
 			## FUBAR assessment	at single posterior probability cutoff			
-			(tp,tn,fp,fn,tprate,fprate,tnrate,fnrate,accuracy)=sweepRates(0.895, truepos, testprobs)
+			(tp,tn,fp,fn,tprate,fprate,tnrate,fnrate,accuracy)=getAccuracy(pp_cutoff, truepos, testprobs)
 			outhandle.write(str(n)+'\t'+str(tprate)+'\t'+str(fprate)+'\t'+str(fnrate)+'\t'+str(accuracy)+'\t'+alg+'\t'+gene+'\tfifty\tfubar\t'+penal+'\n')		
 
 
