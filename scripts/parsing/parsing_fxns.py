@@ -16,7 +16,6 @@ def singleTaxonMap(trueparsed, parsed, numseq, alnlen):
 	
 	reftaxon = 'taxon11' # Arbitrary, based entirely on my birthday.
 	
-	map2True=zeros(alnlen, dtype=int)
 	# Get the true and reference alignment sequences for this taxon
 	trueseq = ''
 	refseq = ''
@@ -30,15 +29,25 @@ def singleTaxonMap(trueparsed, parsed, numseq, alnlen):
 			break
 	
 	#Build the map. Record the index for each non-gap site in trueseq. Then, go through the refseq and for the nongaps, pop off that index. For the gaps, add a '-1'.
+	truelist=[]
+	map2True = []
 	for a in range(len(trueseq)):
 		if trueseq[a] != '-': 
-			truelist.append(a)		
-		for a in range(len(refseq)):
-			if refseq[a] == '-':
-				map2True[a] = '-1'    
-			else:
-				map2True[a]=truelist.pop(0) 
-	return map2True # Index = refaln position. Value = truealn position.
+			truelist.append(a)	### Contains positions which are NOT gaps in the true alignment	
+	for a in range(len(refseq)):
+		if refseq[a] == '-':
+			map2True.append('-1')    
+		else:
+			map2True.append(truelist.pop(0))
+	
+	# Convert.
+	wantRef = []
+	wantTrue = []
+	for i in range(len(map2True)):
+		wantRef.append(i)
+		wantTrue.append(map2True[i])
+
+	return wantRef, wantTrue
 ###########################################################################################################
 
 ###########################################################################################################
@@ -87,8 +96,8 @@ def consensusMap(trueparsed, parsed, numseq, alnlen):
 
 	# Build a 50% consensus map.
 	counter = 0
-	mapRef = []
-	mapTrue = []
+	wantRef = []
+	wantTrue = []
 	for column in allMaps.T: # transpose so can loop over columns.
 		
 		# Check that the most frequent column entry occurs at least 50% of the time.			
@@ -97,11 +106,11 @@ def consensusMap(trueparsed, parsed, numseq, alnlen):
 		countmost = col.count(most)
 		perc_max = float(countmost)/float(len(col))
 		if perc_max > 0.5: # Needs to be >, not >= to ensure columns aren't repeated
-			mapRef.append(counter) # "counter" refers to the refaln position
-			mapTrue.append(most)   # "most" refers to the truealn position 
+			wantRef.append(counter) # "counter" refers to the refaln position
+			wantTrue.append(most)   # "most" refers to the truealn position 
 		counter+=1
-	#print float(len(mapTrue))/float(alnlen)
-	return (mapRef, mapTrue)
+	#print float(len(wantTrue))/float(alnlen)
+	return (wantRef, wantTrue)
 ###########################################################################################################
 
 ###########################################################################################################
@@ -195,10 +204,10 @@ def assessTruePAML(trfile, fufile, posStart):
 ###########################################################################################################
 	
 ###########################################################################################################
-def parseTrueRates(trfile, mapTrue, posStart):
+def parseTrueRates(trfile, wantTrue, posStart):
 	''' Retrieve binary list (0=not pos, 1=pos) for true simulated rates at sites of interest ''' 
 	# trfile: file with true simulated rates, given by Indelible
-	# mapTrue: relevant sites in true alignment
+	# wantTrue: relevant sites in true alignment
 	# posStart: omega category in which positive selection begins. Depends on simulation.
 
 	# For positions we care about, 0 if omega<=1 , 1 if omega>1
@@ -209,7 +218,7 @@ def parseTrueRates(trfile, mapTrue, posStart):
 	infile.close()
 	truelines=truelines[10:] ## only keep these lines since before that it's all header crap.	
 
-	for counter in mapTrue:
+	for counter in wantTrue:
 		#print truelines[counter]
 		find=re.search('^\d+\t(\d+)\t', truelines[counter])
 		assert(find), "Could not parse truerates file."
