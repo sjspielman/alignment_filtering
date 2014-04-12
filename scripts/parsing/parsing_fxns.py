@@ -85,7 +85,6 @@ def parseTrueRates(trfile, mapTrue, posStart):
 	truelines=infile.readlines()
 	infile.close()
 	truelines=truelines[10:] ## only keep these lines since before that it's all header crap.	
-	assert len(truelines) == len(mapTrue), "Map and truerates files inconsistent."
 
 	for counter in mapTrue:
 		#print truelines[counter]
