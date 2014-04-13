@@ -82,11 +82,11 @@ for n in range(100):
 		
 		## Get file names and whether or not gap-penalized algorithm
 		if alg=='refaln':
-			paml=fudir+'refaln'+str(n)+'.fasta.rst'
+			paml=pamldir+'refaln'+str(n)+'.fasta.rst'
 		
 		else:
 			name = alg+'_50_'+str(n)+'.fasta'
-			paml=fudir+name+'.rst'
+			paml=pamldir+name+'.rst'
 		
 		# Get case info
 		testprobs = parsePAML(wantRef, paml, alnlen)	
