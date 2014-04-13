@@ -9,7 +9,7 @@ walgs=['BMweights', 'PDweights', 'BMweightsP', 'PDweightsP']
 # Guidance algorithms
 galgs=['Guidance', 'GuidanceP']
 masks={'30': 'thirty', '50':'fifty', '70':'seventy', '90':'ninety'}
-genes=['or5', 'rho', 'prk', 'flat']
+genes=['or5', 'rho', 'prk']
 pp_cutoff = 0.895 # Posterior probability threshold for calling sites as positively selected or not.
 
 datadir='/Users/sjspielman/Dropbox/aln/results/'
