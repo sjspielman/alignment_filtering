@@ -78,7 +78,7 @@ for gene in genes:
 			tempmap.append(i)
 		truepos = parseTrueRates(trfile, tempmap, posStart)
 		
-		testprobs = parsePAML(map, paml, true_alnlen)
+		testprobs = parsePAML(tempmap, paml, true_alnlen)
 		assert(len(truepos)==len(testprobs)), "True PAML Mapping has failed."
 		(tp,tn,fp,fn,tprate,fprate,tnrate,fnrate,accuracy) = getAccuracy(pp_cutoff, truepos, testprobs)
 		outhandle.write(str(n)+'\t'+str(tprate)+'\t'+str(fprate)+'\t'+str(fnrate)+'\t'+str(accuracy)+'\ttruealn\t'+gene+'\ttrue\tpaml\ttrue\n')	
@@ -94,10 +94,10 @@ for gene in genes:
 			wantRef, wantTrue = singleTaxonMap(trueparsed, refparsed, numseq, alnlen)	
 		else:
 			wantRef, wantTrue = consensusMap(trueparsed, refparsed, numseq, alnlen)
-		truepos = parseTrueRates(trfile, mapTrue, posStart)
+		truepos = parseTrueRates(trfile, wantTrue, posStart)
 		
 		paml = pamldir+'refaln'+str(n)+'.fasta.rst'	
-		testprobs = parsePAML(mapRef, paml, alnlen)
+		testprobs = parsePAML(wantRef, paml, alnlen)
 		assert(len(truepos)==len(testprobs)), "Reference PAML Mapping has failed."
 		
 		(tp,tn,fp,fn,tprate,fprate,tnrate,fnrate,accuracy) = getAccuracy(pp_cutoff, truepos, testprobs)
@@ -122,7 +122,7 @@ for gene in genes:
 				
 				# Get information relevant to this case
 				paml=pamldir+name+'.rst' 
-				testprobs = parsePAML(mapRef, paml, alnlen)
+				testprobs = parsePAML(wantRef, paml, alnlen)
 				assert(len(truepos)==len(testprobs)), "PAML Mapping has failed."
 	
 				## FUBAR assessment	at single posterior probability cutoff			
