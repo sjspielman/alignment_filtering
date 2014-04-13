@@ -27,8 +27,6 @@ def singleTaxonMap(trueparsed, parsed, numseq, alnlen):
 		if str(entry.id)==reftaxon:
 			refseq=str(entry.seq)
 			break
-	print trueseq
-	print refseq
 	#Build the map. Record the index for each non-gap site in trueseq. Then, go through the refseq and for the nongaps, pop off that index. For the gaps, add a '-1'.
 	truelist=[]
 	map2True = []
