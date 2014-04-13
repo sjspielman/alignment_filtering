@@ -144,7 +144,7 @@ for gene in genes:
 			
 			# Get information relevant to this case
 			paml=pamldir+name+'.rst' 
-			testprobs = parsePAML(mapRef, paml, alnlen)
+			testprobs = parsePAML(wantRef, paml, alnlen)
 			assert(len(truepos)==len(testprobs)), "PAML Mapping has failed."
 	
 			## FUBAR assessment	at single posterior probability cutoff			
