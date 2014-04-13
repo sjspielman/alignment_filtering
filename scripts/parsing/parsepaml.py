@@ -92,7 +92,7 @@ for gene in genes:
 		if maptype == 'singletaxonmap':		
 			wantRef, wantTrue = singleTaxonMap(trueparsed, refparsed, numseq, alnlen)	
 		else:
-			wantRef, wantTrue = ConsensusMap(trueparsed, refparsed, numseq, alnlen)
+			wantRef, wantTrue = consensusMap(trueparsed, refparsed, numseq, alnlen)
 		truepos = parseTrueRates(trfile, mapTrue, posStart)
 		
 		paml = pamldir+'refaln'+str(n)+'.fasta.rst'	
