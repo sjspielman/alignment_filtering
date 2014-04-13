@@ -1,7 +1,8 @@
 import re, os, sys, subprocess, fnmatch, csv, shutil
 from numpy import *
 from Bio import AlignIO, SeqIO
-import parsing_fxns
+from parsing_fxns import *
+
 
 # Weighted algorithms
 walgs=['BMweights', 'PDweights', 'BMweightsP', 'PDweightsP']
