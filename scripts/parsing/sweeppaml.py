@@ -55,7 +55,7 @@ for n in range(100):
 	## File names (refaln, truealn, truerates)
 	refaln=alndir+'refaln'+str(n)+'.fasta'
 	trfile=truerates_dir+'truerates'+str(n)+'.txt'
-	truealn=truealn_dir+'truealn_codon'+str(n)+'.fasta'
+	truealn=truealn_dir+'truealn_aa'+str(n)+'.fasta'
 			
 	## Read in the reference alignment and collect some relevant info
 	handle = open(refaln, 'r')
