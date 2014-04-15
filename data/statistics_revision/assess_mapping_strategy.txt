@@ -1,0 +1,140 @@
+## consensusmap vs singletaxon map. use HA fubar/paml. 
+THE MAPPING STRATEGIES ARE CONSISTENT IN THE CONCLUSIONS THEY WILL YIELD ABOUT RELATIVE MERITS OF MASKING. 
+HOWEVER, NOTE THAT THE *CONSENSUS MAP* ABSOLUTE VALUES ARE LARGER, likely due to increased power (nearly all columns are sampled, as opposed to excluding lots of them as would have to be done in the singletaxonmap as gapped sites in that taxon are excluded.
+
+
+
+library(lme4)
+library(multcomp)
+
+cons<- read.table('../parsed_data/fubar_HA_90_consensusmap.txt', header=T)
+single<- read.table('../parsed_data/fubar_HA_90_singletaxonmap.txt', header=T)
+
+cons_nt<-cons[cons$case!='truealn',]
+prk1<-cons_nt[cons_nt$gene=='prk' & cons_nt$penal!='no',]
+prk1<-prk1[prk1$mask=='zero' | prk1$mask=='fifty',]
+model<-lmer(tprate ~  case+(1|count), data=prk1)
+summary(glht(model, linfct=mcp(case='Tukey')))
+                               Estimate Std. Error z value Pr(>|z|)  
+GuidanceP - BMweightsP == 0   0.0042009  0.0034254   1.226   0.6100  
+PDweightsP - BMweightsP == 0 -0.0004739  0.0034254  -0.138   0.9991  
+refaln - BMweightsP == 0     -0.0043869  0.0034254  -1.281   0.5753  
+PDweightsP - GuidanceP == 0  -0.0046748  0.0034254  -1.365   0.5216  
+refaln - GuidanceP == 0      -0.0085878  0.0034254  -2.507   0.0586 .
+refaln - PDweightsP == 0     -0.0039129  0.0034254  -1.142   0.6632  
+
+
+
+
+single_nt<-single[single$case!='truealn',]
+prk2<-single_nt[single_nt$gene=='prk' & single_nt$penal!='no',]
+prk2<-prk2[prk2$mask=='zero' | prk2$mask=='fifty',]
+model<-lmer(tprate ~  case+(1|count), data=prk2)
+summary(glht(model, linfct=mcp(case='Tukey')))
+
+                              Estimate Std. Error z value Pr(>|z|)  
+GuidanceP - BMweightsP == 0  -0.005984   0.003462  -1.728   0.3087  
+PDweightsP - BMweightsP == 0 -0.004476   0.003462  -1.293   0.5675  
+refaln - BMweightsP == 0      0.002371   0.003462   0.685   0.9029  
+PDweightsP - GuidanceP == 0   0.001508   0.003462   0.436   0.9723  
+refaln - GuidanceP == 0       0.008355   0.003462   2.413   0.0746 .
+refaln - PDweightsP == 0      0.006847   0.003462   1.978   0.1964  
+
+
+
+flat1<-cons_nt[cons_nt$gene=='flat' & cons_nt$penal!='no',]
+flat1<-flat1[flat1$mask=='zero' | flat1$mask=='fifty',]
+model<-lmer(tprate ~  case+(1|count), data=flat1)
+summary(glht(model, linfct=mcp(case='Tukey')))
+GuidanceP - BMweightsP == 0  -0.0010915  0.0030550  -0.357 0.984381    
+PDweightsP - BMweightsP == 0 -0.0006551  0.0030550  -0.214 0.996519    
+refaln - BMweightsP == 0     -0.0133924  0.0030550  -4.384  < 1e-04 ***
+PDweightsP - GuidanceP == 0   0.0004364  0.0030550   0.143 0.998961    
+refaln - GuidanceP == 0      -0.0123009  0.0030550  -4.026 0.000305 ***
+refaln - PDweightsP == 0     -0.0127373  0.0030550  -4.169 0.000182 ***
+
+
+
+flat2<-single_nt[single_nt$gene=='flat' & single_nt$penal!='no',]
+flat2<-flat2[flat2$mask=='zero' | flat2$mask=='fifty',]
+model<-lmer(tprate ~  case+(1|count), data=flat2)
+summary(glht(model, linfct=mcp(case='Tukey')))
+
+GuidanceP - BMweightsP == 0  -0.0010915  0.0030550  -0.357 0.984381    
+PDweightsP - BMweightsP == 0 -0.0006551  0.0030550  -0.214 0.996519    
+refaln - BMweightsP == 0     -0.0133924  0.0030550  -4.384  < 1e-04 ***
+PDweightsP - GuidanceP == 0   0.0004364  0.0030550   0.143 0.998961    
+refaln - GuidanceP == 0      -0.0123009  0.0030550  -4.026 0.000276 ***
+refaln - PDweightsP == 0     -0.0127373  0.0030550  -4.169 0.000172 ***
+
+
+
+
+
+
+############################### FUBAR IS CONSISTENT BETWEEN MAPPING STRATEGIES.###############################
+
+cons<- read.table('../parsed_data/paml_HA_90_consensusmap.txt', header=T)
+single<- read.table('../parsed_data/paml_HA_90_singletaxonmap.txt', header=T)
+
+cons_nt<-cons[cons$case!='truealn',]
+prk1<-cons_nt[cons_nt$gene=='prk' & cons_nt$penal!='no',]
+prk1<-prk1[prk1$mask=='zero' | prk1$mask=='fifty',]
+model<-lmer(tprate ~  case+(1|count), data=prk1)
+summary(glht(model, linfct=mcp(case='Tukey')))
+                               Estimate Std. Error z value Pr(>|z|)
+GuidanceP - BMweightsP == 0   0.0061064  0.0061903   0.986    0.757
+PDweightsP - BMweightsP == 0  0.0052665  0.0061903   0.851    0.830
+refaln - BMweightsP == 0     -0.0011153  0.0061903  -0.180    0.998
+PDweightsP - GuidanceP == 0  -0.0008399  0.0061903  -0.136    0.999
+refaln - GuidanceP == 0      -0.0072217  0.0061903  -1.167    0.648
+refaln - PDweightsP == 0     -0.0063817  0.0061903  -1.031    0.731
+(Adjusted p values reported -- single-step method)
+
+
+
+single_nt<-single[single$case!='truealn',]
+prk2<-single_nt[single_nt$gene=='prk' & single_nt$penal!='no',]
+prk2<-prk2[prk2$mask=='zero' | prk2$mask=='fifty',]
+model<-lmer(tprate ~  case+(1|count), data=prk2)
+summary(glht(model, linfct=mcp(case='Tukey')))
+
+                               Estimate Std. Error z value Pr(>|z|)
+GuidanceP - BMweightsP == 0  -0.0004389  0.0059943  -0.073    1.000
+PDweightsP - BMweightsP == 0  0.0005530  0.0059943   0.092    1.000
+refaln - BMweightsP == 0      0.0066197  0.0059943   1.104    0.687
+PDweightsP - GuidanceP == 0   0.0009920  0.0059943   0.165    0.998
+refaln - GuidanceP == 0       0.0070586  0.0059943   1.178    0.641
+refaln - PDweightsP == 0      0.0060666  0.0059943   1.012    0.742
+
+
+
+
+cons_nt<-cons[cons$case!='truealn',]
+rho1<-cons_nt[cons_nt$gene=='rho' & cons_nt$penal!='no',]
+rho1<-rho1[rho1$mask=='zero' | rho1$mask=='fifty',]
+model<-lmer(tprate ~  case+(1|count), data=rho1)
+summary(glht(model, linfct=mcp(case='Tukey')))
+GuidanceP - BMweightsP == 0   0.0005355  0.0017427   0.307    0.990    
+PDweightsP - BMweightsP == 0  0.0002514  0.0017427   0.144    0.999    
+refaln - BMweightsP == 0     -0.0076338  0.0017427  -4.381   <1e-04 ***
+PDweightsP - GuidanceP == 0  -0.0002841  0.0017427  -0.163    0.998    
+refaln - GuidanceP == 0      -0.0081693  0.0017427  -4.688   <1e-04 ***
+refaln - PDweightsP == 0     -0.0078852  0.0017427  -4.525   <1e-04 ***
+
+
+single_nt<-single[single$case!='truealn',]
+rho2<-single_nt[single_nt$gene=='rho' & single_nt$penal!='no',]
+rho2<-rho2[rho2$mask=='zero' | rho2$mask=='fifty',]
+model<-lmer(tprate ~  case+(1|count), data=rho2)
+summary(glht(model, linfct=mcp(case='Tukey')))
+
+GuidanceP - BMweightsP == 0  -0.0007929  0.0018217  -0.435 0.972401    
+PDweightsP - BMweightsP == 0 -0.0003785  0.0018217  -0.208 0.996831    
+refaln - BMweightsP == 0     -0.0082733  0.0018217  -4.541  < 1e-04 ***
+PDweightsP - GuidanceP == 0   0.0004144  0.0018217   0.227 0.995853    
+refaln - GuidanceP == 0      -0.0074804  0.0018217  -4.106 0.000217 ***
+refaln - PDweightsP == 0     -0.0078948  0.0018217  -4.334 0.000101 ***
+
+
+
