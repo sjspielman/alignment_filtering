@@ -2,7 +2,7 @@
 Note that this version considers only dN variation (dS set to 1).
 MUST have FUBAR.bf and the directory FUBAR_HBL in working directory (BASEDIR). */
 
-BASEDIR = "placeholder/";
+BASEDIR = "/state/partition1/sjs3495/placeholder/";
 datafile="temp.fasta";
 treefile="tree.tre";
 
