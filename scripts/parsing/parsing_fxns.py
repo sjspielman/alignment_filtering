@@ -181,6 +181,9 @@ def assessTruePAML(trfile, fufile, posStart):
 	all_lines = paml.readlines()
 	paml.close()
 	
+	prior, omega = getMLE(all_lines)
+	
+	
 	#First par down the PAML file to keep only the relevant lines
 	counter=0
 	for line in all_lines:
@@ -203,9 +206,88 @@ def assessTruePAML(trfile, fufile, posStart):
 				allpaml.append(float(find.group(1)))
 	
 	# corresponds to truepos, testprobs
-	return(poslist, allpaml)
+	return(poslist, allpaml, prior, omega)
 ###########################################################################################################
+
+###########################################################################################################
+def parsePAML(map, paml_file, alnlen):
+	allpaml=[]
+	testprobs=[]
 	
+	paml = open(paml_file, 'r')
+	all_lines = paml.readlines()
+	paml.close()
+	
+	prior, omega = getMLE(all_lines)
+	
+	#First par down the PAML file to keep only the relevant lines
+	counter=0
+	for line in all_lines:
+		find = re.search('^Bayes Empirical Bayes', line)
+		if find:
+			lines = all_lines[counter+3:counter+3+alnlen]
+			break
+		else:
+			counter+=1
+			continue
+	
+	# Retrieve pr(w>1)
+	for line in lines:
+		find = re.search('^\s*\d+\s.+ (\d\.\d+) \(\s*\d+\)', line)
+		if find:
+		
+			# just to kill scientific notation. if it's this small who cares what it's prob is. doesn't even matter for sweeping.
+			if float(find.group(1)) <= 0.001:
+				allpaml.append(0.001)
+			else:
+				allpaml.append(float(find.group(1)))
+	for entry in map:
+		testprobs.append(allpaml[entry])	
+	return (testprobs, prior, omega)
+###########################################################################################################
+
+###########################################################################################################
+def getMLE(paml):
+	''' Get the prior (line 6) and omega (line 7) for the w>1 category ''' 
+	#pline = paml[5]
+	#wline = paml[6]
+	
+	findp = re.search("\s+(\d\.\d+)$", paml[5])
+	assert (findp), "Could not find the prior probability from PAML."
+	prior = findp.group(1)
+	
+	findw = re.search("\s+(\d\.\d+)$", paml[6])
+	assert (findw), "Could not find the prior probability from PAML."
+	omega = findw.group(1)
+
+	return (prior, omega)
+###########################################################################################################
+
+###########################################################################################################	
+def gridWeights(fubar):
+	''' Something with grid weights. '''
+	hi = 1
+	return 1
+###########################################################################################################
+
+###########################################################################################################
+def parseFUBAR(map, fufile):
+	'''For the relevant positions, retrieve the pr(alpha>beta)=pr(positively selected). Based on INDEX in the map.'''
+	## Read in fubar file
+	testprobs=[] ## contains the prob(alpha>beta) values for the truefubar results
+	fubar=csv.reader(open(fufile,'r'))
+	allfubar=[]
+	
+	for row in fubar:
+		if row[0]=='Codon':
+			continue
+		else:
+			allfubar.append(float(row[4]))
+	for entry in map:
+		testprobs.append(allfubar[entry])	
+	return testprobs
+###########################################################################################################
+		
 ###########################################################################################################
 def parseTrueRates(trfile, wantTrue, posStart):
 	''' Retrieve binary list (0=not pos, 1=pos) for true simulated rates at sites of interest ''' 
@@ -234,58 +316,6 @@ def parseTrueRates(trfile, wantTrue, posStart):
 	return poslist
 ###########################################################################################################
 
-###########################################################################################################
-def parseFUBAR(map, fufile):
-	'''For the relevant positions, retrieve the pr(alpha>beta)=pr(positively selected). Based on INDEX in the map.'''
-	## Read in fubar file
-	testprobs=[] ## contains the prob(alpha>beta) values for the truefubar results
-	fubar=csv.reader(open(fufile,'r'))
-	allfubar=[]
-	
-	for row in fubar:
-		if row[0]=='Codon':
-			continue
-		else:
-			allfubar.append(float(row[4]))
-	for entry in map:
-		testprobs.append(allfubar[entry])	
-	return testprobs
-###########################################################################################################
-
-###########################################################################################################
-def parsePAML(map, paml_file, alnlen):
-	allpaml=[]
-	testprobs=[]
-	
-	paml = open(paml_file, 'r')
-	all_lines = paml.readlines()
-	paml.close()
-	
-	#First par down the PAML file to keep only the relevant lines
-	counter=0
-	for line in all_lines:
-		find = re.search('^Bayes Empirical Bayes', line)
-		if find:
-			lines = all_lines[counter+3:counter+3+alnlen]
-			break
-		else:
-			counter+=1
-			continue
-	
-	# Retrieve pr(w>1)
-	for line in lines:
-		find = re.search('^\s*\d+\s.+ (\d\.\d+) \(\s*\d+\)', line)
-		if find:
-		
-			# just to kill scientific notation. if it's this small who cares what it's prob is. doesn't even matter for sweeping.
-			if float(find.group(1)) <= 0.001:
-				allpaml.append(0.001)
-			else:
-				allpaml.append(float(find.group(1)))
-	for entry in map:
-		testprobs.append(allpaml[entry])	
-	return testprobs
-###########################################################################################################
 
 ###########################################################################################################
 def getAccuracy(x, truepos, testprobs):
@@ -364,10 +394,7 @@ def assessMasking(alnfile):
 	
 	return (num, ave, perc)
 ###########################################################################################################
-	
-	
-		
-		
+
 
 
 

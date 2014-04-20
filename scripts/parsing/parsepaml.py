@@ -27,7 +27,7 @@ assert (maptype == 'singletaxonmap' or maptype == 'consensusmap'), "Must specify
 
 outfile='/Users/sjspielman/Research/alignment_filtering/data/parsed_data/TEMPpaml_'+dataset+'_90_'+str(maptype)+'.txt'
 outhandle=open(outfile, 'w')
-outhandle.write('count\ttprate\tfprate\t\tfnrate\taccuracy\tcase\tgene\tmask\tmethod\tpenal\tnum_masked\tave_masked\tperc_masked\n')
+outhandle.write('count\ttprate\tfprate\t\tfnrate\taccuracy\tcase\tgene\tmask\tmethod\tpenal\tnum_masked\tave_masked\tperc_masked\tprior\tomega\n')
 
 
 for gene in genes:
@@ -78,10 +78,10 @@ for gene in genes:
 			tempmap.append(i)
 		truepos = parseTrueRates(trfile, tempmap, posStart)
 		
-		testprobs = parsePAML(tempmap, paml, true_alnlen)
+		testprobs, prior, omega = parsePAML(tempmap, paml, true_alnlen)
 		assert(len(truepos)==len(testprobs)), "True PAML Mapping has failed."
 		(tp,tn,fp,fn,tprate,fprate,tnrate,fnrate,accuracy) = getAccuracy(pp_cutoff, truepos, testprobs)
-		outhandle.write(str(n)+'\t'+str(tprate)+'\t'+str(fprate)+'\t'+str(fnrate)+'\t'+str(accuracy)+'\ttruealn\t'+gene+'\ttrue\tpaml\ttrue\t0\t0\t0\n')	
+		outhandle.write(str(n)+'\t'+str(tprate)+'\t'+str(fprate)+'\t'+str(fnrate)+'\t'+str(accuracy)+'\ttruealn\t'+gene+'\ttrue\tpaml\ttrue\t0\t0\t0\t'+str(prior)+'\t'+str(omega)+'\n')	
 		###########################################################################################################
 
 		###########################################################################################################
@@ -97,11 +97,11 @@ for gene in genes:
 		truepos = parseTrueRates(trfile, wantTrue, posStart)
 		
 		paml = pamldir+'refaln'+str(n)+'.fasta.rst'	
-		testprobs = parsePAML(wantRef, paml, alnlen)
+		testprobs, prior, omega = parsePAML(wantRef, paml, alnlen)
 		assert(len(truepos)==len(testprobs)), "Reference PAML Mapping has failed."
 		
 		(tp,tn,fp,fn,tprate,fprate,tnrate,fnrate,accuracy) = getAccuracy(pp_cutoff, truepos, testprobs)
-		outhandle.write(str(n)+'\t'+str(tprate)+'\t'+str(fprate)+'\t'+str(fnrate)+'\t'+str(accuracy)+'\trefaln\t'+gene+'\tzero\tpaml\tzero\t0\t0\t0\n')	
+		outhandle.write(str(n)+'\t'+str(tprate)+'\t'+str(fprate)+'\t'+str(fnrate)+'\t'+str(accuracy)+'\trefaln\t'+gene+'\tzero\tpaml\tzero\t0\t0\t0\t'+str(prior)+'\t'+str(omega)+'\n')	
 		###########################################################################################################
 
 
@@ -124,12 +124,12 @@ for gene in genes:
 				
 				# Get accuracy information relevant to this case
 				paml=pamldir+name+'.rst' 
-				testprobs = parsePAML(wantRef, paml, alnlen)
+				testprobs, prior, omega = parsePAML(wantRef, paml, alnlen)
 				assert(len(truepos)==len(testprobs)), "PAML Mapping has failed."
 	
 				## FUBAR assessment	at single posterior probability cutoff			
 				(tp,tn,fp,fn,tprate,fprate,tnrate,fnrate,accuracy)=getAccuracy(pp_cutoff, truepos, testprobs)
-				outhandle.write(str(n)+'\t'+str(tprate)+'\t'+str(fprate)+'\t'+str(fnrate)+'\t'+str(accuracy)+'\t'+alg+'\t'+gene+'\t'+masks[mask]+'\tpaml\t'+penal+'\t'+str(num)+'\t'+str(ave)+'\t'+str(perc)+'\n')
+				outhandle.write(str(n)+'\t'+str(tprate)+'\t'+str(fprate)+'\t'+str(fnrate)+'\t'+str(accuracy)+'\t'+alg+'\t'+gene+'\t'+masks[mask]+'\tpaml\t'+penal+'\t'+str(num)+'\t'+str(ave)+'\t'+str(perc)+'\t'+str(prior)+'\t'+str(omega)+'\n')
 				
 		###########################################################################################################		
 		####################### Assess accuracy for BM/PDweights(P), which use only mask 0.5 ######################
@@ -148,12 +148,12 @@ for gene in genes:
 			
 			# Get information relevant to this case
 			paml=pamldir+name+'.rst' 
-			testprobs = parsePAML(wantRef, paml, alnlen)
+			testprobs, prior, omega = parsePAML(wantRef, paml, alnlen)
 			assert(len(truepos)==len(testprobs)), "PAML Mapping has failed."
 	
 			## FUBAR assessment	at single posterior probability cutoff			
 			(tp,tn,fp,fn,tprate,fprate,tnrate,fnrate,accuracy)=getAccuracy(pp_cutoff, truepos, testprobs)
-			outhandle.write(str(n)+'\t'+str(tprate)+'\t'+str(fprate)+'\t'+str(fnrate)+'\t'+str(accuracy)+'\t'+alg+'\t'+gene+'\tfifty\tpaml\t'+penal+'\t'+str(num)+'\t'+str(ave)+'\t'+str(perc)+'\n')		
+			outhandle.write(str(n)+'\t'+str(tprate)+'\t'+str(fprate)+'\t'+str(fnrate)+'\t'+str(accuracy)+'\t'+alg+'\t'+gene+'\tfifty\tpaml\t'+penal+'\t'+str(num)+'\t'+str(ave)+'\t'+str(perc)+'\t'+str(prior)+'\t'+str(omega)+'\n')		
 
 outhandle.close()
 
