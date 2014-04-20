@@ -23,9 +23,9 @@ elif dataset == 'HA':
 maptype = sys.argv[2]
 assert (maptype == 'singletaxonmap' or maptype == 'consensusmap'), "Must specify either taxon or consensus map strategy."
 
-outfile='/Users/sjspielman/Research/alignment_filtering/data/parsed_data/fubar_'+dataset+'_90_'+str(maptype)+'.txt'
+outfile='/Users/sjspielman/Research/alignment_filtering/data/parsed_data/TESTfubar_'+dataset+'_90_'+str(maptype)+'.txt'
 outhandle=open(outfile, 'w')
-outhandle.write('count\ttprate\tfprate\t\tfnrate\taccuracy\tcase\tgene\tmask\tmethod\tpenal\n')
+outhandle.write('count\ttprate\tfprate\t\tfnrate\taccuracy\tcase\tgene\tmask\tmethod\tpenal\tnum_masked\tave_masked\tperc_masked\n')
 
 
 for gene in genes:
@@ -73,7 +73,7 @@ for gene in genes:
 		(truepos, testprobs) = assessTrueFUBAR(trfile, fubar, posStart)
 		assert(len(truepos)==len(testprobs)), "True FUBAR Mapping has failed."
 		(tp,tn,fp,fn,tprate,fprate,tnrate,fnrate,accuracy) = getAccuracy(pp_cutoff, truepos, testprobs)
-		outhandle.write(str(n)+'\t'+str(tprate)+'\t'+str(fprate)+'\t'+str(fnrate)+'\t'+str(accuracy)+'\ttruealn\t'+gene+'\ttrue\tfubar\ttrue\n')	
+		outhandle.write(str(n)+'\t'+str(tprate)+'\t'+str(fprate)+'\t'+str(fnrate)+'\t'+str(accuracy)+'\ttruealn\t'+gene+'\ttrue\tfubar\ttrue\t0\t0\t0\n')	
 		###########################################################################################################
 
 		###########################################################################################################
@@ -94,7 +94,7 @@ for gene in genes:
 		assert(len(truepos)==len(testprobs)), "Reference FUBAR Mapping has failed."
 		
 		(tp,tn,fp,fn,tprate,fprate,tnrate,fnrate,accuracy) = getAccuracy(pp_cutoff, truepos, testprobs)
-		outhandle.write(str(n)+'\t'+str(tprate)+'\t'+str(fprate)+'\t'+str(fnrate)+'\t'+str(accuracy)+'\trefaln\t'+gene+'\tzero\tfubar\tzero\n')	
+		outhandle.write(str(n)+'\t'+str(tprate)+'\t'+str(fprate)+'\t'+str(fnrate)+'\t'+str(accuracy)+'\trefaln\t'+gene+'\tzero\tfubar\tzero\t0\t0\t0\n')	
 		###########################################################################################################
 
 		
@@ -109,17 +109,20 @@ for gene in genes:
 				else:
 					penal='yes'
 					
-				# Collect alignment and fubar files for this algorithm
+				# Get alignment and fubar files for this algorithm
 				name = alg+'_'+mask+'_'+str(n)+'.fasta'
 				
-				# Get information relevant to this case
+				# Get masking information relevant to this case
+				(num, ave, perc) = assessMasking(alndir+name)
+			
+				# Get accuracy information relevant to this case
 				fubar=fudir+name+'.fubar' 
 				testprobs = parseFUBAR(wantRef, fubar)	
 				assert(len(truepos)==len(testprobs)), "FUBAR Mapping has failed."
 	
 				## FUBAR assessment	at single posterior probability cutoff			
 				(tp,tn,fp,fn,tprate,fprate,tnrate,fnrate,accuracy)=getAccuracy(pp_cutoff, truepos, testprobs)
-				outhandle.write(str(n)+'\t'+str(tprate)+'\t'+str(fprate)+'\t'+str(fnrate)+'\t'+str(accuracy)+'\t'+alg+'\t'+gene+'\t'+masks[mask]+'\tfubar\t'+penal+'\n')
+				outhandle.write(str(n)+'\t'+str(tprate)+'\t'+str(fprate)+'\t'+str(fnrate)+'\t'+str(accuracy)+'\t'+alg+'\t'+gene+'\t'+masks[mask]+'\tfubar\t'+penal+'\t'+str(num)+'\t'+str(ave)+'\t'+str(perc)+'\n')
 				
 		###########################################################################################################		
 		####################### Assess accuracy for BM/PDweights(P), which use only mask 0.5 ######################
@@ -132,7 +135,9 @@ for gene in genes:
 				
 			# Collect alignment and fubar files for this algorithm
 			name = alg+'_50_'+str(n)+'.fasta'
-			aln=alndir+name	
+			
+			# Get masking information relevant to this case
+			(num, ave, perc) = assessMasking(alndir+name)
 			
 			# Get information relevant to this case
 			fubar=fudir+name+'.fubar' 
@@ -141,7 +146,7 @@ for gene in genes:
 	
 			## FUBAR assessment	at single posterior probability cutoff			
 			(tp,tn,fp,fn,tprate,fprate,tnrate,fnrate,accuracy)=getAccuracy(pp_cutoff, truepos, testprobs)
-			outhandle.write(str(n)+'\t'+str(tprate)+'\t'+str(fprate)+'\t'+str(fnrate)+'\t'+str(accuracy)+'\t'+alg+'\t'+gene+'\tfifty\tfubar\t'+penal+'\n')		
+			outhandle.write(str(n)+'\t'+str(tprate)+'\t'+str(fprate)+'\t'+str(fnrate)+'\t'+str(accuracy)+'\t'+alg+'\t'+gene+'\tfifty\tfubar\t'+penal+'\t'+str(num)+'\t'+str(ave)+'\t'+str(perc)+'\n')		
 
 
 outhandle.close()

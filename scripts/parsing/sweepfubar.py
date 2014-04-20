@@ -26,7 +26,6 @@ elif dataset == 'HA':
 	posStart = 18
 maptype = sys.argv[3]
 assert (maptype == 'singletaxonmap' or maptype == 'consensusmap'), "Must specify either taxon or consensus map strategy."
-
 ######################################################	
 	
 

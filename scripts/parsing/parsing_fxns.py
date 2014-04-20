@@ -333,4 +333,64 @@ def calcStats(tp, fp, tn, fn):
 	accuracy = (float(tp+tn)/float(tp+tn+fp+fn))
 	return (tprate,fprate,tnrate,fnrate,accuracy)
 ###########################################################################################################
+
+###########################################################################################################
+def assessMasking(alnfile):
+	''' Determine extent to which alignment was filtering. Returns 3 values: num, ave, perc: '''
+	## num     = total number of sites masked in the entire alignment
+	## ave     = average number of sites masked per taxon
+	## perc    = percent of residues (excludes gaps) which were masked in entire alignment
+		
+	parsed = AlignIO.read(alnfile, 'fasta')
+	
+	seq_string = ''
+	seq_length = 0
+	mask_per_taxon = zeros(len(parsed))
+	perc_per_taxon = zeros(len(parsed))
+	
+	count = 0
+	for record in parsed:
+		seq = re.sub('-','',str(record.seq)) # remove gaps
+		seq_string += seq
+		seq_length += len(seq)
+		mask_per_taxon[count] = seq.count('?') # save number of masks
+		perc_per_taxon[count] = float(seq.count('?')) / float(len(seq)) # save length of this sequence	
+		count += 1
+	
+	# Calc masking statistics
+	num = seq_string.count('?')
+	ave = mean(mask_per_taxon)
+	perc = float(num) / float(seq_length)
+	
+	return (num, ave, perc)
+###########################################################################################################
+	
+	
+		
+		
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ###########################################################################################################
