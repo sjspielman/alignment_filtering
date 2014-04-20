@@ -252,11 +252,11 @@ def getMLE(paml):
 	#pline = paml[5]
 	#wline = paml[6]
 	
-	findp = re.search("\s+(\d\.\d+)$", paml[5])
+	findp = re.search("\s+(\d+\.\d+)$", paml[5])
 	assert (findp), "Could not find the prior probability from PAML."
 	prior = findp.group(1)
 	
-	findw = re.search("\s+(\d\.\d+)$", paml[6])
+	findw = re.search("\s+(\d+\.\d+)$", paml[6])
 	assert (findw), "Could not find the prior probability from PAML."
 	omega = findw.group(1)
 
