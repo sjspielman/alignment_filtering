@@ -25,7 +25,7 @@ elif dataset == 'HA':
 maptype = sys.argv[2]
 assert (maptype == 'singletaxonmap' or maptype == 'consensusmap'), "Must specify either taxon or consensus map strategy."
 
-outfile='/Users/sjspielman/Research/alignment_filtering/data/parsed_data/TEMPpaml_'+dataset+'_90_'+str(maptype)+'.txt'
+outfile='/Users/sjspielman/Research/alignment_filtering/data/parsed_data/'+maptype+'/paml_'+dataset+'_90.txt'
 outhandle=open(outfile, 'w')
 outhandle.write('count\ttprate\tfprate\t\tfnrate\taccuracy\tcase\tgene\tmask\tmethod\tpenal\tnum_masked\tave_masked\tperc_masked\tprior\tomega\n')
 
