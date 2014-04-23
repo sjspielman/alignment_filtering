@@ -6,6 +6,22 @@ from Bio import AlignIO, SeqIO
 # Contains all the functions used by the fubar/paml parsing/accuracy inference scripts.
 
 
+
+###########################################################################################################
+def fewestGaps(parsed):
+	''' Find the id whose sequence has the fewest gaps (more power for map). If multiple, pick the lower numbered one (arbitrary) (taxa names are ints) ''' 
+	num_old = 100000 #Starting state. Assuredly, no sequence will have this many gaps.
+	num_id = None
+	for record in parsed:
+		num_new = str(record.seq).count('-')
+		assert (num_new > 0), "No gaps found in this sequence! This is a big fail."
+		if num_new < num_old:
+			num_old = num_new
+			num_id = str(record.id)
+	assert (num_id is not None), "No taxon was found to have few gaps!"
+	return num_id
+###########################################################################################################
+
 ###########################################################################################################
 def singleTaxonMap(trueparsed, parsed, numseq, alnlen):
 	''' Map for relevant sites for both the true (given by Indelible) and reference (inferred, no filtering) based on a single taxon. '''
@@ -14,8 +30,11 @@ def singleTaxonMap(trueparsed, parsed, numseq, alnlen):
 	# numseq: number of sequences in alignment.
 	# alnlen: alignment length of the REFERENCE alignment.
 	
-	reftaxon = '11' # Arbitrary, based entirely on my birthday.
-	
+	# Find whichever taxon has the FEWEST gaps, and use this for the mapping.
+	# As there is no inherent relationship among simulations or taxa, this should not be a biased method at all since it's only purpose is to map w/ the most power.
+	# Picking a single taxon to use for everything would be just as uncontrolled, so I see no harm in this. If you disagree, I'd love to hear from you at stephanie.spielman@gmail.com! 	
+	reftaxon = fewestGaps(parsed)
+
 	# Get the true and reference alignment sequences for this taxon
 	trueseq = ''
 	refseq = ''
@@ -54,6 +73,7 @@ def singleTaxonMap(trueparsed, parsed, numseq, alnlen):
 ###########################################################################################################
 
 ###########################################################################################################
+############################# THIS FUNCTION WILL NO LONGER BE USED AS OF 4/23/14 ##########################
 def consensusMap(trueparsed, parsed, numseq, alnlen):
 	''' Build maps to relevant sites for both the true (given by Indelible) and reference (inferred, no filtering) based on >=50% of sites being in that column. '''
 	# trueparsed: the true alignment
