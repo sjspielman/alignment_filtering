@@ -8,12 +8,12 @@
 #$ -S /bin/bash
 #$ -q wilke
 #$ -m beas
-#$ -t 1-1:1
-#$ -pe serial 16
+#$ -t 1-100:1
+#$ -pe serial 5
 
 
-CPU=15
-DATASET=GP41    # HA or GP41
+CPU=5
+DATASET=HA  # HA or GP41
 
 ## Run-specific settings
 GENE=or5       # or5, rho, prk, flat
@@ -33,7 +33,7 @@ fi
 # Set up directories
 ALNDIR=/home/sjs3495/ALNPAPER_RESULTS/$DATASET/alntree/nucguided_$GENE
 TREEDIR=/home/sjs3495/ALNPAPER_RESULTS/$DATASET/alntree/aatrees_$GENE
-RDIR=/home/sjs3495/FUBARTEST
+RDIR=/home/sjs3495/ALNPAPER_RESULTS/$DATASET/fubar
 WDIR=/state/partition1/sjs3495/$JOB_NAME-$JOB_ID-$SGE_TASK_ID
 
 mkdir -p $RDIR
@@ -54,8 +54,6 @@ cp /home/sjs3495/bin/bin/HYPHYMP .
 # Copy data files
 cp $ALNDIR/$ALN temp.fasta
 cp $TREEDIR/aatree$NUM.txt tree.tre
-ls
-head autoFUBAR.bf
 
 # Format the fubar file and run
 sed -i "s/placeholder/$JOB_NAME-$JOB_ID-$SGE_TASK_ID/g" autoFUBAR.bf
