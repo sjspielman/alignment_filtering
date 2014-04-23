@@ -8,11 +8,11 @@
 #$ -S /bin/bash
 #$ -q wilke
 #$ -m beas
-#$ -t 1-100:1
-#$ -pe serial 3
+#$ -t 1-1:1
+#$ -pe serial 16
 
 
-CPU=3
+CPU=15
 DATASET=GP41    # HA or GP41
 
 ## Run-specific settings
@@ -33,7 +33,7 @@ fi
 # Set up directories
 ALNDIR=/home/sjs3495/ALNPAPER_RESULTS/$DATASET/alntree/nucguided_$GENE
 TREEDIR=/home/sjs3495/ALNPAPER_RESULTS/$DATASET/alntree/aatrees_$GENE
-RDIR=/home/sjs3495/ALNPAPER_RESULTS/$DATASET/fubar/fubar_$GENE
+RDIR=/home/sjs3495/FUBARTEST
 WDIR=/state/partition1/sjs3495/$JOB_NAME-$JOB_ID-$SGE_TASK_ID
 
 mkdir -p $RDIR
@@ -48,21 +48,30 @@ cd $WDIR
 
 # Copy fubar files
 cp -r /home/sjs3495/bin/HBL/FUBAR/* .
-cp -r /home/sjs3495/stuff_aln_project/autoFUBAR_dN_only.bf .
+cp -r /home/sjs3495/alignment_filtering/scripts/selection_inference/autoFUBAR.bf .
 cp /home/sjs3495/bin/bin/HYPHYMP .
 
 # Copy data files
 cp $ALNDIR/$ALN temp.fasta
 cp $TREEDIR/aatree$NUM.txt tree.tre
-
+ls
+head autoFUBAR.bf
 
 # Format the fubar file and run
-sed -i "s/placeholder/$JOB_NAME-$JOB_ID-$SGE_TASK_ID/g" autoFUBAR_dN_only.bf
-./HYPHYMP autoFUBAR_dN_only.bf CPU=$CPU
+sed -i "s/placeholder/$JOB_NAME-$JOB_ID-$SGE_TASK_ID/g" autoFUBAR.bf
+head autoFUBAR.bf
+./HYPHYMP autoFUBAR.bf CPU=$CPU
 
-# Save the output file to an appropriate name
-mv tree.tre.fubar.csv $ALN.fubar 
+# Save the output files to their appropriate names
+mkdir fubar
+mkdir grid
+mkdir prior
+mv tree.tre.fubar.csv fubar/$ALN.fubar
+mv tree.tre.grid_info grid/$ALN.grid
+mv tree.tre.priorMean prior/$ALN.prior
 
 # Cleanup
-cp $ALN.fubar $RDIR
+cp -r fubar $RDIR
+cp -r grid $RDIR
+cp -r prior $RDIR
 rm -rf $WDIR
