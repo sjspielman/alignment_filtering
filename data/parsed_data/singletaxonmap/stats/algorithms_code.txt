@@ -1,0 +1,109 @@
+####### FILTERING ALGORITHM STATISTICS. SJS 4/24/14. ##########
+# This file contains R code to assess influence of masking at a 90% posterior probability cutoff. 
+# We consider the masking threshold of 50% only (see the masking_threshold_output.txt file for background justification).
+# Code shown here for both selective profiles (HA/GP41), for all data set sizes, for both inference methods.
+# Results are in "algorithms_output.txt". At the bottom of that output file, I synthesize the results.
+
+library(lme4)
+library(multcomp)
+
+outfile <- "algorithms_output.txt"
+paml_genes <- c('or5', 'rho', 'prk')
+fubar_genes <- c(paml_genes, 'flat')
+sink(file = outfile)
+
+maskModel <- function(df, mygene)
+{
+	print(mygene)
+	dat <- df[df$gene == mygene,]
+	model<-lmer(tprate ~ case+(1|count), data=dat)
+	s <- summary(glht(model, linfct=mcp(case='Tukey')))
+	print(s)
+}
+
+
+################## HA DATA FRAMES #########################
+fubar<-read.table('../fubar_HA_90.txt', header=T)
+paml<-read.table('../paml_HA_90.txt', header=T)
+
+# Retain only the unfiltered (refaln) and filtering algorithms (as in, remove the truealn), and remove any masking threshold that isn't 50.
+fubar2 <- fubar[fubar$mask == 'fifty' | fubar$mask == 'zero',]
+paml2 <- paml[paml$mask == 'fifty' | paml$mask == 'zero',]
+############################################################
+
+
+print("############################# HA DATASET #############################")
+
+print("############################# HA FUBAR #############################")
+for (gene in fubar_genes){
+maskModel(fubar2, gene)
+}
+
+print("############################# HA PAML #############################")
+for (gene in paml_genes){
+maskModel(paml2, gene)
+}
+
+######################################################################################################
+######################################################################################################
+
+
+################## GP41 DATA FRAMES #########################
+fubar<-read.table('../fubar_GP41_90.txt', header=T)
+paml<-read.table('../paml_GP41_90.txt', header=T)
+
+# Retain only the unfiltered (refaln) and filtering algorithms (as in, remove the truealn), and remove any masking threshold that isn't 50.
+fubar2 <- fubar[fubar$mask == 'fifty' | fubar$mask == 'zero',]
+paml2 <- paml[paml$mask == 'fifty' | paml$mask == 'zero',]
+############################################################
+
+
+print("############################# GP41 DATASET #############################")
+
+print("############################# GP41 FUBAR #############################")
+for (gene in fubar_genes){
+maskModel(fubar2, gene)
+}
+
+print("############################# GP41 PAML #############################")
+for (gene in paml_genes){
+maskModel(paml2, gene)
+}
+
+sink()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+################## GP41 DATA FRAMES #########################
+fubar<-read.table('../fubar_GP41_90.txt', header=T)
+paml<-read.table('../paml_GP41_90.txt', header=T)
+
+# Retain only the unfiltered (refaln) and filtering algorithms (as in, remove the truealn). Remove any masking threshold that isn't 50.
+fubar2 <- fubar[fubar$mask != 'true',]
+fubar2 <- fubar2[fubar2$mask == 'fifty' | fubar2$mask == 'zero',]
+paml2 <- paml[paml$mask != 'true',]
+paml2 <- paml2[paml2$mask == 'fifty' | paml2$mask == 'zero',]
+############################################################
+
+
+
+
+
+
