@@ -38,14 +38,15 @@ alndir  = datadir+'alntree/aaguided_'+gene+'/'
 truerates_dir=datadir+'Simulation/truerates/'+gene+'/'
 truealn_dir=datadir+'Simulation/sequences/'+gene+'/'
 
-# Only use the penalization algorithms
-algs=['refaln', 'GuidanceP', 'BMweightsP', 'PDweightsP']
+algs=['refaln', 'Guidance', 'GuidanceP', 'BMweights', 'BMweightsP', 'PDweights', 'PDweightsP']
 cutoffs=arange(0,1.01,0.01)
 ######################################################
 
-outfile='/Users/sjspielman/Research/alignment_filtering/data/parsed_data/fubarsweep_'+dataset+'_'+gene+'_'+maptype+'.txt'
+
+
+outfile='/Users/sjspielman/Research/alignment_filtering/data/parsed_data/'+maptype+'/fubar_'+dataset+'_'+gene+'_sweep.txt'
 outhandle=open(outfile, 'w')
-outhandle.write('count\tcutoff\ttprate\tfprate\ttnrate\tfnrate\taccuracy\tcase\tgene\tmethod\n')
+outhandle.write('count\tcutoff\ttprate\tfprate\ttnrate\tfnrate\taccuracy\tcase\tpenal\tgene\tmethod\n')
 
 		
 for n in range(100):
@@ -81,11 +82,15 @@ for n in range(100):
 		
 		## Get file names and whether or not gap-penalized algorithm
 		if alg=='refaln':
-			fubar=fudir+'refaln'+str(n)+'.fasta.fubar'
-		
+			fubar=fudir+'fubar/refaln'+str(n)+'.fasta.fubar'
+			penal = 'zero'
 		else:
 			name = alg+'_50_'+str(n)+'.fasta'
-			fubar=fudir+name+'.fubar'
+			fubar=fudir+'fubar/'+name+'.fubar'
+			if 'P' in alg:
+				penal = 'yes'
+			else:
+				penal = 'no'
 		
 		# Get case info
 		testprobs = parseFUBAR(wantRef, fubar)	
@@ -95,7 +100,7 @@ for n in range(100):
 		## Accuracy across posterior probability cutoffs
 		for x in cutoffs:
 			(tp,tn,fp,fn,tprate,fprate,tnrate,fnrate,accuracy)=getAccuracy(float(x), truepos, testprobs)
-			outhandle.write(str(n)+'\t'+str(x)+'\t'+str(tprate)+'\t'+str(fprate)+'\t'+str(fnrate)+'\t'+str(fnrate)+'\t'+str(accuracy)+'\t'+alg+'\t'+gene+'\tfubar\n')	
+			outhandle.write(str(n)+'\t'+str(x)+'\t'+str(tprate)+'\t'+str(fprate)+'\t'+str(fnrate)+'\t'+str(fnrate)+'\t'+str(accuracy)+'\t'+alg+'\t'penal+'\t'+gene+'\tfubar\n')	
 outhandle.close()
 
 		
