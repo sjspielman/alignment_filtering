@@ -100,7 +100,7 @@ for n in range(100):
 		## Accuracy across posterior probability cutoffs
 		for x in cutoffs:
 			(tp,tn,fp,fn,tprate,fprate,tnrate,fnrate,accuracy)=getAccuracy(float(x), truepos, testprobs)
-			outhandle.write(str(n)+'\t'+str(x)+'\t'+str(tprate)+'\t'+str(fprate)+'\t'+str(fnrate)+'\t'+str(fnrate)+'\t'+str(accuracy)+'\t'+alg+'\t'penal+'\t'+gene+'\tfubar\n')	
+			outhandle.write(str(n)+'\t'+str(x)+'\t'+str(tprate)+'\t'+str(fprate)+'\t'+str(fnrate)+'\t'+str(fnrate)+'\t'+str(accuracy)+'\t'+alg+'\t'+penal+'\t'+gene+'\tfubar\n')	
 outhandle.close()
 
 		
