@@ -255,7 +255,6 @@ def parsePAML(map, paml_file, alnlen):
 	for line in lines:
 		find = re.search('^\s*\d+\s.+ (\d\.\d+) \(\s*\d+\)', line)
 		if find:
-		
 			# just to kill scientific notation. if it's this small who cares what it's prob is. doesn't even matter for sweeping.
 			if float(find.group(1)) <= 0.001:
 				allpaml.append(0.001)
@@ -284,18 +283,19 @@ def getMLE(paml):
 ###########################################################################################################
 
 ###########################################################################################################
-def getFUBARprior(fudir, name):
-	''' Get sum of weights for dN>1 grid points. WORKS. '''
+def getFUBARprior(fudir, name, gridSize):
+	''' Get mean dN value based on weights of weights for dN>1 grid points. '''
 	gridfile = fudir+"grid/"+name+".grid"
-	priorfile = fudir+"prior/"+name+".prior" 
+	priorfile = fudir+"prior/"+name+".prior"
 	
-	# Parse grid to determine starting grid point index where dN>1
+	# Parse grid to determine starting grid point index where dN>1. Save those dN values.
 	startPos = None
+	dNvalues = []
 	grid = open(gridfile, 'r')
 	gridlines = grid.readlines()
 	grid.close()
-	gridlines = gridlines[1:]
-	
+	gridlines = gridlines[1:gridSize+1]
+	#print gridlines
 	count = 0
 	for line in gridlines:
 		find = re.search("{\s+1,\s+(\d+\.*\d*)}$", line)
@@ -303,27 +303,40 @@ def getFUBARprior(fudir, name):
 		dN = float(find.group(1))
 		if (dN - 1.0) > 1e-8:
 			startPos = count
-			break
+			dNvalues.append(dN)
 		else:
 			count += 1
 	assert (startPos is not None), "Couldn't find a starting position for positive selection from the grid file." 
 	
-	# Now, proceed to sum the prior weights
-	sumWeights = 0.
+	# Now, proceed to assess the prior weights
+	meanWeight = 0.
 	prior = open(priorfile, 'r')
 	priorlines = prior.readlines()
 	prior.close()	
 	
-	# Save the specific line, turn it into a basic csv, turn that into list, sum the indices we care about.
+	# Save the specific line, turn it into a basic csv, turn that into list. Grab the weights and add to dict.
 	prior = priorlines[1]
+	
 	remove = ["\s+", "{", "}"]
 	for rm in remove:
 		prior = re.sub(rm,"",prior)
 	plist = prior.split(',')
+	
+	raw = zeros(len(dNvalues), dtype = float)
+	count = 0
 	for i in range(startPos, len(plist)):
-		sumWeights += float(plist[i])
+		raw[count] = float(plist[i])
+		count +=1
 
-	return sumWeights
+	#now normalize
+	norm_weights = raw * 1/sum(raw) #correct.
+	
+	for i in range(len(dNvalues)):
+		meanWeight += (dNvalues[i] * norm_weights[i])
+	
+	totalPrior = sum(raw)
+	
+	return (totalPrior, meanWeight) #analagous to prior that possel, mean dN value for possel
 ###########################################################################################################	
 			
 ###########################################################################################################

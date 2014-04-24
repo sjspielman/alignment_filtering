@@ -10,7 +10,7 @@ galgs=['Guidance', 'GuidanceP']
 masks={'30': 'thirty', '50':'fifty', '70':'seventy', '90':'ninety'}
 genes=['or5', 'rho', 'prk', 'flat']
 pp_cutoff = 0.895 # Posterior probability threshold for calling sites as positively selected or not.
-
+gridSize = 100 # dimensionality for FUBAR grid
 datadir='/Users/sjspielman/Dropbox/aln/results/'
 dataset = sys.argv[1]
 assert (dataset == 'HA' or dataset == 'GP41'), "Must specify either HA or GP41 as the dataset."
@@ -23,9 +23,10 @@ elif dataset == 'HA':
 maptype = sys.argv[2]
 assert (maptype == 'singletaxonmap' or maptype == 'consensusmap'), "Must specify either taxon or consensus map strategy."
 
-outfile='/Users/sjspielman/Research/alignment_filtering/data/parsed_data/TESTfubar_'+dataset+'_90_'+str(maptype)+'.txt'
+#outfile = '/Users/sjspielman/Desktop/TEST.txt'
+outfile='/Users/sjspielman/Research/alignment_filtering/data/parsed_data/'+maptype+'/fubar_'+dataset+'_90_NEW.txt'
 outhandle=open(outfile, 'w')
-outhandle.write('count\ttprate\tfprate\t\tfnrate\taccuracy\tcase\tgene\tmask\tmethod\tpenal\tnum_masked\tave_masked\tperc_masked\tpriorWeight\n')
+outhandle.write('count\ttprate\tfprate\t\tfnrate\taccuracy\tcase\tgene\tmask\tmethod\tpenal\tnum_masked\tave_masked\tperc_masked\tprior\tomega\n')
 
 
 for gene in genes:
@@ -95,10 +96,10 @@ for gene in genes:
 		assert(len(truepos)==len(testprobs)), "Reference FUBAR Mapping has failed."
 		
 		# Grab info on priors
-		priorWeight = getFUBARprior(fudir, name)
+		prior, omega = getFUBARprior(fudir, name, gridSize)
 		
 		(tp,tn,fp,fn,tprate,fprate,tnrate,fnrate,accuracy) = getAccuracy(pp_cutoff, truepos, testprobs)
-		outhandle.write(str(n)+'\t'+str(tprate)+'\t'+str(fprate)+'\t'+str(fnrate)+'\t'+str(accuracy)+'\trefaln\t'+gene+'\tzero\tfubar\tzero\t0\t0\t0\t'+str(priorWeight)+'\n')	
+		outhandle.write(str(n)+'\t'+str(tprate)+'\t'+str(fprate)+'\t'+str(fnrate)+'\t'+str(accuracy)+'\trefaln\t'+gene+'\tzero\tfubar\tzero\t0\t0\t0\t'+str(prior)+'\t'+str(omega)+'\n')	
 		###########################################################################################################
 
 		
@@ -126,13 +127,14 @@ for gene in genes:
 	
 				# Grab info on priors, only for 50 masking
 				if mask == '50':
-					priorWeight = getFUBARprior(fudir, name)
+					prior, omega = getFUBARprior(fudir, name, gridSize)
 				else:
-					priorWeight = 0
+					prior = 0
+					omega = 0
 		
 				## FUBAR assessment	at single posterior probability cutoff			
 				(tp,tn,fp,fn,tprate,fprate,tnrate,fnrate,accuracy)=getAccuracy(pp_cutoff, truepos, testprobs)
-				outhandle.write(str(n)+'\t'+str(tprate)+'\t'+str(fprate)+'\t'+str(fnrate)+'\t'+str(accuracy)+'\t'+alg+'\t'+gene+'\t'+masks[mask]+'\tfubar\t'+penal+'\t'+str(num)+'\t'+str(ave)+'\t'+str(perc)+'\t'+str(priorWeight)+'\n')
+				outhandle.write(str(n)+'\t'+str(tprate)+'\t'+str(fprate)+'\t'+str(fnrate)+'\t'+str(accuracy)+'\t'+alg+'\t'+gene+'\t'+masks[mask]+'\tfubar\t'+penal+'\t'+str(num)+'\t'+str(ave)+'\t'+str(perc)+'\t'+str(prior)+'\t'+str(omega)+'\n')
 				
 		###########################################################################################################		
 		####################### Assess accuracy for BM/PDweights(P), which use only mask 0.5 ######################
@@ -155,11 +157,11 @@ for gene in genes:
 			assert( len(truepos)==len(testprobs)), "FUBAR Mapping has failed."
 	
 			# Grab info on priors
-			priorWeight = getFUBARprior(fudir, name)
+			prior, omega = getFUBARprior(fudir, name, gridSize)
 				
 			## FUBAR assessment	at single posterior probability cutoff			
 			(tp,tn,fp,fn,tprate,fprate,tnrate,fnrate,accuracy)=getAccuracy(pp_cutoff, truepos, testprobs)
-			outhandle.write(str(n)+'\t'+str(tprate)+'\t'+str(fprate)+'\t'+str(fnrate)+'\t'+str(accuracy)+'\t'+alg+'\t'+gene+'\tfifty\tfubar\t'+penal+'\t'+str(num)+'\t'+str(ave)+'\t'+str(perc)+'\t'+str(priorWeight)+'\n')		
+			outhandle.write(str(n)+'\t'+str(tprate)+'\t'+str(fprate)+'\t'+str(fnrate)+'\t'+str(accuracy)+'\t'+alg+'\t'+gene+'\tfifty\tfubar\t'+penal+'\t'+str(num)+'\t'+str(ave)+'\t'+str(perc)+'\t'+str(prior)+'\t'+str(omega)+'\n')		
 outhandle.close()
 
 			
