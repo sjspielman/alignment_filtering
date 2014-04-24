@@ -71,39 +71,3 @@ algModel(paml2, gene)
 }
 
 sink()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-################## GP41 DATA FRAMES #########################
-fubar<-read.table('../fubar_GP41_90.txt', header=T)
-paml<-read.table('../paml_GP41_90.txt', header=T)
-
-# Retain only the unfiltered (refaln) and filtering algorithms (as in, remove the truealn). Remove any masking threshold that isn't 50.
-fubar2 <- fubar[fubar$mask != 'true',]
-fubar2 <- fubar2[fubar2$mask == 'fifty' | fubar2$mask == 'zero',]
-paml2 <- paml[paml$mask != 'true',]
-paml2 <- paml2[paml2$mask == 'fifty' | paml2$mask == 'zero',]
-############################################################
-
-
-
-
-
-
