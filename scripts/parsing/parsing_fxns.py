@@ -283,8 +283,9 @@ def getMLE(paml):
 	return (prior, omega)
 ###########################################################################################################
 
+###########################################################################################################
 def getFUBARprior(fudir, name):
-	''' Get sum of weights for dN>1 grid points '''
+	''' Get sum of weights for dN>1 grid points. WORKS. '''
 	gridfile = fudir+"grid/"+name+".grid"
 	priorfile = fudir+"prior/"+name+".prior" 
 	
@@ -299,8 +300,8 @@ def getFUBARprior(fudir, name):
 	for line in gridlines:
 		find = re.search("{\s+1,\s+(\d+\.*\d*)}$", line)
 		assert (find), "Couldn't parse FUBAR grid file."
-		dN = float(find.group(1)
-		if dN > 1.:
+		dN = float(find.group(1))
+		if (dN - 1.0) > 1e-8:
 			startPos = count
 			break
 		else:
@@ -321,7 +322,7 @@ def getFUBARprior(fudir, name):
 	plist = prior.split(',')
 	for i in range(startPos, len(plist)):
 		sumWeights += float(plist[i])
-	
+
 	return sumWeights
 ###########################################################################################################	
 			
