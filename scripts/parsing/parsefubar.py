@@ -68,7 +68,7 @@ for gene in genes:
 		###########################################################################################################
 		#################### Assess accuracy for the true alignment before anything else ##########################
 	
-		fubar = fudir+'truealn'+str(n)+'.fasta.fubar'	
+		fubar = fudir+'fubar/truealn'+str(n)+'.fasta.fubar'	
 		
 		(truepos, testprobs) = assessTrueFUBAR(trfile, fubar, posStart)
 		assert(len(truepos)==len(testprobs)), "True FUBAR Mapping has failed."
@@ -89,7 +89,7 @@ for gene in genes:
 		
 		truepos = parseTrueRates(trfile, wantTrue, posStart)
 		
-		fubar = fudir+'refaln'+str(n)+'.fasta.fubar'	
+		fubar = fudir+'fubar/refaln'+str(n)+'.fasta.fubar'	
 		testprobs = parseFUBAR(wantRef, fubar)	
 		assert(len(truepos)==len(testprobs)), "Reference FUBAR Mapping has failed."
 		
@@ -116,7 +116,7 @@ for gene in genes:
 				(num, ave, perc) = assessMasking(alndir+name)
 			
 				# Get accuracy information relevant to this case
-				fubar=fudir+name+'.fubar' 
+				fubar=fudir'fubar/'+name+'.fubar' 
 				testprobs = parseFUBAR(wantRef, fubar)	
 				assert(len(truepos)==len(testprobs)), "FUBAR Mapping has failed."
 	
@@ -140,15 +140,13 @@ for gene in genes:
 			(num, ave, perc) = assessMasking(alndir+name)
 			
 			# Get information relevant to this case
-			fubar=fudir+name+'.fubar' 
+			fubar=fudir+'fubar/'+name+'.fubar' 
 			testprobs = parseFUBAR(wantRef, fubar)	
 			assert( len(truepos)==len(testprobs)), "FUBAR Mapping has failed."
 	
 			## FUBAR assessment	at single posterior probability cutoff			
 			(tp,tn,fp,fn,tprate,fprate,tnrate,fnrate,accuracy)=getAccuracy(pp_cutoff, truepos, testprobs)
 			outhandle.write(str(n)+'\t'+str(tprate)+'\t'+str(fprate)+'\t'+str(fnrate)+'\t'+str(accuracy)+'\t'+alg+'\t'+gene+'\tfifty\tfubar\t'+penal+'\t'+str(num)+'\t'+str(ave)+'\t'+str(perc)+'\n')		
-
-
 outhandle.close()
 
 			
