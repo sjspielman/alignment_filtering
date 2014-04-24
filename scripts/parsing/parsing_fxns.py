@@ -283,13 +283,48 @@ def getMLE(paml):
 	return (prior, omega)
 ###########################################################################################################
 
+def getFUBARprior(fudir, name):
+	''' Get sum of weights for dN>1 grid points '''
+	gridfile = fudir+"grid/"+name+".grid"
+	priorfile = fudir+"prior/"+name+".prior" 
+	
+	# Parse grid to determine starting grid point index where dN>1
+	startPos = None
+	grid = open(gridfile, 'r')
+	gridlines = grid.readlines()
+	grid.close()
+	gridlines = gridlines[1:]
+	
+	count = 0
+	for line in gridlines:
+		find = re.search("{\s+1,\s+(\d+\.*\d*)}$", line)
+		assert (find), "Couldn't parse FUBAR grid file."
+		dN = float(find.group(1)
+		if dN > 1.:
+			startPos = count
+			break
+		else:
+			count += 1
+	assert (startPos is not None), "Couldn't find a starting position for positive selection from the grid file." 
+	
+	# Now, proceed to sum the prior weights
+	sumWeights = 0.
+	prior = open(priorfile, 'r')
+	priorlines = prior.readlines()
+	prior.close()	
+	
+	# Save the specific line, turn it into a basic csv, turn that into list, sum the indices we care about.
+	prior = priorlines[1]
+	remove = ["\s+", "{", "}"]
+	for rm in remove:
+		prior = re.sub(rm,"",prior)
+	plist = prior.split(',')
+	for i in range(startPos, len(plist)):
+		sumWeights += float(plist[i])
+	
+	return sumWeights
 ###########################################################################################################	
-def gridWeights(fubar):
-	''' Something with grid weights. '''
-	hi = 1
-	return 1
-###########################################################################################################
-
+			
 ###########################################################################################################
 def parseFUBAR(map, fufile):
 	'''For the relevant positions, retrieve the pr(alpha>beta)=pr(positively selected). Based on INDEX in the map.'''
@@ -413,31 +448,4 @@ def assessMasking(alnfile):
 	perc = float(num) / float(seq_length)
 	
 	return (num, ave, perc)
-###########################################################################################################
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ###########################################################################################################
