@@ -12,7 +12,7 @@ paml_genes <- c('or5', 'rho', 'prk')
 fubar_genes <- c(paml_genes, 'flat')
 sink(file = outfile)
 
-maskModel <- function(df, mygene)
+algModel <- function(df, mygene)
 {
 	print(mygene)
 	dat <- df[df$gene == mygene,]
@@ -36,12 +36,12 @@ print("############################# HA DATASET #############################")
 
 print("############################# HA FUBAR #############################")
 for (gene in fubar_genes){
-maskModel(fubar2, gene)
+algModel(fubar2, gene)
 }
 
 print("############################# HA PAML #############################")
 for (gene in paml_genes){
-maskModel(paml2, gene)
+algModel(paml2, gene)
 }
 
 ######################################################################################################
@@ -62,12 +62,12 @@ print("############################# GP41 DATASET #############################"
 
 print("############################# GP41 FUBAR #############################")
 for (gene in fubar_genes){
-maskModel(fubar2, gene)
+algModel(fubar2, gene)
 }
 
 print("############################# GP41 PAML #############################")
 for (gene in paml_genes){
-maskModel(paml2, gene)
+algModel(paml2, gene)
 }
 
 sink()
