@@ -1,0 +1,80 @@
+## t-test follow up to algorithm testing
+
+
+outfile <- "ttest_prior_output.txt"
+paml_genes <- c('or5', 'rho', 'prk')
+fubar_genes <- c(paml_genes, 'flat')
+sink(file = outfile)
+
+priorTest <- function(df, mygene)
+{
+	p<-c() # ref/g, ref/gp, g/gp
+	print(mygene)
+	dat <- df[df$gene == mygene,]
+	#print(dat[1:10,])
+	t <- t.test(dat$prior[dat$case == 'refaln'], dat$prior[dat$case == 'Guidance'], paired=T)
+	print(t)
+	p<-c(p, t$p.value)
+	t <- t.test(dat$prior[dat$case == 'refaln'], dat$prior[dat$case == 'GuidanceP'], paired=T)
+	print(t)
+	p<-c(p, t$p.value)
+	t <- t.test(dat$prior[dat$case == 'Guidance'], dat$prior[dat$case == 'GuidanceP'], paired=T)
+	print(t)
+	p<-c(p, t$p.value)
+	print("corrected p-values")
+	corp <- p.adjust(p)
+	print(corp)
+	cat("\n\n\n")
+
+}
+
+################## HA DATA FRAMES #########################
+fubar<-read.table('../fubar_HA_90.txt', header=T)
+paml<-read.table('../paml_HA_90.txt', header=T)
+
+# Retain only the unfiltered (refaln) and filtering algorithms (as in, remove the truealn), and remove any masking threshold that isn't 50.
+fubar2 <- fubar[fubar$mask == 'fifty' | fubar$mask == 'zero',]
+paml2 <- paml[paml$mask == 'fifty' | paml$mask == 'zero',]
+############################################################
+
+
+print("############################# HA DATASET #############################")
+
+print("############################# HA FUBAR #############################")
+for (gene in fubar_genes){
+priorTest(fubar2, gene)
+}
+
+print("############################# HA PAML #############################")
+for (gene in paml_genes){
+priorTest(paml2, gene)
+}
+
+######################################################################################################
+######################################################################################################
+
+
+################## GP41 DATA FRAMES #########################
+fubar<-read.table('../fubar_GP41_90.txt', header=T)
+paml<-read.table('../paml_GP41_90.txt', header=T)
+
+# Retain only the unfiltered (refaln) and filtering algorithms (as in, remove the truealn), and remove any masking threshold that isn't 50.
+fubar2 <- fubar[fubar$mask == 'fifty' | fubar$mask == 'zero',]
+paml2 <- paml[paml$mask == 'fifty' | paml$mask == 'zero',]
+############################################################
+
+
+print("############################# GP41 DATASET #############################")
+
+print("############################# GP41 FUBAR #############################")
+for (gene in fubar_genes){
+priorTest(fubar2, gene)
+}
+
+print("############################# GP41 PAML #############################")
+for (gene in paml_genes){
+priorTest(paml2, gene)
+}
+
+sink()
+
