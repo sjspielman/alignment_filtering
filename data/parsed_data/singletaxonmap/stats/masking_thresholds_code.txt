@@ -1,0 +1,115 @@
+####### MASKING STATISTICS. SJS 4/24/14. ##########
+# This file contains R code and output to assess whether different masking thresholds (30, 50, 70, 90) yield significantly different tpr's for the Guidance(P) filtering algorithms.
+# For both selective profiles, for all data set sizes for both inference methods.
+# Results are in "masking_thresholds_output.txt". At the bottom of that output file, I synthesize the results.
+
+library(lme4)
+library(multcomp)
+
+outfile <- "masking_thresholds_output.txt"
+
+
+maskModel <- function(df, mygene)
+{
+	dat <- df[df$gene == mygene,]
+	model<-lmer(tprate ~ mask+(1|count), data=dat)
+	s <- summary(glht(model, linfct=mcp(mask='Tukey')))
+	print(s)
+	#capture.output(s, file = 'masking_thresholds_output.txt', append = T) 
+}
+paml_genes <- c('or5', 'rho', 'prk')
+fubar_genes <- c(paml_genes, 'flat')
+sink(file = outfile)
+
+################## HA DATA FRAMES #########################
+fubar<-read.table('../fubar_HA_90.txt', header=T)
+paml<-read.table('../paml_HA_90.txt', header=T)
+
+# Retain only the Guidance(P) algorithms
+fubar2 <- fubar[fubar$mask != 'true' & fubar$mask != 'zero',]
+fubarg <- fubar2[fubar2$case == 'Guidance',] 
+fubargp <- fubar2[fubar2$case == 'GuidanceP',] 
+paml2 <- paml[paml$mask != 'true' & paml$mask != 'zero',]
+pamlg <- paml2[paml2$case == 'Guidance',] 
+pamlgp <- paml2[paml2$case == 'GuidanceP',] 
+############################################################
+
+
+
+print("############################# HA DATASET #############################")
+
+
+print("############################ HA FUBAR GUIDANCE ############################")
+
+for (gene in fubar_genes){
+print(gene)
+maskModel(fubarg, gene)
+}
+print("############################ HA FUBAR GUIDANCEP ############################")
+# Fubar GuidanceP
+for (gene in fubar_genes){
+print(gene)
+maskModel(fubargp, gene)
+}
+
+print("############################ HA PAML GUIDANCE ############################")
+
+# Paml Guidance
+for (gene in paml_genes){
+print(gene)
+maskModel(pamlg, gene)
+}
+
+print("############################ HA PAML GUIDANCEP ############################")
+# Paml GuidanceP
+for (gene in paml_genes){
+print(gene)
+maskModel(pamlgp, gene)
+}
+
+######################################################################################################
+######################################################################################################
+
+
+################## GP41 DATA FRAMES #########################
+fubar<-read.table('../fubar_GP41_90.txt', header=T)
+paml<-read.table('../paml_GP41_90.txt', header=T)
+
+# Retain only the Guidance(P) algorithms
+fubar2 <- fubar[fubar$mask != 'true' & fubar$mask != 'zero',]
+fubarg <- fubar2[fubar2$case == 'Guidance',] 
+fubargp <- fubar2[fubar2$case == 'GuidanceP',] 
+paml2 <- paml[paml$mask != 'true' & paml$mask != 'zero',]
+pamlg <- paml2[paml2$case == 'Guidance',] 
+pamlgp <- paml2[paml2$case == 'GuidanceP',] 
+############################################################
+
+
+
+print("############################ GP41 DATASET ############################")
+
+print("############################ GP41 FUBAR GUIDANCE ############################")
+for (gene in fubar_genes){
+print(gene)
+maskModel(fubarg, gene)
+}
+print("############################ GP41 FUBAR GUIDANCEP ############################")
+# Fubar GuidanceP
+for (gene in fubar_genes){
+print(gene)
+maskModel(fubargp, gene)
+}
+
+print("############################ GP41 PAML GUIDANCE ############################")
+# Paml Guidance
+for (gene in paml_genes){
+print(gene)
+maskModel(pamlg, gene)
+}
+print("############################GP41 PAML GUIDANCEP ############################")
+# Paml GuidanceP
+for (gene in paml_genes){
+print(gene)
+maskModel(pamlgp, gene)
+}
+sink()

@@ -1,0 +1,569 @@
+[1] "############################# HA DATASET #############################"
+[1] "############################ HA FUBAR GUIDANCE ############################"
+[1] "or5"
+
+	 Simultaneous Tests for General Linear Hypotheses
+
+Multiple Comparisons of Means: Tukey Contrasts
+
+
+Fit: lmer(formula = tprate ~ mask + (1 | count), data = dat)
+
+Linear Hypotheses:
+                        Estimate Std. Error z value Pr(>|z|)    
+ninety - fifty == 0   -0.0036323  0.0010654  -3.409  0.00375 ** 
+seventy - fifty == 0  -0.0004043  0.0010654  -0.380  0.98139    
+thirty - fifty == 0    0.0009193  0.0010654   0.863  0.82397    
+seventy - ninety == 0  0.0032280  0.0010654   3.030  0.01290 *  
+thirty - ninety == 0   0.0045516  0.0010654   4.272  < 0.001 ***
+thirty - seventy == 0  0.0013237  0.0010654   1.242  0.59976    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1 
+(Adjusted p values reported -- single-step method)
+
+[1] "rho"
+
+	 Simultaneous Tests for General Linear Hypotheses
+
+Multiple Comparisons of Means: Tukey Contrasts
+
+
+Fit: lmer(formula = tprate ~ mask + (1 | count), data = dat)
+
+Linear Hypotheses:
+                        Estimate Std. Error z value Pr(>|z|)
+ninety - fifty == 0   -0.0020362  0.0012024  -1.693    0.327
+seventy - fifty == 0  -0.0015286  0.0012024  -1.271    0.581
+thirty - fifty == 0    0.0004884  0.0012024   0.406    0.977
+seventy - ninety == 0  0.0005076  0.0012024   0.422    0.975
+thirty - ninety == 0   0.0025246  0.0012024   2.100    0.153
+thirty - seventy == 0  0.0020170  0.0012024   1.677    0.336
+(Adjusted p values reported -- single-step method)
+
+[1] "prk"
+
+	 Simultaneous Tests for General Linear Hypotheses
+
+Multiple Comparisons of Means: Tukey Contrasts
+
+
+Fit: lmer(formula = tprate ~ mask + (1 | count), data = dat)
+
+Linear Hypotheses:
+                        Estimate Std. Error z value Pr(>|z|)    
+ninety - fifty == 0   -0.0212209  0.0027441  -7.733   <1e-04 ***
+seventy - fifty == 0  -0.0040362  0.0027441  -1.471    0.455    
+thirty - fifty == 0    0.0005712  0.0027441   0.208    0.997    
+seventy - ninety == 0  0.0171847  0.0027441   6.262   <1e-04 ***
+thirty - ninety == 0   0.0217921  0.0027441   7.941   <1e-04 ***
+thirty - seventy == 0  0.0046074  0.0027441   1.679    0.335    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1 
+(Adjusted p values reported -- single-step method)
+
+[1] "flat"
+
+	 Simultaneous Tests for General Linear Hypotheses
+
+Multiple Comparisons of Means: Tukey Contrasts
+
+
+Fit: lmer(formula = tprate ~ mask + (1 | count), data = dat)
+
+Linear Hypotheses:
+                        Estimate Std. Error z value Pr(>|z|)
+ninety - fifty == 0   -0.0034303  0.0018701  -1.834    0.257
+seventy - fifty == 0  -0.0018991  0.0018701  -1.016    0.740
+thirty - fifty == 0   -0.0022885  0.0018701  -1.224    0.612
+seventy - ninety == 0  0.0015312  0.0018701   0.819    0.846
+thirty - ninety == 0   0.0011418  0.0018701   0.611    0.929
+thirty - seventy == 0 -0.0003893  0.0018701  -0.208    0.997
+(Adjusted p values reported -- single-step method)
+
+[1] "############################ HA FUBAR GUIDANCEP ############################"
+[1] "or5"
+
+	 Simultaneous Tests for General Linear Hypotheses
+
+Multiple Comparisons of Means: Tukey Contrasts
+
+
+Fit: lmer(formula = tprate ~ mask + (1 | count), data = dat)
+
+Linear Hypotheses:
+                        Estimate Std. Error z value Pr(>|z|)    
+ninety - fifty == 0   -0.0055700  0.0013564  -4.106 0.000254 ***
+seventy - fifty == 0   0.0001425  0.0013564   0.105 0.999585    
+thirty - fifty == 0    0.0002767  0.0013564   0.204 0.996996    
+seventy - ninety == 0  0.0057125  0.0013564   4.212 0.000123 ***
+thirty - ninety == 0   0.0058467  0.0013564   4.311  < 1e-04 ***
+thirty - seventy == 0  0.0001342  0.0013564   0.099 0.999653    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1 
+(Adjusted p values reported -- single-step method)
+
+[1] "rho"
+
+	 Simultaneous Tests for General Linear Hypotheses
+
+Multiple Comparisons of Means: Tukey Contrasts
+
+
+Fit: lmer(formula = tprate ~ mask + (1 | count), data = dat)
+
+Linear Hypotheses:
+                        Estimate Std. Error z value Pr(>|z|)    
+ninety - fifty == 0   -1.183e-02  1.992e-03  -5.938   <1e-06 ***
+seventy - fifty == 0  -7.404e-05  1.992e-03  -0.037    1.000    
+thirty - fifty == 0    6.555e-04  1.992e-03   0.329    0.988    
+seventy - ninety == 0  1.176e-02  1.992e-03   5.901   <1e-06 ***
+thirty - ninety == 0   1.249e-02  1.992e-03   6.267   <1e-06 ***
+thirty - seventy == 0  7.295e-04  1.992e-03   0.366    0.983    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1 
+(Adjusted p values reported -- single-step method)
+
+[1] "prk"
+
+	 Simultaneous Tests for General Linear Hypotheses
+
+Multiple Comparisons of Means: Tukey Contrasts
+
+
+Fit: lmer(formula = tprate ~ mask + (1 | count), data = dat)
+
+Linear Hypotheses:
+                       Estimate Std. Error z value Pr(>|z|)    
+ninety - fifty == 0   -0.131986   0.005102 -25.872  < 0.001 ***
+seventy - fifty == 0  -0.014518   0.005102  -2.846  0.02296 *  
+thirty - fifty == 0    0.003258   0.005102   0.639  0.91952    
+seventy - ninety == 0  0.117468   0.005102  23.026  < 0.001 ***
+thirty - ninety == 0   0.135244   0.005102  26.510  < 0.001 ***
+thirty - seventy == 0  0.017776   0.005102   3.484  0.00272 ** 
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1 
+(Adjusted p values reported -- single-step method)
+
+[1] "flat"
+
+	 Simultaneous Tests for General Linear Hypotheses
+
+Multiple Comparisons of Means: Tukey Contrasts
+
+
+Fit: lmer(formula = tprate ~ mask + (1 | count), data = dat)
+
+Linear Hypotheses:
+                        Estimate Std. Error z value Pr(>|z|)    
+ninety - fifty == 0   -0.0160884  0.0024227  -6.641   <1e-04 ***
+seventy - fifty == 0  -0.0030005  0.0024227  -1.239    0.602    
+thirty - fifty == 0   -0.0007787  0.0024227  -0.321    0.989    
+seventy - ninety == 0  0.0130879  0.0024227   5.402   <1e-04 ***
+thirty - ninety == 0   0.0153097  0.0024227   6.319   <1e-04 ***
+thirty - seventy == 0  0.0022218  0.0024227   0.917    0.796    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1 
+(Adjusted p values reported -- single-step method)
+
+[1] "############################ HA PAML GUIDANCE ############################"
+[1] "or5"
+
+	 Simultaneous Tests for General Linear Hypotheses
+
+Multiple Comparisons of Means: Tukey Contrasts
+
+
+Fit: lmer(formula = tprate ~ mask + (1 | count), data = dat)
+
+Linear Hypotheses:
+                        Estimate Std. Error z value Pr(>|z|)
+ninety - fifty == 0   -0.0020986  0.0016190  -1.296    0.565
+seventy - fifty == 0   0.0004392  0.0016190   0.271    0.993
+thirty - fifty == 0    0.0005541  0.0016190   0.342    0.986
+seventy - ninety == 0  0.0025377  0.0016190   1.567    0.397
+thirty - ninety == 0   0.0026527  0.0016190   1.638    0.357
+thirty - seventy == 0  0.0001149  0.0016190   0.071    1.000
+(Adjusted p values reported -- single-step method)
+
+[1] "rho"
+
+	 Simultaneous Tests for General Linear Hypotheses
+
+Multiple Comparisons of Means: Tukey Contrasts
+
+
+Fit: lmer(formula = tprate ~ mask + (1 | count), data = dat)
+
+Linear Hypotheses:
+                        Estimate Std. Error z value Pr(>|z|)
+ninety - fifty == 0    0.0012530  0.0012973   0.966    0.769
+seventy - fifty == 0   0.0005465  0.0012973   0.421    0.975
+thirty - fifty == 0   -0.0015410  0.0012973  -1.188    0.635
+seventy - ninety == 0 -0.0007065  0.0012973  -0.545    0.948
+thirty - ninety == 0  -0.0027939  0.0012973  -2.154    0.136
+thirty - seventy == 0 -0.0020875  0.0012973  -1.609    0.373
+(Adjusted p values reported -- single-step method)
+
+[1] "prk"
+
+	 Simultaneous Tests for General Linear Hypotheses
+
+Multiple Comparisons of Means: Tukey Contrasts
+
+
+Fit: lmer(formula = tprate ~ mask + (1 | count), data = dat)
+
+Linear Hypotheses:
+                       Estimate Std. Error z value Pr(>|z|)    
+ninety - fifty == 0   -0.014303   0.004638  -3.084   0.0112 *  
+seventy - fifty == 0  -0.004709   0.004638  -1.015   0.7405    
+thirty - fifty == 0    0.005633   0.004638   1.215   0.6175    
+seventy - ninety == 0  0.009594   0.004638   2.069   0.1635    
+thirty - ninety == 0   0.019936   0.004638   4.299   <0.001 ***
+thirty - seventy == 0  0.010342   0.004638   2.230   0.1154    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1 
+(Adjusted p values reported -- single-step method)
+
+[1] "############################ HA PAML GUIDANCEP ############################"
+[1] "or5"
+
+	 Simultaneous Tests for General Linear Hypotheses
+
+Multiple Comparisons of Means: Tukey Contrasts
+
+
+Fit: lmer(formula = tprate ~ mask + (1 | count), data = dat)
+
+Linear Hypotheses:
+                        Estimate Std. Error z value Pr(>|z|)    
+ninety - fifty == 0   -0.0067660  0.0016266  -4.160  < 0.001 ***
+seventy - fifty == 0  -0.0013583  0.0016266  -0.835  0.83780    
+thirty - fifty == 0   -0.0002709  0.0016266  -0.167  0.99836    
+seventy - ninety == 0  0.0054077  0.0016266   3.325  0.00472 ** 
+thirty - ninety == 0   0.0064950  0.0016266   3.993  < 0.001 ***
+thirty - seventy == 0  0.0010873  0.0016266   0.668  0.90899    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1 
+(Adjusted p values reported -- single-step method)
+
+[1] "rho"
+
+	 Simultaneous Tests for General Linear Hypotheses
+
+Multiple Comparisons of Means: Tukey Contrasts
+
+
+Fit: lmer(formula = tprate ~ mask + (1 | count), data = dat)
+
+Linear Hypotheses:
+                        Estimate Std. Error z value Pr(>|z|)    
+ninety - fifty == 0   -7.904e-03  2.016e-03  -3.920  < 0.001 ***
+seventy - fifty == 0   5.481e-05  2.016e-03   0.027  0.99999    
+thirty - fifty == 0   -6.376e-04  2.016e-03  -0.316  0.98906    
+seventy - ninety == 0  7.959e-03  2.016e-03   3.947  < 0.001 ***
+thirty - ninety == 0   7.266e-03  2.016e-03   3.604  0.00194 ** 
+thirty - seventy == 0 -6.924e-04  2.016e-03  -0.343  0.98608    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1 
+(Adjusted p values reported -- single-step method)
+
+[1] "prk"
+
+	 Simultaneous Tests for General Linear Hypotheses
+
+Multiple Comparisons of Means: Tukey Contrasts
+
+
+Fit: lmer(formula = tprate ~ mask + (1 | count), data = dat)
+
+Linear Hypotheses:
+                       Estimate Std. Error z value Pr(>|z|)    
+ninety - fifty == 0   -0.081460   0.005445 -14.960   <1e-04 ***
+seventy - fifty == 0  -0.008672   0.005445  -1.593    0.383    
+thirty - fifty == 0    0.003277   0.005445   0.602    0.932    
+seventy - ninety == 0  0.072788   0.005445  13.367   <1e-04 ***
+thirty - ninety == 0   0.084738   0.005445  15.561   <1e-04 ***
+thirty - seventy == 0  0.011949   0.005445   2.194    0.125    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1 
+(Adjusted p values reported -- single-step method)
+
+[1] "############################ GP41 DATASET ############################"
+[1] "############################ GP41 FUBAR GUIDANCE ############################"
+[1] "or5"
+
+	 Simultaneous Tests for General Linear Hypotheses
+
+Multiple Comparisons of Means: Tukey Contrasts
+
+
+Fit: lmer(formula = tprate ~ mask + (1 | count), data = dat)
+
+Linear Hypotheses:
+                        Estimate Std. Error z value Pr(>|z|)
+ninety - fifty == 0   -2.330e-05  2.303e-04  -0.101    1.000
+seventy - fifty == 0   2.467e-04  2.303e-04   1.071    0.707
+thirty - fifty == 0   -6.177e-05  2.303e-04  -0.268    0.993
+seventy - ninety == 0  2.700e-04  2.303e-04   1.172    0.644
+thirty - ninety == 0  -3.847e-05  2.303e-04  -0.167    0.998
+thirty - seventy == 0 -3.084e-04  2.303e-04  -1.339    0.538
+(Adjusted p values reported -- single-step method)
+
+[1] "rho"
+
+	 Simultaneous Tests for General Linear Hypotheses
+
+Multiple Comparisons of Means: Tukey Contrasts
+
+
+Fit: lmer(formula = tprate ~ mask + (1 | count), data = dat)
+
+Linear Hypotheses:
+                        Estimate Std. Error z value Pr(>|z|)
+ninety - fifty == 0    2.575e-04  3.529e-04   0.730    0.885
+seventy - fifty == 0  -4.809e-05  3.529e-04  -0.136    0.999
+thirty - fifty == 0    1.438e-04  3.529e-04   0.407    0.977
+seventy - ninety == 0 -3.056e-04  3.529e-04  -0.866    0.822
+thirty - ninety == 0  -1.137e-04  3.529e-04  -0.322    0.988
+thirty - seventy == 0  1.919e-04  3.529e-04   0.544    0.948
+(Adjusted p values reported -- single-step method)
+
+[1] "prk"
+
+	 Simultaneous Tests for General Linear Hypotheses
+
+Multiple Comparisons of Means: Tukey Contrasts
+
+
+Fit: lmer(formula = tprate ~ mask + (1 | count), data = dat)
+
+Linear Hypotheses:
+                        Estimate Std. Error z value Pr(>|z|)
+ninety - fifty == 0   -9.367e-06  3.344e-04  -0.028    1.000
+seventy - fifty == 0  -2.869e-04  3.344e-04  -0.858    0.826
+thirty - fifty == 0    8.742e-05  3.344e-04   0.261    0.994
+seventy - ninety == 0 -2.776e-04  3.344e-04  -0.830    0.840
+thirty - ninety == 0   9.679e-05  3.344e-04   0.289    0.992
+thirty - seventy == 0  3.743e-04  3.344e-04   1.119    0.677
+(Adjusted p values reported -- single-step method)
+
+[1] "flat"
+
+	 Simultaneous Tests for General Linear Hypotheses
+
+Multiple Comparisons of Means: Tukey Contrasts
+
+
+Fit: lmer(formula = tprate ~ mask + (1 | count), data = dat)
+
+Linear Hypotheses:
+                        Estimate Std. Error z value Pr(>|z|)
+ninety - fifty == 0   -3.354e-05  4.471e-04  -0.075    1.000
+seventy - fifty == 0  -1.909e-04  4.471e-04  -0.427    0.974
+thirty - fifty == 0   -5.429e-04  4.471e-04  -1.214    0.618
+seventy - ninety == 0 -1.574e-04  4.471e-04  -0.352    0.985
+thirty - ninety == 0  -5.094e-04  4.471e-04  -1.139    0.665
+thirty - seventy == 0 -3.520e-04  4.471e-04  -0.787    0.860
+(Adjusted p values reported -- single-step method)
+
+[1] "############################ GP41 FUBAR GUIDANCEP ############################"
+[1] "or5"
+
+	 Simultaneous Tests for General Linear Hypotheses
+
+Multiple Comparisons of Means: Tukey Contrasts
+
+
+Fit: lmer(formula = tprate ~ mask + (1 | count), data = dat)
+
+Linear Hypotheses:
+                        Estimate Std. Error z value Pr(>|z|)
+ninety - fifty == 0    9.659e-05  2.242e-04   0.431    0.973
+seventy - fifty == 0   7.424e-05  2.242e-04   0.331    0.987
+thirty - fifty == 0    5.684e-06  2.242e-04   0.025    1.000
+seventy - ninety == 0 -2.235e-05  2.242e-04  -0.100    1.000
+thirty - ninety == 0  -9.090e-05  2.242e-04  -0.405    0.977
+thirty - seventy == 0 -6.856e-05  2.242e-04  -0.306    0.990
+(Adjusted p values reported -- single-step method)
+
+[1] "rho"
+
+	 Simultaneous Tests for General Linear Hypotheses
+
+Multiple Comparisons of Means: Tukey Contrasts
+
+
+Fit: lmer(formula = tprate ~ mask + (1 | count), data = dat)
+
+Linear Hypotheses:
+                        Estimate Std. Error z value Pr(>|z|)
+ninety - fifty == 0   -1.696e-05  4.163e-04  -0.041    1.000
+seventy - fifty == 0   4.705e-04  4.163e-04   1.130    0.671
+thirty - fifty == 0   -1.870e-04  4.163e-04  -0.449    0.970
+seventy - ninety == 0  4.874e-04  4.163e-04   1.171    0.645
+thirty - ninety == 0  -1.700e-04  4.163e-04  -0.408    0.977
+thirty - seventy == 0 -6.574e-04  4.163e-04  -1.579    0.391
+(Adjusted p values reported -- single-step method)
+
+[1] "prk"
+
+	 Simultaneous Tests for General Linear Hypotheses
+
+Multiple Comparisons of Means: Tukey Contrasts
+
+
+Fit: lmer(formula = tprate ~ mask + (1 | count), data = dat)
+
+Linear Hypotheses:
+                        Estimate Std. Error z value Pr(>|z|)
+ninety - fifty == 0   -2.057e-04  3.213e-04  -0.640    0.919
+seventy - fifty == 0   2.505e-05  3.213e-04   0.078    1.000
+thirty - fifty == 0    8.339e-05  3.213e-04   0.260    0.994
+seventy - ninety == 0  2.308e-04  3.213e-04   0.718    0.890
+thirty - ninety == 0   2.891e-04  3.213e-04   0.900    0.805
+thirty - seventy == 0  5.834e-05  3.213e-04   0.182    0.998
+(Adjusted p values reported -- single-step method)
+
+[1] "flat"
+
+	 Simultaneous Tests for General Linear Hypotheses
+
+Multiple Comparisons of Means: Tukey Contrasts
+
+
+Fit: lmer(formula = tprate ~ mask + (1 | count), data = dat)
+
+Linear Hypotheses:
+                        Estimate Std. Error z value Pr(>|z|)
+ninety - fifty == 0   -6.544e-04  3.388e-04  -1.931    0.215
+seventy - fifty == 0  -1.723e-04  3.388e-04  -0.509    0.957
+thirty - fifty == 0   -6.105e-04  3.388e-04  -1.802    0.272
+seventy - ninety == 0  4.821e-04  3.388e-04   1.423    0.485
+thirty - ninety == 0   4.388e-05  3.388e-04   0.130    0.999
+thirty - seventy == 0 -4.382e-04  3.388e-04  -1.293    0.567
+(Adjusted p values reported -- single-step method)
+
+[1] "############################ GP41 PAML GUIDANCE ############################"
+[1] "or5"
+
+	 Simultaneous Tests for General Linear Hypotheses
+
+Multiple Comparisons of Means: Tukey Contrasts
+
+
+Fit: lmer(formula = tprate ~ mask + (1 | count), data = dat)
+
+Linear Hypotheses:
+                       Estimate Std. Error z value Pr(>|z|)
+ninety - fifty == 0   4.974e-16  2.167e-07       0        1
+seventy - fifty == 0  4.974e-16  2.167e-07       0        1
+thirty - fifty == 0   4.974e-16  2.167e-07       0        1
+seventy - ninety == 0 9.861e-32  2.167e-07       0        1
+thirty - ninety == 0  9.861e-32  2.167e-07       0        1
+thirty - seventy == 0 0.000e+00  2.167e-07       0        1
+(Adjusted p values reported -- single-step method)
+
+[1] "rho"
+
+	 Simultaneous Tests for General Linear Hypotheses
+
+Multiple Comparisons of Means: Tukey Contrasts
+
+
+Fit: lmer(formula = tprate ~ mask + (1 | count), data = dat)
+
+Linear Hypotheses:
+                       Estimate Std. Error z value Pr(>|z|)
+ninety - fifty == 0   2.842e-16  9.090e-07       0        1
+seventy - fifty == 0  2.842e-16  9.090e-07       0        1
+thirty - fifty == 0   2.842e-16  9.090e-07       0        1
+seventy - ninety == 0 4.930e-32  9.090e-07       0        1
+thirty - ninety == 0  4.930e-32  9.090e-07       0        1
+thirty - seventy == 0 0.000e+00  9.090e-07       0        1
+(Adjusted p values reported -- single-step method)
+
+[1] "prk"
+
+	 Simultaneous Tests for General Linear Hypotheses
+
+Multiple Comparisons of Means: Tukey Contrasts
+
+
+Fit: lmer(formula = tprate ~ mask + (1 | count), data = dat)
+
+Linear Hypotheses:
+                        Estimate Std. Error z value Pr(>|z|)
+ninety - fifty == 0   -1.421e-16  9.365e-07       0        1
+seventy - fifty == 0  -1.421e-16  9.365e-07       0        1
+thirty - fifty == 0   -1.421e-16  9.365e-07       0        1
+seventy - ninety == 0 -2.465e-32  9.365e-07       0        1
+thirty - ninety == 0  -2.465e-32  9.365e-07       0        1
+thirty - seventy == 0  0.000e+00  9.365e-07       0        1
+(Adjusted p values reported -- single-step method)
+
+[1] "############################GP41 PAML GUIDANCEP ############################"
+[1] "or5"
+
+	 Simultaneous Tests for General Linear Hypotheses
+
+Multiple Comparisons of Means: Tukey Contrasts
+
+
+Fit: lmer(formula = tprate ~ mask + (1 | count), data = dat)
+
+Linear Hypotheses:
+                       Estimate Std. Error z value Pr(>|z|)
+ninety - fifty == 0   7.105e-17  2.267e-07       0        1
+seventy - fifty == 0  7.105e-17  2.267e-07       0        1
+thirty - fifty == 0   7.105e-17  2.267e-07       0        1
+seventy - ninety == 0 0.000e+00  2.267e-07       0        1
+thirty - ninety == 0  1.233e-32  2.267e-07       0        1
+thirty - seventy == 0 1.233e-32  2.267e-07       0        1
+(Adjusted p values reported -- single-step method)
+
+[1] "rho"
+
+	 Simultaneous Tests for General Linear Hypotheses
+
+Multiple Comparisons of Means: Tukey Contrasts
+
+
+Fit: lmer(formula = tprate ~ mask + (1 | count), data = dat)
+
+Linear Hypotheses:
+                       Estimate Std. Error z value Pr(>|z|)
+ninety - fifty == 0   5.684e-16  4.524e-07       0        1
+seventy - fifty == 0  5.684e-16  4.524e-07       0        1
+thirty - fifty == 0   5.684e-16  4.524e-07       0        1
+seventy - ninety == 0 2.958e-31  4.524e-07       0        1
+thirty - ninety == 0  2.958e-31  4.524e-07       0        1
+thirty - seventy == 0 0.000e+00  4.524e-07       0        1
+(Adjusted p values reported -- single-step method)
+
+[1] "prk"
+
+	 Simultaneous Tests for General Linear Hypotheses
+
+Multiple Comparisons of Means: Tukey Contrasts
+
+
+Fit: lmer(formula = tprate ~ mask + (1 | count), data = dat)
+
+Linear Hypotheses:
+                        Estimate Std. Error z value Pr(>|z|)
+ninety - fifty == 0   -2.558e-15  6.737e-07       0        1
+seventy - fifty == 0  -2.558e-15  6.737e-07       0        1
+thirty - fifty == 0   -2.558e-15  6.737e-07       0        1
+seventy - ninety == 0  0.000e+00  6.737e-07       0        1
+thirty - ninety == 0  -7.889e-31  6.737e-07       0        1
+thirty - seventy == 0 -7.889e-31  6.737e-07       0        1
+(Adjusted p values reported -- single-step method)
+
+
+
+
+######### SYNTHESIZED RESULTS ##########
+# 1. For GP41, no difference in TPR was ever detected among masking thresholds.
+# 2. For HA, when significant differences among masking thresholds are detected, ninety is worse than all others. Furthermore, there was one instance (FUBAR GuidanceP prk [this is 60 sequences]) when fifty marginally outperformed seventy, but not thirty (and as before, it definitely beat ninety!)
+# THEREFORE: the masking threshold of fifty will be used for all analyses. It performs well, relative to other thresholds, universally, and additionally it was the same threshold used by Jordan and Goldman 2012. 
