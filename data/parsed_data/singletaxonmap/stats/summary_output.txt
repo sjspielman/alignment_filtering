@@ -1,114 +1,56 @@
-# NOTE: slightly manually edited from raw output to be easier to put into tables... SJS. 4/25/14.
-                        	meantpr	sdtpr	meanperc	sdperc	meannum	sdnum
-HA   fubar   or5   truealn   0.087   0.044   0   0   0   0
-HA   fubar   or5   refaln   0.084   0.047   0   0   0   0
-HA   fubar   or5   Guidance   0.085   0.046   0.01   0.005   43.25   22.082
-HA   fubar   or5   GuidanceP   0.085   0.046   0.02   0.011   89.32   45.35
-HA   fubar   or5   BMweights   0.086   0.046   0.01   0.005   42.49   21.857
-HA   fubar   or5   BMweightsP   0.086   0.046   0.02   0.011   87.69   45.698
-HA   fubar   or5   PDweights   0.085   0.046   0.01   0.005   44.35   22.824
-HA   fubar   or5   PDweightsP   0.086   0.046   0.026   0.013   113.67   56.243
-HA   fubar   rho   truealn   0.2   0.071   0   0   0   0
-HA   fubar   rho   refaln   0.227   0.084   0   0   0   0
-HA   fubar   rho   Guidance   0.229   0.084   0.01   0.003   107.75   35.244
-HA   fubar   rho   GuidanceP   0.226   0.083   0.025   0.009   256.84   91.803
-HA   fubar   rho   BMweights   0.228   0.083   0.01   0.003   106.73   34.968
-HA   fubar   rho   BMweightsP   0.226   0.082   0.024   0.009   251.01   92.793
-HA   fubar   rho   PDweights   0.228   0.084   0.01   0.003   108.67   35.791
-HA   fubar   rho   PDweightsP   0.227   0.083   0.026   0.01   264.28   96.689
-HA   fubar   prk   truealn   0.253   0.044   0   0   0   0
-HA   fubar   prk   refaln   0.474   0.096   0   0   0   0
-HA   fubar   prk   Guidance   0.479   0.094   0.027   0.005   653.38   132.679
-HA   fubar   prk   GuidanceP   0.464   0.094   0.094   0.019   2280.15   512.74
-HA   fubar   prk   BMweights   0.476   0.095   0.026   0.005   634.76   138.276
-HA   fubar   prk   BMweightsP   0.464   0.095   0.096   0.02   2326.67   545.531
-HA   fubar   prk   PDweights   0.478   0.094   0.032   0.007   762.93   187.31
-HA   fubar   prk   PDweightsP   0.463   0.094   0.104   0.022   2522.89   579.681
-HA   fubar   flat   truealn   0.264   0.056   0   0   0   0
-HA   fubar   flat   refaln   0.458   0.085   0   0   0   0
-HA   fubar   flat   Guidance   0.467   0.085   0.006   0.001   382.88   74.165
-HA   fubar   flat   GuidanceP   0.468   0.087   0.018   0.007   1126.08   481.279
-HA   fubar   flat   BMweights   0.467   0.087   0.006   0.001   366.12   71.292
-HA   fubar   flat   BMweightsP   0.467   0.086   0.019   0.009   1198.67   638.993
-HA   fubar   flat   PDweights   0.467   0.085   0.006   0.001   413.73   78.119
-HA   fubar   flat   PDweightsP   0.467   0.086   0.019   0.01   1245.29   674.047
-HA   paml   or5   truealn   0.08   0.052   0   0   0   0
-HA   paml   or5   refaln   0.082   0.055   0   0   0   0
-HA   paml   or5   Guidance   0.081   0.054   0.01   0.005   43.25   22.082
-HA   paml   or5   GuidanceP   0.081   0.055   0.02   0.011   89.32   45.35
-HA   paml   or5   BMweights   0.081   0.054   0.01   0.005   42.49   21.857
-HA   paml   or5   BMweightsP   0.081   0.055   0.02   0.011   87.69   45.698
-HA   paml   or5   PDweights   0.082   0.057   0.01   0.005   44.35   22.824
-HA   paml   or5   PDweightsP   0.081   0.057   0.026   0.013   113.67   56.243
-HA   paml   rho   truealn   0.164   0.062   0   0   0   0
-HA   paml   rho   refaln   0.176   0.074   0   0   0   0
-HA   paml   rho   Guidance   0.178   0.073   0.01   0.003   107.75   35.244
-HA   paml   rho   GuidanceP   0.183   0.076   0.025   0.009   256.84   91.803
-HA   paml   rho   BMweights   0.178   0.073   0.01   0.003   106.73   34.968
-HA   paml   rho   BMweightsP   0.183   0.075   0.024   0.009   251.01   92.793
-HA   paml   rho   PDweights   0.178   0.072   0.01   0.003   108.67   35.791
-HA   paml   rho   PDweightsP   0.182   0.076   0.026   0.01   264.28   96.689
-HA   paml   prk   truealn   0.19   0.039   0   0   0   0
-HA   paml   prk   refaln   0.347   0.111   0   0   0   0
-HA   paml   prk   Guidance   0.342   0.105   0.027   0.005   653.38   132.679
-HA   paml   prk   GuidanceP   0.337   0.086   0.094   0.019   2280.15   512.74
-HA   paml   prk   BMweights   0.345   0.103   0.026   0.005   634.76   138.276
-HA   paml   prk   BMweightsP   0.333   0.09   0.096   0.02   2326.67   545.531
-HA   paml   prk   PDweights   0.341   0.103   0.032   0.007   762.93   187.31
-HA   paml   prk   PDweightsP   0.337   0.088   0.104   0.022   2522.89   579.681
-GP41   fubar   or5   truealn   0.059   0.023   0   0   0   0
-GP41   fubar   or5   refaln   0.058   0.026   0   0   0   0
-GP41   fubar   or5   Guidance   0.057   0.024   0.009   0.005   40.56   21.704
-GP41   fubar   or5   GuidanceP   0.057   0.024   0.021   0.012   93.1   51.845
-GP41   fubar   or5   BMweights   0.057   0.025   0.009   0.005   40.01   21.622
-GP41   fubar   or5   BMweightsP   0.057   0.024   0.021   0.012   91.96   50.887
-GP41   fubar   or5   PDweights   0.058   0.025   0.009   0.005   41.82   21.939
-GP41   fubar   or5   PDweightsP   0.057   0.025   0.027   0.014   117.72   62.877
-GP41   fubar   rho   truealn   0.164   0.034   0   0   0   0
-GP41   fubar   rho   refaln   0.196   0.044   0   0   0   0
-GP41   fubar   rho   Guidance   0.2   0.045   0.014   0.004   143.81   40.791
-GP41   fubar   rho   GuidanceP   0.197   0.045   0.042   0.013   435.8   131.96
-GP41   fubar   rho   BMweights   0.2   0.045   0.014   0.004   141.86   40.333
-GP41   fubar   rho   BMweightsP   0.197   0.045   0.044   0.015   461.09   153.409
-GP41   fubar   rho   PDweights   0.199   0.045   0.014   0.004   148.7   42.173
-GP41   fubar   rho   PDweightsP   0.196   0.044   0.049   0.016   512.64   162.354
-GP41   fubar   prk   truealn   0.168   0.022   0   0   0   0
-GP41   fubar   prk   refaln   0.307   0.051   0   0   0   0
-GP41   fubar   prk   Guidance   0.313   0.049   0.027   0.005   655.49   134.743
-GP41   fubar   prk   GuidanceP   0.304   0.049   0.091   0.018   2169.87   458.929
-GP41   fubar   prk   BMweights   0.313   0.05   0.027   0.005   639.34   137.924
-GP41   fubar   prk   BMweightsP   0.304   0.049   0.094   0.02   2253.62   490.219
-GP41   fubar   prk   PDweights   0.312   0.05   0.032   0.007   777.8   184.475
-GP41   fubar   prk   PDweightsP   0.301   0.049   0.102   0.022   2447.19   546.066
-GP41   fubar   flat   truealn   0.186   0.026   0   0   0   0
-GP41   fubar   flat   refaln   0.32   0.045   0   0   0   0
-GP41   fubar   flat   Guidance   0.325   0.046   0.006   0.001   363.15   60.306
-GP41   fubar   flat   GuidanceP   0.326   0.045   0.017   0.008   1060.16   510.384
-GP41   fubar   flat   BMweights   0.324   0.046   0.006   0.001   350.34   65.521
-GP41   fubar   flat   BMweightsP   0.326   0.046   0.016   0.006   1036.91   372.763
-GP41   fubar   flat   PDweights   0.326   0.045   0.006   0.001   396.34   72.276
-GP41   fubar   flat   PDweightsP   0.325   0.046   0.017   0.009   1103.85   537.039
-GP41   paml   or5   truealn   0.09   0.046   0   0   0   0
-GP41   paml   or5   refaln   0.098   0.051   0   0   0   0
-GP41   paml   or5   Guidance   0.095   0.05   0.009   0.005   40.56   21.704
-GP41   paml   or5   GuidanceP   0.094   0.05   0.021   0.012   93.1   51.845
-GP41   paml   or5   BMweights   0.095   0.05   0.009   0.005   40.01   21.622
-GP41   paml   or5   BMweightsP   0.094   0.05   0.021   0.012   91.96   50.887
-GP41   paml   or5   PDweights   0.095   0.05   0.009   0.005   41.82   21.939
-GP41   paml   or5   PDweightsP   0.094   0.05   0.027   0.014   117.72   62.877
-GP41   paml   rho   truealn   0.179   0.045   0   0   0   0
-GP41   paml   rho   refaln   0.216   0.056   0   0   0   0
-GP41   paml   rho   Guidance   0.22   0.056   0.014   0.004   143.81   40.791
-GP41   paml   rho   GuidanceP   0.217   0.056   0.042   0.013   435.8   131.96
-GP41   paml   rho   BMweights   0.22   0.057   0.014   0.004   141.86   40.333
-GP41   paml   rho   BMweightsP   0.217   0.057   0.044   0.015   461.09   153.409
-GP41   paml   rho   PDweights   0.219   0.056   0.014   0.004   148.7   42.173
-GP41   paml   rho   PDweightsP   0.215   0.056   0.049   0.016   512.64   162.354
-GP41   paml   prk   truealn   0.158   0.027   0   0   0   0
-GP41   paml   prk   refaln   0.304   0.066   0   0   0   0
-GP41   paml   prk   Guidance   0.302   0.06   0.027   0.005   655.49   134.743
-GP41   paml   prk   GuidanceP   0.296   0.059   0.091   0.018   2169.87   458.929
-GP41   paml   prk   BMweights   0.303   0.063   0.027   0.005   639.34   137.924
-GP41   paml   prk   BMweightsP   0.296   0.059   0.094   0.02   2253.62   490.219
-GP41   paml   prk   PDweights   0.3   0.06   0.032   0.007   777.8   184.475
-GP41   paml   prk   PDweightsP   0.293   0.057   0.102   0.022   2447.19   546.066
+HA	fubar	or5	truealn	0.08691	0	0.03121
+HA	fubar	or5	refaln	0.08428	0	0
+HA	fubar	or5	Guidance	0.08545	0.00976	0.01388
+HA	fubar	or5	GuidanceP	0.08486	0.02029	0.00688
+HA	fubar	rho	truealn	0.19959	0	-0.12191
+HA	fubar	rho	refaln	0.2273	0	0
+HA	fubar	rho	Guidance	0.2292	0.0104	0.00836
+HA	fubar	rho	GuidanceP	0.22643	0.02484	-0.00383
+HA	fubar	prk	truealn	0.25328	0	-0.46567
+HA	fubar	prk	refaln	0.47402	0	1e-05
+HA	fubar	prk	Guidance	0.47875	0.02703	0.00998
+HA	fubar	prk	GuidanceP	0.46381	0.09426	-0.02153
+HA	fubar	flat	truealn	0.26433	0	-0.42296
+HA	fubar	flat	refaln	0.45808	0	0
+HA	fubar	flat	Guidance	0.46674	0.00599	0.01891
+HA	fubar	flat	GuidanceP	0.4678	0.01755	0.02122
+HA	paml	or5	truealn	0.07981	0	-0.02182
+HA	paml	or5	refaln	0.08159	0	0
+HA	paml	or5	Guidance	0.08116	0.00976	-0.00527
+HA	paml	or5	GuidanceP	0.08105	0.02029	-0.00662
+HA	paml	rho	truealn	0.16392	0	-0.06604
+HA	paml	rho	refaln	0.17551	0	-1e-05
+HA	paml	rho	Guidance	0.17787	0.0104	0.01344
+HA	paml	rho	GuidanceP	0.18259	0.02484	0.04033
+HA	paml	prk	truealn	0.1897	0	-0.45402
+HA	paml	prk	refaln	0.34745	0	1e-05
+HA	paml	prk	Guidance	0.3416	0.02703	-0.01683
+HA	paml	prk	GuidanceP	0.33732	0.09426	-0.02915
+GP41	fubar	or5	truealn	0.05867	0	0.01155
+GP41	fubar	or5	refaln	0.058	0	0
+GP41	fubar	or5	Guidance	0.05715	0.00919	-0.01466
+GP41	fubar	or5	GuidanceP	0.05728	0.02117	-0.01242
+GP41	fubar	rho	truealn	0.16383	0	-0.16536
+GP41	fubar	rho	refaln	0.19629	0	1e-05
+GP41	fubar	rho	Guidance	0.2	0.01378	0.01891
+GP41	fubar	rho	GuidanceP	0.19704	0.04186	0.00383
+GP41	fubar	prk	truealn	0.16841	0	-0.45227
+GP41	fubar	prk	refaln	0.30747	0	-1e-05
+GP41	fubar	prk	Guidance	0.31294	0.02732	0.01779
+GP41	fubar	prk	GuidanceP	0.30393	0.09059	-0.01152
+GP41	fubar	flat	truealn	0.18626	0	-0.41709
+GP41	fubar	flat	refaln	0.31953	0	-1e-05
+GP41	fubar	flat	Guidance	0.32522	0.00572	0.01779
+GP41	fubar	flat	GuidanceP	0.32601	0.01671	0.02027
+GP41	paml	or5	truealn	0.08966	0	-0.08724
+GP41	paml	or5	refaln	0.09823	0	1e-05
+GP41	paml	or5	Guidance	0.09478	0.00919	-0.03511
+GP41	paml	or5	GuidanceP	0.09449	0.02117	-0.03807
+GP41	paml	rho	truealn	0.17908	0	-0.17201
+GP41	paml	rho	refaln	0.21628	0	-1e-05
+GP41	paml	rho	Guidance	0.21961	0.01378	0.01539
+GP41	paml	rho	GuidanceP	0.21681	0.04186	0.00244
+GP41	paml	prk	truealn	0.15776	0	-0.48077
+GP41	paml	prk	refaln	0.30384	0	1e-05
+GP41	paml	prk	Guidance	0.30152	0.02732	-0.00762
+GP41	paml	prk	GuidanceP	0.29558	0.09059	-0.02717

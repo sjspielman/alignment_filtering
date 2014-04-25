@@ -9,22 +9,23 @@ outfile <- "summary_output.txt"
 datasets <- c('HA', 'GP41')
 paml_genes <- c('or5', 'rho', 'prk')
 fubar_genes <- c(paml_genes, 'flat')
-algs <-c('truealn', 'refaln', 'Guidance', 'GuidanceP', 'BMweights', 'BMweightsP', 'PDweights', 'PDweightsP')
+algs <-c('truealn', 'refaln', 'Guidance', 'GuidanceP')#, 'BMweights', 'BMweightsP', 'PDweights', 'PDweightsP')
 sink(file = outfile)
 
 sumStats <- function(df, method, data, mygene, myalg)
 {
+	dig = 5
 	dat <- df[df$gene == mygene & df$case == myalg,]
-	tpr_mean <- round( mean(dat$tprate), digits=3)
-	tpr_sd <- round( sd(dat$tprate), digits=3)
-	perc_mean <- round( mean(dat$perc_masked), digits=3)
-	perc_sd <- round( sd(dat$perc_masked), digits=3)
-	num_mean <- round( mean(dat$num_masked), digits=3)
-	num_sd <- round( sd(dat$num_masked), digits=3)
-	new <- paste(data, method, mygene, myalg, tpr_mean, tpr_sd, perc_mean, perc_sd, num_mean, num_sd, sep = '   ')
+	ref <- df[df$gene == mygene & df$case == 'refaln',]
+	ref_tpr <- mean(ref$tprate)
+	tpr_mean <- round( mean(dat$tprate), dig)
+	perc_mean <- round( mean(dat$perc_masked), dig)
+	ref_diff <- round (((tpr_mean - ref_tpr)/ref_tpr), dig)
+	new <- paste(data, method, mygene, myalg, tpr_mean, perc_mean, ref_diff, sep = '   ')
 	print(new)
 }
-out <- data.frame( method=character(), gene=character(), case=character(), tpr_mean=numeric(), tpr_sd=numeric(), perc_mean=numeric(), perc_sd=numeric(), num_mean=numeric(), num_sd=numeric())
+#out <- data.frame( method=character(), gene=character(), case=character(), tpr_mean=numeric(), tpr_sd=numeric(), perc_mean=numeric(), perc_sd=numeric(), num_mean=numeric(), num_sd=numeric())
+out <- data.frame( method=character(), gene=character(), case=character(), tpr_mean=numeric(), perc_mean=numeric(), ref_diff=numeric())
 
 
 ################## HA DATA FRAMES #########################
