@@ -1,0 +1,67 @@
+####### Plots ROC curves. SJS 4/25/14. #########
+## Note that this should be done for circumstances under which masking HELPS.
+# Such as: FUBAR HA flat (all masking), PAML rho (penal), FUBAR GP41 rho/prk (original), FUBAR GP41 flat (all masking)
+
+cuts<-c(0:100)
+cuts<-cuts/100
+prefix<-c('Guidance', 'BMweights', 'PDweights')
+prefixp<-c('GuidanceP', 'BMweightsP', 'PDweightsP')
+
+
+dataset <- 'HA'
+gene <- 'rho'
+method <- 'paml'
+xlimit <- c(0, 0.1)
+file <- paste('../../parsed_data/singletaxonmap/', method, '_', dataset, '_', gene, '_sweep.txt', sep = '')
+dat <- read.table(file, header=T)
+outname <- paste('roc_',  method, '_', dataset, '_', gene, sep='')
+pdf(outname, width=8, height=4)
+
+par(mfrow=c(1,2))
+
+#### plot reference
+#plot the fubar line first
+meantp<-c()
+meanfp<-c()
+var<-dat[dat$case=='refaln',]
+for (x in cuts){
+	tp<-mean(var$tprate[var$cutoff==x])
+	meantp<-c(meantp, tp)
+	fp<-mean(var$fprate[var$cutoff==x])
+	meanfp<-c(meanfp, fp)
+}
+plot(meanfp, meantp, type="l", lwd=2, ylab='True Positive Rate', xlab='False Positive Rate', cex.lab=1.2, xlim=c(0,1), ylim=c(0,1), main = 'Refaln', frame.plot=F)
+
+# now the filtered
+# again, plot the reference, but on that xlim range
+plot(meanfp, meantp, type="l", lwd=3, ylab='True Positive Rate', xlab='False Positive Rate', cex.lab=1.2, xlim=xlimit, ylim=c(0,1), main = outname, frame.plot=F)
+
+# Plot the nonp algorithms	
+for (pre in prefix){
+	meantp<-c()
+	meanfp<-c()
+	var<-dat[dat$case==pre,]
+	for (x in cuts){
+		tp<-mean(var$tprate[var$cutoff==x])
+		meantp<-c(meantp, tp)
+		fp<-mean(var$fprate[var$cutoff==x])
+		meanfp<-c(meanfp, fp)
+	}
+	lines(meanfp, meantp, col='red', lwd=2, type = 'l')
+}
+
+# Plot the penal algorithms	
+for (pre in prefixp){
+	meantp<-c()
+	meanfp<-c()
+	var<-dat[dat$case==pre,]
+	for (x in cuts){
+		tp<-mean(var$tprate[var$cutoff==x])
+		meantp<-c(meantp, tp)
+		fp<-mean(var$fprate[var$cutoff==x])
+		meanfp<-c(meanfp, fp)
+	}
+	lines(meanfp, meantp, lwd=2, col='blue')
+}
+legend('bottomright', lty=1, lwd=2, col=c('black', 'red', 'blue'), c('Unfiltered', 'Original', 'Gap-penalization'), box.col=NA, cex=0.9)
+dev.off()
