@@ -74,7 +74,7 @@ for gene in genes:
 		(truepos, testprobs) = assessTrueFUBAR(trfile, fubar, posStart)
 		assert(len(truepos)==len(testprobs)), "True FUBAR Mapping has failed."
 		(tp,tn,fp,fn,tprate,fprate,tnrate,fnrate,accuracy) = getAccuracy(pp_cutoff, truepos, testprobs)
-		outhandle.write(str(n)+'\t'+str(tprate)+'\t'+str(fprate)+'\t'+str(fnrate)+'\t'+str(accuracy)+'\ttruealn\t'+gene+'\ttrue\tfubar\ttrue\t0\t0\t0\t0\n')	
+		outhandle.write(str(n)+'\t'+str(tprate)+'\t'+str(fprate)+'\t'+str(fnrate)+'\t'+str(accuracy)+'\ttruealn\t'+gene+'\ttrue\tfubar\ttrue\t0\t0\t0\t0\t0\n')	
 		###########################################################################################################
 
 		###########################################################################################################
