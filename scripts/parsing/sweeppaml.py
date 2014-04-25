@@ -93,11 +93,10 @@ for n in range(100):
 			else:
 				penal = 'no'
 		
-		# Get case info
-		testprobs = parsePAML(wantRef, paml, alnlen)	
+		# Get case info. However, we don't need to print prior omega. It does need to be here though..
+		testprobs, prior, omega = parsePAML(wantRef, paml, alnlen)			
 		assert(len(truepos)==len(testprobs)), "PAML Mapping has failed."
 	
-
 		## Accuracy across posterior probability cutoffs
 		for x in cutoffs:
 			(tp,tn,fp,fn,tprate,fprate,tnrate,fnrate,accuracy)=getAccuracy(float(x), truepos, testprobs)
