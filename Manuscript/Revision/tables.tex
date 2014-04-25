@@ -1,0 +1,62 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=1.0in]{geometry}
+%\linespread{1.5}
+\usepackage{graphicx}
+\usepackage{natbib}
+
+\pdfminorversion 4
+
+\bibpunct[,]{(}{)}{;}{a}{}{,}
+%\usepackage{tablefootnote}
+\usepackage[table]{xcolor}
+\usepackage{amsmath}
+
+\renewcommand{\bottomfraction}{.9}
+\renewcommand{\topfraction}{.9}
+\renewcommand{\textfraction}{0.1}
+\renewcommand{\floatpagefraction}{.9}
+
+
+\usepackage{fancyhdr}
+
+\fancypagestyle{plain}{%
+   \fancyhead[R]{\fbox{\big{\textbf{Article; Methods}}}}
+   \renewcommand{\headrulewidth}{0pt}
+}
+
+
+\begin{document}
+
+
+\begin{table}[hbt]
+%\rowcolors{1}{white}{lightgray}
+\caption {\label{tab:summarystats} Summary statistics for effect of masking.}
+\begin{tabular}{l l l l l l l}
+\hline\noalign{\smallskip}
+& & & \multicolumn{4}{c}{True Positive Rates (\% diff from ref aln)} \\
+\cline{4-7}\noalign{\smallskip}
+\multicolumn{1}{c}{Selective Profile} & \multicolumn{1}{c}{Number of Taxa} & \multicolumn{1}{c}{Inference Method} & \multicolumn{1}{c}{True} & \multicolumn{1}{c}{Unfiltered} & \multicolumn{1}{c}{Guidance} & \multicolumn{1}{c}{GuidanceP} \\
+\noalign{\smallskip}\hline\noalign{\smallskip}
+HA & 26 & FUBAR & 0.20 & 0.227 & 0.229 (0.84\%) & 0.226 (-0.38\%) \\
+ &   & PAML & 0.163 & 0.176 & \textbf{0.178 (1.34\%)}$^{\ast\ast}$ & \textbf{0.283 (4.03\%)}$^{\ast\ast}$ \\
+\hline
+ & 60 & FUBAR & 0.253 & 0.474 & 0.479 (0.99\%) & \textbf{0.464 (-2.15\%)}$^{\ast}$  \\
+ &  & PAML & 0.190 & 0.347 & 0.342 (-1.69\%) & 0.337 (-2.92\%) \\
+ \hline
+ & 158 & FUBAR & 0.263 & 0.458 & \textbf{0.467 (1.89\%)}$^{\ast}$ & \textbf{0.468 (2.12\%)}$^{\ast}$ \\
+\hline
+GP41 & 26 & FUBAR & 0.164 & 0.196 & \textbf{0.20 (1.89\%)}$^{\ast}$ & 0.197 (0.383\%) \\
+ & & PAML & 0.179 & 0.216 & 0.220 (1.54\%) & 0.217 (0.244\%) \\
+ \hline
+ & 60 & FUBAR & 0.168 & 0.307 & \textbf{0.313 (1.78\%)}$^{\ast}$ & 0.304 (-1.12\%)\\
+ & & PAML & 0.158 & 0.304 & 0.302 (-0.762\%) & \textbf{0.296 (-2.72\%)}$^{\ast\ast}$ \\
+ \hline
+ & 158 & FUBAR & 0.186 & 0.320 & \textbf{0.325 (1.78\%)}$^{\ast\ast}$ & \textbf{0.326 (2.03\%)}$^{\ast\ast}$ \\
+\hline
+\end{tabular}
+\newline
+\textsc{note.}--- %Significance levels: $^{\ast\ast} P < 0.001}$; $^{\ast} P < 0.01$. Sig level = is sig diff from refaln? Each column displays the mean (perc_masked) TPR. All significance levels were corrected for multiple comparisons using the R multcomp package \citep{Hothorn2008}.
+\end{table}
+
+\end{document}
