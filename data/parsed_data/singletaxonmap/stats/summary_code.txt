@@ -1,0 +1,70 @@
+####### SUMMARY STATISTICS SJS 4/24/14. ##########
+# This file contains R code to generate summary statistics (predominantly, we want the mean and sd) for results obtained at a posterior probability cutoff of 0.9
+# We consider true alignment, unfiltered alignment, and algorithms with the masking threshold of 50% only (see the masking_threshold_output.txt file for background justification for this masking threshold choice).
+# Code shown here for both selective profiles (HA/GP41), for all data set sizes, for both inference methods.
+# Results are in "summary_output.txt".
+
+
+outfile <- "summary_output.txt"
+datasets <- c('HA', 'GP41')
+paml_genes <- c('or5', 'rho', 'prk')
+fubar_genes <- c(paml_genes, 'flat')
+algs <-c('truealn', 'refaln', 'Guidance', 'GuidanceP', 'BMweights', 'BMweightsP', 'PDweights', 'PDweightsP')
+sink(file = outfile)
+
+sumStats <- function(df, method, data, mygene, myalg)
+{
+	dat <- df[df$gene == mygene & df$case == myalg,]
+	tpr_mean <- round( mean(dat$tprate), digits=3)
+	tpr_sd <- round( sd(dat$tprate), digits=3)
+	perc_mean <- round( mean(dat$perc_masked), digits=3)
+	perc_sd <- round( sd(dat$perc_masked), digits=3)
+	num_mean <- round( mean(dat$num_masked), digits=3)
+	num_sd <- round( sd(dat$num_masked), digits=3)
+	new <- paste(data, method, mygene, myalg, tpr_mean, tpr_sd, perc_mean, perc_sd, num_mean, num_sd, sep = '   ')
+	print(new)
+}
+out <- data.frame( method=character(), gene=character(), case=character(), tpr_mean=numeric(), tpr_sd=numeric(), perc_mean=numeric(), perc_sd=numeric(), num_mean=numeric(), num_sd=numeric())
+
+
+################## HA DATA FRAMES #########################
+fubar<-read.table('../fubar_HA_90.txt', header=T)
+paml<-read.table('../paml_HA_90.txt', header=T)
+
+# Retain only the unfiltered (refaln), truealn, and filtering algorithms, and remove any masking threshold that isn't 50.
+fubar2 <- fubar[fubar$mask == 'fifty' | fubar$mask == 'zero' | fubar$mask == 'true',]
+paml2 <- paml[paml$mask == 'fifty' | paml$mask == 'zero' | paml$mask == 'true',]
+############################################################
+
+for (gene in fubar_genes){
+	for (alg in algs){
+		sumStats(fubar2, "fubar", "HA", gene, alg)
+	}
+}
+for (gene in paml_genes){
+	for (alg in algs){
+		sumStats(paml2, "paml", "HA", gene, alg)
+	}
+}
+
+################## GP41 DATA FRAMES #########################
+fubar<-read.table('../fubar_GP41_90.txt', header=T)
+paml<-read.table('../paml_GP41_90.txt', header=T)
+
+# Retain only the unfiltered (refaln), truealn, and filtering algorithms, and remove any masking threshold that isn't 50.
+fubar2 <- fubar[fubar$mask == 'fifty' | fubar$mask == 'zero' | fubar$mask == 'true',]
+paml2 <- paml[paml$mask == 'fifty' | paml$mask == 'zero' | paml$mask == 'true',]
+############################################################
+
+for (gene in fubar_genes){
+	for (alg in algs){
+		sumStats(fubar2, "fubar", "GP41", gene, alg)
+	}
+}
+for (gene in paml_genes){
+	for (alg in algs){
+		sumStats(paml2, "paml", "GP41", gene, alg)
+	}
+}
+sink()
+#write.table(out, file = outfile, sep='\t')
