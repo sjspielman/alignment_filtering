@@ -26,7 +26,7 @@ elif dataset == 'HA':
 	datadir += 'HA/'
 	posStart = 18
 
-outfile='/Users/sjspielman/Research/alignment_filtering/data/parsed_data/revision/TESTfubar_'+dataset+'_90.txt'
+outfile='/Users/sjspielman/Research/alignment_filtering/data/parsed_data/revision/fubar_'+dataset+'_90.txt'
 outhandle=open(outfile, 'w')
 outhandle.write('count\ttprate\tfprate\tfnrate\taccuracy\tcase\tgene\tmask\tmethod\tpenal\tnum_masked\tave_masked\tperc_masked\tprior\tomega\n')
 
