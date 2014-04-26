@@ -47,7 +47,7 @@ cutoffs=arange(0,1.01,0.01)
 
 outfile='/Users/sjspielman/Research/alignment_filtering/data/parsed_data/revision/paml_'+dataset+'_'+gene+'_sweep.txt'
 outhandle=open(outfile, 'w')
-outhandle.write('count\tcutoff\ttprate\tfprate\ttnrate\tfnrate\taccuracy\tcase\tpenal\tgene\tmethod\n')
+outhandle.write('count\tcutoff\ttprate\tfprate\tcase\tpenal\tgene\tmethod\n')
 
 		
 for n in range(100):
@@ -98,7 +98,7 @@ for n in range(100):
 		## Accuracy across posterior probability cutoffs
 		for x in cutoffs:
 			(tp,tn,fp,fn,tprate,fprate,tnrate,fnrate,accuracy)=getAccuracy(float(x), truepos, testprobs)
-			outhandle.write(str(n)+'\t'+str(x)+'\t'+str(tprate)+'\t'+str(fprate)+'\t'+str(fnrate)+'\t'+str(fnrate)+'\t'+str(accuracy)+'\t'+alg+'\t'+penal+'\t'+gene+'\tpaml\n')	
+			outhandle.write(str(n)+'\t'+str(x)+'\t'+str(tprate)+'\t'+str(fprate)+'\t'+alg+'\t'+penal+'\t'+gene+'\tpaml\n')	
 
 outhandle.close()
 
