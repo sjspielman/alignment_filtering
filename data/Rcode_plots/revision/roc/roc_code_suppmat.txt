@@ -1,0 +1,113 @@
+# Plot ROC supplementary figures, one for paml and one for fubar. SJS 4/26/14.
+# 2 columns. left column is HA, right column is GP41. row 1 is or5, row 2 is rho, row 3 is flat.
+# outfile is ROC_SI.pdf
+
+cuts<-c(0:100)
+cuts<-cuts/100
+xlimit <- c(0, 0.05)
+ylimit <- c(0, 0.8)
+
+
+## why can't i return multiple values! booo R.
+##########################################################################################
+getTPR <- function(df, alg, cuts){
+	var<-df[df$case==alg,]
+	meantp<-c()
+	for (x in cuts){
+		tp<-mean(var$tprate[var$cutoff==x])
+		meantp<-c(meantp, tp)
+	}
+	return(meantp)
+}
+getFPR <-function(df, alg, cuts){
+	var<-df[df$case==alg,]
+	meanfp<-c()
+	for (x in cuts){
+		fp<-mean(var$fprate[var$cutoff==x])
+		meanfp<-c(meanfp, fp)
+	}
+	return(meanfp)
+}
+##########################################################################################
+
+##########################################################################################
+plotPanel <- function(method, gene, cuts, lwd_size, lwd_ref_size, xlimit, ylimit){
+
+	# Can edit these lines based on which algorithms we'd like to include
+	algs<-c('Guidance', 'BMweights', 'PDweights')
+	algsp<-c('GuidanceP', 'BMweightsP', 'PDweightsP')
+	label_size = 2
+	axis_size = 1.5
+	
+	
+	title <- paste(method, gene, sep=' ')
+	
+	file_name <- paste('../../../parsed_data/revision/sweeps/', method, '_HA_', gene, '_sweep.txt', sep='')
+	ha <- read.table(file_name, header=T)
+	meantp <- getTPR(ha, 'refaln', cuts)
+	meanfp <- getFPR(ha, 'refaln', cuts)
+	plot(meanfp, meantp, type="l", lwd=lwd_ref_size, main = title, ylab='True Positive Rate', xlab='False Positive Rate', cex.axis = axis_size, cex.lab=label_size, xlim=xlimit, ylim=ylimit, frame.plot=F)
+	for (alg in algs){
+		meantp <- getTPR(ha, alg, cuts)
+		meanfp <- getFPR(ha, alg, cuts)
+		lines(meanfp, meantp, col='red', lwd=lwd_size)
+	}
+	for (algp in algsp){
+		meantp <- getTPR(ha, algp, cuts)
+		meanfp <- getFPR(ha, algp, cuts)
+		lines(meanfp, meantp, col='blue', lwd=lwd_size)
+	}
+	
+	file_name <- paste('../../../parsed_data/revision/sweeps/', method, '_GP41_', gene, '_sweep.txt', sep='')
+	gp41 <- read.table(file_name, header=T)
+	meantp <- getTPR(gp41, 'refaln', cuts)
+	meanfp <- getFPR(gp41, 'refaln', cuts)
+	lines(meanfp, meantp, lwd=lwd_ref_size)
+	for (alg in algs){
+		meantp <- getTPR(gp41, alg, cuts)
+		meanfp <- getFPR(gp41, alg, cuts)
+		lines(meanfp, meantp, col='red', lwd=lwd_size)
+	}
+	for (algp in algsp){
+		meantp <- getTPR(gp41, algp, cuts)
+		meanfp <- getFPR(gp41, algp, cuts)
+		lines(meanfp, meantp, col='blue', lwd=lwd_size)
+	}
+}
+##########################################################################################
+
+outname <- 'ROC_SI.pdf'
+pdf(outname, width=12, height=15)
+
+par(mfrow=c(3,2))
+par(mar=c(4.5,8,4,5)) #bottom, left, top, right
+
+lwd_size = 1.5
+lwd_ref_size = 3
+
+# FUBAR or5
+plotPanel('fubar', 'or5', cuts, lwd_size, lwd_ref_size, xlimit, ylimit)
+
+# PAML or5
+plotPanel('paml',  'or5', cuts, lwd_size, lwd_ref_size, xlimit, ylimit)
+
+# FUBAR rho
+plotPanel('fubar', 'rho', cuts, lwd_size, lwd_ref_size, xlimit, ylimit)
+
+# PAML rho
+plotPanel('paml', 'rho', cuts, lwd_size, lwd_ref_size, xlimit, ylimit)
+
+# FUBAR flat
+plotPanel('fubar', 'flat', cuts, lwd_size, lwd_ref_size, xlimit, ylimit)
+
+
+dev.off()
+#legend('bottomright', lty=1, lwd=lwd_ref_size, col=c('black', 'red', 'blue'), c('Unfiltered', 'Original', 'Gap-penalization'), box.col=NA, cex=0.9)
+
+
+
+
+
+
+
+
