@@ -1,0 +1,63 @@
+####### CODE FOR GENERATING (mostly) TABLE S2. SJS 4/26/14. ##########
+
+outfile <- "tableS2.txt"
+datasets <- c('HA', 'GP41')
+paml_genes <- c('or5', 'rho', 'prk')
+fubar_genes <- c(paml_genes, 'flat')
+algs <-c('Guidance', 'BMweights', 'PDweights', 'GuidanceP', 'BMweightsP', 'PDweightsP')
+sink(file = outfile)
+
+sumStats <- function(df, method, data, mygene)
+{
+	
+	dig = 3
+	mylist <- c(data, gene, method)
+	for (myalg in algs) {
+		dat <- df[df$gene == mygene & df$case == myalg,]
+		
+		perc <- round(mean(dat$perc_masked), dig)
+		num <- round(mean(dat$num_masked), dig)
+	
+		new <- paste(perc, "\\%", " (", num, ")", sep='')
+		mylist <- c(mylist, new)
+	}
+	string <- ''
+	for (entry in mylist){
+		string <- paste(string, entry, sep='  &  ')
+	}
+	string <- paste(string, "\\", sep = '  ')
+	print(string)
+}
+
+################## HA DATA FRAMES #########################
+fubar<-read.table('../fubar_HA_90.txt', header=T)
+paml<-read.table('../paml_HA_90.txt', header=T)
+
+# Retain only the unfiltered (refaln), truealn, and filtering algorithms, and remove any masking threshold that isn't 50.
+fubar2 <- fubar[fubar$mask == 'fifty' | fubar$mask == 'zero' | fubar$mask == 'true',]
+paml2 <- paml[paml$mask == 'fifty' | paml$mask == 'zero' | paml$mask == 'true',]
+############################################################
+
+for (gene in fubar_genes){
+		sumStats(fubar2, "fubar", "HA", gene)
+}
+for (gene in paml_genes){
+		sumStats(paml2, "paml", "HA", gene)
+}
+
+################## GP41 DATA FRAMES #########################
+fubar<-read.table('../fubar_GP41_90.txt', header=T)
+paml<-read.table('../paml_GP41_90.txt', header=T)
+
+# Retain only the unfiltered (refaln), truealn, and filtering algorithms, and remove any masking threshold that isn't 50.
+fubar2 <- fubar[fubar$mask == 'fifty' | fubar$mask == 'zero' | fubar$mask == 'true',]
+paml2 <- paml[paml$mask == 'fifty' | paml$mask == 'zero' | paml$mask == 'true',]
+############################################################
+
+for (gene in fubar_genes){
+		sumStats(fubar2, "fubar", "GP41", gene)
+}
+for (gene in paml_genes){
+		sumStats(paml2, "paml", "GP41", gene)
+}
+sink()
