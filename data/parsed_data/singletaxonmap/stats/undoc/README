@@ -1,0 +1,3 @@
+In this directory is a bunch of code (probably not totally cohesive since it was edited and edited many times over for on-the-fly runs...) used to examine whether differences in TPR due to filtered are related to changes in the likelihood function (PAML) or grid weight priors (FUBAR). For instance, does filtering out sites change how robustly positively selected sites are located? etc.
+
+We found that there is a lot of signal coming out of the prior weights (a lot of sigificance between unfiltered and filtered alignments), BUT IMPORTANTLY none of this systematically varied with whether a significant increase/decrease in TPR was ever observed. Thus, it's pretty unclear if differences in priors are the source of diff TPRs here. 
