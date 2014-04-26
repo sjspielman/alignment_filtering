@@ -21,7 +21,7 @@ datadir='/Users/sjspielman/Dropbox/aln/results/'
 dataset = sys.argv[1]
 gene = sys.argv[2]
 assert (dataset == 'HA' or dataset == 'GP41'), "Must specify either HA or GP41 as the dataset."
-assert (gene == 'rho' or gene == 'prk'), "Must specify either rho or prk as a gene."
+assert (gene == 'rho' or gene == 'prk' or gene == 'or5'), "Must specify either or5, rho, or prk as a gene."
 if dataset == 'GP41':
 	datadir += 'GP41/'
 	posStart = 10
