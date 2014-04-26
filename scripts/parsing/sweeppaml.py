@@ -1,8 +1,6 @@
 ## Sweep across posterior probability cutoffs. Mostly useful for ROC curve.
 ## Note that this must be run on a gene-by-gene basis to prevent file sizes from getting out of hand.
 
-### USAGE: python sweeppaml.py <dataset> <gene> ### 
-
 import re, os, sys, subprocess, fnmatch, csv, shutil
 from numpy import *
 from Bio import AlignIO, SeqIO
@@ -10,6 +8,11 @@ import re, os, sys, subprocess, fnmatch, csv, shutil
 from numpy import *
 from Bio import AlignIO, SeqIO
 from parsing_fxns import *
+ 
+ 
+if len(sys.argv) != 3:
+	print "Usage: python sweeppaml.py <dataset> <gene>   , where dataset is HA or GP41, gene is or5, rho, prk, or flat."
+	sys.exit(0) 
  
 datadir='/Users/sjspielman/Dropbox/aln/results/'
 
@@ -25,8 +28,6 @@ if dataset == 'GP41':
 elif dataset == 'HA':
 	datadir += 'HA/'
 	posStart = 18
-maptype = sys.argv[3]
-assert (maptype == 'singletaxonmap' or maptype == 'consensusmap'), "Must specify either taxon or consensus map strategy."
 ######################################################	
 	
 
@@ -44,7 +45,7 @@ algs=['refaln', 'Guidance', 'GuidanceP', 'BMweights', 'BMweightsP', 'PDweights',
 cutoffs=arange(0,1.01,0.01)
 ######################################################
 
-outfile='/Users/sjspielman/Research/alignment_filtering/data/parsed_data/'+maptype+'/paml_'+dataset+'_'+gene+'_sweep.txt'
+outfile='/Users/sjspielman/Research/alignment_filtering/data/parsed_data/revision/paml_'+dataset+'_'+gene+'_sweep.txt'
 outhandle=open(outfile, 'w')
 outhandle.write('count\tcutoff\ttprate\tfprate\ttnrate\tfnrate\taccuracy\tcase\tpenal\tgene\tmethod\n')
 
@@ -70,11 +71,8 @@ for n in range(100):
 	handle.close()
 		
 	## Build map to true alignment and obtain simulated positive selection state (binary - 0=notpos, 1=pos)
-	# wantRef = sites we want from reference. wantTrue = sites we want from true. Note the alternative mapping strategies.	
-	if maptype == 'singletaxonmap':		
-		wantRef, wantTrue = singleTaxonMap(trueparsed, refparsed, numseq, alnlen)	
-	else:
-		wantRef, wantTrue = consensusMap(trueparsed, refparsed, numseq, alnlen)
+	# wantRef = sites we want from reference. wantTrue = sites we want from true. Note only this mapping strategy is used.
+	wantRef, wantTrue = singleTaxonMap(trueparsed, refparsed, numseq, alnlen)	
 	truepos = parseTrueRates(trfile, wantTrue, posStart)
 	
 	################################ Accuracy assessment ###################################
