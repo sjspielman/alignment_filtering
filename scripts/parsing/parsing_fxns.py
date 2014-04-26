@@ -137,99 +137,6 @@ def consensusMap(trueparsed, parsed, numseq, alnlen):
 ###########################################################################################################
 
 ###########################################################################################################
-def assessTrueFUBAR(trfile, fufile, posStart):
-	''' This way no need to get tripped up by maps '''
-	# trfile: file with true simulated rates, given by Indelible
-	# posStart: omega category in which positive selection begins. Depends on simulation.
-	poslist=[]
-	
-	infile=open(trfile, 'r')
-	truelines=infile.readlines()
-	infile.close()
-	truelines=truelines[10:] ## only keep these lines since before that it's all header crap.	
-
-	for counter in range(len(truelines)):
-		find=re.search('^\d+\t(\d+)\t', truelines[counter])
-		assert(find), "Could not parse truerates file."
-		if find:
-			rate=int(find.group(1))
-			if rate >=posStart: 
-				poslist.append(1)
-			else:
-				poslist.append(0)
-	
-	## Read in fubar file
-	testprobs=[] ## contains the prob(alpha>beta) values for the truefubar results
-	fubar=csv.reader(open(fufile,'r'))
-	allfubar=[]
-	
-	for row in fubar:
-		if row[0]=='Codon':
-			continue
-		else:
-			allfubar.append(float(row[4]))
-	
-	# corresponds to truepos, testprobs
-	return(poslist, allfubar)
-###########################################################################################################
-	
-###########################################################################################################
-def assessTruePAML(trfile, fufile, posStart):
-	''' This way no need to get tripped up by maps '''
-	# trfile: file with true simulated rates, given by Indelible
-	# posStart: omega category in which positive selection begins. Depends on simulation.
-	poslist=[]
-	
-	infile=open(trfile, 'r')
-	truelines=infile.readlines()
-	infile.close()
-	truelines=truelines[10:] ## only keep these lines since before that it's all header crap.	
-
-	for counter in range(len(truelines)):
-		find=re.search('^\d+\t(\d+)\t', truelines[counter])
-		assert(find), "Could not parse truerates file."
-		if find:
-			rate=int(find.group(1))
-			if rate >=posStart: 
-				poslist.append(1)
-			else:
-				poslist.append(0)
-	
-	# read paml file
-	allpaml=[]
-	paml = open(paml_file, 'r')
-	all_lines = paml.readlines()
-	paml.close()
-	
-	prior, omega = getMLE(all_lines)
-	
-	
-	#First par down the PAML file to keep only the relevant lines
-	counter=0
-	for line in all_lines:
-		find = re.search('^Bayes Empirical Bayes', line)
-		if find:
-			lines = all_lines[counter+3:counter+3+alnlen]
-			break
-		else:
-			counter+=1
-			continue
-	
-	# Retrieve pr(w>1)
-	for line in lines:
-		find = re.search('^\s*\d+\s.+ (\d\.\d+) \(\s*\d+\)', line)
-		if find:
-			# just to kill scientific notation. if it's this small who cares what it's prob is. doesn't even matter for sweeping.
-			if float(find.group(1)) <= 0.001:
-				allpaml.append(0.001)
-			else:
-				allpaml.append(float(find.group(1)))
-	
-	# corresponds to truepos, testprobs
-	return(poslist, allpaml, prior, omega)
-###########################################################################################################
-
-###########################################################################################################
 def parsePAML(map, paml_file, alnlen):
 	allpaml=[]
 	testprobs=[]
@@ -239,7 +146,7 @@ def parsePAML(map, paml_file, alnlen):
 	paml.close()
 	
 	prior, omega = getMLE(all_lines)
-	
+
 	#First par down the PAML file to keep only the relevant lines
 	counter=0
 	for line in all_lines:
