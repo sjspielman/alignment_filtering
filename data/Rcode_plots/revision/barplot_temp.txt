@@ -1,0 +1,20 @@
+# Ok, I did some barplot stuff and it's now totally MIA. Motherfucker.
+
+# for now let's start w/ prk, both data sets.
+
+
+# order: ref, gp, g
+
+pdf('barplot_prk_temp.pdf', height=6, width=8)
+
+fubar_ha<-c(0.47402, 0.47875, 0.46381)
+paml_ha<-c(0.34745, 0.3416, 0.33732)
+fubar_gp41<-c(0.30747, 0.31294, 0.30393)
+paml_gp41<-c(0.30384, 0.30152, 0.29558)
+
+bars <- cbind(fubar_ha, paml_ha, fubar_gp41, paml_gp41)
+
+b <- barplot(bars, beside=T, names.arg = c('HA FUBAR', 'HA PAML', 'GP41 FUBAR', 'GP41 PAML'), col=c('darkgreen', 'red', 'blue'), ylim=c(0, 0.5), main='ha prk')
+legend('topright', lty=c(NA, NA, NA), pch=c(15, 15, 15), lwd=2, col=c('darkgreen', 'red', 'blue'), c('Unfiltered', 'Guidance', 'GuidanceP'), box.col=NA, cex=0.9)
+
+dev.off()
