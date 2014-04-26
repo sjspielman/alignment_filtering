@@ -3,6 +3,10 @@ from numpy import *
 from Bio import AlignIO, SeqIO
 from parsing_fxns import *
 
+if len(sys.argv) != 2:
+	print "Usage: python parsefubar.py <dataset>    , where dataset is HA or GP41"
+	sys.exit(0)
+
 # Weighted algorithms
 walgs=['BMweights', 'PDweights', 'BMweightsP', 'PDweightsP']
 # Guidance algorithms
@@ -11,6 +15,7 @@ masks={'30': 'thirty', '50':'fifty', '70':'seventy', '90':'ninety'}
 genes=['or5', 'rho', 'prk', 'flat']
 pp_cutoff = 0.895 # Posterior probability threshold for calling sites as positively selected or not.
 gridSize = 100 # dimensionality for FUBAR grid
+
 datadir='/Users/sjspielman/Dropbox/aln/results/'
 dataset = sys.argv[1]
 assert (dataset == 'HA' or dataset == 'GP41'), "Must specify either HA or GP41 as the dataset."
@@ -20,11 +25,8 @@ if dataset == 'GP41':
 elif dataset == 'HA':
 	datadir += 'HA/'
 	posStart = 18
-maptype = sys.argv[2]
-assert (maptype == 'singletaxonmap' or maptype == 'consensusmap'), "Must specify either taxon or consensus map strategy."
 
-#outfile = '/Users/sjspielman/Desktop/TEST.txt'
-outfile='/Users/sjspielman/Research/alignment_filtering/data/parsed_data/'+maptype+'/fubar_'+dataset+'_90.txt'
+outfile='/Users/sjspielman/Research/alignment_filtering/data/parsed_data/revision/TESTfubar_'+dataset+'_90.txt'
 outhandle=open(outfile, 'w')
 outhandle.write('count\ttprate\tfprate\tfnrate\taccuracy\tcase\tgene\tmask\tmethod\tpenal\tnum_masked\tave_masked\tperc_masked\tprior\tomega\n')
 
@@ -68,10 +70,15 @@ for gene in genes:
 		
 		###########################################################################################################
 		#################### Assess accuracy for the true alignment before anything else ##########################
+			
+		# In this case, our reference alignment is actually the true alignment.
+		# We are using the same mapping strategy for the true state as below because otherwise the tprate measures are DEFLATED due to gappiness in the true alignment. Only by using the same mapping strategy can we have a fair comparison among all results.
+		wantRef, wantTrue = singleTaxonMap(trueparsed, trueparsed, numseq, true_alnlen)	
+		truepos = parseTrueRates(trfile, wantTrue, posStart)
 	
 		fubar = fudir+'fubar/truealn'+str(n)+'.fasta.fubar'	
 		
-		(truepos, testprobs) = assessTrueFUBAR(trfile, fubar, posStart)
+		testprobs = parseFUBAR(wantRef, fubar)	
 		assert(len(truepos)==len(testprobs)), "True FUBAR Mapping has failed."
 		(tp,tn,fp,fn,tprate,fprate,tnrate,fnrate,accuracy) = getAccuracy(pp_cutoff, truepos, testprobs)
 		outhandle.write(str(n)+'\t'+str(tprate)+'\t'+str(fprate)+'\t'+str(fnrate)+'\t'+str(accuracy)+'\ttruealn\t'+gene+'\ttrue\tfubar\ttrue\t0\t0\t0\t0\t0\n')	
@@ -81,13 +88,9 @@ for gene in genes:
 		################## Assess accuracy for the refaln. Comes first since it isn't masked.  ####################
 		
 		
-		# Note that these values will be used for all subsequent alignments in this n rep.
-		# wantRef = sites we want from reference. wantTrue = sites we want from true. Note the alternative mapping strategies.	
-		if maptype == 'singletaxonmap':		
-			wantRef, wantTrue = singleTaxonMap(trueparsed, refparsed, numseq, alnlen)	
-		else:
-			wantRef, wantTrue = consensusMap(trueparsed, refparsed, numseq, alnlen)
-		
+		# Note that these values will be used for all subsequent alignments in this n rep. 
+		# wantRef = sites we want from reference. wantTrue = sites we want from true. Note that we are only now using the singletaxonmap!
+		wantRef, wantTrue = singleTaxonMap(trueparsed, refparsed, numseq, alnlen)	
 		truepos = parseTrueRates(trfile, wantTrue, posStart)
 		
 		name = 'refaln'+str(n)+'.fasta'

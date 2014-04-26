@@ -3,6 +3,9 @@ from numpy import *
 from Bio import AlignIO, SeqIO
 from parsing_fxns import *
 
+if len(sys.argv) != 2:
+	print "Usage: python parsefubar.py <dataset>    , where dataset is HA or GP41"
+	sys.exit(0)
 
 # Weighted algorithms
 walgs=['BMweights', 'PDweights', 'BMweightsP', 'PDweightsP']
@@ -22,10 +25,7 @@ elif dataset == 'HA':
 	datadir += 'HA/'
 	posStart = 18
 
-maptype = sys.argv[2]
-assert (maptype == 'singletaxonmap' or maptype == 'consensusmap'), "Must specify either taxon or consensus map strategy."
-
-outfile='/Users/sjspielman/Research/alignment_filtering/data/parsed_data/'+maptype+'/paml_'+dataset+'_90.txt'
+outfile='/Users/sjspielman/Research/alignment_filtering/data/parsed_data/revision/paml_'+dataset+'_90.txt'
 outhandle=open(outfile, 'w')
 outhandle.write('count\ttprate\tfprate\t\tfnrate\taccuracy\tcase\tgene\tmask\tmethod\tpenal\tnum_masked\tave_masked\tperc_masked\tprior\tomega\n')
 
@@ -70,15 +70,15 @@ for gene in genes:
 		###########################################################################################################
 		#################### Assess accuracy for the true alignment before anything else ##########################
 	
+	
+		# In this case, our reference alignment is actually the true alignment.
+		# We are using the same mapping strategy for the true state as below because otherwise the tprate measures are DEFLATED due to gappiness in the true alignment. Only by using the same mapping strategy can we have a fair comparison among all results.
+		wantRef, wantTrue = singleTaxonMap(trueparsed, trueparsed, numseq, true_alnlen)	
+		truepos = parseTrueRates(trfile, wantTrue, posStart)
+		
 		paml  = pamldir+'truealn'+str(n)+'.fasta.rst'
 		
-		# Map for truealn only. Can just go position by position as the true alignment is, shockingly, the same as itself.
-		tempmap = []
-		for i in range(true_alnlen):
-			tempmap.append(i)
-		truepos = parseTrueRates(trfile, tempmap, posStart)
-		
-		testprobs, prior, omega = parsePAML(tempmap, paml, true_alnlen)
+		testprobs, prior, omega = parsePAML(wantRef, paml, true_alnlen)
 		assert(len(truepos)==len(testprobs)), "True PAML Mapping has failed."
 		(tp,tn,fp,fn,tprate,fprate,tnrate,fnrate,accuracy) = getAccuracy(pp_cutoff, truepos, testprobs)
 		outhandle.write(str(n)+'\t'+str(tprate)+'\t'+str(fprate)+'\t'+str(fnrate)+'\t'+str(accuracy)+'\ttruealn\t'+gene+'\ttrue\tpaml\ttrue\t0\t0\t0\t'+str(prior)+'\t'+str(omega)+'\n')	
@@ -89,11 +89,8 @@ for gene in genes:
 		
 		
 		# Note that these values will be used for all subsequent alignments in this n rep		
-		# wantRef = sites we want from reference. wantTrue = sites we want from true. Note the alternative mapping strategies.	
-		if maptype == 'singletaxonmap':		
-			wantRef, wantTrue = singleTaxonMap(trueparsed, refparsed, numseq, alnlen)	
-		else:
-			wantRef, wantTrue = consensusMap(trueparsed, refparsed, numseq, alnlen)
+		# wantRef = sites we want from reference. wantTrue = sites we want from true.  Note that we are only now using the singletaxonmap!	
+		wantRef, wantTrue = singleTaxonMap(trueparsed, refparsed, numseq, alnlen)	
 		truepos = parseTrueRates(trfile, wantTrue, posStart)
 		
 		paml = pamldir+'refaln'+str(n)+'.fasta.rst'	
