@@ -1,56 +1,112 @@
-HA	fubar	or5	truealn	0.08691	0	0.03121
-HA	fubar	or5	refaln	0.08428	0	0
-HA	fubar	or5	Guidance	0.08545	0.00976	0.01388
-HA	fubar	or5	GuidanceP	0.08486	0.02029	0.00688
-HA	fubar	rho	truealn	0.19959	0	-0.12191
-HA	fubar	rho	refaln	0.2273	0	0
-HA	fubar	rho	Guidance	0.2292	0.0104	0.00836
-HA	fubar	rho	GuidanceP	0.22643	0.02484	-0.00383
-HA	fubar	prk	truealn	0.25328	0	-0.46567
-HA	fubar	prk	refaln	0.47402	0	1e-05
-HA	fubar	prk	Guidance	0.47875	0.02703	0.00998
-HA	fubar	prk	GuidanceP	0.46381	0.09426	-0.02153
-HA	fubar	flat	truealn	0.26433	0	-0.42296
-HA	fubar	flat	refaln	0.45808	0	0
-HA	fubar	flat	Guidance	0.46674	0.00599	0.01891
-HA	fubar	flat	GuidanceP	0.4678	0.01755	0.02122
-HA	paml	or5	truealn	0.07981	0	-0.02182
-HA	paml	or5	refaln	0.08159	0	0
-HA	paml	or5	Guidance	0.08116	0.00976	-0.00527
-HA	paml	or5	GuidanceP	0.08105	0.02029	-0.00662
-HA	paml	rho	truealn	0.16392	0	-0.06604
-HA	paml	rho	refaln	0.17551	0	-1e-05
-HA	paml	rho	Guidance	0.17787	0.0104	0.01344
-HA	paml	rho	GuidanceP	0.18259	0.02484	0.04033
-HA	paml	prk	truealn	0.1897	0	-0.45402
-HA	paml	prk	refaln	0.34745	0	1e-05
-HA	paml	prk	Guidance	0.3416	0.02703	-0.01683
-HA	paml	prk	GuidanceP	0.33732	0.09426	-0.02915
-GP41	fubar	or5	truealn	0.05867	0	0.01155
-GP41	fubar	or5	refaln	0.058	0	0
-GP41	fubar	or5	Guidance	0.05715	0.00919	-0.01466
-GP41	fubar	or5	GuidanceP	0.05728	0.02117	-0.01242
-GP41	fubar	rho	truealn	0.16383	0	-0.16536
-GP41	fubar	rho	refaln	0.19629	0	1e-05
-GP41	fubar	rho	Guidance	0.2	0.01378	0.01891
-GP41	fubar	rho	GuidanceP	0.19704	0.04186	0.00383
-GP41	fubar	prk	truealn	0.16841	0	-0.45227
-GP41	fubar	prk	refaln	0.30747	0	-1e-05
-GP41	fubar	prk	Guidance	0.31294	0.02732	0.01779
-GP41	fubar	prk	GuidanceP	0.30393	0.09059	-0.01152
-GP41	fubar	flat	truealn	0.18626	0	-0.41709
-GP41	fubar	flat	refaln	0.31953	0	-1e-05
-GP41	fubar	flat	Guidance	0.32522	0.00572	0.01779
-GP41	fubar	flat	GuidanceP	0.32601	0.01671	0.02027
-GP41	paml	or5	truealn	0.08966	0	-0.08724
-GP41	paml	or5	refaln	0.09823	0	1e-05
-GP41	paml	or5	Guidance	0.09478	0.00919	-0.03511
-GP41	paml	or5	GuidanceP	0.09449	0.02117	-0.03807
-GP41	paml	rho	truealn	0.17908	0	-0.17201
-GP41	paml	rho	refaln	0.21628	0	-1e-05
-GP41	paml	rho	Guidance	0.21961	0.01378	0.01539
-GP41	paml	rho	GuidanceP	0.21681	0.04186	0.00244
-GP41	paml	prk	truealn	0.15776	0	-0.48077
-GP41	paml	prk	refaln	0.30384	0	1e-05
-GP41	paml	prk	Guidance	0.30152	0.02732	-0.00762
-GP41	paml	prk	GuidanceP	0.29558	0.09059	-0.02717
+HA,fubar,or5,truealn,0.09302,0.00024,0,0.1037
+HA,fubar,or5,refaln,0.08428,0.00076,0,0
+HA,fubar,or5,Guidance,0.08545,0.00063,0.00976,0.01388
+HA,fubar,or5,GuidanceP,0.08486,0.00052,0.02029,0.00688
+HA,fubar,or5,BMweights,0.08564,0.00066,0.00959,0.01614
+HA,fubar,or5,BMweightsP,0.08557,0.00053,0.01993,0.01531
+HA,fubar,or5,PDweights,0.08482,0.00063,0.01001,0.00641
+HA,fubar,or5,PDweightsP,0.08586,0.00045,0.02576,0.01875
+HA,fubar,rho,truealn,0.25179,0.00069,0,0.10774
+HA,fubar,rho,refaln,0.2273,0.00191,0,0
+HA,fubar,rho,Guidance,0.2292,0.0017,0.0104,0.00836
+HA,fubar,rho,GuidanceP,0.22643,0.00106,0.02484,-0.00383
+HA,fubar,rho,BMweights,0.2284,0.0018,0.0103,0.00484
+HA,fubar,rho,BMweightsP,0.22643,0.00104,0.02429,-0.00383
+HA,fubar,rho,PDweights,0.22801,0.0017,0.01049,0.00312
+HA,fubar,rho,PDweightsP,0.22714,0.00108,0.02557,-0.00071
+HA,fubar,prk,truealn,0.55134,0.00205,0,0.16312
+HA,fubar,prk,refaln,0.47402,0.00594,0,1e-05
+HA,fubar,prk,Guidance,0.47875,0.00525,0.02703,0.00998
+HA,fubar,prk,GuidanceP,0.46381,0.00387,0.09426,-0.02153
+HA,fubar,prk,BMweights,0.47633,0.00549,0.02624,0.00488
+HA,fubar,prk,BMweightsP,0.46391,0.00407,0.09623,-0.02132
+HA,fubar,prk,PDweights,0.47834,0.00521,0.03153,0.00912
+HA,fubar,prk,PDweightsP,0.46255,0.00394,0.10429,-0.02419
+HA,fubar,flat,truealn,0.51523,0.00158,0,0.12476
+HA,fubar,flat,refaln,0.45808,0.00562,0,0
+HA,fubar,flat,Guidance,0.46674,0.00346,0.00599,0.01891
+HA,fubar,flat,GuidanceP,0.4678,0.00152,0.01755,0.02122
+HA,fubar,flat,BMweights,0.46675,0.00394,0.00573,0.01893
+HA,fubar,flat,BMweightsP,0.46739,0.00152,0.01864,0.02033
+HA,fubar,flat,PDweights,0.46714,0.0034,0.00648,0.01978
+HA,fubar,flat,PDweightsP,0.46688,0.00154,0.01937,0.01921
+HA,paml,or5,truealn,0.08621,0.00018,0,0.05662
+HA,paml,or5,refaln,0.08159,5e-04,0,0
+HA,paml,or5,Guidance,0.08116,0.00039,0.00976,-0.00527
+HA,paml,or5,GuidanceP,0.08105,0.00037,0.02029,-0.00662
+HA,paml,or5,BMweights,0.08116,0.00037,0.00959,-0.00527
+HA,paml,or5,BMweightsP,0.08078,0.00037,0.01993,-0.00993
+HA,paml,or5,PDweights,0.08214,0.00039,0.01001,0.00674
+HA,paml,or5,PDweightsP,0.0808,0.00039,0.02576,-0.00969
+HA,paml,rho,truealn,0.20915,0.00025,0,0.19166
+HA,paml,rho,refaln,0.17551,0.00073,0,-1e-05
+HA,paml,rho,Guidance,0.17787,0.00063,0.0104,0.01344
+HA,paml,rho,GuidanceP,0.18259,0.00056,0.02484,0.04033
+HA,paml,rho,BMweights,0.17787,0.00065,0.0103,0.01344
+HA,paml,rho,BMweightsP,0.18257,0.00056,0.02429,0.04022
+HA,paml,rho,PDweights,0.17814,0.00063,0.01049,0.01498
+HA,paml,rho,PDweightsP,0.18219,0.00056,0.02557,0.03805
+HA,paml,prk,truealn,0.42189,0.00014,0,0.21426
+HA,paml,prk,refaln,0.34745,0.00284,0,1e-05
+HA,paml,prk,Guidance,0.3416,0.00213,0.02703,-0.01683
+HA,paml,prk,GuidanceP,0.33732,0.00156,0.09426,-0.02915
+HA,paml,prk,BMweights,0.34526,0.00216,0.02624,-0.00629
+HA,paml,prk,BMweightsP,0.33283,0.00161,0.09623,-0.04207
+HA,paml,prk,PDweights,0.34071,0.00218,0.03153,-0.01939
+HA,paml,prk,PDweightsP,0.33681,0.00159,0.10429,-0.03061
+GP41,fubar,or5,truealn,0.06231,0.00062,0,0.07431
+GP41,fubar,or5,refaln,0.058,0.00121,0,0
+GP41,fubar,or5,Guidance,0.05715,0.00092,0.00919,-0.01466
+GP41,fubar,or5,GuidanceP,0.05728,0.00088,0.02117,-0.01242
+GP41,fubar,or5,BMweights,0.0571,0.00098,0.00907,-0.01552
+GP41,fubar,or5,BMweightsP,0.05741,0.00095,0.02091,-0.01018
+GP41,fubar,or5,PDweights,0.05757,0.00092,0.00948,-0.00742
+GP41,fubar,or5,PDweightsP,0.05724,0.00091,0.02668,-0.01311
+GP41,fubar,rho,truealn,0.21557,0.00211,0,0.09823
+GP41,fubar,rho,refaln,0.19629,0.00452,0,1e-05
+GP41,fubar,rho,Guidance,0.2,0.004,0.01378,0.01891
+GP41,fubar,rho,GuidanceP,0.19704,0.00349,0.04186,0.00383
+GP41,fubar,rho,BMweights,0.20025,0.00416,0.0136,0.02018
+GP41,fubar,rho,BMweightsP,0.19697,0.0035,0.04435,0.00347
+GP41,fubar,rho,PDweights,0.19917,0.00403,0.01425,0.01468
+GP41,fubar,rho,PDweightsP,0.19608,0.00337,0.0493,-0.00106
+GP41,fubar,prk,truealn,0.35944,0.00252,0,0.16902
+GP41,fubar,prk,refaln,0.30747,0.01091,0,-1e-05
+GP41,fubar,prk,Guidance,0.31294,0.00966,0.02732,0.01779
+GP41,fubar,prk,GuidanceP,0.30393,0.00792,0.09059,-0.01152
+GP41,fubar,prk,BMweights,0.31309,0.00994,0.02664,0.01827
+GP41,fubar,prk,BMweightsP,0.30398,0.00784,0.09416,-0.01136
+GP41,fubar,prk,PDweights,0.31194,0.00939,0.03241,0.01453
+GP41,fubar,prk,PDweightsP,0.30114,0.00767,0.10219,-0.02059
+GP41,fubar,flat,truealn,0.34378,0.0031,0,0.07588
+GP41,fubar,flat,refaln,0.31953,0.00703,0,-1e-05
+GP41,fubar,flat,Guidance,0.32522,0.00509,0.00572,0.01779
+GP41,fubar,flat,GuidanceP,0.32601,0.00346,0.01671,0.02027
+GP41,fubar,flat,BMweights,0.32391,0.00555,0.00551,0.01369
+GP41,fubar,flat,BMweightsP,0.32568,0.00349,0.01629,0.01923
+GP41,fubar,flat,PDweights,0.32575,0.00496,0.00624,0.01945
+GP41,fubar,flat,PDweightsP,0.32523,0.00349,0.01739,0.01783
+GP41,paml,or5,truealn,0.0959,0.00178,0,-0.02371
+GP41,paml,or5,refaln,0.09823,0.00335,0,1e-05
+GP41,paml,or5,Guidance,0.09478,0.0026,0.00919,-0.03511
+GP41,paml,or5,GuidanceP,0.09449,0.0026,0.02117,-0.03807
+GP41,paml,or5,BMweights,0.09489,0.00263,0.00907,-0.03399
+GP41,paml,or5,BMweightsP,0.0944,0.0026,0.02091,-0.03898
+GP41,paml,or5,PDweights,0.09475,0.00256,0.00948,-0.03542
+GP41,paml,or5,PDweightsP,0.09397,0.00257,0.02668,-0.04336
+GP41,paml,rho,truealn,0.23684,0.0016,0,0.09505
+GP41,paml,rho,refaln,0.21628,0.00428,0,-1e-05
+GP41,paml,rho,Guidance,0.21961,0.00396,0.01378,0.01539
+GP41,paml,rho,GuidanceP,0.21681,0.00356,0.04186,0.00244
+GP41,paml,rho,BMweights,0.22011,0.00393,0.0136,0.0177
+GP41,paml,rho,BMweightsP,0.21657,0.00362,0.04435,0.00133
+GP41,paml,rho,PDweights,0.21938,0.00396,0.01425,0.01432
+GP41,paml,rho,PDweightsP,0.2146,0.00362,0.0493,-0.00778
+GP41,paml,prk,truealn,0.34127,0.00079,0,0.12321
+GP41,paml,prk,refaln,0.30384,0.00928,0,1e-05
+GP41,paml,prk,Guidance,0.30152,0.00791,0.02732,-0.00762
+GP41,paml,prk,GuidanceP,0.29558,0.00644,0.09059,-0.02717
+GP41,paml,prk,BMweights,0.30336,0.00819,0.02664,-0.00156
+GP41,paml,prk,BMweightsP,0.29586,0.00653,0.09416,-0.02625
+GP41,paml,prk,PDweights,0.30041,0.00775,0.03241,-0.01127
+GP41,paml,prk,PDweightsP,0.29311,0.00633,0.10219,-0.0353

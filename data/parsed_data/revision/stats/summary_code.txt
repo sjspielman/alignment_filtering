@@ -1,15 +1,15 @@
 ####### SUMMARY STATISTICS SJS 4/24/14. ##########
-# This file contains R code to generate summary statistics (predominantly, we want the mean and sd) for results obtained at a posterior probability cutoff of 0.9
+# This file contains R code to generate summary statistics for results obtained at a posterior probability cutoff of 0.9.
 # We consider true alignment, unfiltered alignment, and algorithms with the masking threshold of 50% only (see the masking_threshold_output.txt file for background justification for this masking threshold choice).
 # Code shown here for both selective profiles (HA/GP41), for all data set sizes, for both inference methods.
-# Results are in "summary_output.txt".
-
+# Results are in "summary_output.txt". This output file can then be used to generate latex tables, etc.
+# Note that after the output file was generated, I removed all quotation marks and the ^[1]\s+
 
 outfile <- "summary_output.txt"
 datasets <- c('HA', 'GP41')
 paml_genes <- c('or5', 'rho', 'prk')
 fubar_genes <- c(paml_genes, 'flat')
-algs <-c('truealn', 'refaln', 'Guidance', 'GuidanceP')#, 'BMweights', 'BMweightsP', 'PDweights', 'PDweightsP')
+algs <-c('truealn', 'refaln', 'Guidance', 'GuidanceP', 'BMweights', 'BMweightsP', 'PDweights', 'PDweightsP')
 sink(file = outfile)
 
 sumStats <- function(df, method, data, mygene, myalg)
@@ -19,14 +19,12 @@ sumStats <- function(df, method, data, mygene, myalg)
 	ref <- df[df$gene == mygene & df$case == 'refaln',]
 	ref_tpr <- mean(ref$tprate)
 	tpr_mean <- round( mean(dat$tprate), dig)
+	fpr_mean <- round( mean(dat$fprate), dig)
 	perc_mean <- round( mean(dat$perc_masked), dig)
 	ref_diff <- round (((tpr_mean - ref_tpr)/ref_tpr), dig)
-	new <- paste(data, method, mygene, myalg, tpr_mean, perc_mean, ref_diff, sep = '   ')
+	new <- paste(data, method, mygene, myalg, tpr_mean, fpr_mean, perc_mean, ref_diff, sep = ',')
 	print(new)
 }
-#out <- data.frame( method=character(), gene=character(), case=character(), tpr_mean=numeric(), tpr_sd=numeric(), perc_mean=numeric(), perc_sd=numeric(), num_mean=numeric(), num_sd=numeric())
-out <- data.frame( method=character(), gene=character(), case=character(), tpr_mean=numeric(), perc_mean=numeric(), ref_diff=numeric())
-
 
 ################## HA DATA FRAMES #########################
 fubar<-read.table('../fubar_HA_90.txt', header=T)
@@ -68,4 +66,3 @@ for (gene in paml_genes){
 	}
 }
 sink()
-#write.table(out, file = outfile, sep='\t')
