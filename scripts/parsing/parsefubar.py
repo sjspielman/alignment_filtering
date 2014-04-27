@@ -11,7 +11,6 @@ if len(sys.argv) != 2:
 walgs=['BMweights', 'PDweights', 'BMweightsP', 'PDweightsP']
 # Guidance algorithms
 galgs=['Guidance', 'GuidanceP']
-masks={'30': 'thirty', '50':'fifty', '70':'seventy', '90':'ninety'}
 genes=['or5', 'rho', 'prk', 'flat']
 pp_cutoff = 0.895 # Posterior probability threshold for calling sites as positively selected or not.
 gridSize = 100 # dimensionality for FUBAR grid
@@ -22,9 +21,12 @@ assert (dataset == 'HA' or dataset == 'GP41'), "Must specify either HA or GP41 a
 if dataset == 'GP41':
 	datadir += 'GP41/'
 	posStart = 10
+	masks = {'50':'fifty'}
 elif dataset == 'HA':
 	datadir += 'HA/'
 	posStart = 18
+	masks={'30': 'thirty', '50':'fifty', '70':'seventy', '90':'ninety'} #masking analysis only done w/ this dataset.
+
 
 outfile='/Users/sjspielman/Research/alignment_filtering/data/parsed_data/revision/fubar_'+dataset+'_90.txt'
 outhandle=open(outfile, 'w')
