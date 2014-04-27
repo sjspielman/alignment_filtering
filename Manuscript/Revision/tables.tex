@@ -65,9 +65,36 @@ GP41 & 26 & FUBAR & 0.216 & 0.196 & \textbf{0.20 (1.89\%)}$^{\ast}$ & 0.197 (0.3
 \textsc{note.}--- %Significance levels: $^{\ast\ast} P < 0.001}$; $^{\ast} P < 0.01$. Sig level = is sig diff from refaln? Each column displays the mean (perc_masked) TPR. All significance levels were corrected for multiple comparisons using the R multcomp package \citep{Hothorn2008}.
 \end{adjustwidth}
 \end{table}
-
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% TABLE 2 (???) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{table}[htbp]
+\begin{adjustwidth}{-1.75cm}{}
+\caption {\label{tab:omegastats} MLE and fubar mean dN affected by filtering.}
+\begin{tabular}{l l l c c}
+\hline\noalign{\smallskip}
+& & & \multicolumn{2}{c}{Difference in Omega Value (filtered - unfiltered)} \\
+\cline{4-5}\noalign{\smallskip}
+\multicolumn{1}{c}{Selective Profile} & \multicolumn{1}{c}{Number of Taxa} & \multicolumn{1}{c}{Inference Method} & \multicolumn{1}{c}{Guidance} & \multicolumn{1}{c}{GuidanceP} \\
+\noalign{\smallskip}\hline\noalign{\smallskip}
+HA & 26 & PAML &  0.0023 & \textbf{0.0072$^{\ast\ast\ast}$}  \\
+ & 60 & FUBAR & 0.0056 & \textbf{-0.0083$^{\ast}$}\\
+ & 158 & FUBAR & 0.0058 & 0.0026\\
+\hline
+GP41 & 11 & PAML & \textbf{-0.0033$^{\ast\ast}$} & \textbf{-0.0036$^{\ast\ast}$} \\ 
+ & 26 & FUBAR & \textbf{0.0037$^{\ast\ast}$} & 0.00074 \\ 
+ & 26 & PAML & \textbf{0.0046$^{\ast\ast}$} & 0.00096 \\ 
+ & 60 & FUBAR & \textbf{0.0054$^{\ast\ast}$} & -0.0032 \\ 
+ & 60 & PAML &  -0.00024 & \textbf{-0.0069$^{\ast}$}\\  
+ & 158 & FUBAR & \textbf{0.0047$^{\ast}$} & 0.0044\\
+\end{tabular}
+\newline
+\textsc{note.}--- Simulation schemes not shown in table were all NS. Info here pertains only to those cases in which significant differences between unfiltered and a Guidance-based were detected. Significance levels: $^{\ast\ast\ast} P < 0.001}$; $^{\ast\ast} P < 0.01$; $^{\ast} P < 0.05$. All significance levels were corrected for multiple comparisons using the R multcomp package \citep{Hothorn2008}.
+\end{adjustwidth}
+\end{table}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% TABLE S1 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
