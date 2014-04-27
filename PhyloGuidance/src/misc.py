@@ -65,6 +65,7 @@ def unMap(idmap, alnfile, final_alnfile, numseq):
 
 def maskResidues(refMSA_file, numseq, alnlen, map, scores, x, formatout, final_file, seqType):
 	''' Masks poorly aligned residues whose score is <x. Will NOT mask gaps.'''
+	zero = 1e-5
 	
 	new='?'	
 	parsed = AlignIO.read(refMSA_file, 'fasta')
@@ -81,7 +82,7 @@ def maskResidues(refMSA_file, numseq, alnlen, map, scores, x, formatout, final_f
 			else:
 				numres+=1
 				thescore=scores[row][position]
-				if round(thescore)<x: #mask if below threshold. use round to ensure we get the ones >= 0.5 below threshold
+				if float(thescore)<float(x): #mask if below threshold. 
 					newseq=newseq+new
 					totalmasked+=1
 				else: #or, keep that position
@@ -117,7 +118,7 @@ def maskResiduesNOMAP(refMSA_file, numseq, alnlen, scores, x, formatout, final_f
 			else:
 				numres+=1
 				thescore=scores[row][position]
-				if round(thescore)<x: #mask if below threshold. use round to ensure we get the ones >= 0.5 below threshold
+				if float(thescore)<float(x): #mask if below threshold. 					
 					newseq=newseq+new
 					totalmasked+=1
 				else: #or, keep that position
