@@ -44,8 +44,8 @@ Fit: lmer(formula = tprate ~ omega + case + (1 | count), data = dat)
 Linear Hypotheses:
                            Estimate Std. Error z value Pr(>|z|)    
 GuidanceP - Guidance == 0 -0.013771   0.003335  -4.129   <0.001 ***
-refaln - Guidance == 0    -0.005516   0.003311  -1.666   0.2184    
-refaln - GuidanceP == 0    0.008255   0.003414   2.418   0.0414 *  
+refaln - Guidance == 0    -0.005516   0.003311  -1.666   0.2183    
+refaln - GuidanceP == 0    0.008255   0.003414   2.418   0.0413 *  
 ---
 Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1 
 (Adjusted p values reported -- single-step method)
@@ -146,9 +146,9 @@ Fit: lmer(formula = tprate ~ omega + case + (1 | count), data = dat)
 
 Linear Hypotheses:
                             Estimate Std. Error z value Pr(>|z|)   
-GuidanceP - Guidance == 0 -0.0029584  0.0011074  -2.672  0.02066 * 
-refaln - Guidance == 0    -0.0037006  0.0011152  -3.318  0.00256 **
-refaln - GuidanceP == 0   -0.0007422  0.0011194  -0.663  0.78492   
+GuidanceP - Guidance == 0 -0.0029584  0.0011074  -2.672  0.02071 * 
+refaln - Guidance == 0    -0.0037006  0.0011152  -3.318  0.00272 **
+refaln - GuidanceP == 0   -0.0007422  0.0011194  -0.663  0.78493   
 ---
 Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1 
 (Adjusted p values reported -- single-step method)
@@ -164,9 +164,9 @@ Fit: lmer(formula = tprate ~ omega + case + (1 | count), data = dat)
 
 Linear Hypotheses:
                            Estimate Std. Error z value Pr(>|z|)    
-GuidanceP - Guidance == 0 -0.008562   0.001791  -4.780  < 1e-04 ***
-refaln - Guidance == 0    -0.005403   0.001662  -3.250  0.00322 ** 
-refaln - GuidanceP == 0    0.003159   0.001758   1.797  0.17039    
+GuidanceP - Guidance == 0 -0.008562   0.001791  -4.780  < 0.001 ***
+refaln - Guidance == 0    -0.005403   0.001662  -3.250  0.00333 ** 
+refaln - GuidanceP == 0    0.003159   0.001758   1.797  0.17033    
 ---
 Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1 
 (Adjusted p values reported -- single-step method)
@@ -183,7 +183,7 @@ Fit: lmer(formula = tprate ~ omega + case + (1 | count), data = dat)
 Linear Hypotheses:
                             Estimate Std. Error z value Pr(>|z|)  
 GuidanceP - Guidance == 0 -0.0002703  0.0019573  -0.138   0.9878  
-refaln - Guidance == 0    -0.0046702  0.0019173  -2.436   0.0334 *
+refaln - Guidance == 0    -0.0046702  0.0019173  -2.436   0.0338 *
 refaln - GuidanceP == 0   -0.0043999  0.0031328  -1.404   0.3016  
 ---
 Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1 
@@ -202,8 +202,8 @@ Fit: lmer(formula = tprate ~ omega + case + (1 | count), data = dat)
 Linear Hypotheses:
                             Estimate Std. Error z value Pr(>|z|)   
 GuidanceP - Guidance == 0 -0.0003118  0.0010363  -0.301  0.95132   
-refaln - Guidance == 0     0.0032971  0.0010380   3.177  0.00422 **
-refaln - GuidanceP == 0    0.0036089  0.0010375   3.478  0.00149 **
+refaln - Guidance == 0     0.0032971  0.0010380   3.177  0.00441 **
+refaln - GuidanceP == 0    0.0036089  0.0010375   3.478  0.00145 **
 ---
 Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1 
 (Adjusted p values reported -- single-step method)
@@ -219,9 +219,9 @@ Fit: lmer(formula = tprate ~ omega + case + (1 | count), data = dat)
 
 Linear Hypotheses:
                             Estimate Std. Error z value Pr(>|z|)   
-GuidanceP - Guidance == 0 -0.0036498  0.0014610  -2.498  0.03323 * 
-refaln - Guidance == 0    -0.0046004  0.0014777  -3.113  0.00529 **
-refaln - GuidanceP == 0   -0.0009506  0.0014507  -0.655  0.78935   
+GuidanceP - Guidance == 0 -0.0036498  0.0014610  -2.498  0.03340 * 
+refaln - Guidance == 0    -0.0046004  0.0014777  -3.113  0.00527 **
+refaln - GuidanceP == 0   -0.0009506  0.0014507  -0.655  0.78936   
 ---
 Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1 
 (Adjusted p values reported -- single-step method)
@@ -237,9 +237,9 @@ Fit: lmer(formula = tprate ~ omega + case + (1 | count), data = dat)
 
 Linear Hypotheses:
                             Estimate Std. Error z value Pr(>|z|)  
-GuidanceP - Guidance == 0 -0.0066581  0.0024283  -2.742   0.0170 *
+GuidanceP - Guidance == 0 -0.0066581  0.0024283  -2.742   0.0169 *
 refaln - Guidance == 0     0.0002425  0.0026209   0.093   0.9953  
-refaln - GuidanceP == 0    0.0069006  0.0024968   2.764   0.0156 *
+refaln - GuidanceP == 0    0.0069006  0.0024968   2.764   0.0159 *
 ---
 Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1 
 (Adjusted p values reported -- single-step method)

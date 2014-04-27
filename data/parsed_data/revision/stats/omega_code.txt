@@ -1,15 +1,14 @@
+library(lme4)
+library(multcomp)
 
-#library(lme4)
-#library(multcomp)
-
-outfile <- "omega_prior_output.txt"
+outfile <- "omega_output.txt"
 paml_genes <- c('or5', 'rho', 'prk')
 fubar_genes <- c(paml_genes, 'flat')
 sink(file = outfile)
 
 priorModel <- function(df, mygene){
 	print(mygene)
-	dat <- df[df$gene == mygene,]
+	dat <- df[df$gene == mygene & (df$case == 'Guidance' | df$case == 'GuidanceP' | df$case == 'refaln'),]
 	model <- lmer(tprate ~ omega + case + (1|count), data=dat)
 	s <- summary(glht(model, linfct=mcp(case='Tukey')))
 	print(s)
@@ -20,12 +19,12 @@ priorModel <- function(df, mygene){
 }
 
 ################## HA DATA FRAMES #########################
-fubar<-read.table('../../fubar_HA_90.txt', header=T)
-paml<-read.table('../../paml_HA_90.txt', header=T)
+fubar<-read.table('../fubar_HA_90.txt', header=T)
+paml<-read.table('../paml_HA_90.txt', header=T)
 
 # Retain only the unfiltered (refaln) and filtering algorithms (as in, remove the truealn), and remove any masking threshold that isn't 50.
-fubar2 <- fubar[(fubar$mask == 'fifty' | fubar$mask == 'zero') & (fubar$case == 'Guidance' | fubar$case == 'GuidanceP' | fubar$case == 'refaln'),]
-paml2 <- paml[(paml$mask == 'fifty' | paml$mask == 'zero') & (paml$case == 'Guidance' | paml$case == 'GuidanceP' | paml$case == 'refaln'),]
+fubar2 <- fubar[(fubar$mask == 'fifty' | fubar$mask == 'zero'),]           # & (fubar$case == 'Guidance' | fubar$case == 'GuidanceP' | fubar$case == 'refaln'),]
+paml2 <- paml[(paml$mask == 'fifty' | paml$mask == 'zero'),]               # & (paml$case == 'Guidance' | paml$case == 'GuidanceP' | paml$case == 'refaln'),]
 ############################################################
 
 
@@ -46,12 +45,12 @@ priorModel(paml2, gene)
 
 
 ################## GP41 DATA FRAMES #########################
-fubar<-read.table('../../fubar_GP41_90.txt', header=T)
-paml<-read.table('../../paml_GP41_90.txt', header=T)
+fubar<-read.table('../fubar_GP41_90.txt', header=T)
+paml<-read.table('../paml_GP41_90.txt', header=T)
 
 # Retain only the unfiltered (refaln) and filtering algorithms (as in, remove the truealn), and remove any masking threshold that isn't 50.
-fubar2 <- fubar[(fubar$mask == 'fifty' | fubar$mask == 'zero') & (fubar$case == 'Guidance' | fubar$case == 'GuidanceP' | fubar$case == 'refaln'),]
-paml2 <- paml[(paml$mask == 'fifty' | paml$mask == 'zero') & (paml$case == 'Guidance' | paml$case == 'GuidanceP' | paml$case == 'refaln'),]
+fubar2 <- fubar[(fubar$mask == 'fifty' | fubar$mask == 'zero'),]         # & (fubar$case == 'Guidance' | fubar$case == 'GuidanceP' | fubar$case == 'refaln'),]
+paml2 <- paml[(paml$mask == 'fifty' | paml$mask == 'zero'),]             # & (paml$case == 'Guidance' | paml$case == 'GuidanceP' | paml$case == 'refaln'),]
 ############################################################
 
 
