@@ -47,7 +47,7 @@ plotPanel <- function(method, gene, cuts, lwd_size, lwd_ref_size, xlimit, ylimit
 		lines(meanfp, meantp, col='blue', lwd=lwd_size)
 	}
 	
-	file_name <- paste('../../../parsed_data/revision/sweeps/', method, '_GP41_', gene, '_sweep.txt', sep='')
+	file_name <- paste('../../../../parsed_data/revision/sweeps/', method, '_GP41_', gene, '_sweep.txt', sep='')
 	gp41 <- read.table(file_name, header=T)
 	meantp <- getTPR(gp41, 'refaln', cuts)
 	meanfp <- getFPR(gp41, 'refaln', cuts)
