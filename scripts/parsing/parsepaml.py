@@ -106,7 +106,6 @@ for gene in genes:
 		###########################################################################################################		
 		########################## Assess accuracy for Guidance(P), which use all masks ###########################
 		for mask in masks:
-			print mask
 			for alg in galgs:
 				
 				# Penalization algorithm or not? (for printing to outfile)
@@ -117,7 +116,6 @@ for gene in genes:
 					
 				# Get alignment and paml files for this algorithm
 				name = alg+'_'+mask+'_'+str(n)+'.fasta'
-				print name
 				
 				# Get masking information relevant to this case
 				(num, ave, perc) = assessMasking(alndir+name)
