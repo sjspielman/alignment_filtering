@@ -1,0 +1,142 @@
+####### Plots ROC curves for GP41 prk runs for both fubar and paml. SJS 4/26/14. #########
+
+cuts<-c(0:100)
+cuts<-cuts/100
+
+# Can edit these lines based on which algorithms we'd like to include
+algs<-c('Guidance', 'BMweights', 'PDweights')
+algsp<-c('GuidanceP', 'BMweightsP', 'PDweightsP')
+
+## why can't i return multiple values! booo R.
+##########################################################################################
+getTPR <- function(df, alg, cuts){
+	var<-df[df$case==alg,]
+	meantp<-c()
+	for (x in cuts){
+		tp<-mean(var$tprate[var$cutoff==x])
+		meantp<-c(meantp, tp)
+	}
+	return(meantp)
+}
+getFPR <-function(df, alg, cuts){
+	var<-df[df$case==alg,]
+	meanfp<-c()
+	for (x in cuts){
+		fp<-mean(var$fprate[var$cutoff==x])
+		meanfp<-c(meanfp, fp)
+	}
+	return(meanfp)
+}
+##########################################################################################
+
+
+xlimit <- c(0, .1)
+ylimit <- c(0, 1)
+outname <- 'prk_full.pdf'
+pdf(outname, width=8.5, height=4)
+
+par(mfrow=c(1,2))
+par(mar=c(4.5,6.5,4,2)) #bottom, left, top, right
+
+fubar_ha <- read.table('../../../parsed_data/revision/sweeps/fubar_HA_prk_sweep.txt', header=T)
+paml_ha <- read.table('../../../parsed_data/revision/sweeps/paml_HA_prk_sweep.txt', header=T)
+
+fubar_gp <- read.table('../../../parsed_data/revision/sweeps/fubar_GP41_prk_sweep.txt', header=T)
+paml_gp <- read.table('../../../parsed_data/revision/sweeps/paml_GP41_prk_sweep.txt', header=T)
+
+lwd_size = 1.5
+lwd_ref_size = 3
+
+
+# FUBAR PANEL
+# fubar_ha
+meantp <- getTPR(fubar_ha, 'refaln', cuts)
+meanfp <- getFPR(fubar_ha, 'refaln', cuts)
+plot(meanfp, meantp, type="l", lwd=lwd_ref_size, ylab='True Positive Rate', xlab='False Positive Rate',main='fubar 60seq. ha-top, gp41-bottom.', cex.lab=1.2, xlim=xlimit, ylim=ylimit, frame.plot=F)
+for (alg in algs){
+
+	meantp <- getTPR(fubar_ha, alg, cuts)
+	meanfp <- getFPR(fubar_ha, alg, cuts)
+	lines(meanfp, meantp, col='red', lwd=lwd_size)
+}
+for (algp in algsp){
+	meantp <- getTPR(fubar_ha, algp, cuts)
+	meanfp <- getFPR(fubar_ha, algp, cuts)
+	lines(meanfp, meantp, col='blue', lwd=lwd_size)
+}
+
+
+#fubar gp41
+meantp <- getTPR(fubar_gp, 'refaln', cuts)
+meanfp <- getFPR(fubar_gp, 'refaln', cuts)
+lines(meanfp, meantp, lwd=lwd_ref_size)
+for (alg in algs){
+
+	meantp <- getTPR(fubar_gp, alg, cuts)
+	meanfp <- getFPR(fubar_gp, alg, cuts)
+	lines(meanfp, meantp, col='red', lwd=lwd_size)
+}
+for (algp in algsp){
+	meantp <- getTPR(fubar_gp, algp, cuts)
+	meanfp <- getFPR(fubar_gp, algp, cuts)
+	lines(meanfp, meantp, col='blue', lwd=lwd_size)
+}
+
+abline(v=0.0075)
+
+# PAML PANEL
+meantp <- getTPR(paml_ha, 'refaln', cuts)
+meanfp <- getFPR(paml_ha, 'refaln', cuts)
+plot(meanfp, meantp, type="l", lwd=lwd_ref_size, ylab='True Positive Rate', xlab='False Positive Rate',main='paml 60seq. ha-top, gp41-bottom.', cex.lab=1.2, xlim=xlimit, ylim=ylimit, frame.plot=F)
+for (alg in algs){
+
+	meantp <- getTPR(paml_ha, alg, cuts)
+	meanfp <- getFPR(paml_ha, alg, cuts)
+	lines(meanfp, meantp, col='red', lwd=lwd_size)
+}
+for (algp in algsp){
+	meantp <- getTPR(paml_ha, algp, cuts)
+	meanfp <- getFPR(paml_ha, algp, cuts)
+	lines(meanfp, meantp, col='blue', lwd=lwd_size)
+}
+
+
+#paml gp41
+meantp <- getTPR(paml_gp, 'refaln', cuts)
+meanfp <- getFPR(paml_gp, 'refaln', cuts)
+lines(meanfp, meantp, lwd=lwd_ref_size)
+for (alg in algs){
+
+	meantp <- getTPR(paml_gp, alg, cuts)
+	meanfp <- getFPR(paml_gp, alg, cuts)
+	lines(meanfp, meantp, col='red', lwd=lwd_size)
+}
+for (algp in algsp){
+	meantp <- getTPR(paml_gp, algp, cuts)
+	meanfp <- getFPR(paml_gp, algp, cuts)
+	lines(meanfp, meantp, col='blue', lwd=lwd_size)
+}
+abline(v=0.002)
+
+legend('bottomright', lty=1, lwd=lwd_ref_size, col=c('black', 'red', 'blue'), c('Unfiltered', 'Original', 'Gap-penalization'), box.col=NA, cex=0.9)
+
+
+dev.off()
+
+
+## mean FPR (for refaln):
+# fubar prk ha: 0.0059
+# fubar prk gp41: 0.0109
+# paml prk ha: 0.0028
+# paml prk gp41: 0.0093
+
+
+
+
+
+
+
+
+
+
+
