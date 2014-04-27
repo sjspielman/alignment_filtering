@@ -52,7 +52,7 @@ Fit: lmer(formula = tprate ~ mask + (1 | count), data = dat)
 Linear Hypotheses:
                         Estimate Std. Error z value Pr(>|z|)    
 ninety - fifty == 0   -0.0212209  0.0027441  -7.733   <1e-04 ***
-seventy - fifty == 0  -0.0040362  0.0027441  -1.471    0.455    
+qseventy - fifty == 0  -0.0040362  0.0027441  -1.471    0.455    
 thirty - fifty == 0    0.0005712  0.0027441   0.208    0.997    
 seventy - ninety == 0  0.0171847  0.0027441   6.262   <1e-04 ***
 thirty - ninety == 0   0.0217921  0.0027441   7.941   <1e-04 ***
