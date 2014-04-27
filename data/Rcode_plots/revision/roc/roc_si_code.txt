@@ -1,0 +1,71 @@
+# Plot ROC supplementary figures. SJS 4/27/14.
+# Idea for this scheme: fubar and paml have separate figures. left panel has xlim 0-1, and right panel has xlim 0-0.1
+
+
+method <- 'fubar'
+
+
+if (method == 'fubar'){
+	height <- 15
+	label_size <- 2
+	axis_size <- 1.75
+}
+if (method == 'paml'){
+	height <- 10 
+	label_size <- 1.75
+	axis_size <- 1.5
+}
+
+
+outname <- paste('ROC_SI_', method, '.pdf', sep='')
+pdf(outname, width=12, height=height)
+
+if (method == 'fubar'){par(mfrow=c(3,2))}
+if (method == 'paml'){par(mfrow=c(2,2))}
+par(mar=c(5,8,5,5)) #bottom, left, top, right
+
+
+lwd_size = 1.5
+lwd_ref_size = 3
+cuts<-c(0:100)
+cuts<-cuts/100
+
+source('SI_ROC_functions.txt')
+
+# or5, full
+plotPanel(method, 'or5', cuts, lwd_size, 5, c(0,1), c(0,1), label_size, axis_size)
+
+# or5, sub
+plotPanel(method, 'or5', cuts, lwd_size, lwd_ref_size, c(0, 0.05), c(0,0.6), label_size, axis_size)
+#legend('bottomright', lty=1, lwd=lwd_ref_size, col=c('black', 'red', 'blue'), c('Unfiltered', 'Original', 'Gap-penalization'), box.col=NA, cex=2)
+
+
+
+# rho, full
+plotPanel(method, 'rho', cuts, lwd_size, 5, c(0,1), c(0,1), label_size, axis_size)
+
+# rho, sub
+plotPanel(method, 'rho', cuts, lwd_size, lwd_ref_size, c(0, 0.05), c(0,0.8), label_size, axis_size)
+#legend('bottomright', lty=1, lwd=lwd_ref_size, col=c('black', 'red', 'blue'), c('Unfiltered', 'Original', 'Gap-penalization'), box.col=NA, cex=2)
+
+############### flat is only for fubar ###################
+if (method == 'fubar') {
+# FUBAR flat, full
+plotPanel(method, 'flat', cuts, lwd_size, 5, c(0,1), c(0,1), label_size, axis_size)
+
+# FUBAR flat, sub
+plotPanel(method, 'flat', cuts, lwd_size, lwd_ref_size, c(0, 0.05), c(0,0.8), label_size, axis_size)
+}
+##########################################################
+
+legend('bottomright', lty=1, lwd=lwd_ref_size, col=c('black', 'red', 'blue'), c('Unfiltered', 'Original', 'Gap-penalization'), box.col=NA, cex=label_size)
+
+dev.off()
+
+
+
+
+
+
+
+
