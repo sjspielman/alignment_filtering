@@ -45,7 +45,7 @@
 \multicolumn{1}{c}{Selective Profile} & \multicolumn{1}{c}{Number of Taxa} & \multicolumn{1}{c}{Inference Method} & \multicolumn{1}{c}{True} & \multicolumn{1}{c}{Unfiltered} & \multicolumn{1}{c}{Guidance} & \multicolumn{1}{c}{GuidanceP} \\
 \noalign{\smallskip}\hline\noalign{\smallskip}
 HA & 26 & FUBAR & 0.252 & 0.227 & 0.229 (0.84\%) & 0.226 (-0.38\%) \\
- &   & PAML & 0.209 & 0.176 & \textbf{0.178 (1.34\%)}$^{\ast\ast}$ & \textbf{0.283 (4.03\%)}$^{\ast\ast}$ \\
+ &   & PAML & 0.209 & 0.176 & \textbf{0.178 (1.34\%)}$^{\ast\ast}$ & \textbf{0.183 (4.04\%)}$^{\ast\ast}$ \\
 \hline
  & 60 & FUBAR & 0.551 & 0.474 & 0.479 (0.99\%) & \textbf{0.464 (-2.15\%)}$^{\ast}$  \\
  &  & PAML & 0.422 & 0.347 & 0.342 (-1.69\%) & 0.337 (-2.92\%) \\
@@ -136,7 +136,7 @@ GP41  &  11 &  FUBAR  &  0.062  &  0.058  &  0.057 (-1.55\%)  &  0.057 (-1.55\%)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
- TABLE S2 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% TABLE S2 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \noindent Table S2. Average percent residues masked (average absolute number residues masked) for algorithms, using masking threshold of 0.5.
 \begin{sidewaystable}[htbp]
 \begin{adjustwidth}{-2.25cm}{}
@@ -174,6 +174,40 @@ HA  &  11  &  FUBAR  &  0.01\% (43.25)  &  0.01\% (42.49)  &  0.01\% (44.35)  & 
 \textsc{note.}--- %Significance levels: $^{\ast\ast} P < 0.001}$; $^{\ast} P < 0.01$. Sig level = is sig diff from refaln? Each column displays the mean (perc_masked) TPR. All significance levels were corrected for multiple comparisons using the R multcomp package \citep{Hothorn2008}.
 \end{adjustwidth}
 \end{sidewaystable}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% TABLE S3 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{table}
+\begin{adjustwidth}{-1.5cm}{}
+ \caption {\label{tab:cutoffs} Effect of masking cutoff on TPR of positive-selection inference.}
+\begin{tabular}{l l c c c c c c c}
+\hline\noalign{\smallskip}
+& & \multicolumn{3}{c}{Guidance} & & \multicolumn{3}{c}{GuidanceP}   \\
+\cline{3-5} \cline{7-9}\noalign{\smallskip}
+\multicolumn{1}{c}{Num} & \multicolumn{1}{c}{Inf} & \multicolumn{1}{c}{0.5 TPR} & \multicolumn{1}{c}{0.9 TPR} & \multicolumn{1}{c}{Percent TPR Change} & & \multicolumn{1}{c}{0.5 TPR} & \multicolumn{1}{c}{0.9 TPR} & \multicolumn{1}{c}{Percent TPR Change}  \\
+\hline\noalign{\smallskip}
+11  &  FUBAR  &  0.0854  &  0.0818  &  \textbf{-4.22\%$^{\ast}}$  & &  0.0849  &  0.0793  &  \textbf{-6.60\%$^{\ast\ast}$}  \\
+  &  PAML  &  0.0812  &  0.0791  &  -2.59\% & &  0.0811  &  0.0743  &  \textbf{-8.38\%$^{\ast\ast}$}   \\
+\hline
+26  &  FUBAR  &  0.229  &  0.227  &  -0.87\% & &  0.226  &  0.215  &  \textbf{-5.21\%$^{\ast\ast\ast}$}  \\
+  &  PAML  &  0.178  &  0.179  &  0.67\% & &  0.183  &  0.175  &  \textbf{-4.33\%$^{\ast\ast}$}  \\
+\hline
+60  &  FUBAR  &  0.479  &  0.458  &  \textbf{-4.43$^{\ast\ast\ast}$} & &  0.464  &  0.332  &  \textbf{-28.5\%$^{\ast\ast}$}  \\
+  &  PAML  &  0.342  &  0.327  &  -4.19\%  & &  0.337  &  0.256  &  \textbf{-24.1\%$^{\ast\ast}$}  \\
+\hline
+158  &  FUBAR  &  0.467  &  0.463  &  -0.73\%  & & 0.468  &  0.452  &  \textbf{-3.44\%$^{\ast\ast\ast}$}  \\
+\hline
+\end{tabular}
+\newline
+\textsc{note.}--- Significance levels: $^{\ast\ast\ast} P < 10^{-4}$; $^{\ast\ast} P < 10^{-3}$; $^{\ast} P < 10^{-2}$. 
+0.5 TPR: average TPR for alignments masked at a cutoff of 0.5; 0.9 TPR: average TPR for alignments masked at a cutoff of 0.9; Percent TPR Decrease: average percent decrease in TPR recovered between alignments masked at cutoffs of 0.5 and 0.9. All significance levels were corrected for multiple comparisons using the R multcomp package \citep{Hothorn2008}.
+\end{adjustwidth}
+\end{table}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 
