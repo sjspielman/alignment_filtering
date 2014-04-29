@@ -23,13 +23,12 @@ getFPR <-function(df, alg, cuts){
 ##########################################################################################
 
 ##########################################################################################
-plotPanel <- function(method, gene, cuts, lwd_size, lwd_ref_size, xlimit, ylimit, label_size, axis_size){
+plotPanel <- function(method, gene, cuts, lwd_size, lwd_ref_size, xlimit, ylimit, title, title_size, title_at, label_size, axis_size){
 
 	# Can edit these lines based on which algorithms we'd like to include
 	algs<-c('Guidance', 'BMweights', 'PDweights')
 	algsp<-c('GuidanceP', 'BMweightsP', 'PDweightsP')	
 	
-	title <- paste(method, gene, sep=' ')
 	
 	file_name <- paste('../../../../parsed_data/revision/sweeps/', method, '_HA_', gene, '_sweep.txt', sep='')
 	ha <- read.table(file_name, header=T)
@@ -41,7 +40,9 @@ plotPanel <- function(method, gene, cuts, lwd_size, lwd_ref_size, xlimit, ylimit
 	
 	meantp <- getTPR(ha, 'refaln', cuts)
 	meanfp <- getFPR(ha, 'refaln', cuts)
-	plot(meanfp, meantp, type="l", lwd=lwd_ref_size, main = title, ylab='True Positive Rate', xlab='False Positive Rate', cex.axis = axis_size, cex.lab=label_size, xlim=xlimit, ylim=ylimit, frame.plot=F)
+	plot(meanfp, meantp, type="l", lwd=lwd_ref_size, ylab='True Positive Rate', xlab='False Positive Rate', cex.axis = axis_size, cex.lab=label_size, xlim=xlimit, ylim=ylimit, frame.plot=F)
+	mtext(title, side = 3, at = title_at, cex = title_size)
+	
 	for (alg in algs){
 		meantp <- getTPR(ha, alg, cuts)
 		meanfp <- getFPR(ha, alg, cuts)
@@ -58,7 +59,7 @@ plotPanel <- function(method, gene, cuts, lwd_size, lwd_ref_size, xlimit, ylimit
 	
 	# remove the cutoff of 0, when necessary
 	if ( (method == 'fubar' & gene == 'or5') | (method == 'paml' & gene == 'rho') ){
-		gp41 <- gp41[ha$cutoff != 0,]
+		gp41 <-gp41[gp41$cutoff != 0,]
 	}
 	
 	
