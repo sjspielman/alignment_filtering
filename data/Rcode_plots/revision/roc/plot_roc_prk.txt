@@ -9,16 +9,16 @@ par(mar=c(5,8,5,5)) #bottom, left, top, right
 par(mfrow=c(2,2))
 
 lwd_size = 1.5
-lwd_ref_size = 3
-axis_size = 1.75
-label_size = 2
+lwd_ref_size = 5
+axis_size = 1.5
+label_size = 1.8
 cuts<-c(0:100)
 cuts<-cuts/100
 
 source('roc_prk_functions.txt')
 
 # fubar, full
-plotPanel('fubar', 'prk', cuts, lwd_size, 5, c(0,0.5), c(0,1), label_size, axis_size)
+plotPanel('fubar', 'prk', cuts, lwd_size, lwd_ref_size, c(0,0.6), c(0,1), label_size, axis_size)
 # fubar, sub
 plotPanel('fubar', 'prk', cuts, lwd_size, lwd_ref_size, c(0, 0.1), c(0,0.8), label_size, axis_size)
 #legend('bottomright', lty=1, lwd=lwd_ref_size, col=c('black', 'red', 'blue'), c('Unfiltered', 'Original', 'Gap-penalization'), box.col=NA, cex=2)
@@ -26,7 +26,7 @@ plotPanel('fubar', 'prk', cuts, lwd_size, lwd_ref_size, c(0, 0.1), c(0,0.8), lab
 
 
 # paml, full
-plotPanel('paml', 'prk', cuts, lwd_size, 5, c(0,0.5), c(0,1), label_size, axis_size)
+plotPanel('paml', 'prk', cuts, lwd_size, lwd_ref_size, c(0,0.6), c(0,1), label_size, axis_size)
 # paml, sub
 plotPanel('paml', 'prk', cuts, lwd_size, lwd_ref_size, c(0, 0.1), c(0,0.8), label_size, axis_size)
 
