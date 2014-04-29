@@ -18,7 +18,7 @@ paml_gp41<-c(0.30384, 0.30152, 0.29558)
 
 bars <- cbind(fubar_ha, paml_ha, fubar_gp41, paml_gp41)
 
-barplot(bars, beside=T, main = '60 Sequence Simulation Sets', ylab = 'Mean TPR', cex.lab = 1.25, names.arg = c('HA, FUBAR', 'HA, PAML', 'GP41, FUBAR', 'GP41, PAML'), col=c('darkgreen', 'red', 'blue'), ylim=c(0, 0.5))
+barplot(bars, beside=T, ylab = 'Mean TPR', cex.lab = 1.25, names.arg = c('HA, FUBAR', 'HA, PAML', 'GP41, FUBAR', 'GP41, PAML'), col=c('darkgreen', 'red', 'blue'), ylim=c(0, 0.5))
 legend('topright', lty=c(NA, NA, NA), pch=c(15, 15, 15), lwd=2, col=c('darkgreen', 'red', 'blue'), c('Unfiltered', 'Guidance', 'GuidanceP'), box.col=NA, cex=1.25)
 
 # add significance
