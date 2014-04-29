@@ -1,11 +1,10 @@
-# Ok, I did some barplot stuff and it's now totally MIA. Motherfucker.
 
 # for now let's start w/ prk, both data sets.
 
 
 # order: ref, gp, g
 
-pdf('barplot_prk_temp.pdf', height=6, width=8)
+pdf('barplot_prk.pdf', height=6, width=8)
 
 par(mar=c(4,5,4,4)) #bottom, left, top, right
 
