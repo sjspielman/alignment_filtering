@@ -7,6 +7,7 @@ outname <- 'ROC_prk.pdf'
 pdf(outname, width=13, height=11)
 par(mar=c(5,8,5,5)) #bottom, left, top, right
 par(mfrow=c(2,2))
+par(oma = c(2, 2, 2, 2))
 
 lwd_size = 1.5
 lwd_ref_size = 5
@@ -14,6 +15,7 @@ axis_size = 1.5
 label_size = 1.8
 cuts<-c(0:100)
 cuts<-cuts/100
+
 
 source('roc_prk_functions.txt')
 

@@ -29,8 +29,6 @@ plotPanel <- function(method, gene, cuts, lwd_size, lwd_ref_size, xlimit, ylimit
 	algs<-c('Guidance', 'BMweights', 'PDweights')
 	algsp<-c('GuidanceP', 'BMweightsP', 'PDweightsP')	
 	
-	title <- paste(method, gene, sep=' ')
-	
 	file_name <- paste('../../../parsed_data/revision/sweeps/', method, '_HA_', gene, '_sweep.txt', sep='')
 	ha <- read.table(file_name, header=T)
 	
