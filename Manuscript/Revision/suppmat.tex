@@ -1,7 +1,6 @@
 \documentclass[11pt]{article}
 
 \usepackage[margin=1.0in]{geometry}
-%\linespread{1.5}
 \usepackage{natbib}
 \usepackage{graphicx,amsmath,amssymb,amsfonts}
 \sloppy
@@ -85,7 +84,7 @@ We inferred positive selection using both the PAML M8 model \citep{Yang2007} and
 
 We then compared resulting positive-selection inferences for each MSA to its respective true MSA's $dN/dS$ values, given by Indelible during simulation, to assess performance accuracy. As residues may have been differently aligned relative to the true simulated MSA, we constructed a map from each unfiltered MSA to its respective true MSA. For this map, we selected the sequence in the unfiltered MSA with the fewest number of gaps and mapped its non-gap sites to the corresponding residue position in the true MSA. This strategy ensured that the most sites possible were included when calculating true positive rates. Importantly, all filtered variants of a given unfiltered MSA used the same map to the true MSA. We considered sites positively selected if the posterior probability of $(dN/dS>1)$ was $\geq0.9$.
 
-Statistics were performed using Python and R. Linear modeling was conducted using the R package lme4 \citep{Bates2012}. We inferred effect magnitudes and significance and corrected for multiple testing using the R multcomp package's glht() function with default settings \citep{Hothorn2008}. All code used in this study is available at https://github.com/clauswilke/alignment\underline{\hspace*{0.2cm}}filtering.
+All statistics were conducted using Python and R. Linear modeling was conducted using the R package lme4 \citep{Bates2012}. We inferred effect magnitudes and significance, which we corrected for multiple testing,g using the R multcomp package's glht() function with default settings \citep{Hothorn2008}. All code used in this study is available at https://github.com/clauswilke/alignment\underline{\hspace*{0.2cm}}filtering.
 
 
 
@@ -97,7 +96,7 @@ Statistics were performed using Python and R. Linear modeling was conducted usin
 \noindent \textbf{Figure S1.} ROC curves for positive-selection inference with PAML M8, averaged within each simulation set. For all panels, the top curve represents results from the HA selective profile, and the bottom curve represents results from the GP41 selective profile. The left-hand panels display the entire ROC curves, while the right-hand panels display only the region of the curves with relatively low FPRs. Note that, for the full ROC curves, methods only achieved FPR levels shown. A-B) ROC curves for the 11-sequence simulation sets. C-D) ROC curves for the 26-sequence simulation sets.
 
 \newpage
-\centerline{\includegraphics[width=6.5in]{Figures/ROC_SI_fubar.pdf}}
+\centerline{\includegraphics[width=6.25in]{Figures/ROC_SI_fubar.pdf}}
 \noindent \textbf{Figure S2.} ROC curves for positive-selection inference with FUBAR, averaged within each simulation set. For all panels, the top curve represents results from the HA selective profile, and the bottom curve represents results from the GP41 selective profile. The left-hand panels display the entire ROC curves, while the right-hand panels display only the region of the curves with relatively low FPRs.  A-B) ROC curves for the 11-sequence simulation sets. C-D) ROC curves for the 26-sequence simulation sets. E-F) ROC curves for the 158-sequence simulation sets.
 
 \newpage
