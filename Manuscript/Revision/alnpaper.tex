@@ -119,16 +119,16 @@ This work was supported in part by ARO Grant W911NF-12-1-0390 and in part by the
 \bibliographystyle{MBE}
 \bibliography{citations}	
 
-\bigskip
+\newpage
 
 \begin{table}[htbp]
 \begin{adjustwidth}{-1.85cm}{}
 \caption {\label{tab:summarystats} Summary statistics for effect of masking.}
-\begin{tabular}{l l l l l l l c}
+\begin{tabular}{l l l c c c c c}
 \hline\noalign{\smallskip}
 & & & \multicolumn{4}{c}{Mean True Positive Rate} \\
 \cline{4-7}\noalign{\smallskip}
-\multicolumn{1}{c}{Profile} & \multicolumn{1}{c}{Num} & \multicolumn{1}{c}{Method} & \multicolumn{1}{l}{True} & \multicolumn{1}{l}{Unfiltered} & \multicolumn{1}{l}{Guidance} & \multicolumn{1}{l}{GuidanceP} & \multicolumn{1}{c}{Percent Gaps} \\
+\multicolumn{1}{c}{Profile} & \multicolumn{1}{c}{Num} & \multicolumn{1}{c}{Method} & \multicolumn{1}{c}{True} & \multicolumn{1}{c}{Unfiltered} & \multicolumn{1}{l}{Guidance} & \multicolumn{1}{l}{GuidanceP} & \multicolumn{1}{c}{Percent Gaps} \\
 \noalign{\smallskip}\hline\noalign{\smallskip}
 HA  &  11  &  FUBAR  &  0.093  &  0.084  & 0.085 (1.33\%)  &  0.085 (0.74\%) & 11.9\% \\
   &    &  PAML  &  0.086  &  0.082  & 0.081 (-0.48\%)  &  0.081 (-0.60\%) &\\
@@ -140,7 +140,7 @@ HA  &  11  &  FUBAR  &  0.093  &  0.084  & 0.085 (1.33\%)  &  0.085 (0.74\%) & 1
  &  & PAML & 0.422 & 0.347 & 0.342 (-1.68\%) & 0.337 (-2.92\%) &\\
 
  & 158 & FUBAR & 0.515 & 0.458 & \textbf{0.467 (1.89\%)$^{\ast}$} & \textbf{0.468 (2.12\%)$^{\ast}$} & 50.5\%\\
-
+\noalign{\smallskip}\hline\noalign{\smallskip}
 GP41  &  11 &  FUBAR  &  0.062  &  0.058  &  0.057 (-1.55\%)  &  0.057 (-1.21\%) & 11.6\%\\
   &    &  PAML  &  0.096  &  0.098  & \textbf{0.095 (-3.49\%)$^{\ast\ast}$}  &  \textbf{0.095 (-3.80\%)$^{\ast\ast}$} &\\
 
