@@ -6,7 +6,7 @@
 
 pdf('barplot_prk.pdf', height=12, width=9)
 
-par(mar=c(4,5,4,4)) #bottom, left, top, right
+par(mar=c(4.5,5,4.5,4)) #bottom, left, top, right
 par(mfrow=c(2,1))
 
 ############ 26 sequences ##############
@@ -15,7 +15,7 @@ paml_ha<-c(0.176, 0.178, 0.183) #**, **
 fubar_gp41<-c(0.196, 0.2, 0.197) #*
 paml_gp41<-c(0.216, 0.22, 0.217)
 bars <- cbind(fubar_ha, paml_ha, fubar_gp41, paml_gp41)
-barplot(bars, beside=T, ylab = 'Mean TPR', cex.lab = 1.25, main = '26-Sequence Simulation Sets', cex.main=1.25, names.arg = c('HA, FUBAR', 'HA, PAML', 'GP41, FUBAR', 'GP41, PAML'), col=c('gray30', 'gray50', 'gray80'), ylim=c(0, 0.3))
+barplot(bars, beside=T, ylab = 'Mean TPR', cex.lab = 1.25, main = '26-Sequence Simulation Sets', cex.main=1.4, names.arg = c('HA, FUBAR', 'HA, PAML', 'GP41, FUBAR', 'GP41, PAML'), col=c('gray30', 'gray50', 'gray80'), ylim=c(0, 0.3))
 # add significance
 text(6.5, (0.178 + 0.0075), "1.4%", cex=1)
 text(7.5, (0.183 + 0.0075), "4.0%", cex=1)
@@ -29,7 +29,7 @@ paml_ha<-c(0.34745, 0.3416, 0.33732)
 fubar_gp41<-c(0.30747, 0.31294, 0.30393)
 paml_gp41<-c(0.30384, 0.30152, 0.29558)
 bars <- cbind(fubar_ha, paml_ha, fubar_gp41, paml_gp41)
-barplot(bars, beside=T, ylab = 'Mean TPR', cex.lab = 1.25, main = '60-Sequence Simulation Sets', cex.main=1.25, names.arg = c('HA, FUBAR', 'HA, PAML', 'GP41, FUBAR', 'GP41, PAML'), col=c('gray30', 'gray50', 'gray80'), ylim=c(0, 0.6))
+barplot(bars, beside=T, ylab = 'Mean TPR', cex.lab = 1.25, main = '60-Sequence Simulation Sets', cex.main=1.4, names.arg = c('HA, FUBAR', 'HA, PAML', 'GP41, FUBAR', 'GP41, PAML'), col=c('gray30', 'gray50', 'gray80'), ylim=c(0, 0.6))
 # add significance
 text(3.58, (0.46381 + 0.012), "-2.2%", cex=1)
 text(10.5, (0.31294 + 0.012), "1.8%", cex=1)
