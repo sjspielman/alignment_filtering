@@ -1,10 +1,5 @@
 
-# for now let's start w/ prk, both data sets.
-
-
-# order: ref, gp, g
-
-pdf('barplot_prk.pdf', height=12, width=9)
+pdf('barplot.pdf', height=12, width=9)
 
 par(mar=c(4.5,5,4.5,4)) #bottom, left, top, right
 par(mfrow=c(2,1))
