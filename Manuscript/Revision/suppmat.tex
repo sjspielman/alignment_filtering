@@ -2,6 +2,8 @@
 
 \usepackage[margin=1.0in]{geometry}
 \usepackage{natbib}
+\usepackage{changepage}
+\usepackage{rotating}
 \usepackage{graphicx,amsmath,amssymb,amsfonts}
 \sloppy
 
@@ -85,6 +87,41 @@ We inferred positive selection using both the PAML M8 model \citep{Yang2007} and
 We then compared resulting positive-selection inferences for each MSA to its respective true MSA's $dN/dS$ values, given by Indelible during simulation, to assess performance accuracy. As residues may have been differently aligned relative to the true simulated MSA, we constructed a map from each unfiltered MSA to its respective true MSA. For this map, we selected the sequence in the unfiltered MSA with the fewest number of gaps and mapped its non-gap sites to the corresponding residue position in the true MSA. This strategy ensured that the most sites possible were included when calculating true positive rates. Importantly, all filtered variants of a given unfiltered MSA used the same map to the true MSA. We considered sites positively selected if the posterior probability of $(dN/dS>1)$ was $\geq0.9$.
 
 All statistics were conducted using Python and R. Linear modeling was conducted using the R package lme4 \citep{Bates2012}. We inferred effect magnitudes and significance, which we corrected for multiple testing,g using the R multcomp package's glht() function with default settings \citep{Hothorn2008}. All code used in this study is available at https://github.com/clauswilke/alignment\underline{\hspace*{0.2cm}}filtering.
+
+\section*{Analysis of MSA Filtering Threshold}
+When filtering MSAs with Guidance-based methods, one must select a specific score cutoff below which to mask residues. We chose to filter all residues with scores less than 0.5, as previously done by \citet{Jordan2012}. However, \citet{Privman2012} filtered all sites which scored below a threshold of 0.9. Therefore, it was possible that selecting a different threshold would have yielded different results, so we analyzed how changing this threshold might impact our findings. For this analysis, we considered only the Guidance and GuidanceP scoring schemes for the HA selective profile. Using the same position confidence scores previously generated, we masked all alignments at the additional cutoffs of 0.3, 0.7, and 0.9 and inferred positive selection with FUBAR and PAML as described.
+
+We fit mixed-effects linear models for each simulation set, with TPR as the response, masking cutoff as a fixed effect, and simulation count as the random effect, for Guidance and GuidanceP results each. In general, the threshold of 0.3, 0.5, and 0.7 performed statistically indistinguishably. The single exception to this finding occurred for the 60-sequence simulation set, as inferred with FUBAR, for which the cutoffs of 0.3 and 0.5 each performed marginally better than did the 0.7 cutoff ($P < 0.01$ and $P < 0.05$, respectively). However, as shown in Table \ref{tab:cutoffs}, the cutoff of 0.9 tended to yield worse performances than did the 0.5 threshold. It is, however, important to note that PAML was generally more robust to changes in masking threshold than was FUBAR, and that GuidanceP was influenced more by changing the masking threshold than was Guidance. Likely the latter observation resulted from the fact that the gap-penalization algorithms mask far more sites than do algorithms which use the original normalization scheme, ultimately resulting in an excessive amount of information removed at a 0.9 masking threshold.
+
+Therefore, we do not expect that our results were biased by our selection of a 0.5 masking threshold. Alternatively, using a stringent 0.9 cutoff likely would have excessively sacrificed power for positive-selection inference in several cases. 
+
+\begin{table}[htbp]
+\begin{adjustwidth}{-1.5cm}{}
+ \caption {\label{tab:cutoffs} Effect of masking cutoff on mean TPR of positive-selection inference for filtered MSAs.}
+\begin{tabular}{l l c c c c c c c}
+\hline\noalign{\smallskip}
+& & \multicolumn{3}{c}{Guidance} & & \multicolumn{3}{c}{GuidanceP}   \\
+\cline{3-5} \cline{7-9}\noalign{\smallskip}
+\multicolumn{1}{c}{Taxa} & \multicolumn{1}{c}{Method} & \multicolumn{1}{c}{0.5 TPR} & \multicolumn{1}{c}{0.9 TPR} & \multicolumn{1}{c}{Percent TPR Change} & & \multicolumn{1}{c}{0.5 TPR} & \multicolumn{1}{c}{0.9 TPR} & \multicolumn{1}{c}{Percent TPR Change}  \\
+\hline\noalign{\smallskip}
+11  &  FUBAR  &  0.085  &  0.082  &  \textbf{-4.22\%$^{\ast}}$  & &  0.085  &  0.079  &  \textbf{-6.60\%$^{\ast\ast}$}  \\
+  &  PAML  &  0.082  &  0.079  &  -2.59\% & &  0.081  &  0.074  &  \textbf{-8.38\%$^{\ast\ast}$}   \\
+\hline
+26  &  FUBAR  &  0.229  &  0.227  &  -0.87\% & &  0.226  &  0.215  &  \textbf{-5.21\%$^{\ast\ast\ast}$}  \\
+  &  PAML  &  0.178  &  0.179  &  0.67\% & &  0.183  &  0.175  &  \textbf{-4.33\%$^{\ast\ast}$}  \\
+\hline
+60  &  FUBAR  &  0.479  &  0.458  &  \textbf{-4.43$^{\ast\ast\ast}$} & &  0.464  &  0.332  &  \textbf{-28.5\%$^{\ast\ast}$}  \\
+  &  PAML  &  0.342  &  0.327  &  -4.19\%  & &  0.337  &  0.256  &  \textbf{-24.1\%$^{\ast\ast}$}  \\
+\hline
+158  &  FUBAR  &  0.467  &  0.463  &  -0.73\%  & & 0.468  &  0.452  &  \textbf{-3.44\%$^{\ast\ast\ast}$}  \\
+\hline
+\end{tabular}
+\newline
+\textsc{note.}--- Significance levels: $^{\ast\ast\ast} P < 10^{-4}$; $^{\ast\ast} P < 10^{-3}$; $^{\ast} P < 10^{-2}$. 
+0.5 TPR: average TPR for MSAs masked at a cutoff of 0.5; 0.9 TPR: average TPR for MSAs masked at a cutoff of 0.9; Percent TPR Decrease: average percent decrease in TPR recovered between MSAs masked at cutoffs of 0.5 and 0.9. Linear models were conducted with the lme4 package in R \citep{Bates2012}. All significance levels were corrected for multiple comparisons using the multcomp package in R \citep{Hothorn2008}.
+\end{adjustwidth}
+\end{table}
+
 
 
 
