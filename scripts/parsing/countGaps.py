@@ -1,5 +1,5 @@
 # SJS 4/30/14.
-# Function to count gaps in the reference alignments. Reported as percentages.
+# Function to count gaps in the reference alignments. Reported as percentages: mean sd
 
 from Bio import AlignIO
 import numpy as np
