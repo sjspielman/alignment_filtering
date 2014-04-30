@@ -4,27 +4,52 @@
 
 # order: ref, gp, g
 
-pdf('barplot_prk.pdf', height=6, width=8)
+pdf('barplot_prk.pdf', height=12, width=9)
 
 par(mar=c(4,5,4,4)) #bottom, left, top, right
+par(mfrow=c(2,1))
 
-#significant: *fubar ha gp (bad), *fubar gp41 g (good), **paml gp41 gp (bad)
+############ 26 sequences ##############
+fubar_ha<-c(0.227, 0.229, 0.226)
+paml_ha<-c(0.176, 0.178, 0.183) #**, **
+fubar_gp41<-c(0.196, 0.2, 0.197) #*
+paml_gp41<-c(0.216, 0.22, 0.217)
+bars <- cbind(fubar_ha, paml_ha, fubar_gp41, paml_gp41)
+barplot(bars, beside=T, ylab = 'Mean TPR', cex.lab = 1.25, main = '26-Sequence Simulation Sets', cex.main=1.25, names.arg = c('HA, FUBAR', 'HA, PAML', 'GP41, FUBAR', 'GP41, PAML'), col=c('gray30', 'gray50', 'gray80'), ylim=c(0, 0.3))
+# add significance
+text(6.5, (0.178 + 0.0075), "1.4%", cex=1)
+text(7.5, (0.183 + 0.0075), "4.0%", cex=1)
+text(10.5, (0.2 + 0.0075), "1.9%", cex=1)
+#legend('topright', lty=c(NA, NA, NA),   lwd=1, fill=c('grey30', 'gray50', 'gray80'), c('Unfiltered', 'Guidance', 'GuidanceP'), box.col=NA) #, cex=1.25)
 
+
+############# 60 sequences ################
 fubar_ha<-c(0.47402, 0.47875, 0.46381)
 paml_ha<-c(0.34745, 0.3416, 0.33732)
 fubar_gp41<-c(0.30747, 0.31294, 0.30393)
 paml_gp41<-c(0.30384, 0.30152, 0.29558)
-
-
 bars <- cbind(fubar_ha, paml_ha, fubar_gp41, paml_gp41)
-
-barplot(bars, beside=T, ylab = 'Mean TPR', cex.lab = 1.25, names.arg = c('HA, FUBAR', 'HA, PAML', 'GP41, FUBAR', 'GP41, PAML'), col=c('darkgreen', 'red', 'blue'), ylim=c(0, 0.5))
-legend('topright', lty=c(NA, NA, NA), pch=c(15, 15, 15), lwd=2, col=c('darkgreen', 'red', 'blue'), c('Unfiltered', 'Guidance', 'GuidanceP'), box.col=NA, cex=1.25)
-
+barplot(bars, beside=T, ylab = 'Mean TPR', cex.lab = 1.25, main = '60-Sequence Simulation Sets', cex.main=1.25, names.arg = c('HA, FUBAR', 'HA, PAML', 'GP41, FUBAR', 'GP41, PAML'), col=c('gray30', 'gray50', 'gray80'), ylim=c(0, 0.6))
 # add significance
-text(3.5, (0.46381 + 0.0075), "*", cex=1.5)
-text(10.5, (0.31294 + 0.0075), "*", cex=1.5)
-text(15.5, (0.29558 + 0.0075), "**", cex=1.5)
+text(3.58, (0.46381 + 0.012), "-2.2%", cex=1)
+text(10.5, (0.31294 + 0.012), "1.8%", cex=1)
+text(15.57, (0.29558 + 0.012), "-2.7%", cex=1)
+legend('topright', lty=c(NA, NA, NA),   lwd=1, fill=c('grey30', 'gray50', 'gray80'), c('Unfiltered', 'Guidance', 'GuidanceP'), box.col=NA, x.intersp = -1, cex=1.25)
+
 
 
 dev.off()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
