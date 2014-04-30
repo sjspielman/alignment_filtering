@@ -8,30 +8,37 @@
 
 \pdfminorversion 4
 
-% definition of \customlabel, which is used to label supplementary figures and tables
-%\makeatletter
-%\newcommand{\customlabel}[2]{%
-%\protected@write \@auxout {}{\string \newlabel {#1}{{#2}{\thepage}{}{}{}}}}
-%\makeatother
-
 
 \bibpunct[,]{(}{)}{;}{a}{}{,}
 
+
 \begin{document}
-  
 
-\section*{Supplementary Information for alnpaper}
+\title{\textbf{Supplementary Material for ``Limited utility of residue masking for positive-selection inference"}}
+\author{Stephanie J. Spielman$^{1*}$ and Eric T. Dawson$^{1}$ and Claus O. Wilke$^{1}$}
+\date{}
+\maketitle
+\noindent $^1$Department of Integrative Biology, Center for Computational Biology and Bioinformatics, and Institute of Cellular and Molecular Biology.
+\\ The University of Texas at Austin, Austin, TX 78712, USA.\\
 
+\bigskip
+\noindent
+$^*$Corresponding author\\
+$\phantom{^*}$Email: stephanie.spielman@utexas.edu\\
 
-\section*{Materials and Methods}
+\bigskip
+\tableofcontents
 
-\subsection*{Guidance Reimplementation}
-Our reimplemented Guidance is written in Python and C++ and is described in detail in SI. Following the algorithm set forth in Penn et al. \citep{Penn2010}, we first create a reference alignment using a user-specified progressive alignment software, with choices of Clustalw \citep{Thompson1994}, MUSCLE \citep{Edgar2004}, or MAFFT \citep{Katoh2002, Katoh2005}. We then generate $N$ (where $N=100$, by default) bootstrapped alignment replicates, each of which is used to create a bootstrapped tree in FastTree2 \citep{Price2010}. We then use these $N$ trees as guide trees to create $N$ new perturbed alignments, which we subsequently compare to the reference alignment to generate a confidence score for each residue. Users can specify options for their aligner and phylogeny reconstruction method as desired.
+\newpage 
 
-\subsubsection*{Scoring Algorithms}
-Before calculating confidence scores, a phylogeny is built from the reference alignment. Our program includes functionality to build this phylogeny using either FastTree2 \citep{Price2010} or RAxML \citep{Stamatakis2006}. Two types of phylogenetic weights can be calculated from this tree. The first uses the software package BranchManager \citep{Stone2007} to calculate a weight for each taxon in the phylogeny representing that taxon's contribution to the phylogeny as a whole. We call this method ``BMweights." The second method calculates patristic distances (sum of branch lengths) between each taxon in the phylogeny using the python package DendroPy \citep{Sukumaran2010}. We call this method ``PDweights."
+\section{Materials and Methods}
 
-We calculate positional confidence scores for each of the $N$ bootstrap alignments as follows. A raw score, $S_{ij}$, for a given residue in row $i$, column $j$ of the reference alignment is calculated as \begin{equation} S_{ij} = \sum\limits_{k \in R_\text{ng}^{(j)}} I_{ik}^{(j)} s_{ik}   ,\end{equation} where $R_\text{ng}^{(j)}$ represents the set of rows in column $j$ which are not gaps. We calculate $s_{ik}$ according to the given scoring algorithm:
+\subsection*{Guidance Software Reimplementation and Scoring Algorithms}
+Our reimplemented Guidance is written in Python and C++ and is described in detail in SI. Following the algorithm set forth in Penn et al. \citep{Penn2010}, we first create a reference multiple sequence alignment (MSA) using a user-specified progressive MSA software, with choices of Clustalw \citep{Thompson1994}, MUSCLE \citep{Edgar2004}, or MAFFT \citep{Katoh2002, Katoh2005}. We then generate $N$ (where $N=100$, by default) bootstrapped MSA replicates, each of which is used to create a bootstrapped tree in FastTree2 \citep{Price2010}. We then use these $N$ trees as guide trees to create $N$ new perturbed MSAs, which we subsequently compare to the reference MSA to generate a confidence score for each residue. Users can specify options for their aligner and phylogeny reconstruction method as desired.
+
+Before calculating confidence scores, a phylogeny is built from the reference MSA. Our program includes functionality to build this phylogeny using either FastTree2 \citep{Price2010} or RAxML \citep{Stamatakis2006}. Two types of phylogenetic weights can be calculated from this tree. The first uses the software package BranchManager \citep{Stone2007} to calculate a weight for each taxon in the phylogeny representing that taxon's contribution to the phylogeny as a whole. We call this method ``BMweights." The second method calculates patristic distances (sum of branch lengths) between each taxon in the phylogeny using the python package DendroPy \citep{Sukumaran2010}. We call this method ``PDweights."
+
+We calculate positional confidence scores for each of the $N$ bootstrap MSAs as follows. A raw score, $S_{ij}$, for a given residue in row $i$, column $j$ of the reference MSA is calculated as \begin{equation} S_{ij} = \sum\limits_{k \in R_\text{ng}^{(j)}} I_{ik}^{(j)} s_{ik}   ,\end{equation} where $R_\text{ng}^{(j)}$ represents the set of rows in column $j$ which are not gaps. We calculate $s_{ik}$ according to the given scoring algorithm:
 \begin{equation}
 s_{ik}} = \left\{ \begin{array}{rl}
 
@@ -43,14 +50,14 @@ s_{ik}} = \left\{ \begin{array}{rl}
 The indicator function 
 \begin{equation}I_{ik}^{(j)} = \left\{ \begin{array}{rl}
 
-              1                         &\mbox{if reference alignment residue pair $(i, k)^{(j)}$ is present in bootstrap alignment} \\
-              0            &\mbox{if reference alignment residue pair $(i, k)^{(j)}$ is absent in bootstrap alignment} \\
+              1                         &\mbox{if reference MSA residue pair $(i, k)^{(j)}$ is present in bootstrap MSA} \\
+              0            &\mbox{if reference MSA residue pair $(i, k)^{(j)}$ is absent in bootstrap MSA} \\
                      \end{array} \right. 
 \end{equation}
-serves to compare the bootstrap- and reference-alignment residue pairings.
+serves to compare the bootstrap- and reference-MSA residue pairings.
 
 
-We then sum positional scores $S_{ij}$ determined from each bootstrap replicate $n$. We normalize these scores across bootstrap replicates to yield a final score $\widetilde{S}_{ij}$ for each residue in the reference alignment. We use two different normalization schemes: original Guidance (defined in \citet{Penn2010}) and a novel gap-penalization scheme. These normalization schemes are given by \begin{equation}
+We then sum positional scores $S_{ij}$ determined from each bootstrap replicate $n$. We normalize these scores across bootstrap replicates to yield a final score $\widetilde{S}_{ij}$ for each residue in the reference MSA. We use two different normalization schemes: original Guidance (defined in \citet{Penn2010}) and a novel gap-penalization scheme. These normalization schemes are given by \begin{equation}
 \widetilde{S}_{ij}  = \sum_n S_{ij}(n) \bigg{/} \left\{ \begin{array}{rl}
 
               \sum\limits_n \sum\limits_{k \in R_\text{ng}^{(j)}} s_{ik}(n)     &\mbox{if original Guidance} \\
@@ -64,26 +71,26 @@ where $R_\text{all}^{(j)}$ represents all rows in column $j$, including gaps, th
 \subsection*{Sequence Simulation}
 Coding sequences were simulated using Indelible \citep{Fletcher2009}. To ensure that our simulations reflected realistic protein sequences, we simulated sequences according to two distinct sets of evolutionary parameters. The first selective profile was derived from H1N1 hemagluttinin (HA) influenza protein, and the second selective profile was derived from HIV-1 envelope protein GP41, which contains only the cytosolic and tail regions. 
 
-To derive parameters for the HA selective profile, we aligned 1038 HA protein sequences collected from the Influenza Research Database (http://www.fludb.org) with MAFFT, specifying the ``--auto" flag, \citep{Katoh2002,Katoh2005} and then back-translated to a codon alignment using the original nucleotide sequence data. We generated a phylogeny from this codon alignment in RAxML \citep{Stamatakis2006} using the GTRGAMMA model. Using the codon alignment and phylogeny, we inferred evolutionary parameters as described \citep{Spielman2013}. We used a REL (random effects likelihood) method \citep{NielsenYang1998} using the HyPhy software \citep{Pond2005}, with five $dN/dS$ rate categories as free parameters under the GY94 evolutionary model \citep{GoldmanYang1994}. We employed a Bayes Empirical Bayes approach \citep{Yang2000} to obtain infer $dN/dS$ values at each site, which we used to assess a complete distribution of site rates. The resulting $dN/dS$ had a mean of 0.37. We binned these rates into 50 equally spaced categories for specification in Indelible, which required a discrete distribution of $dN/dS$ values. Again according to parameters derived from the HA analysis, we fixed $\kappa$, the transition-to-transversion ratio, at 5.3 and set state codon frequencies equal to those directly calculated from the HA alignment. 
+To derive parameters for the HA selective profile, we aligned 1038 HA protein sequences collected from the Influenza Research Database (http://www.fludb.org) with MAFFT, specifying the ``--auto" flag, \citep{Katoh2002,Katoh2005} and then back-translated to a codon MSA using the original nucleotide sequence data. We generated a phylogeny from this codon MSA in RAxML \citep{Stamatakis2006} using the GTRGAMMA model. Using the codon MSA and phylogeny, we inferred evolutionary parameters as described \citep{Spielman2013}. We used a REL (random effects likelihood) method \citep{NielsenYang1998} using the HyPhy software \citep{Pond2005}, with five $dN/dS$ rate categories as free parameters under the GY94 evolutionary model \citep{GoldmanYang1994}. We employed a Bayes Empirical Bayes approach \citep{Yang2000} to obtain infer $dN/dS$ values at each site, which we used to assess a complete distribution of site rates. The resulting $dN/dS$ had a mean of 0.37. We binned these rates into 50 equally spaced categories for specification in Indelible, which required a discrete distribution of $dN/dS$ values. Again according to parameters derived from the HA analysis, we fixed $\kappa$, the transition-to-transversion ratio, at 5.3 and set state codon frequencies equal to those directly calculated from the HA MSA. 
 
-To derive parameters for the GP41 selective profile, we aligned 2192 sequences from the LANL database (http://HIV.lanl.gov), again with MAFFT. We generated an amino-acid phylogeny from this alignment using FastTree2 under the WAG model. We subsequently inferred a $dN/dS$ distribution from this data in FUBAR. Note that we only used those $dN/dS$ values which were below 6, as FUBAR's approximate approach yielded estimates well over 1000 when $dS$ values were small. Again, we binned the resulting $dN/dS$ distribution into equally spaced categories for specification in Indelible. The resulting $dN/dS$ distribution had a mean of 0.89. We inferred a value for $\kappa$ by selecting from this large dataset a random set of 150 sequences, which we aligned with linsi \citep{Katoh2002,Katoh2005} and inferred a phylogeny using FastTree2 \citep{Price2010}, specifying the options ``-wag -fastest." We then inferred $\kappa$, which was calculated as 3.36, using the GY94 model in HyPhy. For all simulations under the GP41 selective profile, we fixed $\kappa$ at 3.36 and set state codon frequencies equal to those directly calculated from the GP41 alignment. 
+To derive parameters for the GP41 selective profile, we aligned 2192 sequences from the LANL database (http://HIV.lanl.gov), again with MAFFT. We generated an amino-acid phylogeny from this MSA using FastTree2 under the WAG model. We subsequently inferred a $dN/dS$ distribution from this data in FUBAR. Note that we only used those $dN/dS$ values which were below 6, as FUBAR's approximate approach yielded estimates well over 1000 when $dS$ values were small. Again, we binned the resulting $dN/dS$ distribution into equally spaced categories for specification in Indelible. The resulting $dN/dS$ distribution had a mean of 0.89. We inferred a value for $\kappa$ by selecting from this large dataset a random set of 150 sequences, which we aligned with linsi \citep{Katoh2002,Katoh2005} and inferred a phylogeny using FastTree2 \citep{Price2010}, specifying the options ``-wag -fastest." We then inferred $\kappa$, which was calculated as 3.36, using the GY94 model in HyPhy. For all simulations under the GP41 selective profile, we fixed $\kappa$ at 3.36 and set state codon frequencies equal to those directly calculated from the GP41 MSA. 
 
-We simulated 100 alignments across four different real gene trees each, for both selective profiles, yielding a total of 800 simulated alignments. Phylogenies used included an 11-taxon tree of the mammalian olfactory receptor OR5AP2 \citep{Spielman2013}, a 26-taxon tree of mammalian rhodopsin sequences \citep{Spielman2013}, a 60-sequence tree of phosphoribulokinase (PRK) genes from photosynthetic eukaryotes \citep{Yang2011}, and a 158-taxon multilocus tree of flatfish sequences \citep{Betancur2013}. The latter two phylogenies were obtained from TreeBASE (http://treebase.org). We set all insertion-deletion (indel) rates at 0.05, motivated by studies demonstrating that indel events occur at a rate 5\% of the substitution rate in mammalian genomes \citep{Cooper2004}, and we set the average alignment lengths to 400 codons.
+We simulated 100 alignments across four different real gene trees each, for both selective profiles, yielding a total of 800 simulated MSAs. Phylogenies used included an 11-taxon tree of the mammalian olfactory receptor OR5AP2 \citep{Spielman2013}, a 26-taxon tree of mammalian rhodopsin sequences \citep{Spielman2013}, a 60-sequence tree of phosphoribulokinase (PRK) genes from photosynthetic eukaryotes \citep{Yang2011}, and a 158-taxon multilocus tree of flatfish sequences \citep{Betancur2013}. The latter two phylogenies were obtained from TreeBASE (http://treebase.org). We set all insertion-deletion (indel) rates at 0.05, motivated by studies demonstrating that indel events occur at a rate 5\% of the substitution rate in mammalian genomes \citep{Cooper2004}, and we set all average sequence lengths to 400 codons.
 
-\subsection*{Alignment and Positive-Selection Inference}
+\subsection*{MSA Construction and Positive-Selection Inference}
 
-We constructed all alignments using linsi \citep{Katoh2002,Katoh2005} within the context of our Guidance reimplementation. Phylogenies used to calculate phylogenetic weights for the BMweights and PDweights algorithms were constructed in RAxML, specifying ``-m PROTGAMMAWAG" as the model of sequence evolution \citep{Stamatakis2006}. In addition to an unfiltered alignment, we generated six filtered alignments (one for each filtering algorithm and each normalization scheme), masking residues with scores $\leq0.5$ with ``?". To investigate potential biases introduced by the scoring threshold, we also masked residues below the scoring cutoffs of 0.3, 0.7, and 0.9 for alignments constructed with the Guidance and GuidanceP filters.
+We build all MSAs using MAFFT L-INS-I (linsi) \citep{Katoh2002,Katoh2005} within the context of our Guidance reimplementation. Phylogenies used to calculate phylogenetic weights for the BMweights and PDweights algorithms were constructed in RAxML, specifying ``PROTGAMMAWAG" as the model of sequence evolution \citep{Stamatakis2006}. In addition to an unfiltered MSA, we generated six filtered MSAs (one for each filtering algorithm and each normalization scheme), masking residues with scores $\leq0.5$ with ``?". To investigate potential biases introduced by the scoring threshold, we also masked residues below the scoring cutoffs of 0.3, 0.7, and 0.9 for MSAs constructed with the Guidance and GuidanceP filters. Only MSAs simulated according to HA parameters were included for this analysis.
 
-We inferred positive selection using both the PAML M8 model \citep{Yang2007} and FUBAR \citep{Murrell2013}, which is implemented in the HyPhy \citep{Pond2005} software package. For inference with PAML, we specified the $F3\times4$ codon frequency model and ``cleandata = 0" in the control file. For FUBAR inference, we used mostly default parameters, except when specifying grid dimensionality. As neither Indelible nor PAML simulates sequences without $dS$ variation, we specified that FUBAR only consider $dN$ variation, in order to make results from FUBAR and PAML fully comparable. We additionally specified 100 grid points to account for the reduced grid dimensionality caused by ignoring $dS$ variation. Phylogenies specified for positive-selection inference were those constructed during the Guidance alignment procedure when deriving phylogenetic weights. All filtered alignments derived from a unfiltered alignment were processed with identical phylogenies to remove any confounding effects of differing phylogenies. Note that while we employed FUBAR to assess positive selection for all simulation sets, we did not use PAML to infer positive selection for the largest set (158 sequences).
+We inferred positive selection using both the PAML M8 model \citep{Yang2007} and FUBAR \citep{Murrell2013}, which is implemented in the HyPhy \citep{Pond2005} software package. For inference with PAML, we specified the $F3\times4$ codon frequency model and ``cleandata = 0" in the control file. For FUBAR inference, we used mostly default parameters, except when specifying grid dimensionality. As neither Indelible nor PAML simulates sequences without $dS$ variation, we specified that FUBAR only consider $dN$ variation, in order to make results from FUBAR and PAML fully comparable. We additionally specified 100 grid points to account for the reduced grid dimensionality caused by ignoring $dS$ variation. Phylogenies specified for positive-selection inference were those constructed during the Guidance MSA procedure when deriving phylogenetic weights. All filtered MSAs derived from a unfiltered MSA were processed with identical phylogenies to avoid potentially confounding effects of different tree topologies. Note that while we employed FUBAR to assess positive selection for all simulation sets, we did not use PAML to infer positive selection for the largest set (158 sequences).
 
-We then compared resulting positive-selection inferences for each alignment to its respective true alignment's $dN/dS$ values, given by Indelible during simulation, to assess performance accuracy. As residues may have been differently aligned relative to the true simulated alignment, we constructed a map from each unfiltered alignment to its respective true alignment. For this map, we selected the sequence in the unfiltered alignment with the fewest number of gaps and mapped its non-gap sites to the corresponding residue position in the true alignment. This strategy ensured that the most sites possible were included when calculating true positive rates. Importantly, all filtered variants of a given unfiltered alignment used the same map to the true alignment. We considered sites positively selected if the posterior probability of $(dN/dS>1)$ was $\geq0.9$.
+We then compared resulting positive-selection inferences for each MSA to its respective true MSA's $dN/dS$ values, given by Indelible during simulation, to assess performance accuracy. As residues may have been differently aligned relative to the true simulated MSA, we constructed a map from each unfiltered MSA to its respective true MSA. For this map, we selected the sequence in the unfiltered MSA with the fewest number of gaps and mapped its non-gap sites to the corresponding residue position in the true MSA. This strategy ensured that the most sites possible were included when calculating true positive rates. Importantly, all filtered variants of a given unfiltered MSA used the same map to the true MSA. We considered sites positively selected if the posterior probability of $(dN/dS>1)$ was $\geq0.9$.
 
 Statistics were performed using Python and R. Linear modeling was conducted using the R package lme4 \citep{Bates2012}. We inferred effect magnitudes and significance and corrected for multiple testing using the R multcomp package's glht() function with default settings \citep{Hothorn2008}. All code used in this study is available at https://github.com/clauswilke/alignment\underline{\hspace*{0.2cm}}filtering.
 
 
 
 \newpage
-\section*{Supplementary Figures}
+\section{Supplementary Figures}
 
 
 \centerline{\includegraphics[width=6.5in]{Figures/ROC_SI_paml.pdf}}
