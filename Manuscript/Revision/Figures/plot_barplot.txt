@@ -11,7 +11,7 @@ fubar_gp41<-c(0.196, 0.2, 0.197) #*
 paml_gp41<-c(0.216, 0.22, 0.217)
 bars <- cbind(fubar_ha, paml_ha, fubar_gp41, paml_gp41)
 barplot(bars, beside=T, ylab = 'Mean TPR', cex.lab = 1.5, cex.names = 1.5, cex.axis = 1.4, names.arg = c('HA, FUBAR', 'HA, PAML', 'GP41, FUBAR', 'GP41, PAML'), col=c('gray30', 'gray50', 'gray80'), ylim=c(0, 0.3))
-mtext("A", side = 3, at = -1.2, cex = 1.75)
+mtext("A", side = 3, at = -1.2, cex = 2)
 mtext("26-Sequence Simulation Sets", side=3, cex=1.7, at=9)
 
 # add significance
@@ -32,7 +32,7 @@ fubar_gp41<-c(0.30747, 0.31294, 0.30393)
 paml_gp41<-c(0.30384, 0.30152, 0.29558)
 bars <- cbind(fubar_ha, paml_ha, fubar_gp41, paml_gp41)
 barplot(bars, beside=T, ylab = 'Mean TPR', cex.lab = 1.5, cex.names = 1.5, cex.axis = 1.4, names.arg = c('HA, FUBAR', 'HA, PAML', 'GP41, FUBAR', 'GP41, PAML'), col=c('gray30', 'gray50', 'gray80'), ylim=c(0, 0.6))
-mtext("B", side = 3, at = -1.2, cex = 1.75)
+mtext("B", side = 3, at = -1.2, cex = 2)
 mtext("60-Sequence Simulation Sets", side=3, cex=1.7, at=9)
 
 # add significance
