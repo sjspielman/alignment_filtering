@@ -29,7 +29,7 @@ plotPanel <- function(method, gene, cuts, lwd_size, lwd_ref_size, xlimit, ylimit
 	algs<-c('Guidance', 'BMweights', 'PDweights')
 	algsp<-c('GuidanceP', 'BMweightsP', 'PDweightsP')	
 	
-	file_name <- paste('../../../parsed_data/revision/sweeps/', method, '_HA_', gene, '_sweep.txt', sep='')
+	file_name <- paste('../../../data/parsed_data/revision/sweeps/', method, '_HA_', gene, '_sweep.txt', sep='')
 	ha <- read.table(file_name, header=T)
 	
 	# remove the cutoff of 0
@@ -54,7 +54,7 @@ plotPanel <- function(method, gene, cuts, lwd_size, lwd_ref_size, xlimit, ylimit
 		lines(meanfp, meantp, col='blue', lwd=lwd_size)
 	}
 	
-	file_name <- paste('../../../parsed_data/revision/sweeps/', method, '_GP41_', gene, '_sweep.txt', sep='')
+	file_name <- paste('../../../data/parsed_data/revision/sweeps/', method, '_GP41_', gene, '_sweep.txt', sep='')
 	gp41 <- read.table(file_name, header=T)
 	
 	# remove the cutoff of 0
