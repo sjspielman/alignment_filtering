@@ -1,18 +1,16 @@
 # Plot ROC prk figure, in the main MS. 4/27/14.
 
 
-
-
 outname <- 'ROC_prk.pdf'
 pdf(outname, width=13, height=11)
-par(mar=c(5,8,5,5)) #bottom, left, top, right
+par(mar=c(5,5,4,4)) #bottom, left, top, right
 par(mfrow=c(2,2))
-par(oma = c(2, 2, 2, 2))
+par(oma = c(1,1,1,1))
 
 lwd_size = 1.5
 lwd_ref_size = 5
-axis_size = 1.5
-label_size = 1.8
+axis_size = 1.6
+label_size = 1.9
 title_size = 1.75
 title_at_full = -0.2
 title_at_sub = -0.02
