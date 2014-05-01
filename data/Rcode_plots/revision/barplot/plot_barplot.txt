@@ -10,8 +10,9 @@ paml_ha<-c(0.176, 0.178, 0.183) #**, **
 fubar_gp41<-c(0.196, 0.2, 0.197) #*
 paml_gp41<-c(0.216, 0.22, 0.217)
 bars <- cbind(fubar_ha, paml_ha, fubar_gp41, paml_gp41)
-barplot(bars, beside=T, ylab = 'Mean TPR', cex.lab = 1.25, main = '26-Sequence Simulation Sets', cex.main=1.4, names.arg = c('HA, FUBAR', 'HA, PAML', 'GP41, FUBAR', 'GP41, PAML'), cex.names = 1.25, cex.lab=1.25,  col=c('gray30', 'gray50', 'gray80'), ylim=c(0, 0.3))
-mtext("A.", side = 3, at = -1, cex = 1.75)
+barplot(bars, beside=T, ylab = 'Mean TPR', cex.lab = 1.5, cex.names = 1.5, cex.axis = 1.4, names.arg = c('HA, FUBAR', 'HA, PAML', 'GP41, FUBAR', 'GP41, PAML'), col=c('gray30', 'gray50', 'gray80'), ylim=c(0, 0.3))
+mtext("A.", side = 3, at = -1.2, cex = 1.75)
+mtext("26-Sequence Simulation Sets", side=3, cex=1.7, at=9)
 
 # add significance
 segments(6.5, 0.18, 6.2, .195, cex=2)
@@ -30,8 +31,9 @@ paml_ha<-c(0.34745, 0.3416, 0.33732)
 fubar_gp41<-c(0.30747, 0.31294, 0.30393)
 paml_gp41<-c(0.30384, 0.30152, 0.29558)
 bars <- cbind(fubar_ha, paml_ha, fubar_gp41, paml_gp41)
-barplot(bars, beside=T, ylab = 'Mean TPR', cex.lab = 1.25, main = '60-Sequence Simulation Sets', cex.main=1.4, names.arg = c('HA, FUBAR', 'HA, PAML', 'GP41, FUBAR', 'GP41, PAML'), col=c('gray30', 'gray50', 'gray80'), ylim=c(0, 0.6))
-mtext("B.", side = 3, at = -1, cex = 1.75)
+barplot(bars, beside=T, ylab = 'Mean TPR', cex.lab = 1.5, cex.names = 1.5, cex.axis = 1.4, names.arg = c('HA, FUBAR', 'HA, PAML', 'GP41, FUBAR', 'GP41, PAML'), col=c('gray30', 'gray50', 'gray80'), ylim=c(0, 0.6))
+mtext("B.", side = 3, at = -1.2, cex = 1.75)
+mtext("60-Sequence Simulation Sets", side=3, cex=1.7, at=9)
 
 # add significance
 segments(3.5, 0.47, 3.75, 0.5, cex=2)
@@ -44,7 +46,7 @@ segments(15.5, 0.3, 15.75, 0.335, cex=2)
 text(15.8, 0.35, "-2.71%", cex=1.25)
 
 
-legend('topright', lty=c(NA, NA, NA),   lwd=1, fill=c('grey30', 'gray50', 'gray80'), c('Unfiltered', 'Guidance', 'GuidanceP'), box.col=NA, x.intersp = -1, cex=1.25)
+legend(inset = c(0.01,0.06), 'topright', lty=c(NA, NA, NA),   lwd=1, fill=c('grey30', 'gray50', 'gray80'), c('Unfiltered', 'Guidance', 'GuidanceP'), box.col=NA, x.intersp = -1, cex=1.5)
 
 
 
