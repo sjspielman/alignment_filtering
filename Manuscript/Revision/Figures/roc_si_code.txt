@@ -1,0 +1,75 @@
+# Plot ROC supplementary figures. SJS 4/27/14.
+# Idea for this scheme: fubar and paml have separate figures. left panel has xlim 0-1, and right panel has xlim 0-0.1
+
+
+method <- 'paml'
+
+
+if (method == 'fubar'){
+	height <- 15
+	label_size <- 1.9
+	axis_size <- 1.8
+}
+if (method == 'paml'){
+	height <- 10 
+	label_size <- 1.75
+	axis_size <- 1.5
+}
+
+
+outname <- paste('ROC_SI_', method, '.pdf', sep='')
+pdf(outname, width=12, height=height)
+
+if (method == 'fubar'){par(mfrow=c(3,2))}
+if (method == 'paml'){par(mfrow=c(2,2))}
+par(mar=c(6,8,6,5)) #bottom, left, top, right
+#par(oma = c(0, 0, 2, 0))
+
+lwd_size = 1.5
+lwd_ref_size = 3
+title_size = 1.75
+title_at_full = -0.2
+title_at_sub = -0.02
+cuts<-c(0:100)
+cuts<-cuts/100
+
+source('SI_ROC_functions.txt')
+
+# or5, full
+plotPanel(method, 'or5', cuts, lwd_size, 5, c(0,1), c(0,1), "A", title_size, title_at_full, label_size, axis_size)
+
+# or5, sub
+plotPanel(method, 'or5', cuts, lwd_size, lwd_ref_size, c(0, 0.1), c(0,0.8), "B", title_size, title_at_sub, label_size, axis_size)
+#legend('bottomright', lty=1, lwd=lwd_ref_size, col=c('black', 'red', 'blue'), c('Unfiltered', 'Original', 'Gap-penalization'), box.col=NA, cex=2)
+#mtext("11 taxa", side = 3, outer=T, cex = 2)
+
+
+# rho, full
+plotPanel(method, 'rho', cuts, lwd_size, 5, c(0,1), c(0,1), "C", title_size, title_at_full, label_size, axis_size)
+
+# rho, sub
+plotPanel(method, 'rho', cuts, lwd_size, lwd_ref_size, c(0, 0.1), c(0,0.8), "D", title_size, title_at_sub, label_size, axis_size)
+#mtext("26 taxa", side = 3, outer=T, cex = 2)
+
+############### flat is only for fubar ###################
+if (method == 'fubar') {
+# FUBAR flat, full
+plotPanel(method, 'flat', cuts, lwd_size, 5, c(0,1), c(0,1), "E", title_size, title_at_full, label_size, axis_size)
+
+# FUBAR flat, sub
+plotPanel(method, 'flat', cuts, lwd_size, lwd_ref_size, c(0, 0.1), c(0,1), "F", title_size, title_at_sub, label_size, axis_size)
+#mtext("158 taxa", side = 3, outer=T, cex = 2)
+}
+##########################################################
+
+legend('bottomright', lty=1, lwd=lwd_ref_size, col=c('black', 'red', 'blue'), c('Unfiltered', 'Original', 'Gap-penalization'), box.col=NA, cex=label_size)
+
+dev.off()
+
+
+
+
+
+
+
+
