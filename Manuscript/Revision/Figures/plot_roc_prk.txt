@@ -11,7 +11,7 @@ lwd_size = 1.5
 lwd_ref_size = 5
 axis_size = 1.6
 label_size = 1.9
-title_size = 1.75
+title_size = 2
 title_at_full = -0.2
 title_at_sub = -0.02
 cuts<-c(0:100)
