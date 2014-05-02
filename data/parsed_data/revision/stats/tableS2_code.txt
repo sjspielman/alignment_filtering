@@ -15,17 +15,16 @@ sumStats <- function(df, method, data, mygene)
 	for (myalg in algs) {
 		dat <- df[df$gene == mygene & df$case == myalg,]
 		
-		perc <- round(mean(dat$perc_masked), dig)
+		perc <- round(mean(dat$perc_masked), dig) * 100
 		num <- round(mean(dat$num_masked), dig)
 	
-		new <- paste(perc, "\\%", " (", num, ")", sep='')
+		new <- paste(perc, "%", " (", num, ")", sep='')
 		mylist <- c(mylist, new)
 	}
 	string <- ''
 	for (entry in mylist){
-		string <- paste(string, entry, sep='  &  ')
+		string <- paste(string, entry, sep='\t')
 	}
-	string <- paste(string, "\\", sep = '  ')
 	print(string)
 }
 
