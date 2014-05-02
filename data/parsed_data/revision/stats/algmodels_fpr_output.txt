@@ -1,0 +1,508 @@
+[1] "############################# HA DATASET #############################"
+[1] "############################# HA FUBAR #############################"
+[1] "or5"
+
+	 Simultaneous Tests for General Linear Hypotheses
+
+Multiple Comparisons of Means: Tukey Contrasts
+
+
+Fit: lmer(formula = fprate ~ case + (1 | count), data = dat)
+
+Linear Hypotheses:
+                               Estimate Std. Error z value Pr(>|z|)    
+BMweightsP - BMweights == 0  -1.292e-04  6.602e-05  -1.958  0.44169    
+Guidance - BMweights == 0    -2.778e-05  6.602e-05  -0.421  0.99958    
+GuidanceP - BMweights == 0   -1.321e-04  6.602e-05  -2.001  0.41385    
+PDweights - BMweights == 0   -2.876e-05  6.602e-05  -0.436  0.99948    
+PDweightsP - BMweights == 0  -2.090e-04  6.602e-05  -3.167  0.02603 *  
+refaln - BMweights == 0       1.038e-04  6.602e-05   1.572  0.70035    
+Guidance - BMweightsP == 0    1.015e-04  6.602e-05   1.537  0.72237    
+GuidanceP - BMweightsP == 0  -2.858e-06  6.602e-05  -0.043  1.00000    
+PDweights - BMweightsP == 0   1.005e-04  6.602e-05   1.522  0.73159    
+PDweightsP - BMweightsP == 0 -7.980e-05  6.602e-05  -1.209  0.89107    
+refaln - BMweightsP == 0      2.330e-04  6.602e-05   3.530  0.00740 ** 
+GuidanceP - Guidance == 0    -1.043e-04  6.602e-05  -1.580  0.69501    
+PDweights - Guidance == 0    -9.840e-07  6.602e-05  -0.015  1.00000    
+PDweightsP - Guidance == 0   -1.813e-04  6.602e-05  -2.746  0.08732 .  
+refaln - Guidance == 0        1.316e-04  6.602e-05   1.993  0.41893    
+PDweights - GuidanceP == 0    1.033e-04  6.602e-05   1.565  0.70475    
+PDweightsP - GuidanceP == 0  -7.694e-05  6.602e-05  -1.165  0.90711    
+refaln - GuidanceP == 0       2.359e-04  6.602e-05   3.573  0.00629 ** 
+PDweightsP - PDweights == 0  -1.803e-04  6.602e-05  -2.731  0.09071 .  
+refaln - PDweights == 0       1.326e-04  6.602e-05   2.008  0.40948    
+refaln - PDweightsP == 0      3.128e-04  6.602e-05   4.739  < 0.001 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1 
+(Adjusted p values reported -- single-step method)
+
+[1] "rho"
+
+	 Simultaneous Tests for General Linear Hypotheses
+
+Multiple Comparisons of Means: Tukey Contrasts
+
+
+Fit: lmer(formula = fprate ~ case + (1 | count), data = dat)
+
+Linear Hypotheses:
+                               Estimate Std. Error z value Pr(>|z|)    
+BMweightsP - BMweights == 0  -7.629e-04  2.037e-04  -3.745  0.00329 ** 
+Guidance - BMweights == 0    -1.021e-04  2.037e-04  -0.501  0.99885    
+GuidanceP - BMweights == 0   -7.391e-04  2.037e-04  -3.629  0.00525 ** 
+PDweights - BMweights == 0   -1.021e-04  2.037e-04  -0.501  0.99885    
+PDweightsP - BMweights == 0  -7.160e-04  2.037e-04  -3.515  0.00794 ** 
+refaln - BMweights == 0       1.099e-04  2.037e-04   0.540  0.99825    
+Guidance - BMweightsP == 0    6.608e-04  2.037e-04   3.244  0.02022 *  
+GuidanceP - BMweightsP == 0   2.375e-05  2.037e-04   0.117  1.00000    
+PDweights - BMweightsP == 0   6.608e-04  2.037e-04   3.244  0.02013 *  
+PDweightsP - BMweightsP == 0  4.691e-05  2.037e-04   0.230  0.99999    
+refaln - BMweightsP == 0      8.728e-04  2.037e-04   4.285  < 0.001 ***
+GuidanceP - Guidance == 0    -6.371e-04  2.037e-04  -3.128  0.02927 *  
+PDweights - Guidance == 0     1.355e-20  2.037e-04   0.000  1.00000    
+PDweightsP - Guidance == 0   -6.139e-04  2.037e-04  -3.014  0.04113 *  
+refaln - Guidance == 0        2.120e-04  2.037e-04   1.041  0.94460    
+PDweights - GuidanceP == 0    6.371e-04  2.037e-04   3.128  0.02940 *  
+PDweightsP - GuidanceP == 0   2.316e-05  2.037e-04   0.114  1.00000    
+refaln - GuidanceP == 0       8.490e-04  2.037e-04   4.168  < 0.001 ***
+PDweightsP - PDweights == 0  -6.139e-04  2.037e-04  -3.014  0.04106 *  
+refaln - PDweights == 0       2.120e-04  2.037e-04   1.041  0.94461    
+refaln - PDweightsP == 0      8.259e-04  2.037e-04   4.055  < 0.001 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1 
+(Adjusted p values reported -- single-step method)
+
+[1] "prk"
+
+	 Simultaneous Tests for General Linear Hypotheses
+
+Multiple Comparisons of Means: Tukey Contrasts
+
+
+Fit: lmer(formula = fprate ~ case + (1 | count), data = dat)
+
+Linear Hypotheses:
+                               Estimate Std. Error z value Pr(>|z|)    
+BMweightsP - BMweights == 0  -1.418e-03  2.283e-04  -6.211   <0.001 ***
+Guidance - BMweights == 0    -2.384e-04  2.283e-04  -1.044   0.9438    
+GuidanceP - BMweights == 0   -1.613e-03  2.283e-04  -7.063   <0.001 ***
+PDweights - BMweights == 0   -2.806e-04  2.283e-04  -1.229   0.8831    
+PDweightsP - BMweights == 0  -1.546e-03  2.283e-04  -6.771   <0.001 ***
+refaln - BMweights == 0       4.535e-04  2.283e-04   1.986   0.4235    
+Guidance - BMweightsP == 0    1.180e-03  2.283e-04   5.167   <0.001 ***
+GuidanceP - BMweightsP == 0  -1.946e-04  2.283e-04  -0.852   0.9793    
+PDweights - BMweightsP == 0   1.137e-03  2.283e-04   4.982   <0.001 ***
+PDweightsP - BMweightsP == 0 -1.279e-04  2.283e-04  -0.560   0.9978    
+refaln - BMweightsP == 0      1.871e-03  2.283e-04   8.197   <0.001 ***
+GuidanceP - Guidance == 0    -1.374e-03  2.283e-04  -6.019   <0.001 ***
+PDweights - Guidance == 0    -4.221e-05  2.283e-04  -0.185   1.0000    
+PDweightsP - Guidance == 0   -1.308e-03  2.283e-04  -5.727   <0.001 ***
+refaln - Guidance == 0        6.918e-04  2.283e-04   3.030   0.0394 *  
+PDweights - GuidanceP == 0    1.332e-03  2.283e-04   5.834   <0.001 ***
+PDweightsP - GuidanceP == 0   6.663e-05  2.283e-04   0.292   1.0000    
+refaln - GuidanceP == 0       2.066e-03  2.283e-04   9.049   <0.001 ***
+PDweightsP - PDweights == 0  -1.265e-03  2.283e-04  -5.542   <0.001 ***
+refaln - PDweights == 0       7.340e-04  2.283e-04   3.215   0.0223 *  
+refaln - PDweightsP == 0      1.999e-03  2.283e-04   8.757   <0.001 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1 
+(Adjusted p values reported -- single-step method)
+
+[1] "flat"
+
+	 Simultaneous Tests for General Linear Hypotheses
+
+Multiple Comparisons of Means: Tukey Contrasts
+
+
+Fit: lmer(formula = fprate ~ case + (1 | count), data = dat)
+
+Linear Hypotheses:
+                               Estimate Std. Error z value Pr(>|z|)    
+BMweightsP - BMweights == 0  -2.423e-03  3.809e-04  -6.363  < 1e-04 ***
+Guidance - BMweights == 0    -4.890e-04  3.809e-04  -1.284 0.859567    
+GuidanceP - BMweights == 0   -2.425e-03  3.809e-04  -6.367  < 1e-04 ***
+PDweights - BMweights == 0   -5.405e-04  3.809e-04  -1.419 0.791647    
+PDweightsP - BMweights == 0  -2.400e-03  3.809e-04  -6.302  < 1e-04 ***
+refaln - BMweights == 0       1.674e-03  3.809e-04   4.396 0.000242 ***
+Guidance - BMweightsP == 0    1.934e-03  3.809e-04   5.079  < 1e-04 ***
+GuidanceP - BMweightsP == 0  -1.658e-06  3.809e-04  -0.004 1.000000    
+PDweights - BMweightsP == 0   1.883e-03  3.809e-04   4.944  < 1e-04 ***
+PDweightsP - BMweightsP == 0  2.310e-05  3.809e-04   0.061 1.000000    
+refaln - BMweightsP == 0      4.098e-03  3.809e-04  10.759  < 1e-04 ***
+GuidanceP - Guidance == 0    -1.936e-03  3.809e-04  -5.083  < 1e-04 ***
+PDweights - Guidance == 0    -5.153e-05  3.809e-04  -0.135 0.999999    
+PDweightsP - Guidance == 0   -1.911e-03  3.809e-04  -5.018  < 1e-04 ***
+refaln - Guidance == 0        2.163e-03  3.809e-04   5.680  < 1e-04 ***
+PDweights - GuidanceP == 0    1.885e-03  3.809e-04   4.948  < 1e-04 ***
+PDweightsP - GuidanceP == 0   2.475e-05  3.809e-04   0.065 1.000000    
+refaln - GuidanceP == 0       4.100e-03  3.809e-04  10.763  < 1e-04 ***
+PDweightsP - PDweights == 0  -1.860e-03  3.809e-04  -4.883  < 1e-04 ***
+refaln - PDweights == 0       2.215e-03  3.809e-04   5.815  < 1e-04 ***
+refaln - PDweightsP == 0      4.075e-03  3.809e-04  10.698  < 1e-04 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1 
+(Adjusted p values reported -- single-step method)
+
+[1] "############################# HA PAML #############################"
+[1] "or5"
+
+	 Simultaneous Tests for General Linear Hypotheses
+
+Multiple Comparisons of Means: Tukey Contrasts
+
+
+Fit: lmer(formula = fprate ~ case + (1 | count), data = dat)
+
+Linear Hypotheses:
+                               Estimate Std. Error z value Pr(>|z|)  
+BMweightsP - BMweights == 0  -1.908e-07  4.549e-05  -0.004   1.0000  
+Guidance - BMweights == 0     2.513e-05  4.549e-05   0.552   0.9980  
+GuidanceP - BMweights == 0   -1.908e-07  4.549e-05  -0.004   1.0000  
+PDweights - BMweights == 0    2.513e-05  4.549e-05   0.552   0.9980  
+PDweightsP - BMweights == 0   2.513e-05  4.549e-05   0.552   0.9980  
+refaln - BMweights == 0       1.301e-04  4.549e-05   2.860   0.0637 .
+Guidance - BMweightsP == 0    2.532e-05  4.549e-05   0.557   0.9979  
+GuidanceP - BMweightsP == 0   3.256e-21  4.549e-05   0.000   1.0000  
+PDweights - BMweightsP == 0   2.532e-05  4.549e-05   0.557   0.9979  
+PDweightsP - BMweightsP == 0  2.532e-05  4.549e-05   0.557   0.9979  
+refaln - BMweightsP == 0      1.303e-04  4.549e-05   2.864   0.0634 .
+GuidanceP - Guidance == 0    -2.532e-05  4.549e-05  -0.557   0.9979  
+PDweights - Guidance == 0     3.388e-21  4.549e-05   0.000   1.0000  
+PDweightsP - Guidance == 0   -3.388e-21  4.549e-05   0.000   1.0000  
+refaln - Guidance == 0        1.050e-04  4.549e-05   2.308   0.2400  
+PDweights - GuidanceP == 0    2.532e-05  4.549e-05   0.557   0.9979  
+PDweightsP - GuidanceP == 0   2.532e-05  4.549e-05   0.557   0.9979  
+refaln - GuidanceP == 0       1.303e-04  4.549e-05   2.864   0.0634 .
+PDweightsP - PDweights == 0  -6.776e-21  4.549e-05   0.000   1.0000  
+refaln - PDweights == 0       1.050e-04  4.549e-05   2.308   0.2403  
+refaln - PDweightsP == 0      1.050e-04  4.549e-05   2.308   0.2397  
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1 
+(Adjusted p values reported -- single-step method)
+
+[1] "rho"
+
+	 Simultaneous Tests for General Linear Hypotheses
+
+Multiple Comparisons of Means: Tukey Contrasts
+
+
+Fit: lmer(formula = fprate ~ case + (1 | count), data = dat)
+
+Linear Hypotheses:
+                               Estimate Std. Error z value Pr(>|z|)
+BMweightsP - BMweights == 0  -9.696e-05  6.653e-05  -1.457    0.770
+Guidance - BMweights == 0    -2.513e-05  6.653e-05  -0.378    1.000
+GuidanceP - BMweights == 0   -9.696e-05  6.653e-05  -1.457    0.770
+PDweights - BMweights == 0   -2.513e-05  6.653e-05  -0.378    1.000
+PDweightsP - BMweights == 0  -9.696e-05  6.653e-05  -1.457    0.770
+refaln - BMweights == 0       7.803e-05  6.653e-05   1.173    0.904
+Guidance - BMweightsP == 0    7.183e-05  6.653e-05   1.080    0.934
+GuidanceP - BMweightsP == 0   1.355e-20  6.653e-05   0.000    1.000
+PDweights - BMweightsP == 0   7.183e-05  6.653e-05   1.080    0.934
+PDweightsP - BMweightsP == 0  1.355e-20  6.653e-05   0.000    1.000
+refaln - BMweightsP == 0      1.750e-04  6.653e-05   2.630    0.117
+GuidanceP - Guidance == 0    -7.183e-05  6.653e-05  -1.080    0.934
+PDweights - Guidance == 0    -3.388e-21  6.653e-05   0.000    1.000
+PDweightsP - Guidance == 0   -7.183e-05  6.653e-05  -1.080    0.934
+refaln - Guidance == 0        1.032e-04  6.653e-05   1.551    0.714
+PDweights - GuidanceP == 0    7.183e-05  6.653e-05   1.080    0.934
+PDweightsP - GuidanceP == 0   0.000e+00  6.653e-05   0.000    1.000
+refaln - GuidanceP == 0       1.750e-04  6.653e-05   2.630    0.117
+PDweightsP - PDweights == 0  -7.183e-05  6.653e-05  -1.080    0.934
+refaln - PDweights == 0       1.032e-04  6.653e-05   1.551    0.714
+refaln - PDweightsP == 0      1.750e-04  6.653e-05   2.630    0.117
+(Adjusted p values reported -- single-step method)
+
+[1] "prk"
+
+	 Simultaneous Tests for General Linear Hypotheses
+
+Multiple Comparisons of Means: Tukey Contrasts
+
+
+Fit: lmer(formula = fprate ~ case + (1 | count), data = dat)
+
+Linear Hypotheses:
+                               Estimate Std. Error z value Pr(>|z|)    
+BMweightsP - BMweights == 0  -5.461e-04  1.728e-04  -3.161  0.02655 *  
+Guidance - BMweights == 0    -3.494e-05  1.728e-04  -0.202  0.99999    
+GuidanceP - BMweights == 0   -5.982e-04  1.728e-04  -3.462  0.00980 ** 
+PDweights - BMweights == 0    2.136e-05  1.728e-04   0.124  1.00000    
+PDweightsP - BMweights == 0  -5.736e-04  1.728e-04  -3.320  0.01565 *  
+refaln - BMweights == 0       6.802e-04  1.728e-04   3.936  0.00159 ** 
+Guidance - BMweightsP == 0    5.112e-04  1.728e-04   2.959  0.04852 *  
+GuidanceP - BMweightsP == 0  -5.210e-05  1.728e-04  -0.302  0.99994    
+PDweights - BMweightsP == 0   5.675e-04  1.728e-04   3.284  0.01742 *  
+PDweightsP - BMweightsP == 0 -2.753e-05  1.728e-04  -0.159  1.00000    
+refaln - BMweightsP == 0      1.226e-03  1.728e-04   7.097  < 0.001 ***
+GuidanceP - Guidance == 0    -5.633e-04  1.728e-04  -3.260  0.01921 *  
+PDweights - Guidance == 0     5.630e-05  1.728e-04   0.326  0.99990    
+PDweightsP - Guidance == 0   -5.387e-04  1.728e-04  -3.118  0.03020 *  
+refaln - Guidance == 0        7.151e-04  1.728e-04   4.139  < 0.001 ***
+PDweights - GuidanceP == 0    6.196e-04  1.728e-04   3.586  0.00618 ** 
+PDweightsP - GuidanceP == 0   2.457e-05  1.728e-04   0.142  1.00000    
+refaln - GuidanceP == 0       1.278e-03  1.728e-04   7.399  < 0.001 ***
+PDweightsP - PDweights == 0  -5.950e-04  1.728e-04  -3.444  0.01028 *  
+refaln - PDweights == 0       6.588e-04  1.728e-04   3.813  0.00271 ** 
+refaln - PDweightsP == 0      1.254e-03  1.728e-04   7.257  < 0.001 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1 
+(Adjusted p values reported -- single-step method)
+
+[1] "############################# GP41 DATASET #############################"
+[1] "############################# GP41 FUBAR #############################"
+[1] "or5"
+
+	 Simultaneous Tests for General Linear Hypotheses
+
+Multiple Comparisons of Means: Tukey Contrasts
+
+
+Fit: lmer(formula = fprate ~ case + (1 | count), data = dat)
+
+Linear Hypotheses:
+                               Estimate Std. Error z value Pr(>|z|)    
+BMweightsP - BMweights == 0  -3.501e-05  6.653e-05  -0.526  0.99848    
+Guidance - BMweights == 0    -6.538e-05  6.653e-05  -0.983  0.95790    
+GuidanceP - BMweights == 0   -9.963e-05  6.653e-05  -1.497  0.74669    
+PDweights - BMweights == 0   -6.538e-05  6.653e-05  -0.983  0.95785    
+PDweightsP - BMweights == 0  -6.914e-05  6.653e-05  -1.039  0.94498    
+refaln - BMweights == 0       2.237e-04  6.653e-05   3.362  0.01360 *  
+Guidance - BMweightsP == 0   -3.037e-05  6.653e-05  -0.456  0.99932    
+GuidanceP - BMweightsP == 0  -6.462e-05  6.653e-05  -0.971  0.96019    
+PDweights - BMweightsP == 0  -3.037e-05  6.653e-05  -0.456  0.99932    
+PDweightsP - BMweightsP == 0 -3.413e-05  6.653e-05  -0.513  0.99869    
+refaln - BMweightsP == 0      2.587e-04  6.653e-05   3.888  0.00196 ** 
+GuidanceP - Guidance == 0    -3.425e-05  6.653e-05  -0.515  0.99866    
+PDweights - Guidance == 0    -1.355e-20  6.653e-05   0.000  1.00000    
+PDweightsP - Guidance == 0   -3.759e-06  6.653e-05  -0.056  1.00000    
+refaln - Guidance == 0        2.891e-04  6.653e-05   4.345  < 0.001 ***
+PDweights - GuidanceP == 0    3.425e-05  6.653e-05   0.515  0.99866    
+PDweightsP - GuidanceP == 0   3.049e-05  6.653e-05   0.458  0.99931    
+refaln - GuidanceP == 0       3.233e-04  6.653e-05   4.859  < 0.001 ***
+PDweightsP - PDweights == 0  -3.759e-06  6.653e-05  -0.056  1.00000    
+refaln - PDweights == 0       2.891e-04  6.653e-05   4.345  < 0.001 ***
+refaln - PDweightsP == 0      2.928e-04  6.653e-05   4.401  < 0.001 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1 
+(Adjusted p values reported -- single-step method)
+
+[1] "rho"
+
+	 Simultaneous Tests for General Linear Hypotheses
+
+Multiple Comparisons of Means: Tukey Contrasts
+
+
+Fit: lmer(formula = fprate ~ case + (1 | count), data = dat)
+
+Linear Hypotheses:
+                               Estimate Std. Error z value Pr(>|z|)    
+BMweightsP - BMweights == 0  -6.627e-04  1.685e-04  -3.933  0.00163 ** 
+Guidance - BMweights == 0    -1.574e-04  1.685e-04  -0.934  0.96711    
+GuidanceP - BMweights == 0   -6.645e-04  1.685e-04  -3.943  0.00150 ** 
+PDweights - BMweights == 0   -1.240e-04  1.685e-04  -0.736  0.99039    
+PDweightsP - BMweights == 0  -7.917e-04  1.685e-04  -4.698  < 0.001 ***
+refaln - BMweights == 0       3.581e-04  1.685e-04   2.125  0.33738    
+Guidance - BMweightsP == 0    5.053e-04  1.685e-04   2.999  0.04335 *  
+GuidanceP - BMweightsP == 0  -1.793e-06  1.685e-04  -0.011  1.00000    
+PDweights - BMweightsP == 0   5.388e-04  1.685e-04   3.197  0.02341 *  
+PDweightsP - BMweightsP == 0 -1.289e-04  1.685e-04  -0.765  0.98815    
+refaln - BMweightsP == 0      1.021e-03  1.685e-04   6.058  < 0.001 ***
+GuidanceP - Guidance == 0    -5.071e-04  1.685e-04  -3.009  0.04156 *  
+PDweights - Guidance == 0     3.345e-05  1.685e-04   0.198  0.99999    
+PDweightsP - Guidance == 0   -6.343e-04  1.685e-04  -3.764  0.00317 ** 
+refaln - Guidance == 0        5.155e-04  1.685e-04   3.059  0.03619 *  
+PDweights - GuidanceP == 0    5.405e-04  1.685e-04   3.208  0.02297 *  
+PDweightsP - GuidanceP == 0  -1.272e-04  1.685e-04  -0.755  0.98899    
+refaln - GuidanceP == 0       1.023e-03  1.685e-04   6.068  < 0.001 ***
+PDweightsP - PDweights == 0  -6.677e-04  1.685e-04  -3.962  0.00135 ** 
+refaln - PDweights == 0       4.820e-04  1.685e-04   2.861  0.06435 .  
+refaln - PDweightsP == 0      1.150e-03  1.685e-04   6.823  < 0.001 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1 
+(Adjusted p values reported -- single-step method)
+
+[1] "prk"
+
+	 Simultaneous Tests for General Linear Hypotheses
+
+Multiple Comparisons of Means: Tukey Contrasts
+
+
+Fit: lmer(formula = fprate ~ case + (1 | count), data = dat)
+
+Linear Hypotheses:
+                               Estimate Std. Error z value Pr(>|z|)    
+BMweightsP - BMweights == 0  -2.098e-03  2.691e-04  -7.796  < 0.001 ***
+Guidance - BMweights == 0    -2.738e-04  2.691e-04  -1.018  0.95020    
+GuidanceP - BMweights == 0   -2.017e-03  2.691e-04  -7.497  < 0.001 ***
+PDweights - BMweights == 0   -5.447e-04  2.691e-04  -2.025  0.39929    
+PDweightsP - BMweights == 0  -2.265e-03  2.691e-04  -8.419  < 0.001 ***
+refaln - BMweights == 0       9.750e-04  2.691e-04   3.624  0.00545 ** 
+Guidance - BMweightsP == 0    1.824e-03  2.691e-04   6.779  < 0.001 ***
+GuidanceP - BMweightsP == 0   8.065e-05  2.691e-04   0.300  0.99994    
+PDweights - BMweightsP == 0   1.553e-03  2.691e-04   5.772  < 0.001 ***
+PDweightsP - BMweightsP == 0 -1.676e-04  2.691e-04  -0.623  0.99610    
+refaln - BMweightsP == 0      3.073e-03  2.691e-04  11.420  < 0.001 ***
+GuidanceP - Guidance == 0    -1.743e-03  2.691e-04  -6.479  < 0.001 ***
+PDweights - Guidance == 0    -2.710e-04  2.691e-04  -1.007  0.95259    
+PDweightsP - Guidance == 0   -1.992e-03  2.691e-04  -7.402  < 0.001 ***
+refaln - Guidance == 0        1.249e-03  2.691e-04   4.641  < 0.001 ***
+PDweights - GuidanceP == 0    1.472e-03  2.691e-04   5.472  < 0.001 ***
+PDweightsP - GuidanceP == 0  -2.483e-04  2.691e-04  -0.923  0.96906    
+refaln - GuidanceP == 0       2.992e-03  2.691e-04  11.120  < 0.001 ***
+PDweightsP - PDweights == 0  -1.721e-03  2.691e-04  -6.395  < 0.001 ***
+refaln - PDweights == 0       1.520e-03  2.691e-04   5.648  < 0.001 ***
+refaln - PDweightsP == 0      3.240e-03  2.691e-04  12.043  < 0.001 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1 
+(Adjusted p values reported -- single-step method)
+
+[1] "flat"
+
+	 Simultaneous Tests for General Linear Hypotheses
+
+Multiple Comparisons of Means: Tukey Contrasts
+
+
+Fit: lmer(formula = fprate ~ case + (1 | count), data = dat)
+
+Linear Hypotheses:
+                               Estimate Std. Error z value Pr(>|z|)    
+BMweightsP - BMweights == 0  -2.059e-03  3.767e-04  -5.466  < 0.001 ***
+Guidance - BMweights == 0    -4.604e-04  3.767e-04  -1.222  0.88587    
+GuidanceP - BMweights == 0   -2.092e-03  3.767e-04  -5.555  < 0.001 ***
+PDweights - BMweights == 0   -5.865e-04  3.767e-04  -1.557  0.70993    
+PDweightsP - BMweights == 0  -2.059e-03  3.767e-04  -5.467  < 0.001 ***
+refaln - BMweights == 0       1.480e-03  3.767e-04   3.930  0.00172 ** 
+Guidance - BMweightsP == 0    1.599e-03  3.767e-04   4.244  < 0.001 ***
+GuidanceP - BMweightsP == 0  -3.318e-05  3.767e-04  -0.088  1.00000    
+PDweights - BMweightsP == 0   1.473e-03  3.767e-04   3.910  0.00184 ** 
+PDweightsP - BMweightsP == 0 -2.665e-07  3.767e-04  -0.001  1.00000    
+refaln - BMweightsP == 0      3.539e-03  3.767e-04   9.396  < 0.001 ***
+GuidanceP - Guidance == 0    -1.632e-03  3.767e-04  -4.332  < 0.001 ***
+PDweights - Guidance == 0    -1.261e-04  3.767e-04  -0.335  0.99989    
+PDweightsP - Guidance == 0   -1.599e-03  3.767e-04  -4.245  < 0.001 ***
+refaln - Guidance == 0        1.941e-03  3.767e-04   5.152  < 0.001 ***
+PDweights - GuidanceP == 0    1.506e-03  3.767e-04   3.998  0.00129 ** 
+PDweightsP - GuidanceP == 0   3.291e-05  3.767e-04   0.087  1.00000    
+refaln - GuidanceP == 0       3.573e-03  3.767e-04   9.484  < 0.001 ***
+PDweightsP - PDweights == 0  -1.473e-03  3.767e-04  -3.910  0.00173 ** 
+refaln - PDweights == 0       2.067e-03  3.767e-04   5.487  < 0.001 ***
+refaln - PDweightsP == 0      3.540e-03  3.767e-04   9.397  < 0.001 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1 
+(Adjusted p values reported -- single-step method)
+
+[1] "############################# GP41 PAML #############################"
+[1] "or5"
+
+	 Simultaneous Tests for General Linear Hypotheses
+
+Multiple Comparisons of Means: Tukey Contrasts
+
+
+Fit: lmer(formula = fprate ~ case + (1 | count), data = dat)
+
+Linear Hypotheses:
+                               Estimate Std. Error z value Pr(>|z|)    
+BMweightsP - BMweights == 0  -3.125e-05  1.371e-04  -0.228    1.000    
+Guidance - BMweights == 0    -3.125e-05  1.371e-04  -0.228    1.000    
+GuidanceP - BMweights == 0   -3.125e-05  1.371e-04  -0.228    1.000    
+PDweights - BMweights == 0   -6.458e-05  1.371e-04  -0.471    0.999    
+PDweightsP - BMweights == 0  -6.106e-05  1.371e-04  -0.446    0.999    
+refaln - BMweights == 0       7.198e-04  1.371e-04   5.252   <1e-05 ***
+Guidance - BMweightsP == 0   -6.776e-21  1.371e-04   0.000    1.000    
+GuidanceP - BMweightsP == 0  -3.388e-20  1.371e-04   0.000    1.000    
+PDweights - BMweightsP == 0  -3.333e-05  1.371e-04  -0.243    1.000    
+PDweightsP - BMweightsP == 0 -2.981e-05  1.371e-04  -0.217    1.000    
+refaln - BMweightsP == 0      7.511e-04  1.371e-04   5.480   <1e-05 ***
+GuidanceP - Guidance == 0    -2.710e-20  1.371e-04   0.000    1.000    
+PDweights - Guidance == 0    -3.333e-05  1.371e-04  -0.243    1.000    
+PDweightsP - Guidance == 0   -2.981e-05  1.371e-04  -0.217    1.000    
+refaln - Guidance == 0        7.511e-04  1.371e-04   5.480   <1e-05 ***
+PDweights - GuidanceP == 0   -3.333e-05  1.371e-04  -0.243    1.000    
+PDweightsP - GuidanceP == 0  -2.981e-05  1.371e-04  -0.217    1.000    
+refaln - GuidanceP == 0       7.511e-04  1.371e-04   5.480   <1e-05 ***
+PDweightsP - PDweights == 0   3.526e-06  1.371e-04   0.026    1.000    
+refaln - PDweights == 0       7.844e-04  1.371e-04   5.723   <1e-05 ***
+refaln - PDweightsP == 0      7.809e-04  1.371e-04   5.698   <1e-05 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1 
+(Adjusted p values reported -- single-step method)
+
+[1] "rho"
+
+	 Simultaneous Tests for General Linear Hypotheses
+
+Multiple Comparisons of Means: Tukey Contrasts
+
+
+Fit: lmer(formula = fprate ~ case + (1 | count), data = dat)
+
+Linear Hypotheses:
+                               Estimate Std. Error z value Pr(>|z|)    
+BMweightsP - BMweights == 0  -3.105e-04  1.461e-04  -2.126   0.3372    
+Guidance - BMweights == 0     3.165e-05  1.461e-04   0.217   1.0000    
+GuidanceP - BMweights == 0   -3.717e-04  1.461e-04  -2.545   0.1434    
+PDweights - BMweights == 0    3.165e-05  1.461e-04   0.217   1.0000    
+PDweightsP - BMweights == 0  -3.089e-04  1.461e-04  -2.115   0.3438    
+refaln - BMweights == 0       3.501e-04  1.461e-04   2.397   0.1990    
+Guidance - BMweightsP == 0    3.422e-04  1.461e-04   2.343   0.2235    
+GuidanceP - BMweightsP == 0  -6.117e-05  1.461e-04  -0.419   0.9996    
+PDweights - BMweightsP == 0   3.422e-04  1.461e-04   2.343   0.2239    
+PDweightsP - BMweightsP == 0  1.646e-06  1.461e-04   0.011   1.0000    
+refaln - BMweightsP == 0      6.606e-04  1.461e-04   4.523    <0.01 ***
+GuidanceP - Guidance == 0    -4.033e-04  1.461e-04  -2.761   0.0839 .  
+PDweights - Guidance == 0     1.355e-20  1.461e-04   0.000   1.0000    
+PDweightsP - Guidance == 0   -3.405e-04  1.461e-04  -2.331   0.2290    
+refaln - Guidance == 0        3.185e-04  1.461e-04   2.180   0.3064    
+PDweights - GuidanceP == 0    4.033e-04  1.461e-04   2.761   0.0838 .  
+PDweightsP - GuidanceP == 0   6.281e-05  1.461e-04   0.430   0.9995    
+refaln - GuidanceP == 0       7.218e-04  1.461e-04   4.942    <0.01 ***
+PDweightsP - PDweights == 0  -3.405e-04  1.461e-04  -2.331   0.2290    
+refaln - PDweights == 0       3.185e-04  1.461e-04   2.180   0.3062    
+refaln - PDweightsP == 0      6.590e-04  1.461e-04   4.512    <0.01 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1 
+(Adjusted p values reported -- single-step method)
+
+[1] "prk"
+
+	 Simultaneous Tests for General Linear Hypotheses
+
+Multiple Comparisons of Means: Tukey Contrasts
+
+
+Fit: lmer(formula = fprate ~ case + (1 | count), data = dat)
+
+Linear Hypotheses:
+                               Estimate Std. Error z value Pr(>|z|)    
+BMweightsP - BMweights == 0  -1.653e-03  2.826e-04  -5.847  < 0.001 ***
+Guidance - BMweights == 0    -2.822e-04  2.826e-04  -0.998  0.95453    
+GuidanceP - BMweights == 0   -1.743e-03  2.826e-04  -6.166  < 0.001 ***
+PDweights - BMweights == 0   -4.343e-04  2.826e-04  -1.537  0.72253    
+PDweightsP - BMweights == 0  -1.862e-03  2.826e-04  -6.586  < 0.001 ***
+refaln - BMweights == 0       1.091e-03  2.826e-04   3.861  0.00224 ** 
+Guidance - BMweightsP == 0    1.371e-03  2.826e-04   4.849  < 0.001 ***
+GuidanceP - BMweightsP == 0  -8.992e-05  2.826e-04  -0.318  0.99992    
+PDweights - BMweightsP == 0   1.218e-03  2.826e-04   4.311  < 0.001 ***
+PDweightsP - BMweightsP == 0 -2.088e-04  2.826e-04  -0.739  0.99018    
+refaln - BMweightsP == 0      2.744e-03  2.826e-04   9.708  < 0.001 ***
+GuidanceP - Guidance == 0    -1.460e-03  2.826e-04  -5.167  < 0.001 ***
+PDweights - Guidance == 0    -1.522e-04  2.826e-04  -0.538  0.99827    
+PDweightsP - Guidance == 0   -1.579e-03  2.826e-04  -5.588  < 0.001 ***
+refaln - Guidance == 0        1.373e-03  2.826e-04   4.859  < 0.001 ***
+PDweights - GuidanceP == 0    1.308e-03  2.826e-04   4.629  < 0.001 ***
+PDweightsP - GuidanceP == 0  -1.188e-04  2.826e-04  -0.420  0.99958    
+refaln - GuidanceP == 0       2.834e-03  2.826e-04  10.026  < 0.001 ***
+PDweightsP - PDweights == 0  -1.427e-03  2.826e-04  -5.049  < 0.001 ***
+refaln - PDweights == 0       1.526e-03  2.826e-04   5.397  < 0.001 ***
+refaln - PDweightsP == 0      2.953e-03  2.826e-04  10.447  < 0.001 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1 
+(Adjusted p values reported -- single-step method)
+

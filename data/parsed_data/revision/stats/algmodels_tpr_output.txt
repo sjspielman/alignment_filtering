@@ -61,10 +61,16 @@ refaln - BMweightsP == 0      8.680e-04  1.351e-03   0.642    0.995
 GuidanceP - Guidance == 0    -2.776e-03  1.351e-03  -2.055    0.380
 PDweights - Guidance == 0    -1.196e-03  1.351e-03  -0.885    0.975
 PDweightsP - Guidance == 0   -2.057e-03  1.351e-03  -1.523    0.731
+
 refaln - Guidance == 0       -1.901e-03  1.351e-03  -1.407    0.798
+
+
+
 PDweights - GuidanceP == 0    1.580e-03  1.351e-03   1.169    0.906
 PDweightsP - GuidanceP == 0   7.186e-04  1.351e-03   0.532    0.998
+
 refaln - GuidanceP == 0       8.745e-04  1.351e-03   0.647    0.995
+
 PDweightsP - PDweights == 0  -8.611e-04  1.351e-03  -0.637    0.996
 refaln - PDweights == 0      -7.052e-04  1.351e-03  -0.522    0.999
 refaln - PDweightsP == 0      1.559e-04  1.351e-03   0.115    1.000
