@@ -1,0 +1,53 @@
+####### CODE FOR GENERATING (mostly) TABLE S3, which gives percent of residues, and number of residues, masked, on average. SJS 4/26/14. ##########
+# Only need to run either fubar or paml for this because name alignments.
+
+outfile <- "tableS3.txt"
+datasets <- c('HA', 'GP41')
+paml_genes <- c('or5', 'rho', 'prk')
+fubar_genes <- c(paml_genes, 'flat')
+algs <-c('Guidance', 'BMweights', 'PDweights', 'GuidanceP', 'BMweightsP', 'PDweightsP')
+sink(file = outfile)
+
+sumStats <- function(df, data, mygene)
+{
+	
+	dig = 3
+	mylist <- c(data, mygene)
+	for (myalg in algs) {
+		dat <- df[df$gene == mygene & df$case == myalg,]
+		
+		perc <- round(mean(dat$perc_masked) * 100, dig)
+		num <- round(mean(dat$num_masked), dig)
+	
+		new <- paste(perc, "%", " (", num, ")", sep='')
+		mylist <- c(mylist, new)
+	}
+	string <- ''
+	for (entry in mylist){
+		string <- paste(string, entry, sep='\t')
+	}
+	print(string)
+}
+
+################## HA DATA FRAMES #########################
+fubar<-read.table('../fubar_HA_90.txt', header=T)
+
+# Retain only the unfiltered (refaln), truealn, and filtering algorithms, and remove any masking threshold that isn't 50.
+fubar2 <- fubar[fubar$mask == 'fifty' | fubar$mask == 'zero' | fubar$mask == 'true',]
+############################################################
+
+for (gene in fubar_genes){
+		sumStats(fubar2,  "HA", gene)
+}
+
+################## GP41 DATA FRAMES #########################
+fubar<-read.table('../fubar_GP41_90.txt', header=T)
+
+# Retain only the unfiltered (refaln), truealn, and filtering algorithms, and remove any masking threshold that isn't 50.
+fubar2 <- fubar[fubar$mask == 'fifty' | fubar$mask == 'zero' | fubar$mask == 'true',]
+############################################################
+
+for (gene in fubar_genes){
+		sumStats(fubar2,  "GP41", gene)
+}
+sink()
