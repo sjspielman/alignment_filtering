@@ -45,7 +45,7 @@ algs=['refaln', 'Guidance', 'GuidanceP', 'BMweights', 'BMweightsP', 'PDweights',
 cutoffs=arange(0,1.01,0.01)
 ######################################################
 
-outfile='/Users/sjspielman/Research/alignment_filtering/data/parsed_data/revision/sweeps/paml_'+dataset+'_'+gene+'_sweep.txt'
+outfile='/Users/sjspielman/Research/alignment_filtering/data/psweeps/paml_'+dataset+'_'+gene+'_sweep.txt'
 outhandle=open(outfile, 'w')
 outhandle.write('count\tcutoff\ttprate\tfprate\tcase\tpenal\tgene\tmethod\n')
 

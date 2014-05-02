@@ -5,7 +5,7 @@ from Bio import AlignIO
 import numpy as np
 
 genes = ['or5', 'rho', 'prk', 'flat']
-alndir = '/Users/sjspielman/Dropbox/aln/results/HA/alntree/aaguided'
+alndir = '/Users/sjspielman/Dropbox/aln/results/GP41/alntree/aaguided'
 
 for gene in genes:
 	perc = np.zeros(100, dtype='float')

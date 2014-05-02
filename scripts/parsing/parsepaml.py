@@ -26,7 +26,7 @@ elif dataset == 'HA':
 	posStart = 18
 	masks={'30': 'thirty', '50':'fifty', '70':'seventy', '90':'ninety'} #masking analysis only done w/ this dataset.
 
-outfile='/Users/sjspielman/Research/alignment_filtering/data/parsed_data/revision/paml_'+dataset+'_90.txt'
+outfile='/Users/sjspielman/Research/alignment_filtering/data/paml_'+dataset+'_90.txt'
 outhandle=open(outfile, 'w')
 outhandle.write('count\ttprate\tfprate\t\tfnrate\taccuracy\tcase\tgene\tmask\tmethod\tpenal\tnum_masked\tave_masked\tperc_masked\tprior\tomega\n')
 
