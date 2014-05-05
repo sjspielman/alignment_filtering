@@ -149,7 +149,7 @@ for gene in genes:
 			testprobs, prior, omega = parsePAML(wantRef, paml, alnlen)
 			assert(len(truepos)==len(testprobs)), "PAML Mapping has failed."
 	
-			## FUBAR assessment	at single posterior probability cutoff			
+			## PAML assessment	at single posterior probability cutoff			
 			(tp,tn,fp,fn,tprate,fprate,tnrate,fnrate,accuracy)=getAccuracy(pp_cutoff, truepos, testprobs)
 			outhandle.write(str(n)+'\t'+str(tprate)+'\t'+str(fprate)+'\t'+str(fnrate)+'\t'+str(accuracy)+'\t'+alg+'\t'+gene+'\tfifty\tpaml\t'+penal+'\t'+str(num)+'\t'+str(ave)+'\t'+str(perc)+'\t'+str(prior)+'\t'+str(omega)+'\n')		
 
