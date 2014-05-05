@@ -1,0 +1,248 @@
+[1] "############################# HA DATASET #############################"
+[1] "############################# HA FUBAR #############################"
+[1] "or5"
+
+	 Simultaneous Tests for General Linear Hypotheses
+
+Multiple Comparisons of Means: Tukey Contrasts
+
+
+Fit: lmer(formula = tp ~ case + (1 | count), data = dat)
+
+Linear Hypotheses:
+                          Estimate Std. Error z value Pr(>|z|)
+GuidanceP - Guidance == 0  -0.0200     0.0401  -0.499    0.872
+refaln - Guidance == 0     -0.0400     0.0401  -0.997    0.578
+refaln - GuidanceP == 0    -0.0200     0.0401  -0.499    0.872
+(Adjusted p values reported -- single-step method)
+
+[1] "rho"
+
+	 Simultaneous Tests for General Linear Hypotheses
+
+Multiple Comparisons of Means: Tukey Contrasts
+
+
+Fit: lmer(formula = tp ~ case + (1 | count), data = dat)
+
+Linear Hypotheses:
+                          Estimate Std. Error z value Pr(>|z|)
+GuidanceP - Guidance == 0 -0.10000    0.05206  -1.921    0.133
+refaln - Guidance == 0    -0.06000    0.05206  -1.153    0.482
+refaln - GuidanceP == 0    0.04000    0.05206   0.768    0.722
+(Adjusted p values reported -- single-step method)
+
+[1] "prk"
+
+	 Simultaneous Tests for General Linear Hypotheses
+
+Multiple Comparisons of Means: Tukey Contrasts
+
+
+Fit: lmer(formula = tp ~ case + (1 | count), data = dat)
+
+Linear Hypotheses:
+                          Estimate Std. Error z value Pr(>|z|)    
+GuidanceP - Guidance == 0  -0.5700     0.1306  -4.364  < 0.001 ***
+refaln - Guidance == 0     -0.1700     0.1306  -1.302  0.39425    
+refaln - GuidanceP == 0     0.4000     0.1306   3.063  0.00614 ** 
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1 
+(Adjusted p values reported -- single-step method)
+
+[1] "flat"
+
+	 Simultaneous Tests for General Linear Hypotheses
+
+Multiple Comparisons of Means: Tukey Contrasts
+
+
+Fit: lmer(formula = tp ~ case + (1 | count), data = dat)
+
+Linear Hypotheses:
+                          Estimate Std. Error z value Pr(>|z|)   
+GuidanceP - Guidance == 0   0.0400     0.1123   0.356  0.93248   
+refaln - Guidance == 0     -0.3200     0.1123  -2.849  0.01210 * 
+refaln - GuidanceP == 0    -0.3600     0.1123  -3.205  0.00389 **
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1 
+(Adjusted p values reported -- single-step method)
+
+[1] "############################# HA PAML #############################"
+[1] "or5"
+
+	 Simultaneous Tests for General Linear Hypotheses
+
+Multiple Comparisons of Means: Tukey Contrasts
+
+
+Fit: lmer(formula = tp ~ case + (1 | count), data = dat)
+
+Linear Hypotheses:
+                          Estimate Std. Error z value Pr(>|z|)
+GuidanceP - Guidance == 0 -0.01000    0.04709  -0.212    0.975
+refaln - Guidance == 0     0.02000    0.04709   0.425    0.905
+refaln - GuidanceP == 0    0.03000    0.04709   0.637    0.800
+(Adjusted p values reported -- single-step method)
+
+[1] "rho"
+
+	 Simultaneous Tests for General Linear Hypotheses
+
+Multiple Comparisons of Means: Tukey Contrasts
+
+
+Fit: lmer(formula = tp ~ case + (1 | count), data = dat)
+
+Linear Hypotheses:
+                          Estimate Std. Error z value Pr(>|z|)    
+GuidanceP - Guidance == 0  0.18000    0.06339   2.839   0.0124 *  
+refaln - Guidance == 0    -0.08000    0.06339  -1.262   0.4169    
+refaln - GuidanceP == 0   -0.26000    0.06339  -4.101   <0.001 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1 
+(Adjusted p values reported -- single-step method)
+
+[1] "prk"
+
+	 Simultaneous Tests for General Linear Hypotheses
+
+Multiple Comparisons of Means: Tukey Contrasts
+
+
+Fit: lmer(formula = tp ~ case + (1 | count), data = dat)
+
+Linear Hypotheses:
+                          Estimate Std. Error z value Pr(>|z|)
+GuidanceP - Guidance == 0  -0.3300     0.2812  -1.173    0.469
+refaln - Guidance == 0      0.1400     0.2812   0.498    0.872
+refaln - GuidanceP == 0     0.4700     0.2812   1.671    0.216
+(Adjusted p values reported -- single-step method)
+
+[1] "############################# GP41 DATASET #############################"
+[1] "############################# GP41 FUBAR #############################"
+[1] "or5"
+
+	 Simultaneous Tests for General Linear Hypotheses
+
+Multiple Comparisons of Means: Tukey Contrasts
+
+
+Fit: lmer(formula = tp ~ case + (1 | count), data = dat)
+
+Linear Hypotheses:
+                          Estimate Std. Error z value Pr(>|z|)
+GuidanceP - Guidance == 0  0.02000    0.05695   0.351    0.934
+refaln - Guidance == 0     0.10000    0.05695   1.756    0.185
+refaln - GuidanceP == 0    0.08000    0.05695   1.405    0.338
+(Adjusted p values reported -- single-step method)
+
+[1] "rho"
+
+	 Simultaneous Tests for General Linear Hypotheses
+
+Multiple Comparisons of Means: Tukey Contrasts
+
+
+Fit: lmer(formula = tp ~ case + (1 | count), data = dat)
+
+Linear Hypotheses:
+                          Estimate Std. Error z value Pr(>|z|)   
+GuidanceP - Guidance == 0  -0.3500     0.1302  -2.688  0.01981 * 
+refaln - Guidance == 0     -0.4400     0.1302  -3.379  0.00207 **
+refaln - GuidanceP == 0    -0.0900     0.1302  -0.691  0.76866   
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1 
+(Adjusted p values reported -- single-step method)
+
+[1] "prk"
+
+	 Simultaneous Tests for General Linear Hypotheses
+
+Multiple Comparisons of Means: Tukey Contrasts
+
+
+Fit: lmer(formula = tp ~ case + (1 | count), data = dat)
+
+Linear Hypotheses:
+                          Estimate Std. Error z value Pr(>|z|)    
+GuidanceP - Guidance == 0  -1.1800     0.2119  -5.570   <0.001 ***
+refaln - Guidance == 0     -0.6900     0.2119  -3.257   0.0032 ** 
+refaln - GuidanceP == 0     0.4900     0.2119   2.313   0.0540 .  
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1 
+(Adjusted p values reported -- single-step method)
+
+[1] "flat"
+
+	 Simultaneous Tests for General Linear Hypotheses
+
+Multiple Comparisons of Means: Tukey Contrasts
+
+
+Fit: lmer(formula = tp ~ case + (1 | count), data = dat)
+
+Linear Hypotheses:
+                          Estimate Std. Error z value Pr(>|z|)    
+GuidanceP - Guidance == 0   0.1000     0.1567   0.638    0.799    
+refaln - Guidance == 0     -0.6700     0.1567  -4.277   <1e-04 ***
+refaln - GuidanceP == 0    -0.7700     0.1567  -4.915   <1e-04 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1 
+(Adjusted p values reported -- single-step method)
+
+[1] "############################# GP41 PAML #############################"
+[1] "or5"
+
+	 Simultaneous Tests for General Linear Hypotheses
+
+Multiple Comparisons of Means: Tukey Contrasts
+
+
+Fit: lmer(formula = tp ~ case + (1 | count), data = dat)
+
+Linear Hypotheses:
+                          Estimate Std. Error z value Pr(>|z|)   
+GuidanceP - Guidance == 0  -0.0300     0.1252  -0.240  0.96886   
+refaln - Guidance == 0      0.4100     0.1252   3.274  0.00300 **
+refaln - GuidanceP == 0     0.4400     0.1252   3.514  0.00133 **
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1 
+(Adjusted p values reported -- single-step method)
+
+[1] "rho"
+
+	 Simultaneous Tests for General Linear Hypotheses
+
+Multiple Comparisons of Means: Tukey Contrasts
+
+
+Fit: lmer(formula = tp ~ case + (1 | count), data = dat)
+
+Linear Hypotheses:
+                          Estimate Std. Error z value Pr(>|z|)  
+GuidanceP - Guidance == 0  -0.3400     0.1747  -1.946    0.126  
+refaln - Guidance == 0     -0.3900     0.1747  -2.232    0.066 .
+refaln - GuidanceP == 0    -0.0500     0.1747  -0.286    0.956  
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1 
+(Adjusted p values reported -- single-step method)
+
+[1] "prk"
+
+	 Simultaneous Tests for General Linear Hypotheses
+
+Multiple Comparisons of Means: Tukey Contrasts
+
+
+Fit: lmer(formula = tp ~ case + (1 | count), data = dat)
+
+Linear Hypotheses:
+                          Estimate Std. Error z value Pr(>|z|)    
+GuidanceP - Guidance == 0   -0.830      0.305  -2.721    0.018 *  
+refaln - Guidance == 0       0.270      0.305   0.885    0.650    
+refaln - GuidanceP == 0      1.100      0.305   3.607   <0.001 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1 
+(Adjusted p values reported -- single-step method)
+
