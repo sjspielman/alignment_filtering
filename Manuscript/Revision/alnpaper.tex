@@ -118,43 +118,38 @@ Supplementary methods, Figures S1 and S2, and Tables S1, S2, and S3, are availab
 
 \newpage
 
-\begin{sidewaystable}[htbp]
-\begin{adjustwidth}{-2cm}{}
-\caption {\label{tab:summarystats} Summary statistics for effect of masking.}
-\begin{tabular}{l l l c c c c c c c c}
+\begin{table}[htbp]
+%\begin{adjustwidth}{-1cm}{}
+\caption {\label{tab:summarystats} Summary statistics for effect of masking for GP41 selective profile simulation sets.}
+\begin{tabular}{l l c c c c}
 \hline\noalign{\smallskip}
-& & & \multicolumn{4}{c}{Mean True Positive Rate} & \multicolumn{4}{c}{Mean False Positive Rate} \\
-\cline{4-7}\noalign{\smallskip}\cline{8-11}\noalign{\smallskip} 
-\multicolumn{1}{p{1.5cm}}{\centering Selective \\ Profile} & \multicolumn{1}{p{1.5cm}}{\centering Number \\ of Taxa} & \multicolumn{1}{p{1.5cm}}{\centering Inference \\ Method} & \multicolumn{1}{c}{True} & \multicolumn{1}{c}{Unfiltered} & \multicolumn{1}{c}{Guidance} & \multicolumn{1}{c}{GuidanceP} & \multicolumn{1}{c}{True} & \multicolumn{1}{c}{Unfiltered} & \multicolumn{1}{c}{Guidance} & \multicolumn{1}{c}{GuidanceP} \\
+& & \multicolumn{4}{c}{Mean True Positive Rate} \\
+\cline{3-6}\noalign\\
+\multicolumn{1}{c}{N} & \multicolumn{1}{c}{Method} & \multicolumn{1}{c}{True} & \multicolumn{1}{c}{Unfiltered} & \multicolumn{1}{c}{Guidance} & \multicolumn{1}{c}{GuidanceP} \\
 \noalign{\smallskip}\hline\noalign{\smallskip}
-HA & 11 & FUBAR & 0.093 & 0.084 & 0.085 (1.33\%) & 0.085 (0.74\%) &  $2 \times 10^{-4}$ & $8 \times 10^{-4}$ &  $6 \times 10^{-4}$ (-21.06\%) &  \textbf{$5 \times 10^{-4}$ (-34.22\%)$^{\ast\ast\ast}$} \\
-
-
-
-& & PAML & 0.086 & 0.082 & 0.081 (-0.48\%) & 0.081 (-0.6\%) &  $2 \times 10^{-4}$ &  $5 \times 10^{-4}$ &  $4 \times 10^{-4}$ (-19.31\%) &  $4 \times 10^{-4}$ (-19.31\%) \\
-
-& 26& FUBAR & 0.252 & 0.227 & 0.229 (0.84\%) & 0.226 (-0.4\%) &  $7 \times 10^{-4}$ &  $1.9 \times 10^{-3}$ &  $1.7 \times 10^{-3}$ (-10.99\%) &  \textbf{$1.1 \times 10^{-3}$ (-42.4\%)$^{\ast\ast\ast}$} \\
-
-& & PAML &  0.209 & 0.176 & 0.178 (1.36\%) & \textbf{0.183 (4.04\%)$^{\ast\ast\ast}$} &  $3 \times 10^{-4}$ &  $7 \times 10^{-4}$ &  $6 \times 10^{-4}$ (-18.0\%) &  $6 \times 10^{-4}$ (-18.0\%) \\
-
-& 60 & FUBAR & 0.551 & 0.474 & 0.479 (0.99\%) & \textbf{0.464 (-2.16\%)$^{\ast\ast}$} &  $2.10 \times 10^{-3}$ &  $5.90 \times 10^{-3}$ & \textbf{$5.2 \times 10^{-3}$ (-12.5\%)$^{\ast}$} &  \textbf{$3.9 \times 10^{-3}$ (-34.3\%)$^{\ast\ast\ast}$} \\
-
-& & PAML &  0.422 & 0.347 & 0.342 (-1.68\%) & 0.337 (-2.92\%) &  $1 \times 10^{-4}$ &  $2.80 \times 10^{-3}$ & \textbf{$2.1 \times 10^{-3}$ (-26.1\%)$^{\ast\ast\ast}$} &  \textbf{$1.6 \times 10^{-3}$ (-43.7\%)$^{\ast\ast\ast}$} \\
- & 158 & FUBAR & 0.515 & 0.458 & \textbf{0.467 (1.88\%)$^{\ast\ast}$} & \textbf{0.468 (2.12\%)$^{\ast\ast}$} &  $1.60 \times 10^{-3}$ &  $5.60 \times 10^{-3}$ & \textbf{ $3.5 \times 10^{-3}$ (-37.7\%)$^{\ast\ast\ast}$} &  \textbf{$1.5 \times 10^{-3}$ (-73.3\%)$^{\ast\ast\ast}$} \\
+11 &  FUBAR  &  0.062  &  0.058  &  0.057 (-1.55\%)  &  0.057 (-1.21\%) \\
+&  PAML  &  0.096  &  0.098  & \textbf{0.095 (-3.49\%)$^{\ast\ast\ast}$}  &  \textbf{0.095 (-3.80\%)$^{\ast\ast\ast}$}\\
+26 & FUBAR & 0.216 & 0.196 & \textbf{0.20 (1.89\%)$^{\ast\ast}$} & 0.197 (0.36\%)\\
+& PAML & 0.237 & 0.216 & 0.220 (1.54\%) & 0.217 (0.244\%)\\
+60 & FUBAR & 0.359 & 0.308 & \textbf{0.313 (1.77\%)$^{\ast\ast}$} & 0.304 (-1.16\%)\\
+& PAML & 0.341 & 0.304 &0.302 (-0.77\%) & \textbf{0.296 (-2.71\%)$^{\ast\ast\ast}$} \\
+158 & FUBAR & 0.348 & 0.320 & \textbf{0.325 (1.77\%)$^{\ast\ast\ast}$} & \textbf{0.326 (2.02\%)$^{\ast\ast\ast}$}\\
 \noalign{\smallskip}\hline\noalign{\smallskip}
-GP41 & 11 & FUBAR & 0.062 & 0.058 & 0.057 (-1.55\%) & 0.057 (-1.21\%) &  $6 \times 10^{-4}$ &  $1.20 \times 10^{-3}$ &  $9 \times 10^{-4}$ (-25.36\%)$^{\ast\ast\ast}$ &  \textbf{$9 \times 10^{-4}$ (-25.36\%)$^{\ast\ast\ast}$} \\
-& & PAML & 0.096 & 0.098 & \textbf{0.095 (-3.49\%)$^{\ast\ast\ast}$} & 0.095 (-3.8\%)$^{\ast\ast\ast}$ &  $1.8 \times 10^{-3}$ &  $3.3 \times 10^{-3}$ & \textbf{$2.6 \times 10^{-3}$ (-22.3\%)$^{\ast\ast\ast}$} &  \textbf{$2.6 \times 10^{-3}$ (-22.3\%)$^{\ast\ast\ast}$} \\
-& 26& FUBAR & 0.215 & 0.196 & \textbf{0.200 (1.89\%)$^{\ast\ast}$} & 0.197 (0.36\%) &  $2.1 \times 10^{-3}$ &  $4.5 \times 10^{-3}$ & \textbf{0.004 (-11.4\%)$^{\ast}} $ &  \textbf{$3.5 \times 10^{-3}$ (-22.5\%)$^{\ast\ast\ast}$} \\
-& & PAML & 0.237 & 0.216 & 0.220 (1.53\%) & 0.217 (0.24\%) &  $1.6 \times 10^{-3}$ &  $4.3 \times 10^{-3}$ & 0.004 (-6.6\%) &  \textbf{$3.6 \times 10^{-3}$ (-15.9\%)$^{\ast\ast}$} \\
-& 60& FUBAR & 0.359 & 0.308 & \textbf{0.313 (1.77\%)$^{\ast\ast}$} & 0.304 (-1.16\%) &  $2.5 \times 10^{-3}$ & 0.0109 & \textbf{$9.7 \times 10^{-3}$ (-11.1\%)$^{\ast\ast\ast}$} &  $7.9 \times 10^{-3}$ (-27.6\%)$^{\ast\ast\ast}$ \\
-& & PAML & 0.341 & 0.304 & 0.302 (-0.77\%) & \textbf{0.296 (-2.71\%)$^{\ast\ast}$} &  $8 \times 10^{-4}$ &  $9.3 \times 10^{-3}$ & \textbf{$7.9 \times 10^{-3}$ (-14.86\%)$^{\ast\ast\ast}$} &  \textbf{$6.4 \times 10^{-3}$ (-31.0\%)$^{\ast\ast\ast}$} \\
-& 158 & FUBAR & 0.344 & 0.320 & \textbf{0.325 (1.77\%)$^{\ast\ast\ast}$} & \textbf{0.326 (2.02\%)$^{\ast\ast\ast}$} &  $3.10 \times 10^{-3}$ &  $7 \times 10^{-3}$ & \textbf{$5.1 \times 10^{-3}$ (-27.5\%)$^{\ast\ast\ast}$} &  \textbf{$3.5 \times 10^{-3}$ (-50.2\%)$^{\ast\ast\ast}$} \\
+& & \multicolumn{4}{c}{Mean False Positive Rate} \\
+\cline{3-6}\noalign \\
+11 &  FUBAR & $6.0 \times 10^{\text{-}4}$ & $1.2 \times 10^{\text{-}3}$ & $\boldsymbol{9.0 \times 10^{\text{-}4} (\text{-}25.4\%)}^{\ast\ast\ast}}}$ & $\boldsymbol{9 \times 10^{\text{-}4} (\text{-}25.4\%)}^{\ast\ast\ast}}$ \\
+& PAML & $1.8 \times 10^{\text{-}3}$ & $3.3 \times 10^{\text{-}3}$ & $\boldsymbol{2.6 \times 10^{\text{-}3} (\text{-}22.3\%)}^{\ast\ast\ast}}}$ & $\boldsymbol{2.6 \times 10^{\text{-}3} (\text{-}22.3\%)}^{\ast\ast\ast}}$ \\
+26 &  FUBAR & $2.1 \times 10^{\text{-}3}$ & $4.5 \times 10^{\text{-}3}$ & $\boldsymbol{4.0 \times 10^{\text{-}3}  (\text{-}11.4\%)}^{\ast}}}$ & $\boldsymbol{3.5 \times 10^{\text{-}3} (\text{-}22.5\%)}^{\ast\ast\ast}}$ \\
+& PAML & $1.6 \times 10^{\text{-}3}$ & $4.3 \times 10^{\text{-}3}$ & $4.0 \times 10^{\text{-}3}  (\text{-}6.60\%)$ & $\boldsymbol{3.6 \times 10^{\text{-}3} (\text{-}15.9\%)}^{\ast\ast}}$ \\
+60 &  FUBAR & $2.5 \times 10^{\text{-}3}$ & $1.1 \times 10^{\text{-}2}$ & $\boldsymbol{9.7 \times 10^{\text{-}3} (\text{-}11.1\%)}^{\ast\ast\ast}}}$ & $\boldsymbol{7.9 \times 10^{\text{-}3} (\text{-}27.6\%)}^{\ast\ast\ast}}$ \\
+& PAML & $8.0 \times 10^{\text{-}4}$ & $9.3 \times 10^{\text{-}3}$ & $\boldsymbol{7.9 \times 10^{\text{-}3} (\text{-}14.9\%)}^{\ast\ast\ast}}}$ & $\boldsymbol{6.4 \times 10^{\text{-}3} (\text{-}31.0\%)}^{\ast\ast\ast}}$ \\
+158 &  FUBAR & $3.1 \times 10^{\text{-}3}$ & $7.00 \times 10^{\text{-}3}$ & $\boldsymbol{5.1 \times 10^{\text{-}3} (\text{-}27.5\%)}^{\ast\ast\ast}}}$ & $\boldsymbol{3.5 \times 10^{\text{-}3} (\text{-}50.2\%)}^{\ast\ast\ast}}$ \\
 \noalign{\smallskip}\hline\noalign{\smallskip}
 \end{tabular}
 \newline
-\textsc{note.}--- Mean TPR values shown in bold represent those which are significantly different from the respective unfiltered MSA mean TPR. Values shown in parentheses refer to the average TPR percent change of the respective unfiltered MSA, not the absolute TPR increase or decrease. Significance levels:  $^{\ast\ast\ast} P < 0.001$; $^{\ast\ast} P < 0.01$; $^{\ast} P < 0.05$ . All significance levels were corrected for multiple comparisons using the R multcomp package \citep{Hothorn2008}. Note that the true MSAs were not included in the linear models but are shown here for comparative purposes.
-\end{adjustwidth}
-\end{sidewaystable}
+\textsc{note.}--- The column ``N" refers to the number of taxa in the given simulation set. The column ``Method" refers to the inference method used to detect positively selected sites. Mean TPR or FPR values shown in bold represent those which differ significantly from that of the respective unfiltered MSA. Values shown in parentheses refer to the average TPR or FPR percent change of the respective unfiltered MSA, not the absolute increase or decrease. Significance levels:  $^{\ast\ast\ast} P < 0.001$; $^{\ast\ast} P < 0.01$; $^{\ast} P < 0.05$ . All significance levels were corrected for multiple comparisons using the R multcomp package \citep{Hothorn2008}. Note that the true MSAs were not included in the linear models but are shown here for comparative purposes.
+%\end{adjustwidth}
+\end{table}
 
 \begin{figure*}[H]
 \centerline{\includegraphics[width=4.75in]{Figures/barplot.pdf}}
