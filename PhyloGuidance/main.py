@@ -31,14 +31,13 @@ numproc =  int(sys.argv[4])  #threads
 
 
 unaligned = sys.argv[1]  #infile
-prefix =  str(sys.argv[1]).split(".")[0] ## please set this up to be the infile's name without the extension. as in, if they have a file called "myseqs.fasta" the prefix is "myseqs"
+prefix =  str(sys.argv[1]).split(".")[0] ## Infile name without the extension
 form    = "fasta" #infile format. 
 alphabet  = sys.argv[2] # This should be either "protein" or "nucleotide"
-final_aln_dir = str(prefix) # where alignments will end up. name this like the infile. Make sure this string ends with /
+final_aln_dir = str(prefix) # Where alignments will end up.
 if final_aln_dir[-1] != '/':
 	final_aln_dir += '/'
-
-final_boot_name = "final_boot" + str(time.localtime()[3]) + str(time.localtime()[4]) + str(time.localtime()[5])#this is the final name for the .tgz (compress everything in BootDir/). Can we make the name a time-stamp or something?
+final_boot_name = "final_boot" + str(time.localtime()[3]) + str(time.localtime()[4]) + str(time.localtime()[5]) # final directory where all bootstraps will end up
 
 ############################### Internal variables #######################################
 prealn_file='prealn.fasta' # Will contain the raw (unaligned) sequences in fasta format with integer sequence names
@@ -64,7 +63,7 @@ amod = MafftAligner("mafft", " --auto --quiet ")
 # Tree builder (build the boostrap trees)
 tmod=builderFastTree("FastTree", " -fastest -nosupport -quiet ") # -nosupport **MUST** be there
 
-# Scoring tree. If you're comfortable with RAXML, have at it!
+# Scoring tree. If you're comfortable with RAXML, have at it!g
 if alphabet == "protein":
 	model = "-m PROTGAMMAWAG"
 elif alphabet == "dna":
