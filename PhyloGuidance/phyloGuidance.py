@@ -9,9 +9,8 @@ except:
 
 def parse_args():
     parser = argparse.ArgumentParser(prefix_chars='+-', usage='Enter python phyloGuidance.py --help/-h for instructions')
-    parser.add_argument("-infile", help="A file containing unaligned sequences in FASTA format", required=False, dest="infile", type=str)
+    parser.add_argument("-infile", help="A file containing unaligned sequences in FASTA format. CAUTION: no sanity checking performed for this!", required=False, dest="infile", type=str)
     parser.add_argument("-n",dest="threads", type=int, help="Number of processes to use")
-    parser.add_argument("-form",dest="form", type=str, help="The infile format (usually FASTA)", default="FASTA")
     parser.add_argument("-bootstraps", help="The number of bootstraps to perform", required=False,
             dest="bootstraps")
     parser.add_argument("-alphabet", help="Whether AAs or NTs are used (protein or nucleotide)", type=str,
@@ -39,10 +38,7 @@ def main():
     getRAxML()
     user_file = args.infile
     while args.infile is None:
-        args.infile = raw_input("Please provide a protein file in FASTA format: ")
-    while args.form is None:
-        print ""
-        args.form = raw_input("Please tell me what format the infile is in.\nIt should be a FASTA file: ")
+        args.infile = raw_input("Please provide a protein file in FASTA format (CAUTION: no sanity checking performed for this!): ")
     if args.threads is None:
         print ""
         import multiprocessing 
