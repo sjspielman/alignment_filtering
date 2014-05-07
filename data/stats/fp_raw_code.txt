@@ -1,8 +1,8 @@
 ####### FILTERING ALGORITHM STATISTICS FOR RAW FALSE POSITIVES DATA. SJS 5/5/14. ##########
-# This file contains R code to assess influence of masking at a 90% posterior probability cutoff. 
+# This file contains R code to assess influence of masking at a 90% posterior probability cutoff, SPECIFICALLY REGARDED THE RAW NUMBER OF FALSE POSITIVES DETECTED.
 # We consider the masking threshold of 50% only (see the masking_threshold_output.txt file for background justification).
 # Code shown here for both selective profiles (HA/GP41), for all data set sizes, for both inference methods.
-# Results are in "algorithms_output_fpr_raw.txt". At the bottom of that output file, I synthesize the results.
+# Results are in "fp_raw_output.txt". At the bottom of that output file, I synthesize the results.
 
 library(lme4)
 library(multcomp)

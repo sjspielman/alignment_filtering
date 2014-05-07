@@ -2,12 +2,12 @@
 # This file contains R code to assess influence of masking at a 90% posterior probability cutoff. 
 # We consider the masking threshold of 50% only (see the masking_threshold_output.txt file for background justification).
 # Code shown here for both selective profiles (HA/GP41), for all data set sizes, for both inference methods.
-# Results are in "algorithms_output.txt". At the bottom of that output file, I synthesize the results.
+# Results are in "algmodels_tpr_output.txt". At the bottom of that output file, I synthesize the results.
 
 library(lme4)
 library(multcomp)
 
-outfile <- "algorithms_output.txt"
+outfile <- "algmodels_tpr_output.txt"
 paml_genes <- c('or5', 'rho', 'prk')
 fubar_genes <- c(paml_genes, 'flat')
 sink(file = outfile)

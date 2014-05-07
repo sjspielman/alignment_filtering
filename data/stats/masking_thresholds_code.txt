@@ -1,5 +1,5 @@
 ####### MASKING STATISTICS. SJS 4/24/14. ##########
-# This file contains R code to assess whether different masking thresholds (30, 50, 70, 90) yield significantly different tpr's for the Guidance(P) filtering algorithms. Conducted for both selective profiles (HA/GP41), for all data set sizes for both inference methods.
+# This file contains R code to assess whether different masking thresholds (30, 50, 70, 90) yield significantly different tpr's for the Guidance(P) filtering algorithms. Conducted for only the HA selective profile, for all data set sizes for both inference methods.
 # Results are in "masking_thresholds_output.txt". At the bottom of that output file, I synthesize the results.
 
 library(lme4)
