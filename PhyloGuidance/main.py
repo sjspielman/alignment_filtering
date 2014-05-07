@@ -64,11 +64,11 @@ amod = MafftAligner("mafft", " --auto --quiet ")
 # Tree builder (build the boostrap trees)
 tmod=builderFastTree("FastTree", " -fastest -nosupport -quiet ") # -nosupport **MUST** be there
 
-# Scoring tree
+# Scoring tree. If you're comfortable with RAXML, have at it!
 if alphabet == "protein":
-	model = "-m PROTCATWAG"
+	model = "-m PROTGAMMAWAG"
 elif alphabet == "dna":
-	model = "-m GTRCAT"
+	model = "-m GTRGAMMA"
 wtmod=weightRAxML("raxmlHPC", model) # You can provide other options here if you are comfortable with RAxML.
 
 # Scorer
