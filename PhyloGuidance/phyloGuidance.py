@@ -38,7 +38,7 @@ def main():
     getRAxML()
     user_file = args.infile
     while args.infile is None:
-        args.infile = raw_input("Please provide a protein file in FASTA format (CAUTION: no sanity checking performed for this!): ")
+        args.infile = raw_input("Please provide a protein file in FASTA format (CAUTION: no sanity checking performed for this!): ")g
     if args.threads is None:
         print ""
         import multiprocessing 
