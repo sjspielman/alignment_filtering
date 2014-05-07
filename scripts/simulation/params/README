@@ -18,6 +18,6 @@ GP41/
 	50seqs_GP41.fasta
 
 	FUBAR_files/
-	GP41 had some problems with the REL model, and FEL was taking forever, so we used FUBAR's rates. FUBAR was run with defaults. gp41 alignment and tree were provided by Sergei. All output from FUBAR shown here. Rate distribution inferred from beta/alpha values given in tree.tre.fubar.csv. Note that when calculating rates, we included only those <=dN/dS of 6 because FUBAR approximate method can inflate dN values (to like 10000) when dS is tiny.
+	REL model behaved strangely for GP41 (this is known to happen sometimes, odd statistical properties can flatten dN/dS categories), and FEL was taking forever, so we used FUBAR's rates. FUBAR was run with defaults. gp41 alignment and tree were provided by SLKP. All output from FUBAR shown here. Rate distribution inferred from beta/alpha values given in tree.tre.fubar.csv. Note that when calculating rates, we included only those <=dN/dS of 6 because FUBAR approximate method can inflate dN values (to like 10000) when dS is tiny.
 	HyPhy_files/
 	We still needed a kappa for this, so we got a kappa from a small (151) set of these genes, found in temp.txt (tree was created w/ FastTree -wag -fastest -nosupport), with the standard global GY94 model.
