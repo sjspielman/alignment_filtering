@@ -1,4 +1,4 @@
-SJSGuidance
+PhyloGuidance 
 ------------------------------------------------------
 Stephanie J Spielman, Eric T Dawson, and Claus O Wilke
 The University of Texas at Austin
@@ -7,12 +7,12 @@ The University of Texas at Austin
 INTRODUCTION
 -----------------------------------------------------
 1.1 Description
-	This program runs a masking algorithm similar to GUIDANCE <CITATION>,
-	which aims to improve false positive rates in protein alignments. It is
-	provided as supplementary material.
+	This program performs alignment filtering using algorithms similar to GUIDANCE (Penn et al. 2010). 
+	Please direct all questions, comments to Stephanie (stephanie.spielman@gmail.com).
+
 
 1.2 Dependencies
-	SJSGuidance requires,
+	PhyloGuidance requires,
 		1. A C compiler which supports the C++ 2011 Standards (Tested with Intel 13 and GCC 4.8)
 		2. MUSCLE, MAFFT, or ClustalW for alignment (mafft is preferable; use of the others will
 		require modifying the code and is not recommended).
@@ -39,7 +39,7 @@ INTRODUCTION
     https://github.com/stamatak/standard-RAxML
     RAxML has thorough instructions for installation but the process is of moderate difficulty. You'll need a
     modern C compiler. It is recommended you build with support for PTHREADS and SSE3 if your system supports it,
-    as this will greatly enhance efficiency.
+    as this will greatly enhance efficiency. However, you will have to specify those specific executables when running PhyloGuidance.
 	
 	Installing BranchManager:
     The jar file for BranchManager is included with our source code. A working (and relatively up-to-date) Java
@@ -53,46 +53,51 @@ INTRODUCTION
 	It requires nothing but a working python install.
 
 1.3 Compiling scoring programs
-	The C++ programs used to score alignments are guidance_score, bmweights_score, pdweights_score. Compile each with the following lines from inside the directory src/score
+	The C++ programs used to score alignments are guidance_score, bmweights_score, pdweights_score. Compile each with the following lines from inside the directory src/score/
 	g++ -std=c++0x -O3 guidance_score.cpp -o guidance_score
 	g++ -std=c++0x -O3 bmweights_score.cpp -o bmweights_score
 	g++ -std=c++0x -O3 pdweights_score.cpp -o pdweights_score
 	
-	Pre-compiled binaries are provided for Mac OSX. Source code and binaries are found in src/score. Be sure to keep the executables in this directory.
+	Pre-compiled binaries are provided for Mac OSX, tested on 10.9. Source code and binaries are found in src/score/. Be sure to keep the executables in this directory!!
 
 CODE ORGANIZATION
 -----------------------------------------------------
-2.1 sjs_guidance.py
+2.1 phyloGuidance.py
 
-2.2 main_sjs.py
+2.2 main.py
 
 2.3 map.py
 
-2.4 aligner.py
+2.4 src/aligner.py
 
-2.5 bootstrapper.py
+2.5 src/bootstrapper.py
 
-2.6 scorer.py
+2.6 src/scorer.py
 
-2.7 treebuilder.py
+2.7 src/treebuilder.py
 
-2.8 weight_treebuilder.py
+2.8 src/weight_treebuilder.py
 
-2.9 masker.py
+2.9 src/misc.py
 
-2.10 guidance_score
+2.10 src/score/guidance_score
 
-2.11 bmweights_score
+2.11 src/score/bmweights_score
 
-2.12 pdweights_score
+2.12 src/score/pdweights_score
 
 
 
-RUNNING SJSGUIDANCE
+RUNNING PhyloGuidance
 -----------------------------------------------------
-3.1 Command Line Flags
+3.1 Usage
+python phyloGuidance.py
+	Running this will prompt the user for the infile and use the default options for
+	threads and bootstraps.
 
-	-infile <INFILE.fasta> or -infile <INFILE.fa>
+	Command Line Flags
+
+	-infile <INFILE>
 	A file in FASTA format which contains amino acid sequences to be aligned.
 	The user will be prompted if no file is provided.
 
@@ -102,18 +107,13 @@ RUNNING SJSGUIDANCE
 
 	-bootstraps <NUM_BOOTSTRAPS>
 	Takes an integer argument for the number of bootstraps. If no argument is given,
-	ten will be performed.
+	100 will be performed.
 
 	-alphabet prot or -alphabet dna
 	The alphabet to use for analysis. Protein is the default and is supplied if no
 	argument is given.
 
-3.2 Usage
-python run_sjs_guidance.py
-	Running this will prompt the user for the infile and use the default options for
-	threads and bootstraps.
-
-python run_sjs_guidance.py -infile <MYFILE>.fasta -n 2 -bootstraps 50
+Example: python phyloguidance.py -infile <MYFILE>.fasta -n 2 -bootstraps 50
 	Running this will perform analysis using 2 threads and 50 bootstraps (although the default of 100 bootstraps is recommended).
 
 NB: Arguments are not positional, so any ordering should be fine (e.g. switching -n and
