@@ -1,14 +1,13 @@
 \documentclass[11pt]{article}
 
 \usepackage[margin=1.0in]{geometry}
-%\linespread{1.5}
+\linespread{1.5}
 \usepackage{graphicx}
 \usepackage{natbib}
 \usepackage{amsmath}
 \usepackage{fancyhdr}
 \usepackage{changepage}
 \usepackage{rotating}
-\pagenumbering{gobble}
 \sloppy
 
 \pdfminorversion 4
@@ -45,7 +44,7 @@ The University of Texas at Austin, Austin, TX 78712, USA.\\
 \bigskip
 \noindent
 $^*$Corresponding author\\
-$\phantom{^*}$Email: stephanie.spielman@utexas.edu\\
+$\phantom{^*}$Email: stephanie.spielman@gmail.com\\
 
 \bigskip
 \noindent
@@ -63,7 +62,7 @@ Multiple sequence alignment (MSA) construction represents the most fundamental s
 
 One widely-used filter, known as Guidance \citep{Penn2010}, derives a confidence score for each MSA position by sampling guide tree variants during progressive alignment construction. Users can then mask positions that score below a set threshold, thus removing potentially misleading signal. Unfortunately, studies investigating Guidance's utility in positive-selection inference have produced conflicting findings. While one study \citep{Privman2012} found that Guidance dramatically improved accuracy, a separate study \citep{Jordan2012} found that Guidance affected positive-selection inference only modestly. Both studies found that filtering was primarily beneficial when sequences were highly diverged, although it is unlikely that these high divergence levels were representative of sequences used in typical positive-selection inference studies. Overall, \citet{Privman2012} strongly advocated Guidance's use, while \citet{Jordan2012} emphasized relying primarily on robust MSA construction methods. 
 
-To reconcile these distinct recommendations, we have conducted an extensive simulation-based study to elucidate how the Guidance filter affects positive-selection inference, particularly for sequences of realistic divergence levels. We additionally examined the potential benefits to modifying the Guidance scoring scheme in several ways.  First, we assessed whether two novel algorithms that corrected Guidance scores for the sequences' phylogenetic relationships could improve upon the original Guidance algorithm. The first phylogenetically-corrected method incorporated a weight, calculated by BranchManager \citep{Stone2007}, for each MSA sequence, and the second method incorporated patristic distances (the sum of branch lengths between two taxa), calculated through the Python library Dendropy \citep{Sukumaran2010}. We refer to these methods, respectively, as BMweights and PDweights. We additionally tested a new gap-penalization score-normalization scheme, which scaled a given residue's score according to the number of gaps in its column, thus capturing the inherent unreliability of residues in gappy regions. We refer to filters using the gap-penalization scheme as GuidanceP, BMweightsP, and PDweightsP. To assess the performance of these novel algorithms, we reimplemented the Guidance software (available at https://github.com/sjspielman/alignment\underline{\hspace*{0.2cm}}filtering). 
+To reconcile these distinct recommendations, we have conducted an extensive simulation-based study to elucidate how the Guidance filter affects positive-selection inference, particularly for sequences of realistic divergence levels. We additionally examined the potential benefits to modifying the Guidance scoring scheme in several ways.  First, we assessed whether two novel algorithms that corrected Guidance scores for the sequences' phylogenetic relationships could improve upon the original Guidance algorithm. The first phylogenetically-corrected method incorporated a weight, calculated by BranchManager \citep{Stone2007}, for each MSA sequence, and the second method incorporated patristic distances (the sum of branch lengths between two taxa), calculated through the Python library DendroPy \citep{Sukumaran2010}. We refer to these methods, respectively, as BMweights and PDweights. We additionally tested a new gap-penalization score-normalization scheme, which scaled a given residue's score according to the number of gaps in its column, thus capturing the inherent unreliability of residues in gappy regions. We refer to filters using the gap-penalization scheme as GuidanceP, BMweightsP, and PDweightsP. To assess the performance of these novel algorithms, we reimplemented the Guidance software (available at https://github.com/sjspielman/alignment\underline{\hspace*{0.2cm}}filtering). 
 
 We simulated protein-coding sequences using Indelible \citep{Fletcher2009} according to two selective profiles: H1N1 influenza hemagluttinin (HA), which featured a mean $dN/dS = 0.37$, and HIV-1 envelope protein subunit GP41, which featured a mean $dN/dS = 0.89$. We used these selective profiles because, while both genes contain positively selected regions \citep{Bush1999, Frost2001, Bandawe2008, Meyer2012}, most sites in HA are either under strong purifying or positive selection, whereas relatively more sites in GP41 have $dN/dS$ values near 1, making positive-selection inference more challenging. For each selective profile, we simulated 100 MSA replicates along each of four different gene trees consisting of 11, 26, 60, and 158 taxa, yielding 800 simulated MSAs in total. The first two trees were obtained from \citet{Spielman2013}, and the second two trees were obtained from \citet{Yang2011} and \citet{Betancur2013}, as deposited in TreeBASE (http://treebase.org). All sequences were simulated with a 5\% indel rate, as is typical of mammalian genomes \citep{Cooper2004}, and an average length of 400 codons.
 
@@ -124,7 +123,6 @@ Supplementary Methods, Figures S1 and S2, and Tables S1, S2, and S3, are availab
 \newpage
 
 \begin{table}[htbp]
-%\begin{adjustwidth}{-1cm}{}
 \caption {\label{tab:summarystats} Model results for effect of masking for GP41 selective profile simulation sets.}
 \begin{tabular}{l l l c c c c}
 \hline\noalign{\smallskip}
@@ -149,7 +147,6 @@ FPR & 11 &  FUBAR & $6.0 \times 10^{\text{-}4}$ & $1.2 \times 10^{\text{-}3}$ & 
 \end{tabular}
 \newline
 \textsc{note.}--- The column ``Measure" refers to the performance measure reported, either mean true positive rate (TPR) or mean false positive rate (FPR). The column ``$N$" refers to the number of taxa in the given simulation set. The column ``Method" refers to the inference method used to detect positively selected sites. Values shown in parentheses refer to the average TPR or FPR percent change of the respective unfiltered MSA, not the absolute increase or decrease. Mean TPR or FPR values shown in bold represent those which differ significantly from that of the respective unfiltered MSA. Significance levels are $^{\ast\ast\ast} P < 0.001$, $^{\ast\ast} P < 0.01$, and $^{\ast} P < 0.05$ . All significance levels were corrected for multiple comparisons using the R multcomp package \citep{Hothorn2008}. Note that the true MSAs were not included in the linear models but are shown here for comparative purposes.
-%\end{adjustwidth}
 \end{table}
 
 \begin{figure*}[H]
