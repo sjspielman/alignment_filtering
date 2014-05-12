@@ -2,11 +2,9 @@
 
 # This file contains miscellaneous functions used throughout SJSGuidance.
 
-from Bio import SeqIO
 from Bio import AlignIO, SeqIO
 from Bio.Alphabet import generic_dna, generic_protein
 from Bio.Seq import Seq
-from Bio.Alphabet import generic_dna, generic_protein
 from Bio.Align import MultipleSeqAlignment
 from Bio.SeqRecord import SeqRecord
 
