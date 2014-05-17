@@ -1,7 +1,7 @@
-import subprocess, sys, shutil, os
-from Bio import SeqIO
+import shutil
+import os
+from Bio import AlignIO
 from numpy import *
-import multiprocessing
 
 class Bootstrapper(object): 
 	def __init__(self, **kwargs):
@@ -35,7 +35,7 @@ class Bootstrapper(object):
 	def parseRefAln(self):
 		# Parse reference alignment for internal use
 		infile=open(self.refaln_file, 'r')
-		parsed = list(SeqIO.parse(infile, 'fasta'))
+		parsed = AlignIO.read(infile, 'fasta')
 		infile.close()
 		for record in parsed:
 			self.refaln_seq.append(str(record.seq))
