@@ -1,14 +1,6 @@
 from numpy import *
-from Bio import AlignIO, SeqIO
-from Bio.Alphabet import *
-from Bio.Seq import Seq
-from Bio.Alphabet import generic_dna
-from Bio.Align import MultipleSeqAlignment
-from Bio.SeqRecord import SeqRecord
-from Queue import *
-import os, subprocess, sys
-from math import ceil
-
+from Bio import AlignIO
+import subprocess
 
 class PrepScorer:
 	def __init__(self):
