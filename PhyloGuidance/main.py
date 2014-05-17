@@ -42,13 +42,13 @@ else:
 	prefix = unaligned.split(".")[0] ## Infile name without the extension
 
 final_aln_dir = final_aln_dir + prefix +'_PHYLOGUIDANCE/'
-final_boot_name = "final_boot" + str(time.localtime()[3]) + str(time.localtime()[4]) + str(time.localtime()[5]) # final directory where all bootstraps will end up
+final_boot_name = final_aln_dir + "bootstraps_"+prefix
 ######
 
 
 
 form    = "fasta" #infile format. 
-alphabet  = sys.argv[2] # This should be either "protein" or "nucleotide"
+alphabet  = sys.argv[2] # This should be either "protein" or "dna"
 
 ############################### Internal variables #######################################
 prealn_file='prealn.fasta' # Will contain the raw (unaligned) sequences in fasta format with integer sequence names
@@ -74,12 +74,12 @@ amod = MafftAligner("mafft", " --auto --quiet ")
 # Tree builder (build the boostrap trees)
 tmod=builderFastTree("FastTree", " -fastest -nosupport -quiet ") # -nosupport **MUST** be there
 
-# Scoring tree. If you're comfortable with RAXML, have at it!g
+# Scoring tree. If you're comfortable with RAXML, feel free to muck with these model specifications.
 if alphabet == "protein":
 	model = "-m PROTGAMMAWAG"
 elif alphabet == "dna":
 	model = "-m GTRGAMMA"
-wtmod=weightRAxML("raxmlHPC", model) # You can provide other options here if you are comfortable with RAxML.
+wtmod=weightRAxML("raxmlHPC", model) # Again, you can provide other options here if you're comfortable with RAxML.
 
 # Scorer
 smod = Scorer()
@@ -110,8 +110,6 @@ for x in masks:
 	for alg in alg_scores:
 		maskResidues(refaln_file, numseq, alnlen, map, alg_scores[alg], masks[x], 'fasta', temp_res, alphabet)
 		outfile_aa=prefix+"_"+alg+x+".fasta"
-		#print "outfile_aa", outfile_aa
-		#print "final_aln_dir", final_aln_dir
 		print "final file:", final_aln_dir+outfile_aa
 		shutil.copy(temp_res, final_aln_dir+outfile_aa)
 os.remove(temp_res)
