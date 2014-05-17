@@ -29,15 +29,26 @@ import time
 n =  int(sys.argv[3])      #bootstraps
 numproc =  int(sys.argv[4])  #threads
 
-
+## input file
 unaligned = sys.argv[1]  #infile
-prefix =  str(sys.argv[1]).split(".")[0] ## Infile name without the extension
+final_aln_dir = "/".join(unaligned.split('/')[:-1])
+if final_aln_dir != '':
+	final_aln_dir += '/'
+	
+	prefix = re.sub(final_aln_dir, '', unaligned)
+	prefix = prefix.split(".")[0] ## Infile name without the extension
+else:
+	final_aln_dir = '../'
+	prefix = unaligned.split(".")[0] ## Infile name without the extension
+
+final_aln_dir = final_aln_dir + prefix +'_PHYLOGUIDANCE/'
+final_boot_name = "final_boot" + str(time.localtime()[3]) + str(time.localtime()[4]) + str(time.localtime()[5]) # final directory where all bootstraps will end up
+######
+
+
+
 form    = "fasta" #infile format. 
 alphabet  = sys.argv[2] # This should be either "protein" or "nucleotide"
-final_aln_dir = str(prefix) # Where alignments will end up.
-if final_aln_dir[-1] != '/':
-	final_aln_dir += '/'
-final_boot_name = "final_boot" + str(time.localtime()[3]) + str(time.localtime()[4]) + str(time.localtime()[5]) # final directory where all bootstraps will end up
 
 ############################### Internal variables #######################################
 prealn_file='prealn.fasta' # Will contain the raw (unaligned) sequences in fasta format with integer sequence names
@@ -99,11 +110,14 @@ for x in masks:
 	for alg in alg_scores:
 		maskResidues(refaln_file, numseq, alnlen, map, alg_scores[alg], masks[x], 'fasta', temp_res, alphabet)
 		outfile_aa=prefix+"_"+alg+x+".fasta"
-		shutil.copy(temp_res, '../'+final_aln_dir+outfile_aa)
+		#print "outfile_aa", outfile_aa
+		#print "final_aln_dir", final_aln_dir
+		print "final file:", final_aln_dir+outfile_aa
+		shutil.copy(temp_res, final_aln_dir+outfile_aa)
 os.remove(temp_res)
 
-# Save unmasked alignment as well
-unMap(map, refaln_file, '../'+final_aln_dir+prefix+"_unmasked.fasta", numseq)
+# Save unfiltered alignment as well
+unMap(map, refaln_file, final_aln_dir+prefix+"_unfiltered.fasta", numseq)
 
 
 # Clean up.
