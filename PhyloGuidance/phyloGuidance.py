@@ -15,7 +15,7 @@ def parse_args():
     parser.add_argument("-cpu",dest="threads", type=int, help="Number of processes to use")
     parser.add_argument("-bootstraps", help="The number of bootstraps to perform", required=False,
             dest="bootstraps")
-    parser.add_argument("-alphabet", help="Whether AAs or NTs are used (protein or nucleotide)", type=str,
+    parser.add_argument("-alphabet", help="Alignment alphabet. Either protein or dna.", type=str,
             default="protein", required=False, dest="alphabet") ##AA or NT, default is AA
     ## Gap penalization is now hard-coded by default in accordance with the original runs
 
