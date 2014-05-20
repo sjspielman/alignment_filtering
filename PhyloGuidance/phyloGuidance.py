@@ -7,8 +7,6 @@ try:
 except:
     print "Please install Dendropy. See the README for details."
 
-print "Look! I'm making a change to the file!"
-
 
 def parse_args():
     parser = argparse.ArgumentParser(prefix_chars='+-', usage='Enter python phyloGuidance.py --help/-h for instructions')
