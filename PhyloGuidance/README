@@ -62,29 +62,27 @@ INTRODUCTION
 
 CODE ORGANIZATION
 -----------------------------------------------------
-2.1 phyloGuidance.py
+2.1  phyloGuidance.py
 
-2.2 main.py
+2.2  src/run_phyloGuidance.py
 
-2.3 map.py
+2.3  src/misc.py
 
-2.4 src/aligner.py
+2.4  src/aligner.py
 
-2.5 src/bootstrapper.py
+2.5  src/bootstrapper.py
 
-2.6 src/scorer.py
+2.6  src/scorer.py
 
-2.7 src/treebuilder.py
+2.7  src/treebuilder.py
 
-2.8 src/weight_treebuilder.py
+2.8  src/weight_treebuilder.py
 
-2.9 src/misc.py
+2.9  src/score/guidance_score
 
-2.10 src/score/guidance_score
+2.10 src/score/bmweights_score
 
-2.11 src/score/bmweights_score
-
-2.12 src/score/pdweights_score
+2.11 src/score/pdweights_score
 
 
 
@@ -119,6 +117,19 @@ Example: python phyloguidance.py -infile <MYFILE>.fasta -n 2 -bootstraps 50
 NB: Arguments are not positional, so any ordering should be fine (e.g. switching -n and
 -bootstraps in the previous line). It is recommended the user fill in as many flags as possible
 to run exactly the analysis they desire.
+
+3.2 Output
+PhyloGuidance will return a directory, located in the same directory as your input sequences.
+This directory will be named according to your input sequence file name. For instance, if your 
+input files is named "mySequences.fasta", the final directory will be called "mySequences_PHYLOGUIDANCE."
+
+This final directory will contain MSAs filtered at scoring thresholds of 0.3, 0.5, 0.7, and 0.9, 
+for all six algorithms (Guidance, GuidanceP, BMweights, BMweightsP, PDweights, PDweightsP).
+The unfiltered alignment is also returned. 
+
+In addition, the directory will contain a tarball of all bootstrap replicate alignments and trees used in 
+deriving confidence scores.
+
 
 
 CONTACTING THE AUTHORS
