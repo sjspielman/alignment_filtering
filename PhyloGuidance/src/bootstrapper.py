@@ -105,9 +105,9 @@ class AllBootstrapper(Bootstrapper):
 		# Conduct the scoring
 		print "scoring Guidance"
 		(gscores, gscores_p)= self.scorer.scoreMSA_Guidance(self.refaln_file, self.n, self.numseq, self.alnlen, g, gP, numSaveTrees)
-		print "scoring BranchManager"
+		print "scoring BMweights"
 		(bmscores, bmscores_p)=self.scorer.scoreMSA_BMweights(self.refaln_file, self.n, self.numseq, self.alnlen, ordered_bmweights, self.bmweights_file, bm, bmP, numSaveTrees)
-		print "scoring Patristic"
+		print "scoring PDweights"
 		(pdscores, pdscores_p) = self.scorer.scoreMSA_PDweights(self.refaln_file, self.n, self.numseq, self.alnlen, dist_matrix, self.pdweights_file, pd, pdP, numSaveTrees)
 		
 		# Place scores into dictionary. Useful for naming final files.
