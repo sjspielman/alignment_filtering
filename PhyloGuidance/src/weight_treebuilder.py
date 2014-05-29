@@ -93,7 +93,6 @@ class weightRAxML(WeightTreeBuilder):
 		
 		seed = randint(1,100000)	
 		BuildTree=self.executable+' '+self.options+' -s temp.phy -p '+str(seed)+ ' -n out'
-		print BuildTree
 		subprocess.call(BuildTree, shell=True)
 		shutil.move('RAxML_bestTree.out', treefile)
 		
