@@ -1,6 +1,6 @@
-// Written by COW. Requires new 2011 stdlib. Compile with the following line:
+// Written by COW. Compile with either of the following lines (depending on your system):
 // g++ -std=c++0x -O3 pdweights_score.cpp -o pdweights_score
-
+// clang++ -O3 pdweights_score.cpp -o pdweights_score
 
 #include <iostream>
 #include <fstream>

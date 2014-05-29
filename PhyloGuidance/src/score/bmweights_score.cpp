@@ -1,5 +1,6 @@
-// Written by COW. Requires new 2011 stdlib. Compile with the following line:
-// g++ -std=c++0x -O3 bmweights_score.cpp -o bmweightsw_score
+// Written by COW. Compile with either of the following lines (depending on your system):
+// g++ -std=c++0x -O3 bmweights_score.cpp -o bmweights_score
+// clang++ -O3 bmweights_score.cpp -o bmweights_score 
 
 
 #include <iostream>
