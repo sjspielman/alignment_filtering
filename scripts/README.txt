@@ -8,6 +8,7 @@ parsing/
 		parsefubar.py and parsepaml.py used to collect positively selected sites at a posterior probability cutoff of 0.9. Generates TPR, FPR, etc
 		sweepfubar.py and sweeppaml.py used to cycle over posterior probability cutoffs 0-100 and generate TPR, FPR, etc. Useful for ROC analysis and relationship between TPR/FPR and posterior probability.
 		parsing_fxns.py contains functions used through the parsing python scripts. Doesn't run on its own, just functions.
+		countGaps.py counts the number of (surprise!) gaps in alignments.
 
 selection_inference/
 	Basic scripts for conducting PAML (codeml.ctl) and FUBAR (autoFUBAR.bf) inferences.
