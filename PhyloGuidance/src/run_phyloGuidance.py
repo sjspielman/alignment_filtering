@@ -115,6 +115,7 @@ unMap(map, refaln_file, final_aln_dir+prefix+"_unfiltered.fasta", numseq)
 
 # Clean up.
 os.chdir('../')
+prepareDir(BootDir, save=True, newname=final_boot_name)
+os.rmdir(BootDir)
 os.remove(refaln_file)
 os.remove(prealn_file)
-prepareDir(BootDir, save=True, newname=final_boot_name)
