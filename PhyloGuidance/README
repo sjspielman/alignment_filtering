@@ -54,9 +54,19 @@ INTRODUCTION
 
 1.3 Compiling scoring programs
 	The C++ programs used to score alignments are guidance_score, bmweights_score, pdweights_score. Compile each with the following lines from inside the directory src/score/
-	g++ -std=c++0x -static -O3 guidance_score.cpp -o guidance_score
+	NOTE: IF YOU ARE ON OSX AND HAVE INSTALLED COMMAND LINE TOOLS CORRESPONDING TO XCODEv5, COMPILE WITH CLANG!
+	
+	g++ -std=c++0x -O3 guidance_score.cpp -o guidance_score
+	OR
+	clang++ -O3 guidance_score.cpp -o guidance_score
+	
 	g++ -std=c++0x -O3 bmweights_score.cpp -o bmweights_score
+	OR
+	clang++ -O3 bmweights_score.cpp -o bmweights_score
+	
 	g++ -std=c++0x -O3 pdweights_score.cpp -o pdweights_score
+	OR
+	clang++ -O3 pdweights_score.cpp -o pdweights_score
 	
 	NOTE: Source code and binaries must be kept in found in src/score/. Do not move these executables!!
 
