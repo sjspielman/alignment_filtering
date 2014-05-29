@@ -25,44 +25,40 @@ import time
 
 
 ###################### User input (or derived from user input) ###########################
-
-n =  int(sys.argv[3])      #bootstraps
-numproc =  int(sys.argv[4])  #threads
+alphabet  = sys.argv[2] # This should be either "protein" or "dna"
+n         =  int(sys.argv[3])      #bootstraps
+numproc   =  int(sys.argv[4])  #threads
 
 ## input file
-unaligned = sys.argv[1]  #infile
-final_aln_dir = "/".join(unaligned.split('/')[:-1])
-if final_aln_dir != '':
-	final_aln_dir += '/'
-	
-	prefix = re.sub(final_aln_dir, '', unaligned)
-	prefix = prefix.split(".")[0] ## Infile name without the extension
+unaligned     = sys.argv[1]  #infile
+
+# Prepare output file options/path
+prefix = os.path.split(unaligned)[1].split('.')[0]
+final_aln_dir = os.path.split(unaligned)[0]
+if os.path.isabs(final_aln_dir):
+	final_aln_dir = final_aln_dir + '/' + prefix + '_PHYLOGUIDANCE/'
+	final_boot_name = final_aln_dir + "bootstraps_"+prefix
+	prepareDir(final_aln_dir)
 else:
-	final_aln_dir = '../'
-	prefix = unaligned.split(".")[0] ## Infile name without the extension
+	if final_aln_dir == '':
+		final_aln_dir = prefix +'_PHYLOGUIDANCE/'
+	else:
+		final_aln_dir = final_aln_dir + '/' + prefix + '_PHYLOGUIDANCE/'
+	prepareDir(final_aln_dir)
+	final_boot_name = final_aln_dir + "bootstraps_"+prefix
+	final_aln_dir = "../"+final_aln_dir # since everything is run from inside BootDir/
 
-final_aln_dir = final_aln_dir + prefix +'_PHYLOGUIDANCE/'
-final_boot_name = final_aln_dir + "bootstraps_"+prefix
-######
 
-
-
-form    = "fasta" #infile format. 
-alphabet  = sys.argv[2] # This should be either "protein" or "dna"
 
 ############################### Internal variables #######################################
-prealn_file='prealn.fasta' # Will contain the raw (unaligned) sequences in fasta format with integer sequence names
-refaln_file='refaln.fasta' # Will contain the reference (unmasked!) alignment
-temp_res='tempaln_res.aln' # Used as a temporary alignment file during masking	
-BootDir='BootDir/'                   # Directory where most stuff will happen
+prealn_file = 'prealn.fasta' # Will contain the raw (unaligned) sequences in fasta format with integer sequence names
+refaln_file = 'refaln.fasta' # Will contain the reference (unmasked!) alignment
+temp_res    = 'tempaln_res.aln' # Used as a temporary alignment file during masking	
+BootDir     = 'BootDir/'                   # Directory where most stuff will happen
+prepareDir(BootDir)
 
 # By default, masking will happen at these four thresholds. Again, change if you want.
 masks={'_30':0.3, '_50':0.5, '_70':0.7, '_90':0.9}
-
-prepareDir(final_aln_dir)
-prepareDir(BootDir)
-
-
 ################################# Prepare classes ########################################
 
 ### amod, tmod, wtmod all take arguments in the form (executable, options). We recommend these options, but you are welcome to play around. 
@@ -72,7 +68,7 @@ amod = MafftAligner("mafft", " --auto --quiet ")
 ### Note that you can align with muscle and/or clustal if you feel passionate about it, but you'll have to set this up on your own. Relevant classes in src/aligner.py 
 
 # Tree builder (build the boostrap trees)
-tmod=builderFastTree("FastTree", " -fastest -nosupport -quiet ") # -nosupport **MUST** be there
+tmod = builderFastTree("FastTree", " -fastest -nosupport -quiet ") # -nosupport **MUST** be there
 
 # Scoring tree. If you're comfortable with RAXML, feel free to muck with these model specifications.
 if alphabet == "protein":
@@ -110,7 +106,6 @@ for x in masks:
 	for alg in alg_scores:
 		maskResidues(refaln_file, numseq, alnlen, map, alg_scores[alg], masks[x], 'fasta', temp_res, alphabet)
 		outfile_aa=prefix+"_"+alg+x+".fasta"
-		print "final file:", final_aln_dir+outfile_aa
 		shutil.copy(temp_res, final_aln_dir+outfile_aa)
 os.remove(temp_res)
 
@@ -123,7 +118,3 @@ os.chdir('../')
 os.remove(refaln_file)
 os.remove(prealn_file)
 prepareDir(BootDir, save=True, newname=final_boot_name)
-	
-	
-	
-	
