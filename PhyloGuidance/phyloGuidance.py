@@ -42,7 +42,7 @@ def main():
     while args.infile is None:
         args.infile = raw_input("Please provide a protein file in FASTA format.\n CAUTION - no sanity checking performed for file type! FASTA assumed.: ")
     while not os.path.exists(str(args.infile)):
-    	args.infile = raw_input("Your provided input file does not exist. Try again - ")
+    	args.infile = raw_input("Your provided input file does not exist. Try again - \n")
     if args.threads is None:
         print ""
         import multiprocessing 
