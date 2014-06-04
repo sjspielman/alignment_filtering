@@ -1,7 +1,13 @@
 alignment_filtering
 ===================
 
-This repository contains materials used for the manuscript, "Limited utility of residue masking for positive-selection inference" by Stephanie J. Spielman, Eric T. Dawson, Claus O. Wilke.
+This repository contains materials used for the manuscript,
+Limited utility of residue masking for positive-selection inference 
+Stephanie J. Spielman; Eric T. Dawson; Claus O. Wilke
+Molecular Biology and Evolution 2014;
+doi: 10.1093/molbev/msu183
+
+
 Please direct all questions to Stephanie, at stephanie.spielman@gmail.com (or stephanie.spielman@utexas.edu).
 
 Description of directories and contents as follows.
