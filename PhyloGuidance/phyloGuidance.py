@@ -62,7 +62,7 @@ def main():
         args.alphabet = "protein"
         
     print "Now running PhyloGuidance\n" 
-    command = "python main.py " + str(args.infile) + " " + str(args.alphabet) + " " + str(args.bootstraps) + " " + str(args.threads)
+    command = "python src/run_phyloGuidance.py " + str(args.infile) + " " + str(args.alphabet) + " " + str(args.bootstraps) + " " + str(args.threads)
     subprocess.call(command, shell=True)
     
 
