@@ -16,6 +16,7 @@ class Bootstrapper(object):
 		self.BootDir      = kwargs.get("BootDir", "BootDir/")
 		
 		self.numprocesses = kwargs.get("threads", 1)
+		self.srcdir       = kwargs.get("srcdir", "src/")
 		
 		############# input assertions ##########
 		assert(self.aligner is not None), "No aligner was passed to Bootstrapper."
@@ -81,7 +82,7 @@ class AllBootstrapper(Bootstrapper):
 		
 	def runBootstrap(self): 
 			
-		shutil.copy('src/BranchManager.jar', self.BootDir)
+		shutil.copy(srcdir + 'BranchManager.jar', self.BootDir)
 		shutil.copy(self.refaln_file, self.BootDir)
 		shutil.copy(self.prealn_file, self.BootDir)
 		os.chdir(self.BootDir)
@@ -114,6 +115,35 @@ class AllBootstrapper(Bootstrapper):
 		alg_scores={'Guidance':gscores, 'BMweights':bmscores, 'PDweights':pdscores, 'GuidanceP':gscores_p, 'BMweightsP':bmscores_p, 'PDweightsP':pdscores_p}
 
 		return(self.numseq, self.alnlen, alg_scores)
+
+
+
+
+class TAUBootstrapper(Bootstrapper):
+	''' Process with fully original Guidance *only*'''
+	def __init__(self, **kwargs):
+		super(TAUBootstrapper, self).__init__(**kwargs)	
+
+		
+	def runBootstrap(self): 
+			
+		shutil.copy(srcdir + 'BranchManager.jar', self.BootDir)
+		shutil.copy(self.refaln_file, self.BootDir)
+		shutil.copy(self.prealn_file, self.BootDir)
+		os.chdir(self.BootDir)
+		
+		# Call bootstrapper. Returns a list of how many of each tree saved we want to use. Should add to 100
+		numSaveTrees = self.bootstrap()
+
+		## Final score files names
+		g="scores_Guidance.txt"
+		gP="scores_GuidanceP.txt"
+		
+		# Conduct the scoring
+		print "scoring Guidance"
+		(gscores, gscores_p)= self.scorer.scoreMSA_Guidance(self.refaln_file, self.n, self.numseq, self.alnlen, g, gP, numSaveTrees)
+		
+		return(self.numseq, self.alnlen, {'Guidance':gscores})
 		
 		
 		

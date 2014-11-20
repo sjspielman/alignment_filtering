@@ -1,7 +1,7 @@
-import subprocess, os, sys, re, csv, shutil
+import subprocess
+import shutil
 from dendropy import *
-from dendropy import TaxonSet, Tree, TreeList
-from Bio import SeqIO
+#from dendropy import TaxonSet, Tree, TreeList
 from random import randint
 
 
@@ -75,7 +75,7 @@ class builderFastTree(TreeBuilder):
 				dist = saveTrees[x].symmetric_difference(testTree)
 				
 				# Have the tree already. Increment 1 to that tree's index
-				if ( dist - 1. < 1e-10 ):
+				if ( abs(dist - 1.) < 1e-10 ):
 					numSaveTrees[x]+=1
 					newTree = False
 					break

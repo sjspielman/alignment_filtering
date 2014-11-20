@@ -1,4 +1,4 @@
-import subprocess, sys, re, os, multiprocessing
+import subprocess, os, multiprocessing
 from dendropy import *
 from Bio import AlignIO
     

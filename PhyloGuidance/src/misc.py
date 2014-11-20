@@ -28,6 +28,7 @@ def prepareDir(directory, save=False, newname=None):
 			os.remove(directory+file)	
 	else:
 		os.mkdir(directory)
+		assert(os.path.exists(directory))
 		
 		
 		
