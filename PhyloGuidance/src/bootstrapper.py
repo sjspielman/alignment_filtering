@@ -143,7 +143,7 @@ class TAUBootstrapper(Bootstrapper):
 		print "scoring Guidance"
 		(gscores, gscores_p)= self.scorer.scoreMSA_Guidance(self.refaln_file, self.n, self.numseq, self.alnlen, g, gP, numSaveTrees)
 		
-		return(self.numseq, self.alnlen, {'Guidance':gscores})
+		return(self.numseq, self.alnlen, gscores)
 		
 		
 		
