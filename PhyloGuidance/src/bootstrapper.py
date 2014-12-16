@@ -82,7 +82,7 @@ class AllBootstrapper(Bootstrapper):
 		
 	def runBootstrap(self): 
 			
-		shutil.copy(srcdir + 'BranchManager.jar', self.BootDir)
+		shutil.copy(self.srcdir + 'BranchManager.jar', self.BootDir)
 		shutil.copy(self.refaln_file, self.BootDir)
 		shutil.copy(self.prealn_file, self.BootDir)
 		os.chdir(self.BootDir)
@@ -127,7 +127,7 @@ class TAUBootstrapper(Bootstrapper):
 		
 	def runBootstrap(self): 
 			
-		shutil.copy(srcdir + 'BranchManager.jar', self.BootDir)
+		shutil.copy(self.srcdir + 'BranchManager.jar', self.BootDir)
 		shutil.copy(self.refaln_file, self.BootDir)
 		shutil.copy(self.prealn_file, self.BootDir)
 		os.chdir(self.BootDir)
